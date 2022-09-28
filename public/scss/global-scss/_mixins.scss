@@ -1,0 +1,356 @@
+//==============================
+// CONVERT UNITS IN PX TO REM
+//==============================
+@function toRem($size) {
+  $result: $size/16;
+  @return #{$result}rem;
+}
+
+//==============================
+//  FULL WIDTH AND HEIGHT
+//==============================
+@mixin width-height($percent) {
+  width: #{$percent};
+  height: #{$percent};
+}
+
+// =========================================
+// FULL BACKGROUND DISPLAY (COVER/CONTAIN)
+// =========================================
+@mixin set-full-bg($type: '') {
+  position: absolute;
+  @include width-height(100%);
+
+  // SET OBJECT FIT ONLY IF TYPE IS NOT EMPTY
+  @if $type != '' {
+    object-fit: #{$type};
+  }
+}
+
+// ====================
+// STRETCHED AREA
+// ====================
+@mixin stretch-area {
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  @include width-height(100%);
+}
+
+// ======================
+// PLACE AT CENTER
+// ======================
+@mixin center-placement($axis: '') {
+  position: absolute;
+
+  @if $axis == 'y-axis' {
+    top: 50%;
+    transform: translateY(-50%);
+  } @else if $axis == 'x-axis' {
+    left: 50%;
+    transform: translateX(-50%);
+  } @else {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+// ==========================
+// FIXED FULL DISPLAY AREA
+// ==========================
+@mixin fixed-display-area {
+  position: fixed;
+  @include width-height(100%);
+  top: 0;
+  left: 0;
+}
+
+// =======================
+// DRAW SHAPE BUILDER
+// =======================
+@mixin draw-shape($width, $height: '') {
+  min-width: toRem($width);
+  width: toRem($width);
+
+  @if $width == $height or $height== '' {
+    min-height: toRem($width);
+    height: toRem($width);
+  } @else {
+    min-height: toRem($height);
+    height: toRem($height);
+  }
+}
+
+// =====================
+// FLEX ROW CENTER
+// =====================
+@mixin flex-row-center-wrap {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-row-center-nowrap {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-row-center-start-wrap {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+@mixin flex-row-center-start-nowrap {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+// ====================
+// FLEX ROW START
+// ====================
+@mixin flex-row-start-wrap {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+@mixin flex-row-start-nowrap {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+// ===================
+// FLEX ROW END
+// ===================
+@mixin flex-row-end-wrap {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+@mixin flex-row-end-nowrap {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+// ====================
+// FLEX ROW BETWEEN
+// ====================
+@mixin flex-row-between-wrap {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin flex-row-between-nowrap {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+// ======================
+// FLEX ROW AROUND
+// ======================
+@mixin flex-row-around-wrap {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+@mixin flex-row-around-nowrap {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+// =====================
+// FLEX ROW EVENLY
+// =====================
+@mixin flex-row-evenly-wrap {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+@mixin flex-row-evenly-nowrap {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+// =============================
+// FLEX ROW START END NOWRAP
+// =============================
+@mixin flex-row-start-end {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+// ==========================
+// FLEX ROW END END NOWRAP
+// ==========================
+@mixin flex-row-end-end {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+// ======================
+// FLEX COLUMN CENTER
+// ======================
+@mixin flex-column-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+// ==========================
+// FLEX COLUMN START START
+// ==========================
+@mixin flex-column-start-start {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+// ============================
+// FLEX COLUMN START CENTER
+// ============================
+@mixin flex-column-start-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+// ============================
+//FLEX COLUMN BETWEEN CENTER
+// ============================
+@mixin flex-column-between-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+// ============================
+// FLEX COLUMN BETWEEN START
+// ============================
+@mixin flex-column-between-start {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+// ============================
+// FLEX COLUMN END CENTER
+// ============================
+@mixin flex-column-end-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+// ============================
+//FLEX COLUMN END START
+// ============================
+@mixin flex-column-end-end {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+// ============================
+// FLEX COLUMN END END
+// ============================
+@mixin flex-column-end-start {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+// ============================
+// TRUNCATE TEXT
+// ============================
+@mixin text-truncate() {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+// ============================
+// SMOOTH TRANSITIONING
+// ============================
+@mixin transition($timing) {
+  transition: all #{$timing} ease-in-out;
+}
+
+// ============================
+// FONT STYLING
+// ============================
+@mixin font-height($size, $height) {
+  font-size: toRem($size);
+  line-height: toRem($height);
+}
+
+// ==============================
+// BOX SHADOW (SOFT && HARD)
+// ==============================
+@mixin box-shadow($style: 'soft') {
+  $style_value: '';
+
+  @if $style == 'soft' {
+    $style_value: 2;
+  } @else {
+    $style_value: 4;
+  }
+
+  box-shadow: toRem(1) toRem(-1) toRem($style_value) rgba(168, 177, 175, 0.3),
+    toRem(-1) toRem(1) toRem($style_value) rgba(168, 177, 175, 0.3);
+}
+
+// ==============================
+// GENERATE BUTTON SIZES
+// ==============================
+@mixin get-btn-size($size: 'lg') {
+  @each $btn-type, $btn-size in $btn-sizes {
+    @if $size == $btn-type {
+      $font: map-get($btn-size, 'font');
+      $padding-y: map-get($btn-size, 'padding-y');
+      $padding-x: map-get($btn-size, 'padding-x');
+
+      @include generate-font-type($font);
+      padding: toRem($padding-y) toRem($padding-x);
+    }
+  }
+}

@@ -1,0 +1,133 @@
+//=============================================
+// APPLICATION COLOR PALLETE VARIABLES
+//=============================================
+$color-scheme: (
+  "teal": (
+    "900": #011a27,
+    "800": #043b56,
+    "700": #0b618f,
+    "600": #0e89c6,
+    "500": #24acee,
+    "400": #4abff9,
+    "300": #89d5fb,
+    "200": #b3e4fb,
+    "100": #d9f1fd,
+    "50": #eef9fd,
+    "10": #fbfeff,
+  ),
+  "green": (
+    "900": #0b2e16,
+    "800": #155728,
+    "700": #227b3b,
+    "600": #2c9a4b,
+    "500": #3ab75d,
+    "400": #65cd82,
+    "300": #8ddca2,
+    "200": #b4e7c3,
+    "100": #d5f2dd,
+    "50": #f1faf3,
+    "10": #fafffb,
+  ),
+  "yellow": (
+    "900": #372401,
+    "800": #6d4805,
+    "700": #a16a07,
+    "600": #d18c0f,
+    "500": #eea41a,
+    "400": #f1b343,
+    "300": #f5ca79,
+    "200": #f8d9a0,
+    "100": #fbe8c6,
+    "50": #fef8ec,
+    "10": #fffdf7,
+  ),
+  "red": (
+    "900": #2d0a14,
+    "800": #521224,
+    "700": #7b1c38,
+    "600": #a3284c,
+    "500": #cd3c64,
+    "400": #d45d7f,
+    "300": #de7d99,
+    "200": #eaadbf,
+    "100": #f2cdd8,
+    "50": #fbeef2,
+    "10": #fefbfc,
+  ),
+  "grey": (
+    "900": #171918,
+    "800": #353a39,
+    "700": #525857,
+    "600": #696f6e,
+    "500": #818988,
+    "400": #a8b1af,
+    "300": #c1c9c8,
+    "200": #d5dddc,
+    "100": #e5edeb,
+    "50": #f1f7f6,
+    "10": #f6faf9,
+  ),
+  "neutral": (
+    "900": #000000,
+    "800": #171716,
+    "700": #2e2e2c,
+    "600": #454442,
+    "500": #5c5b58,
+    "400": #5c5b58,
+    "300": #73726e,
+    "200": #a0a099,
+    "100": #cecdc5,
+    "50": #e5e4db,
+    "10": #ffffff,
+  ),
+);
+
+//=============================================
+// GENERATE COLOR BASED CLASS NAMES
+//=============================================
+@each $color-type, $color-shades in $color-scheme {
+  @each $color-shade, $color in $color-shades {
+    .#{$color-type}-#{$color-shade} {
+      color: $color;
+    }
+
+    .#{$color-type}-#{$color-shade}-bg {
+      background: $color;
+    }
+
+    .border-#{$color-type}-#{$color-shade} {
+      border: 0.0625rem solid $color;
+    }
+
+    .border-top-#{$color-type}-#{$color-shade} {
+      border-top: 0.0625rem solid $color;
+    }
+
+    .border-bottom-#{$color-type}-#{$color-shade} {
+      border-bottom: 0.0625rem solid $color;
+    }
+  }
+}
+
+//=============================================
+// FUNCTION TO SPLIT STRINGS BY A SEPARATOR
+//=============================================
+@function str-split($string, $separator) {
+  $i: str-index($string, $separator);
+  @if $i != null {
+    @return append(
+      str-slice($string, 1, $i - 1),
+      str-split(str-slice($string, $i + str-length($separator)), $separator)
+    );
+  }
+  @return $string;
+}
+
+//====================================================
+// FUNCTION TO GENERATE COLOR NAME FROM COLOR SCHEME
+//====================================================
+@function getColor($color-shade) {
+  $splitted-color: str-split($color-shade, "-");
+  $color-map: map-get($color-scheme, nth($splitted-color, 1));
+  @return map-get($color-map, nth($splitted-color, 2));
+}

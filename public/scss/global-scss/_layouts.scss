@@ -1,0 +1,28 @@
+.app-container {
+  width: 100%;
+  margin: 0 auto;
+
+  @include breakpoint-down(xxs) {
+    padding: 0 toRem(14);
+  }
+
+  @include breakpoint-up(xxs) {
+    padding: 0 toRem(16);
+  }
+
+  @include breakpoint-up(sm) {
+    padding: 0 toRem(24);
+  }
+
+  @include breakpoint-up(lg) {
+    padding: 0 toRem(32);
+  }
+
+  @include breakpoint-up(xl) {
+    padding: 0 toRem(48);
+  }
+
+  @include breakpoint-up(xxxl) {
+    padding: 0 toRem(32);
+  }
+}

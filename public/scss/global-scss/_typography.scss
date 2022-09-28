@@ -1,0 +1,98 @@
+//===========================
+// FONT FAMILY TYPE
+//===========================
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap");
+@font-face {
+  font-family: "Inter";
+  src: local(Inter-Regular);
+}
+$body_font: "Inter", sans-serif;
+
+//=============================
+// FONT WEIGHT SIZE VARIANTS
+//=============================
+$regular: 400;
+$medium: 500;
+$bold: 700;
+
+//=============================
+// FONT TYPE VARIANTS
+//=============================
+@function getFontVariant($size, $weight, $height) {
+  @return ("size": toRem($size), "weight": $weight, "height": toRem($height));
+}
+// !!!! NOTE !!!!
+// ** primary-type => title;
+// ** secondary-type => subtitle, nav, button;
+// ** tertiary-type => paragraph;
+
+$font-types: (
+  //==================================
+  // TITLE FONTS VARIANT
+  //==================================
+  "h1": getFontVariant(64, $bold, 72),
+  "h2": getFontVariant(40, $bold, 48),
+  "h3": getFontVariant(32, $bold, 39),
+  "h4": getFontVariant(24, $bold, 32),
+  "h5": getFontVariant(20, $bold, 28),
+  "h6": getFontVariant(24, $regular, 32),
+  "h7": getFontVariant(20, $regular, 28),
+  //========================================
+  // PRIMARY FONTS VARIANT
+  //========================================
+  "primary-1": getFontVariant(16, $bold, 22),
+  "primary-2": getFontVariant(14, $bold, 20),
+  "primary-3": getFontVariant(12, $bold, 16),
+  //===========================================
+  // SECONDARY FONTS VARIANT
+  //===========================================
+  "secondary-1": getFontVariant(16, $medium, 22),
+  "secondary-2": getFontVariant(14, $medium, 20),
+  "secondary-3": getFontVariant(12, $medium, 16),
+  //=============================================
+  // TERTIARY FONTS VARIANT
+  //=============================================
+  "tertiary-1": getFontVariant(16, $regular, 22),
+  "tertiary-2": getFontVariant(14, $regular, 20),
+  "tertiary-3": getFontVariant(12, $regular, 16),
+  //=============================================
+  // LABELS AND CAPTIONS FONTS VARIANT
+  //=============================================
+  "label-1": getFontVariant(12, $medium, 16),
+  "label-2": getFontVariant(10, $medium, 12),
+  "caption-1": getFontVariant(12, $regular, 16),
+  "caption-2": getFontVariant(10, $regular, 12)
+);
+
+//===================================
+// SET FONT ON APPLICATION BODY
+//===================================
+body {
+  font-family: $body_font;
+  font-display: swap;
+}
+
+//============================================
+// MIXIN TO GENERATE FONT TYPE BASED ON TITLE
+//============================================
+@mixin generate-font-type($font-title) {
+  @each $type-title, $type-data in $font-types {
+    @if $font-title == $type-title {
+      $font-size: map-get($type-data, "size");
+      $font-weight: map-get($type-data, "weight");
+      $line-height: map-get($type-data, "height");
+
+      font-size: $font-size;
+      line-height: $line-height;
+      font-weight: $font-weight;
+    }
+  }
+}
+
+@each $type-title, $type-data in $font-types {
+  .#{$type-title}-text {
+    font-size: map-get($type-data, "size");
+    line-height: map-get($type-data, "height");
+    font-weight: map-get($type-data, "weight");
+  }
+}

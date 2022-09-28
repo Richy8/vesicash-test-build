@@ -1,32 +1,60 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <transition name="fade" mode="out-in">
+      <router-view />
+    </transition>
+
+    <!-- FEATHER PAGE LOADER -->
+    <transition name="fade" v-if="show_feather_loader">
+      <PageLoader />
+    </transition>
+
+    <!-- VESICASH MODAL PORTAL TARGET -->
+    <portal-target name="vesicash-modals"></portal-target>
   </div>
 </template>
 
+<script>
+export default {
+  name: "App",
+
+  metaInfo: {
+    title: "Escrow Payment service Nigeria Africa",
+    titleTemplate: "Vesicash | %s",
+    htmlAttrs: {
+      lang: "en",
+      amp: true,
+    },
+  },
+
+  components: {
+    PageLoader: () =>
+      import(
+        /* webpackChunkName: "app-module" */ "@/shared/components/page-loader"
+      ),
+  },
+
+  data: () => ({
+    show_feather_loader: false,
+  }),
+};
+</script>
+
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+*,
+html,
+body {
+  scroll-behavior: smooth !important;
 }
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.fade-enter {
+  opacity: 0;
+}
+.fade-enter-active {
+  transition: opacity 0.225s ease;
+}
+.fade-leave-active {
+  transition: opacity 0.225s ease;
+  opacity: 0;
 }
 </style>

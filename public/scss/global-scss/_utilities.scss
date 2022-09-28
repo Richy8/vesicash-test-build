@@ -1,0 +1,313 @@
+// ======================
+// BORDER RADIUS LIST
+//=======================
+$radius: 1, 3, 4, 5, 8, 10, 12, 15, 16, 20, 25, 30, 40, 45;
+
+@each $value in $radius {
+  .rounded-#{$value} {
+    border-radius: toRem($value);
+  }
+
+  .rounded-top-#{$value} {
+    border-radius: toRem($value) toRem($value) 0 0;
+  }
+
+  .rounded-bottom-#{$value} {
+    border-radius: 0 0 toRem($value) toRem($value);
+  }
+
+  .rounded-top-left-#{$value} {
+    border-top-left-radius: toRem($value);
+  }
+
+  .rounded-top-right-#{$value} {
+    border-top-right-radius: toRem($value);
+  }
+
+  .rounded-bottom-left-#{$value} {
+    border-bottom-left-radius: toRem($value);
+  }
+
+  .rounded-bottom-right-#{$value} {
+    border-bottom-right-radius: toRem($value);
+  }
+}
+
+// ==========================
+// Z-INDEXING
+// ==========================
+$indexes: 1, 9, 49, 99, 999, 2000;
+
+@each $index in $indexes {
+  .index-#{$index} {
+    z-index: #{$index};
+  }
+
+  .index--#{$index} {
+    z-index: -#{$index};
+  }
+}
+
+// ==============
+// BOX SIZES
+// ===============
+$boxes: 10, 12, 14, 16, 18, 20;
+
+@each $box in $boxes {
+  .box-#{$box} {
+    @include draw-shape($box);
+  }
+}
+
+// ==========================================
+// CURSOR, SELECTION, LINK AND TRANSITION
+// ==========================================
+.pointer {
+  cursor: pointer;
+}
+
+.select-none {
+  user-select: none;
+}
+
+.resize-none {
+  resize: none;
+}
+
+.link-underline {
+  text-decoration: underline;
+}
+
+.link-no-underline {
+  text-decoration: none !important;
+}
+
+.vertical-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+.smooth-transition {
+  transition: all 0.4s ease-in-out;
+}
+
+.smooth-animation {
+  transition: top 0.5s ease-in-out;
+  animation: panel-slide-down 0.6s ease-in-out;
+}
+
+// ============================
+// CENTER PLACMENT
+// ============================
+.place-center {
+  @include center-placement();
+}
+
+.place-center-x {
+  @include center-placement("x-axis");
+}
+
+.place-center-y {
+  @include center-placement("y-axis");
+}
+
+// ============================
+// BORDER SHADOW EFFECT
+// ============================
+.soft-shadow-effect {
+  box-shadow: toRem(1) toRem(-1) toRem(2) rgba(168, 177, 175, 0.3),
+    toRem(-1) toRem(1) toRem(2) rgba(168, 177, 175, 0.3);
+}
+
+.hard-shadow-effect {
+  box-shadow: toRem(1) toRem(-1) toRem(4) rgba(168, 177, 175, 0.3),
+    toRem(-1) toRem(1) toRem(4) rgba(168, 177, 175, 0.3);
+}
+
+.no-shadow {
+  box-shadow: unset !important;
+}
+
+// ===========================
+// MARGIN SPACING
+// ===========================
+@for $i from 50 through 0 {
+  .mg-#{$i} {
+    margin: toRem($i) !important;
+  }
+
+  .mgt-#{$i} {
+    margin-top: toRem($i) !important;
+  }
+
+  .mgt--#{$i} {
+    margin-top: toRem(-$i) !important;
+  }
+
+  .mgb-#{$i} {
+    margin-bottom: toRem($i) !important;
+  }
+
+  .mgb--#{$i} {
+    margin-bottom: toRem(-$i) !important;
+  }
+
+  .mgl-#{$i} {
+    margin-left: toRem($i) !important;
+  }
+
+  .mgl--#{$i} {
+    margin-left: toRem(-$i) !important;
+  }
+
+  .mgr-#{$i} {
+    margin-right: toRem($i) !important;
+  }
+
+  .mgr--#{$i} {
+    margin-right: toRem(-$i) !important;
+  }
+
+  .mgy-#{$i} {
+    margin-top: toRem($i) !important;
+    margin-bottom: toRem($i) !important;
+  }
+
+  .mgx-#{$i} {
+    margin-left: toRem($i) !important;
+    margin-right: toRem($i) !important;
+  }
+}
+
+// ==============================
+// PADDING SPACING
+// ==============================
+@for $i from 40 through 0 {
+  .pd-#{$i} {
+    padding: toRem($i) !important;
+  }
+
+  .pdt-#{$i} {
+    padding-top: toRem($i) !important;
+  }
+
+  .pdb-#{$i} {
+    padding-bottom: toRem($i) !important;
+  }
+
+  .pdl-#{$i} {
+    padding-left: toRem($i) !important;
+  }
+
+  .pdr-#{$i} {
+    padding-right: toRem($i) !important;
+  }
+
+  .pdy-#{$i} {
+    padding-top: toRem($i) !important;
+    padding-bottom: toRem($i) !important;
+  }
+
+  .pdx-#{$i} {
+    padding-left: toRem($i) !important;
+    padding-right: toRem($i) !important;
+  }
+}
+
+// =====================================
+// FONT SIZE LIST ACROSS SIZE POINTS
+// =====================================
+@for $i from 30 through 4 {
+  .f-size-#{$i} {
+    @include font-height($i, $i + 4.5);
+  }
+
+  .f-size-#{$i}-5 {
+    @include font-height(($i + 0.5), ($i + 4.5));
+  }
+}
+
+// =====================
+// UTILITY VARIABLES
+// =====================
+$utilities: (
+  "styles": (
+    "normal": "normal",
+    "italic": "italic",
+    "oblique": "oblique",
+  ),
+  "alignments": (
+    "left": "left",
+    "right": "right",
+    "center": "center",
+    "justify": "justify",
+  ),
+  "weights": (
+    "regular": 400,
+    "medium": 500,
+    "semibold": 600,
+    "bold": 700,
+  ),
+  "rotation": (
+    "180": 180,
+    "90": 90,
+    "45": 45,
+    "0": 0,
+    "-90": -90,
+    "-45": -45,
+  ),
+  "dimensions": (
+    "100": 100%,
+    "75": 75%,
+    "50": 50%,
+    "25": 25%,
+    "0": 0%,
+    "auto": auto,
+    "fit": fit-content,
+  ),
+);
+
+@each $utility-type, $utility-data in $utilities {
+  @if $utility-type == "styles" {
+    @each $utility-data-key, $utility-data-value in $utility-data {
+      .font-#{$utility-data-key} {
+        font-style: $utility-data-value !important;
+      }
+    }
+  }
+
+  @if $utility-type == "alignments" {
+    @each $utility-data-key, $utility-data-value in $utility-data {
+      .align-#{$utility-data-key} {
+        text-align: $utility-data-value;
+      }
+    }
+  }
+
+  @if $utility-type == "weights" {
+    @each $utility-data-key, $utility-data-value in $utility-data {
+      .fw-#{$utility-data-key} {
+        font-weight: $utility-data-value;
+      }
+    }
+  }
+
+  @if $utility-type == "rotation" {
+    @each $utility-data-key, $utility-data-value in $utility-data {
+      .rotate-#{$utility-data-key} {
+        transform: rotate(#{$utility-data-value}deg);
+      }
+    }
+  }
+
+  @if $utility-type == "dimensions" {
+    @each $utility-data-key, $utility-data-value in $utility-data {
+      .wt-#{$utility-data-key} {
+        width: $utility-data-value;
+      }
+      .ht-#{$utility-data-key} {
+        height: $utility-data-value;
+      }
+    }
+  }
+}
