@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import SuccessIcon from "@/shared/components/icons/success-icon";
+import SuccessIcon from "@/shared/components/icon-comps/success-icon";
 
 export default {
   name: "OnboardingCard",

@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import VesicashFeatherLogo from "@/shared/components/icons/vesicash-feather-logo";
+import VesicashFeatherLogo from "@/shared/components/icon-comps/vesicash-feather-logo";
 
 export default {
   name: "PageLoader",

@@ -1,3 +1,5 @@
+@import "variables";
+
 //==============================
 // CONVERT UNITS IN PX TO REM
 //==============================
@@ -17,12 +19,12 @@
 // =========================================
 // FULL BACKGROUND DISPLAY (COVER/CONTAIN)
 // =========================================
-@mixin set-full-bg($type: '') {
+@mixin set-full-bg($type: "") {
   position: absolute;
   @include width-height(100%);
 
   // SET OBJECT FIT ONLY IF TYPE IS NOT EMPTY
-  @if $type != '' {
+  @if $type != "" {
     object-fit: #{$type};
   }
 }
@@ -41,13 +43,13 @@
 // ======================
 // PLACE AT CENTER
 // ======================
-@mixin center-placement($axis: '') {
+@mixin center-placement($axis: "") {
   position: absolute;
 
-  @if $axis == 'y-axis' {
+  @if $axis == "y-axis" {
     top: 50%;
     transform: translateY(-50%);
-  } @else if $axis == 'x-axis' {
+  } @else if $axis == "x-axis" {
     left: 50%;
     transform: translateX(-50%);
   } @else {
@@ -70,11 +72,11 @@
 // =======================
 // DRAW SHAPE BUILDER
 // =======================
-@mixin draw-shape($width, $height: '') {
+@mixin draw-shape($width, $height: "") {
   min-width: toRem($width);
   width: toRem($width);
 
-  @if $width == $height or $height== '' {
+  @if $width == $height or $height== "" {
     min-height: toRem($width);
     height: toRem($width);
   } @else {
@@ -129,6 +131,23 @@
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: center;
+}
+
+// ====================
+// FLEX ROW START
+// ====================
+@mixin flex-row-start-start-wrap {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+@mixin flex-row-start-start-nowrap {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 // ===================
@@ -326,10 +345,10 @@
 // ==============================
 // BOX SHADOW (SOFT && HARD)
 // ==============================
-@mixin box-shadow($style: 'soft') {
-  $style_value: '';
+@mixin box-shadow($style: "soft") {
+  $style_value: "";
 
-  @if $style == 'soft' {
+  @if $style == "soft" {
     $style_value: 2;
   } @else {
     $style_value: 4;
@@ -342,12 +361,12 @@
 // ==============================
 // GENERATE BUTTON SIZES
 // ==============================
-@mixin get-btn-size($size: 'lg') {
+@mixin get-btn-size($size: "lg") {
   @each $btn-type, $btn-size in $btn-sizes {
     @if $size == $btn-type {
-      $font: map-get($btn-size, 'font');
-      $padding-y: map-get($btn-size, 'padding-y');
-      $padding-x: map-get($btn-size, 'padding-x');
+      $font: map-get($btn-size, "font");
+      $padding-y: map-get($btn-size, "padding-y");
+      $padding-x: map-get($btn-size, "padding-x");
 
       @include generate-font-type($font);
       padding: toRem($padding-y) toRem($padding-x);

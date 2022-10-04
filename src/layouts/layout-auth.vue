@@ -5,10 +5,7 @@
     <div class="auth-area position-relative mgt-40">
       <!-- VESICASH FEATHER BRAND LOGO -->
       <div class="brand-logo mgb-32 text-center">
-        <img
-          v-lazy="loadImage('vesicash-feather-brand.svg')"
-          alt="vesicash-brand-logo"
-        />
+        <VesicashBrandLogo type="light" />
       </div>
 
       <!-- AUTH ENTRY VIEW -->
@@ -22,8 +19,14 @@
 </template>
 
 <script>
+import VesicashBrandLogo from "@/shared/components/icon-comps/vesicash-brand-logo";
+
 export default {
   name: "layoutAuth",
+
+  components: {
+    VesicashBrandLogo,
+  },
 
   data: () => ({}),
 
@@ -34,4 +37,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.auth-area {
+  .brand-logo {
+    svg {
+      width: toRem(160);
+      height: auto;
+    }
+  }
+}
 </style>

@@ -51,10 +51,10 @@ body {
   opacity: 0;
 }
 .fade-enter-active {
-  transition: opacity 0.225s ease;
+  transition: opacity 0.2s ease;
 }
 .fade-leave-active {
-  transition: opacity 0.225s ease;
+  transition: opacity 0.2s ease;
   opacity: 0;
 }
 </style>

@@ -78,6 +78,15 @@ class serviceString {
   getTruncatedText(string, length) {
     return string.length > length ? `${string.slice(0, length)}...` : string;
   }
+
+  // ==========================================
+  // CHECK IF A NUMBER IS AN ODD NUMBER
+  // ==========================================
+  isOddNumber(items) {
+    if (items === 1) return true;
+    else if (items === 0) return false;
+    else return items % 2 ? true : false;
+  }
 }
 
 export const $serviceString = new serviceString();

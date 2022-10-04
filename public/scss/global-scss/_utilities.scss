@@ -48,17 +48,6 @@ $indexes: 1, 9, 49, 99, 999, 2000;
   }
 }
 
-// ==============
-// BOX SIZES
-// ===============
-$boxes: 10, 12, 14, 16, 18, 20;
-
-@each $box in $boxes {
-  .box-#{$box} {
-    @include draw-shape($box);
-  }
-}
-
 // ==========================================
 // CURSOR, SELECTION, LINK AND TRANSITION
 // ==========================================
@@ -94,6 +83,18 @@ $boxes: 10, 12, 14, 16, 18, 20;
 .smooth-animation {
   transition: top 0.5s ease-in-out;
   animation: panel-slide-down 0.6s ease-in-out;
+}
+
+.text-no-wrap {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.text-wrap {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  word-break: break-all;
 }
 
 // ============================

@@ -1,17 +1,17 @@
 a {
-  color: getColor('green-500');
+  color: getColor("green-500");
   @include font-height(14, 20);
   @include transition(0.6s);
   text-decoration: none;
 
   &:hover,
   &:focus {
-    color: getColor('green-600');
+    color: getColor("green-600");
     text-decoration: none;
   }
 
   &:focus {
-    color: getColor('green-700');
+    color: getColor("green-700");
     .no-touch & {
       outline: none;
     }
@@ -20,8 +20,8 @@ a {
 
 a:link,
 button {
-  -webkit-tap-highlight-color: rgba(getColor('green-600'), 0.35);
-  -moz-tap-highlight-color: rgba(getColor('green-600'), 0.35);
+  -webkit-tap-highlight-color: rgba(getColor("green-600"), 0.35);
+  -moz-tap-highlight-color: rgba(getColor("green-600"), 0.35);
 }
 
 button {
@@ -49,7 +49,7 @@ button {
 }
 
 .btn {
-  @include generate-font-type('secondary-1');
+  @include generate-font-type("secondary-1");
   @include flex-row-center-wrap;
   text-decoration: none !important;
   background-color: transparent;
@@ -82,9 +82,9 @@ button {
 // BUTTON SIZES VARIANTS (btn-lg, btn-md, btn-sm)
 // =================================================
 @each $btn-type, $btn-size in $btn-sizes {
-  $font: map-get($btn-size, 'font');
-  $padding-y: map-get($btn-size, 'padding-y');
-  $padding-x: map-get($btn-size, 'padding-x');
+  $font: map-get($btn-size, "font");
+  $padding-y: map-get($btn-size, "padding-y");
+  $padding-x: map-get($btn-size, "padding-x");
 
   .btn-#{$btn-type} {
     @include generate-font-type($font);
@@ -96,32 +96,34 @@ button {
 // BUTTON COLORS VARIANTS
 // ===========================
 .btn-primary {
-  background-color: getColor('green-500') !important;
-  color: getColor('neutral-10');
+  background-color: getColor("green-500") !important;
+  color: getColor("neutral-10");
 
   &:hover {
-    background-color: getColor('green-600') !important;
+    background-color: getColor("green-600") !important;
   }
 
   &:focus {
-    background-color: getColor('green-700') !important;
+    background-color: getColor("green-700") !important;
   }
 
   &:disabled {
-    background-color: getColor('green-100') !important;
+    background-color: getColor("green-100") !important;
   }
 }
 
 .btn-secondary {
-  background-color: getColor('neutral-10') !important;
-  border: toRem(1) solid getColor('grey-200') !important;
-  color: getColor('grey-900');
+  background-color: getColor("neutral-10") !important;
+  border: toRem(1) solid getColor("grey-200") !important;
+  color: getColor("grey-900") !important;
 
   &:hover {
-    background-color: getColor('grey-10') !important;
+    background-color: getColor("grey-10") !important;
+    color: getColor("grey-900") !important;
   }
 
   &:focus {
-    background-color: getColor('grey-50') !important;
+    background-color: getColor("grey-50") !important;
+    color: getColor("grey-900") !important;
   }
 }

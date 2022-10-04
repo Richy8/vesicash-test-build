@@ -52,19 +52,19 @@ $breakpoint-list: (
 // RESPONSIVE MEDIA QUERY CUSTOM WIDTH
 //=============================================
 @mixin breakpoint-custom-up-down($min, $max) {
-  @media (min-width: toRem(#{$min})) and (max-width: toRem(#{$max})) {
+  @media (min-width: #{$min}px) and (max-width: #{$max}px) {
     @content;
   }
 }
 
 @mixin breakpoint-custom-up($min) {
-  @media only screen and (min-width: toRem(#{$min})) {
+  @media only screen and (min-width: #{$min}px) {
     @content;
   }
 }
 
 @mixin breakpoint-custom-down($max) {
-  @media only screen and (max-width: toRem(#{$max})) {
+  @media only screen and (max-width: #{$max}px) {
     @content;
   }
 }
