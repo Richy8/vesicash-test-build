@@ -94,8 +94,6 @@ export default {
 
   methods: {
     reEvaluatePageFlows(route_name) {
-      console.log(route_name);
-
       let active_flow_index = this.page_flows.findIndex((flow) =>
         [flow?.route, flow?.alias_route].includes(route_name)
       );
