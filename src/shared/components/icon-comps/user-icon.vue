@@ -1,0 +1,42 @@
+<template>
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <circle cx="5.5" cy="15" r="1.5" fill="white" />
+    <ellipse cx="12" cy="6.5" rx="3" ry="3.5" fill="#B3E4FB" />
+    <ellipse cx="12" cy="16" rx="8" ry="4" fill="#043B56" />
+    <circle
+      cx="18"
+      cy="13"
+      r="4"
+      fill="#B3E4FB"
+      stroke="white"
+      stroke-width="1.5"
+    />
+    <path
+      d="M18 11.8008V14.3008"
+      stroke="white"
+      stroke-width="1.5"
+      stroke-linecap="round"
+    />
+    <path
+      d="M19.25 13.0508L16.75 13.0508"
+      stroke="white"
+      stroke-width="1.5"
+      stroke-linecap="round"
+    />
+  </svg>
+</template>
+
+<script>
+export default {
+  name: "UserIcon",
+};
+</script>
+
+<style lang="scss" scoped>
+</style>

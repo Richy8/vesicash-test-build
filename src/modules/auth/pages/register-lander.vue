@@ -42,15 +42,15 @@ export default {
         title: "Personal account",
         description:
           "Suitable for personal purposes and to  perfrom some transcations",
-        icon: "iconIndividual.svg",
+        icon: "UserIcon",
         link: "/register/personal",
-        selected: true,
+        selected: false,
       },
       {
         title: "Business account",
         description:
           "Suitable for people that have businesses and want to perform escrow duties",
-        icon: "iconBusiness.svg",
+        icon: "BusinessIcon",
         link: "/register/business",
         selected: false,
       },
@@ -68,7 +68,7 @@ export default {
       // TRANSITION TO REGISTER PAGE
       setTimeout(
         () => this.$router.push(this.onboarding_accounts[$event].link),
-        500
+        700
       );
     },
   },

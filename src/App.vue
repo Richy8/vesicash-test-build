@@ -34,9 +34,29 @@ export default {
       ),
   },
 
+  watch: {
+    $route: {
+      handler() {
+        this.show_feather_loader = false;
+      },
+    },
+  },
+
   data: () => ({
     show_feather_loader: false,
   }),
+
+  created() {
+    // ==================================
+    // EVENT BUS TO TOGGLE PAGE LOADER
+    // ==================================
+    this.$bus.$on(
+      "toggle-page-loader",
+      () => (this.show_feather_loader = !this.show_feather_loader)
+    );
+  },
+
+  methods: {},
 };
 </script>
 

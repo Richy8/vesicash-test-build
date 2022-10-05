@@ -1,5 +1,5 @@
 <template>
-  <div class="auth-wrapper wt-fit neutral-10-bg rounded-16 mx-auto">
+  <div class="auth-wrapper wt-fit neutral-10-bg rounded-16 mx-auto mgb-40">
     <!-- TITLE TEXT -->
     <div class="title-text h5-text grey-900 text-center">
       {{ title_text }}

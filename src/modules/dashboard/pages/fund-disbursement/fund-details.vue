@@ -31,7 +31,11 @@
         v-for="(fund, index) in disbursement_types"
         :key="index"
       >
-        <FundDisburseTypeCard :details="fund" :index="index" />
+        <FundDisburseTypeCard
+          :details="fund"
+          :index="index"
+          @updateSelection="updateUserSelection"
+        />
       </div>
     </div>
 
@@ -47,7 +51,12 @@
         v-for="(fund, index) in transacting_types"
         :key="index"
       >
-        <FundDisburseTypeCard :key="index" :details="fund" :index="index" />
+        <FundDisburseTypeCard
+          :key="index"
+          :details="fund"
+          :index="index"
+          @updateSelection="updateUserSelection"
+        />
       </div>
     </div>
 
@@ -77,12 +86,14 @@ export default {
         title: "One off disbursement type",
         description:
           "Suitable for people that want to do one off payment to people ",
-        selected: true,
+        type: "disbursement",
+        selected: false,
       },
       {
         title: "Milestone disbursment type",
         description:
           "Suitable for people that want to disburse in milestones until their    money is complete",
+        type: "disbursement",
         selected: false,
       },
     ],
@@ -92,12 +103,14 @@ export default {
         title: "Two parties",
         description:
           "Suitable for transaction between buyer and seller only to make transactions possible ",
-        selected: true,
+        type: "transactions",
+        selected: false,
       },
       {
         title: "Multiple parties",
         description:
           "Suitable for people that want to have several middle mans in their trabsaction for transparency sakes",
+        type: "transactions",
         selected: false,
       },
     ],
@@ -106,6 +119,16 @@ export default {
   methods: {
     nextProgressFlow() {
       this.$router.push({ name: "VesicashBeneficiaries" });
+    },
+
+    updateUserSelection(data) {
+      if (data.type === "disbursement") {
+        this.disbursement_types.map((item) => (item.selected = false));
+        this.disbursement_types[data.index].selected = true;
+      } else {
+        this.transacting_types.map((item) => (item.selected = false));
+        this.transacting_types[data.index].selected = true;
+      }
     },
   },
 };

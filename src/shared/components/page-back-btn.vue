@@ -21,6 +21,11 @@ export default {
       type: String,
       default: "/dashboard",
     },
+
+    history_mode: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   methods: {
@@ -29,7 +34,8 @@ export default {
     // DEFAULTS TO DASHBOAD IF NOT PROVIDED
     // ===========================================
     goToPreviousPage() {
-      this.$router.push({ path: this.back_link });
+      if (this.history_mode) this.$router.go(-1);
+      else this.$router.push({ path: this.back_link });
     },
   },
 };

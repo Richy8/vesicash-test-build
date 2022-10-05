@@ -100,7 +100,10 @@ export default {
 
     otp_four: {
       handler(value) {
-        if (value.length === 1) this.verifyUserAccount();
+        if (value.length === 1) {
+          this.$nextTick(() => this.$refs.otpFour.blur());
+          this.verifyUserAccount();
+        }
       },
     },
   },
@@ -138,7 +141,8 @@ export default {
     // VERIFY USER ACCOUNT OTP ENTRY
     // ===================================
     verifyUserAccount() {
-      console.log("User verified");
+      setTimeout(() => this.togglePageLoader(), 400);
+      setTimeout(() => this.$router.push({ name: "VesicashDashboard" }), 2000);
     },
   },
 };

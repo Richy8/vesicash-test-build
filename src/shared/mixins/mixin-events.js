@@ -10,7 +10,7 @@ const MixinEvents = {
         this.$refs[ref].disabled = true;
         this.$refs[
           ref
-        ].innerHTML = `<div class="icon-dotted-roller gfont-17 mgr-10 animate"></div>${text}`;
+        ].innerHTML = `<div class="icon-dotted-roller f-size-17 mgr-10 animate"></div>${text}`;
       } else {
         this.$refs[ref].innerHTML = `${text}`;
         this.$refs[ref].disabled = false;
@@ -23,6 +23,13 @@ const MixinEvents = {
         message,
         type,
       });
+    },
+
+    // ==========================================
+    // MIXIN TO HANDLE PAGE LOADER INITIATION
+    // ==========================================
+    togglePageLoader() {
+      this.$bus.$emit("toggle-page-loader");
     },
   },
 };

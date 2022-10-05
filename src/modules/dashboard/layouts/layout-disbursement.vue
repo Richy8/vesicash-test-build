@@ -1,7 +1,7 @@
 <template>
   <div class="layout-disbursement">
     <!-- BACK BUTTON -->
-    <PageBackBtn />
+    <PageBackBtn :history_mode="true" />
 
     <!-- FUND DISBURSMENT FLOW -->
     <ProgressFlowCard />

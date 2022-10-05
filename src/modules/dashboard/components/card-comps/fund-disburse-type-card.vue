@@ -2,6 +2,7 @@
   <div
     class="fund-disburse-type-card rounded-12 border-grey-100 pointer wt-100"
     :class="details.selected && 'fund-disburse-type-card-active'"
+    @click="$emit('updateSelection', { type: details.type, index })"
   >
     <div>
       <!-- TITLE TEXT -->

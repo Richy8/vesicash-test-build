@@ -13,14 +13,25 @@
         />
       </div>
 
-      <!-- FULLNAME INPUT -->
+      <!-- FIRSTNAME INPUT -->
       <div class="form-group">
-        <div class="form-label" for="fullName">Name</div>
+        <div class="form-label" for="firstName">First name</div>
         <input
           type="text"
-          id="fullName"
+          id="firstName"
           class="form-control"
-          placeholder="Your full name"
+          placeholder="Your first name"
+        />
+      </div>
+
+      <!-- LASTNAME INPUT -->
+      <div class="form-group">
+        <div class="form-label" for="lastName">Last name</div>
+        <input
+          type="text"
+          id="lastName"
+          class="form-control"
+          placeholder="Your last name"
         />
       </div>
 
@@ -68,7 +79,9 @@
 
       <!-- BUTTON AREA -->
       <div class="btn-area mgt-35 mgb-10">
-        <button class="btn btn-primary btn-md w-100">Register</button>
+        <button class="btn btn-primary btn-md w-100" @click="moveToOtp">
+          Register
+        </button>
       </div>
 
       <!-- HELP BLOCK TEXT -->
@@ -109,6 +122,12 @@ export default {
   data: () => ({
     account_type: ["personal", "business"],
   }),
+
+  methods: {
+    moveToOtp() {
+      this.$router.push({ name: "VesicashVerifyOTP" });
+    },
+  },
 };
 </script>
 

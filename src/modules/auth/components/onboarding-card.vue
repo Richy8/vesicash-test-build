@@ -11,16 +11,13 @@
     @click="$emit('select-onboarding-card', index)"
   >
     <!-- SELECTED INDICATOR -->
-    <div class="selected-indicator smooth-transition" v-if="account.selected">
+    <div class="selected-indicator" v-if="account.selected">
       <SuccessIcon />
     </div>
 
     <!-- CARD ICON -->
     <div class="card-icon mgb-15">
-      <img
-        v-lazy="loadImage(account.icon)"
-        :alt="`Vesicash ${account.title}`"
-      />
+      <component :is="account.icon" />
     </div>
 
     <!-- CARD TITLE -->
@@ -37,11 +34,17 @@
 
 <script>
 import SuccessIcon from "@/shared/components/icon-comps/success-icon";
+import BusinessIcon from "@/shared/components/icon-comps/business-icon";
+import UserIcon from "@/shared/components/icon-comps/user-icon";
 
 export default {
   name: "OnboardingCard",
 
-  components: { SuccessIcon },
+  components: {
+    SuccessIcon,
+    BusinessIcon,
+    UserIcon,
+  },
 
   props: {
     index: Number,
@@ -87,6 +90,7 @@ export default {
 
   &:hover {
     @extend %active-card-state;
+    transform: scale(1.02);
   }
 
   .selected-indicator {
@@ -100,7 +104,7 @@ export default {
   }
 
   .card-icon {
-    img {
+    svg {
       @include draw-shape(46);
     }
   }

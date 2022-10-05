@@ -18,18 +18,24 @@
 
     <!-- INSTRUCTION TEXT -->
     <div class="instruction-text grey-900 primary-2-text mgb-12">
-      Add payout rules for your users
+      Who handles the dispute?
     </div>
 
     <div class="wrapper row mgb-32">
       <div class="col-xl-8">
         <div class="row">
           <div class="col-12 col-sm-6 dispute-wrapper">
-            <DisputeCard label_id="disputeCard1" />
+            <DisputeCard
+              label_id="disputeCard1"
+              label_text="Vesicash handles dispute"
+            />
           </div>
 
           <div class="col-12 col-sm-6 dispute-wrapper">
-            <DisputeCard label_id="disputeCard2" />
+            <DisputeCard
+              label_id="disputeCard2"
+              label_text="Arbitrator handles dispute"
+            />
           </div>
         </div>
       </div>
