@@ -274,8 +274,11 @@ input[type="checkbox"],
 
 // FORM PREFIX
 .form-prefix {
-  // @include flex-row-start-nowrap;
-  // flex-direction: row-reverse;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row-reverse;
   position: relative;
 
   .prefix-select-area {

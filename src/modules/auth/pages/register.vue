@@ -50,15 +50,7 @@
       <div class="form-group">
         <div class="form-label" for="phoneNumber">Phone number</div>
 
-        <div
-          class="
-            form-prefix
-            d-flex
-            justify-content-start
-            align-items-center
-            flex-row-reverse
-          "
-        >
+        <div class="form-prefix">
           <input
             type="number"
             id="phoneNumber"
