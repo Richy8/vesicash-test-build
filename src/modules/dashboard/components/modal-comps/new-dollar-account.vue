@@ -42,7 +42,7 @@
 
     <!-- ACCOUNT NAME -->
     <div class="row">
-      <div class="col-6">
+      <div class="col-12 col-sm-6">
         <div class="form-group">
           <div class="form-label" for="firstName">First name</div>
           <input
@@ -54,7 +54,7 @@
         </div>
       </div>
 
-      <div class="col-6">
+      <div class="col-12 col-sm-6">
         <div class="form-group">
           <div class="form-label" for="lastName">Last name</div>
           <input
@@ -80,7 +80,7 @@
 
     <!-- SWIFT && SORT CODE -->
     <div class="row">
-      <div class="col-6">
+      <div class="col-12 col-sm-6">
         <div class="form-group">
           <div class="form-label" for="swiftCode">Swift code</div>
           <input
@@ -92,7 +92,7 @@
         </div>
       </div>
 
-      <div class="col-6">
+      <div class="col-12 col-sm-6">
         <div class="form-group">
           <div class="form-label" for="sortCode">Routing/Sort code</div>
           <input

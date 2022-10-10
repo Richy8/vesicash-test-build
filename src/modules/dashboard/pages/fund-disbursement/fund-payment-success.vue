@@ -7,12 +7,26 @@
         Congratulations
       </div>
 
-      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vitae omnis
-      illum quaerat earum recusandae quas voluptate laboriosam corrupti, culpa
-      nostrum accusantium eligendi quidem similique eius ipsam neque sapiente
-      ratione odio ut magni iure dolores dolore! Eos inventore quasi quo quidem
-      placeat, eveniet maxime harum non voluptatem at, fugit quibusdam! Quasi
-      nesciunt sapiente doloribus ipsa ad illum molestiae dolorum at odit
+      <!-- BODY DATA -->
+      <div class="body-data">
+        <SuccessItemCard
+          :info="{
+            icon: 'SuccessIcon',
+            title: 'Payment made successfully',
+            description:
+              'Your payment of $50,000 has been made sucessfully, Please check your escrow account on your dashboard for the payment.',
+          }"
+        />
+
+        <SuccessItemCard
+          :info="{
+            icon: 'SuccessIcon',
+            title: 'Users invited successfully',
+            description:
+              'Awotundebangalee@gmail.com has been invited sucessfully into Payment for landing pages.',
+          }"
+        />
+      </div>
 
       <!-- BUTTON AREA -->
       <div class="btn-area mgt-30 mgb-10 wt-100">
@@ -26,7 +40,6 @@
 
 <script>
 import AuthWrapper from "@/modules/auth/components/auth-wrapper";
-import SuccessIcon from "@/shared/components/icon-comps/success-icon";
 
 export default {
   name: "PaymentSuccessful",
@@ -38,14 +51,17 @@ export default {
 
   components: {
     AuthWrapper,
-    SuccessIcon,
+    SuccessItemCard: () =>
+      import(
+        /* webpackChunkName: 'dashboard-module' */ "@/modules/dashboard/components/card-comps/success-item-card"
+      ),
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .auth-payment-success {
-  width: toRem(420) !important;
+  width: toRem(520) !important;
 
   .title-text {
     font-size: toRem(23);
