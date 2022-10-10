@@ -14,7 +14,7 @@
       </div>
 
       <!-- PASSWORD INPUT -->
-      <div class="form-group">
+      <div class="form-group mgb-13">
         <div class="form-label" for="password">Password</div>
         <input
           type="password"
@@ -24,8 +24,17 @@
         />
       </div>
 
+      <!-- FORGOT PASSWORD LINK -->
+      <div class="d-flex justify-content-end">
+        <router-link
+          :to="{ name: 'VesicashForgotPassword' }"
+          class="tertiary-2-text"
+          >Forgot Password?</router-link
+        >
+      </div>
+
       <!-- BUTTON AREA -->
-      <div class="btn-area mgt-35 mgb-10">
+      <div class="btn-area mgt-30 mgb-10">
         <button class="btn btn-primary btn-md w-100">Login to account</button>
       </div>
 

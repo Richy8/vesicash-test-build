@@ -12,6 +12,7 @@
               <tr>
                 <template v-for="(head, index) in table_header">
                   <td
+                    :title="head"
                     class="head-data"
                     :key="index"
                     :class="`${table_name}-${index + 1}`"

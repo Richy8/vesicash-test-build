@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-transactions">
     <!-- PAGE SWITCHER -->
-    <PageSwitcher />
+    <PageSwitcher @swapTable="transaction_table_type = $event" />
 
     <!-- DISPLAY AREA FOR PAYMENTS/DISBURSEMENTS/WALLET -->
     <transition name="fade" mode="out-in">
@@ -21,6 +21,14 @@ export default {
     TransactionPaymentTable: () =>
       import(
         /* webpackChunkName: "dashboard-table-module" */ "@/modules/dashboard/components/table-comps/transaction-payment-table"
+      ),
+    TransactionDisbursementTable: () =>
+      import(
+        /* webpackChunkName: "dashboard-table-module" */ "@/modules/dashboard/components/table-comps/transaction-disbursement-table"
+      ),
+    TransactionWalletTable: () =>
+      import(
+        /* webpackChunkName: "dashboard-table-module" */ "@/modules/dashboard/components/table-comps/transaction-wallet-table"
       ),
   },
 

@@ -59,11 +59,20 @@
           />
 
           <!-- PREFIX AREA -->
-          <div class="prefix-select-area">
+          <div
+            class="prefix-select-area"
+            @click="toggleDropdown"
+            v-on-clickaway="forceClose"
+          >
             <img v-lazy="loadFalseImage('flag.png')" alt="" />
             <div class="icon icon-caret-fill-down"></div>
           </div>
         </div>
+
+        <!-- DROP DOWN SELECT AREA -->
+        <template name="drop-select-area" v-if="show_dropdown">
+          <DropDownSelect />
+        </template>
       </div>
 
       <!-- PASSWORD INPUT -->
@@ -106,6 +115,10 @@ export default {
 
   components: {
     AuthWrapper,
+    DropDownSelect: () =>
+      import(
+        /* webpackChunkName: 'shared-module' */ "@/shared/components/drop-down-select"
+      ),
   },
 
   computed: {
@@ -121,11 +134,20 @@ export default {
 
   data: () => ({
     account_type: ["personal", "business"],
+    show_dropdown: false,
   }),
 
   methods: {
     moveToOtp() {
       this.$router.push({ name: "VesicashVerifyOTP" });
+    },
+
+    toggleDropdown() {
+      this.show_dropdown = !this.show_dropdown;
+    },
+
+    forceClose() {
+      this.show_dropdown = false;
     },
   },
 };

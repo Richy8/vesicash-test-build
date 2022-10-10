@@ -24,9 +24,30 @@
           </div>
 
           <!-- CARD TITLE VALUE -->
-          <div class="card-item-value grey-900 secondary-2-text">
-            {{ card.value }}
-          </div>
+
+          <template v-if="card.file">
+            <div class="d-flex justify-content-start align-items-center">
+              <FileIcon active />
+              <div
+                class="
+                  card-item-value
+                  green-500
+                  secondary-2-text
+                  link-underline
+                  mgl-6
+                  pointer
+                "
+              >
+                {{ card.file.name }}
+              </div>
+            </div>
+          </template>
+
+          <template v-else>
+            <div class="card-item-value grey-900 secondary-2-text">
+              {{ card.value }}
+            </div>
+          </template>
         </div>
       </template>
     </div>
@@ -34,8 +55,14 @@
 </template>
 
 <script>
+import FileIcon from "@/shared/components/icon-comps/file-icon";
+
 export default {
   name: "FundInfoCard",
+
+  components: {
+    FileIcon,
+  },
 
   props: {
     card_title: {
@@ -49,6 +76,7 @@ export default {
         {
           title: "Disbursement Type",
           value: "One-off disbursment type",
+          file: {},
         },
       ],
     },
@@ -58,8 +86,9 @@ export default {
 
 <style lang="scss" scoped>
 .fund-info-card {
-  margin: 0 toRem(32) toRem(34) 0;
+  margin: 0 0 toRem(34) 0;
   padding: toRem(24);
+  width: 100%;
 
   @include breakpoint-custom-down(640) {
     margin: 0 0 toRem(24);
@@ -72,11 +101,6 @@ export default {
 
     @include breakpoint-custom-down(640) {
       margin: 0 0 toRem(34);
-      width: 50%;
-    }
-
-    @include breakpoint-custom-down(580) {
-      width: 100%;
     }
   }
 
@@ -96,7 +120,7 @@ export default {
     }
 
     .card-item {
-      min-width: toRem(240);
+      min-width: 45%;
 
       @include breakpoint-custom-down(640) {
         min-width: 40%;

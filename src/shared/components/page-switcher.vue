@@ -2,9 +2,15 @@
   <div class="page-switcher rounded-8 grey-50-bg wt-100 mgb-16">
     <!-- PAGE ITEMS -->
     <template>
-      <router-link to class="page-item page-item-active">Payments</router-link>
-      <router-link to class="page-item">Disbursements</router-link>
-      <router-link to class="page-item">Wallets</router-link>
+      <div
+        class="page-item"
+        :class="page.active && 'page-item-active'"
+        v-for="(page, index) in pages"
+        :key="index"
+        @click="changeTableView(index)"
+      >
+        {{ page.title }}
+      </div>
     </template>
   </div>
 </template>
@@ -12,6 +18,34 @@
 <script>
 export default {
   name: "PageSwitcher",
+
+  data: () => ({
+    pages: [
+      {
+        title: "Payments",
+        table: "TransactionPaymentTable",
+        active: true,
+      },
+      {
+        title: "Disbursements",
+        table: "TransactionDisbursementTable",
+        active: false,
+      },
+      {
+        title: "Wallets",
+        table: "TransactionWalletTable",
+        active: false,
+      },
+    ],
+  }),
+
+  methods: {
+    changeTableView(index) {
+      this.pages.map((page) => (page.active = false));
+      this.pages[index].active = true;
+      this.$emit("swapTable", this.pages[index].table);
+    },
+  },
 };
 </script>
 
@@ -29,6 +63,7 @@ export default {
     margin-right: toRem(8);
     display: inline-block;
     font-size: toRem(12.85);
+    cursor: pointer;
 
     &:last-of-type {
       margin-right: 0;

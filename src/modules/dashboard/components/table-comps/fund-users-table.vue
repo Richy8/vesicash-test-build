@@ -2,7 +2,7 @@
   <div>
     <!-- TABLE CONTAINER -->
     <TableContainer
-      table_name="fund-users-tb"
+      :table_name="`fund-users-${type}-tb`"
       :table_data="dataset"
       :table_header="getTableHeader"
       :is_loading="false"
@@ -10,7 +10,7 @@
       <template v-for="(data, index) in dataset">
         <FundUsersTableRow
           :key="index"
-          table_name="fund-users-tb"
+          :table_name="`fund-users-${type}-tb`"
           :data="{ data }"
           :type="type"
         />
@@ -65,6 +65,7 @@ export default {
         "User phone number",
         "User role",
         "User access",
+        "Receives payout",
         "Actions",
       ],
     };
@@ -73,7 +74,7 @@ export default {
 </script>
 
 <style lang="scss">
-.fund-users-tb {
+.fund-users-single-tb {
   &-1 {
     min-width: toRem(190);
   }
@@ -92,6 +93,32 @@ export default {
 
   &-5 {
     min-width: toRem(190);
+  }
+}
+
+.fund-users-multiple-tb {
+  &-1 {
+    min-width: toRem(140);
+  }
+
+  &-2 {
+    min-width: toRem(140);
+  }
+
+  &-3 {
+    min-width: toRem(140);
+  }
+
+  &-4 {
+    min-width: toRem(140);
+  }
+
+  &-5 {
+    min-width: toRem(140);
+  }
+
+  &-6 {
+    min-width: toRem(140);
   }
 }
 </style>

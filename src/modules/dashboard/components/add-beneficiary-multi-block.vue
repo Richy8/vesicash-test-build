@@ -20,10 +20,19 @@
           />
 
           <!-- PREFIX AREA -->
-          <div class="prefix-select-area">
+          <div
+            class="prefix-select-area"
+            @click="toggleDropdown"
+            v-on-clickaway="forceClose"
+          >
             <img v-lazy="loadFalseImage('flag.png')" alt="" />
             <div class="icon icon-caret-fill-down"></div>
           </div>
+
+          <!-- DROP DOWN SELECT AREA -->
+          <template name="drop-select-area" v-if="show_dropdown">
+            <DropDownSelect />
+          </template>
         </div>
       </div>
 
@@ -59,9 +68,15 @@ export default {
 
   components: {
     DropSelectInput,
+    DropDownSelect: () =>
+      import(
+        /* webpackChunkName: 'shared-module' */ "@/shared/components/drop-down-select"
+      ),
   },
 
   data: () => ({
+    show_dropdown: false,
+
     user_roles_options: [
       { id: 1, name: "Seller" },
       { id: 2, name: "Buyer" },
@@ -75,6 +90,16 @@ export default {
       { id: 3, name: "View" },
     ],
   }),
+
+  methods: {
+    toggleDropdown() {
+      this.show_dropdown = !this.show_dropdown;
+    },
+
+    forceClose() {
+      this.show_dropdown = false;
+    },
+  },
 };
 </script>
 

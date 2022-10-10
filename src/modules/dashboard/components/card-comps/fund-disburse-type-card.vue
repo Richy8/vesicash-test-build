@@ -6,12 +6,12 @@
   >
     <div>
       <!-- TITLE TEXT -->
-      <div class="title-text primary-2-text grey-900 mgb-5">
+      <div class="title-text primary-1-text grey-900 mgb-5">
         {{ details.title }}
       </div>
 
       <!-- DESCRIPTION TEXT -->
-      <div class="description-text tertiary-3-text grey-600">
+      <div class="description-text tertiary-2-text grey-600">
         {{ details.description }}
       </div>
     </div>
@@ -74,11 +74,19 @@ export default {
     }
   }
 
-  .description-text {
-    @include font-height(12.75, 18);
+  .title-text {
+    font-size: toRem(15.5);
 
-    @include breakpoint-down(sm) {
-      @include font-height(12.25, 18);
+    @include breakpoint-down(xs) {
+      font-size: toRem(15);
+    }
+  }
+
+  .description-text {
+    font-size: toRem(13.75);
+
+    @include breakpoint-down(xs) {
+      @include font-height(13.25, 19);
     }
   }
 

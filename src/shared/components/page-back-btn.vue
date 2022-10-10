@@ -26,6 +26,11 @@ export default {
       type: Boolean,
       default: false,
     },
+
+    custom_mode: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   methods: {
@@ -34,8 +39,11 @@ export default {
     // DEFAULTS TO DASHBOAD IF NOT PROVIDED
     // ===========================================
     goToPreviousPage() {
-      if (this.history_mode) this.$router.go(-1);
-      else this.$router.push({ path: this.back_link });
+      if (this.custom_mode) this.$emit("clicked");
+      else {
+        if (this.history_mode) this.$router.go(-1);
+        else this.$router.push({ path: this.back_link });
+      }
     },
   },
 };

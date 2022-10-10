@@ -7,23 +7,35 @@
 
     <!-- FUND DETAILS SECTION -->
     <template name="fund-details-section">
-      <div class="fund-details-section">
+      <div class="fund-details-section row">
         <!-- DISBURSEMENT DETAILS -->
-        <FundInfoCard
-          card_title="Disbursement details"
-          :card_items="[
-            { title: 'Disbursement Type', value: 'One-off disbursement type' },
-            { title: 'Transacting Parties', value: 'Two parties' },
-          ]"
-        />
+        <div class="col-12 col-xl-6">
+          <FundInfoCard
+            card_title="Disbursement details"
+            :card_items="[
+              {
+                title: 'Disbursement Type',
+                value: 'One-off disbursement type',
+              },
+              { title: 'Transacting Parties', value: 'Two parties' },
+            ]"
+          />
+        </div>
 
         <!-- DISPUTE HANDLING -->
-        <FundInfoCard
-          card_title="Dispute handling"
-          :card_items="[
-            { title: 'Dispute Type', value: 'Vesicash handles dispute' },
-          ]"
-        />
+        <div class="col-12 col-xl-5">
+          <FundInfoCard
+            card_title="Dispute handling"
+            :card_items="[
+              { title: 'Dispute Type', value: 'Vesicash handles dispute' },
+              {
+                title: 'Dispute Policy Doc',
+                value: 'Two parties',
+                file: { name: 'PolicyFile.doc' },
+              },
+            ]"
+          />
+        </div>
       </div>
     </template>
 

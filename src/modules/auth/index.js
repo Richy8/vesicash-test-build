@@ -24,6 +24,51 @@ const authRoutes = [
         },
       },
 
+      // ================================
+      // VESICASH FORGET PASSWORD ROUTE
+      // ================================
+      {
+        path: "/forgot-password",
+        name: "VesicashForgotPassword",
+        component: () =>
+          import(
+            /* webpackChunkName: "auth-module" */ "@/modules/auth/pages/forgot-password"
+          ),
+        meta: {
+          guest: true,
+        },
+      },
+
+      // ================================
+      // VESICASH RESET PASSWORD ROUTE
+      // ================================
+      {
+        path: "/reset-password",
+        name: "VesicashResetPassword",
+        component: () =>
+          import(
+            /* webpackChunkName: "auth-module" */ "@/modules/auth/pages/reset-password"
+          ),
+        meta: {
+          guest: true,
+        },
+      },
+
+      // ==========================================
+      // VESICASH SUCCESSFUL PASSWORD RESET ROUTE
+      // ==========================================
+      {
+        path: "/successful-password-reset",
+        name: "VesicashSuccessfulPasswordReset",
+        component: () =>
+          import(
+            /* webpackChunkName: "auth-module" */ "@/modules/auth/pages/reset-successful"
+          ),
+        meta: {
+          guest: true,
+        },
+      },
+
       // ==================================
       // VESICASH REGISTER LANDER ROUTE
       // ==================================

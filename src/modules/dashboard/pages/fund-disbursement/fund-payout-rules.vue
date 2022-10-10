@@ -4,9 +4,16 @@
       Add payout rules
     </div>
 
-    <!-- INSTRUCTION TEXT -->
-    <div class="instruction-text grey-900 primary-2-text mgb-12">
-      Add payout rules for your users
+    <div class="instruction-wrapper col-xl-8 mgb-12">
+      <!-- INSTRUCTION TEXT -->
+      <div class="instruction-text grey-900 primary-2-text mgr-5">
+        Add payout rules for your users
+      </div>
+
+      <button class="btn btn-secondary btn-md">
+        <div class="icon icon-plus"></div>
+        <div class="text">Add new milestone</div>
+      </button>
     </div>
 
     <!-- PAYOUT CARDS -->
@@ -25,16 +32,20 @@
       <div class="col-xl-8">
         <div class="row">
           <div class="col-12 col-sm-6 dispute-wrapper">
-            <DisputeCard
+            <RadioSelectCard
+              card_name="dispute"
               label_id="disputeCard1"
               label_text="Vesicash handles dispute"
+              tooltip_text=" Information to be passed to the audience"
             />
           </div>
 
           <div class="col-12 col-sm-6 dispute-wrapper">
-            <DisputeCard
+            <RadioSelectCard
+              card_name="dispute"
               label_id="disputeCard2"
               label_text="Arbitrator handles dispute"
+              tooltip_text=" Information to be passed to the audience"
             />
           </div>
         </div>
@@ -67,9 +78,9 @@ export default {
         /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/card-comps/payout-card"
       ),
 
-    DisputeCard: () =>
+    RadioSelectCard: () =>
       import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/card-comps/dispute-card"
+        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/card-comps/radio-select-card"
       ),
 
     SummationCard: () =>
@@ -91,6 +102,23 @@ export default {
   .disbursement-title {
     @include breakpoint-down(xl) {
       @include generate-font-type("h5");
+    }
+  }
+
+  .instruction-wrapper {
+    @include flex-row-between-wrap;
+
+    .btn {
+      padding: toRem(8) toRem(24) toRem(8) toRem(18);
+
+      @include breakpoint-down(xs) {
+        margin-top: toRem(10);
+      }
+
+      .icon {
+        font-size: toRem(14.25);
+        margin-right: toRem(4);
+      }
     }
   }
 

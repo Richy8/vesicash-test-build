@@ -22,12 +22,12 @@
         <!-- TRANSACTION NAME -->
         <div class="col-12 col-sm-6">
           <div class="form-group">
-            <div class="form-label" for="transactionName">Transaction name</div>
+            <div class="form-label" for="milestoneName">Milestone name</div>
             <input
               type="text"
-              id="transactionName"
+              id="milestoneName"
               class="form-control"
-              placeholder="Enter your transaction name"
+              placeholder="Enter milestone name"
             />
           </div>
         </div>
@@ -48,12 +48,12 @@
 
           <div class="col-12 col-sm-6">
             <div class="form-group">
-              <div class="form-label" for="phoneNumber">Amount to pay</div>
+              <div class="form-label" for="amount">Amount to pay</div>
 
               <div class="form-prefix form-prefix-right">
                 <input
                   type="number"
-                  id="phoneNumber"
+                  id="amount"
                   class="form-control"
                   placeholder="0.00"
                 />
@@ -85,11 +85,9 @@
             <div class="form-label" for="inspectionPeriod">
               Inspection period (Days)
             </div>
-            <input
-              type="number"
-              id="inspectionPeriod"
-              class="form-control"
+            <DropSelectInput
               placeholder="Select inspection period"
+              :options="inspection_options"
             />
           </div>
         </div>
@@ -117,6 +115,37 @@ export default {
       {
         id: 2,
         name: "NGN (N)",
+      },
+    ],
+
+    inspection_options: [
+      {
+        id: 1,
+        name: "1 day",
+      },
+      {
+        id: 2,
+        name: "2 days",
+      },
+      {
+        id: 3,
+        name: "3 days",
+      },
+      {
+        id: 4,
+        name: "4 days",
+      },
+      {
+        id: 5,
+        name: "5 days",
+      },
+      {
+        id: 6,
+        name: "6 days",
+      },
+      {
+        id: 7,
+        name: "7 days",
       },
     ],
   }),

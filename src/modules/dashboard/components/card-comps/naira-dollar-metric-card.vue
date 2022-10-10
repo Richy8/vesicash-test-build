@@ -26,8 +26,35 @@
 
     <!-- BOTTOM ROW -->
     <div class="bottom-row">
-      <button class="btn btn-secondary btn-md">Withdraw money</button>
+      <button class="btn btn-secondary btn-md" @click="toggleWalletModal">
+        Withdraw money
+      </button>
     </div>
+
+    <!-- MODALS -->
+    <portal to="vesicash-modals">
+      <transition name="fade" v-if="show_wallet_modal">
+        <WithdrawSelectModal
+          @closeTriggered="toggleWalletModal"
+          @walletSelected="closeWalletOpenAccount"
+        />
+      </transition>
+
+      <transition name="fade" v-if="show_wallet_account_modal">
+        <WithdrawAccountModal
+          @closeTriggered="toggleWalletAccountModal"
+          @goBackWalletSelection="closeAccountOpenWallet"
+          @accountSelected="closeAccountOpenConfirm"
+        />
+      </transition>
+
+      <transition name="fade" v-if="show_wallet_confirm_modal">
+        <WithdrawConfirmModal
+          @closeTriggered="toggleWalletConfirmModal"
+          @goBackAccountSelection="closeConfimWithdrawOpenAccount"
+        />
+      </transition>
+    </portal>
   </div>
 </template>
 
@@ -35,7 +62,28 @@
 export default {
   name: "NairaDollarMetricCard",
 
+  components: {
+    WithdrawSelectModal: () =>
+      import(
+        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/modals/withdraw-modals/withdraw-select-modal"
+      ),
+
+    WithdrawAccountModal: () =>
+      import(
+        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/modals/withdraw-modals/withdraw-account-modal"
+      ),
+
+    WithdrawConfirmModal: () =>
+      import(
+        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/modals/withdraw-modals/withdraw-confirm-modal"
+      ),
+  },
+
   data: () => ({
+    show_wallet_modal: false,
+    show_wallet_account_modal: false,
+    show_wallet_confirm_modal: false, //
+
     wallets: [
       {
         title: "NAIRA",
@@ -49,6 +97,40 @@ export default {
       },
     ],
   }),
+
+  methods: {
+    toggleWalletModal() {
+      this.show_wallet_modal = !this.show_wallet_modal;
+    },
+
+    toggleWalletAccountModal() {
+      this.show_wallet_account_modal = !this.show_wallet_account_modal;
+    },
+
+    toggleWalletConfirmModal() {
+      this.show_wallet_confirm_modal = !this.show_wallet_confirm_modal;
+    },
+
+    closeWalletOpenAccount() {
+      this.show_wallet_modal = false;
+      this.toggleWalletAccountModal();
+    },
+
+    closeAccountOpenWallet() {
+      this.show_wallet_account_modal = false;
+      this.toggleWalletModal();
+    },
+
+    closeConfimWithdrawOpenAccount() {
+      this.show_wallet_confirm_modal = false;
+      this.toggleWalletAccountModal();
+    },
+
+    closeAccountOpenConfirm() {
+      this.show_wallet_account_modal = false;
+      this.toggleWalletConfirmModal();
+    },
+  },
 };
 </script>
 

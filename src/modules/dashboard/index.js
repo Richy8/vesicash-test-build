@@ -109,6 +109,41 @@ const dashboardRoutes = [
       },
     ],
   },
+
+  // ====================================
+  // PLAIN AUTH BG LAYOUT ROUTES
+  // ====================================
+  {
+    path: "/withdrawal-successful",
+    component: () =>
+      import(/* webpackChunkName: "auth-layout" */ "@/layouts/layout-auth"),
+
+    children: [
+      {
+        path: "",
+        name: "SuccessfulWithdrawal",
+        component: () =>
+          import(
+            /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/pages/withdraw-success"
+          ),
+        meta: {
+          requiresAuth: true,
+        },
+      },
+
+      {
+        path: "/payment-successful",
+        name: "SuccessfulPayment",
+        component: () =>
+          import(
+            /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/pages/fund-disbursement/fund-payment-success"
+          ),
+        meta: {
+          requiresAuth: true,
+        },
+      },
+    ],
+  },
 ];
 
 export default dashboardRoutes;

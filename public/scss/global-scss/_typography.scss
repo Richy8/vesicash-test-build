@@ -13,6 +13,7 @@ $body_font: "Inter", sans-serif;
 //=============================
 $regular: 400;
 $medium: 500;
+$semibold: 600;
 $bold: 700;
 
 //=============================
@@ -40,9 +41,9 @@ $font-types: (
   //========================================
   // PRIMARY FONTS VARIANT
   //========================================
-  "primary-1": getFontVariant(16, $bold, 22),
-  "primary-2": getFontVariant(14, $bold, 20),
-  "primary-3": getFontVariant(12, $bold, 16),
+  "primary-1": getFontVariant(16, $semibold, 22),
+  "primary-2": getFontVariant(14, $semibold, 20),
+  "primary-3": getFontVariant(12, $semibold, 16),
   //===========================================
   // SECONDARY FONTS VARIANT
   //===========================================

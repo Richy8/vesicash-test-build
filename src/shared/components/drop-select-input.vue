@@ -24,10 +24,10 @@
 
     <!-- BOTTOM OPTIONS -->
     <div
-      class="select-option-wrapper w-100 mgt-4 smooth-animation"
+      class="drop-option-wrapper w-100 mgt-7 smooth-animation"
       v-if="option_select"
     >
-      <div class="inner-wrapper rounded-2">
+      <div class="inner-wrapper rounded-8">
         <!-- SEARCH BAR -->
         <div class="search-bar mgb-4" v-if="allow_search">
           <input
@@ -44,12 +44,17 @@
         <template v-if="options.length">
           <div class="option-scroll-wrapper">
             <div
-              class="option-row rounded-2"
+              class="option-row"
               v-for="(option, index) in options"
               :key="index"
               @click="makeSelection(index)"
             >
-              {{ option.name }}
+              <div
+                class="inner-lining wt-100"
+                :class="index + 1 === options.length && 'no-bottom-border'"
+              >
+                {{ option.name }}
+              </div>
             </div>
           </div>
         </template>
@@ -59,7 +64,7 @@
         </template>
       </div>
 
-      <div class="mgt-15 py-1 mgb-10 invisible">Hidden state</div>
+      <div class="mgb-4 invisible">Hidden state</div>
     </div>
   </div>
 </template>
@@ -75,10 +80,6 @@ export default {
         {
           id: 1,
           name: "Option 1",
-        },
-        {
-          id: 2,
-          name: "Option 2",
         },
       ],
     },
@@ -188,78 +189,6 @@ export default {
       font-size: toRem(24);
       margin-top: toRem(1);
       right: toRem(8);
-    }
-  }
-
-  .select-option-wrapper {
-    position: absolute;
-    z-index: 999;
-
-    .inner-wrapper {
-      z-index: 3999;
-      padding: toRem(5);
-      position: relative;
-      background: getColor("neutral-10");
-      box-shadow: toRem(1) toRem(-1) toRem(2) rgba(168, 177, 175, 0.3),
-        toRem(-1) toRem(1) toRem(2) rgba(168, 177, 175, 0.3);
-    }
-
-    .search-bar {
-      padding: 0 toRem(10);
-      position: relative;
-
-      input {
-        padding-left: toRem(40);
-      }
-
-      .icon {
-        @include center-placement("y-axis");
-        font-size: toRem(19);
-        left: toRem(20);
-      }
-    }
-
-    .no-options {
-      @include generate-font-type("secondary-3");
-      color: getColor("grey-800");
-      padding: toRem(5) toRem(7);
-      font-size: toRem(12.5);
-    }
-
-    .option-scroll-wrapper {
-      overflow: auto;
-      min-height: 7vh;
-      height: auto;
-      max-height: 30vh;
-
-      &::-webkit-scrollbar {
-        width: toRem(5);
-      }
-
-      &::-webkit-scrollbar-track {
-        border-radius: toRem(5);
-      }
-
-      &::-webkit-scrollbar-thumb {
-        border-radius: toRem(5);
-        background: getColor("green-100");
-      }
-    }
-
-    .option-row {
-      @include flex-row-between-nowrap;
-      @include generate-font-type("secondary-3");
-      font-size: toRem(13);
-      color: getColor("grey-600");
-      text-align: left;
-      padding: toRem(8);
-      margin-bottom: toRem(2);
-      cursor: pointer;
-      @include transition(0.5s);
-
-      &:hover {
-        background: getColor("grey-50");
-      }
     }
   }
 

@@ -18,10 +18,19 @@
         />
 
         <!-- PREFIX AREA -->
-        <div class="prefix-select-area">
+        <div
+          class="prefix-select-area"
+          @click="toggleDropdown"
+          v-on-clickaway="forceClose"
+        >
           <img v-lazy="loadFalseImage('flag.png')" alt="" />
           <div class="icon icon-caret-fill-down"></div>
         </div>
+
+        <!-- DROP DOWN SELECT AREA -->
+        <template name="drop-select-area" v-if="show_dropdown">
+          <DropDownSelect />
+        </template>
       </div>
 
       <button class="btn btn-primary btn-md">Add User</button>
@@ -32,6 +41,27 @@
 <script>
 export default {
   name: "AddBeneficiarySingleBlock",
+
+  components: {
+    DropDownSelect: () =>
+      import(
+        /* webpackChunkName: 'shared-module' */ "@/shared/components/drop-down-select"
+      ),
+  },
+
+  data: () => ({
+    show_dropdown: false,
+  }),
+
+  methods: {
+    toggleDropdown() {
+      this.show_dropdown = !this.show_dropdown;
+    },
+
+    forceClose() {
+      this.show_dropdown = false;
+    },
+  },
 };
 </script>
 

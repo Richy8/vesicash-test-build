@@ -16,12 +16,26 @@
         :nav="nav"
       />
     </div>
+
+    <!-- LOG OUT ACCOUNT SECTION -->
+    <div class="wrapper position-absolute wt-100">
+      <div
+        class="log-out-section smooth-transition rounded-8 pointer w-100"
+        @click="logOutUser"
+      >
+        <!-- ICON COMPONENT -->
+        <ExitIcon />
+
+        <div class="nav-text secondary-2-text red-500">Logout account</div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import navRoutes from "@/shared/nav-routes";
 import VesicashBrandLogo from "@/shared/components/icon-comps/vesicash-brand-logo";
+import ExitIcon from "@/shared/components/icon-comps/exit-icon";
 import SidebarItem from "@/shared/components/nav-comps/sidebar-item";
 
 export default {
@@ -30,12 +44,20 @@ export default {
   components: {
     VesicashBrandLogo,
     SidebarItem,
+    ExitIcon,
   },
 
   data() {
     return {
       sidebar_routes: navRoutes,
     };
+  },
+
+  methods: {
+    logOutUser() {
+      this.togglePageLoader();
+      setTimeout(() => (location.href = "/"), 2000);
+    },
   },
 };
 </script>
@@ -44,6 +66,7 @@ export default {
 .sidebar {
   padding: toRem(22) toRem(16);
   @include stretch-area;
+  position: relative;
 
   @include breakpoint-down(lg) {
     width: 60%;
@@ -61,6 +84,26 @@ export default {
     svg {
       width: toRem(146);
       height: auto;
+    }
+  }
+
+  .wrapper {
+    padding: 0 toRem(16);
+    bottom: toRem(24);
+    left: 0;
+
+    .log-out-section {
+      @include flex-row-start-nowrap;
+      position: relative;
+      padding: toRem(8);
+
+      svg {
+        margin-right: toRem(16);
+      }
+
+      &:hover {
+        background: getColor("neutral-10");
+      }
     }
   }
 }

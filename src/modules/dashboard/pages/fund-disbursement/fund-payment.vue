@@ -16,15 +16,27 @@
 
         <!-- TOTAL DISPLAY CARDS -->
         <div class="mgb-40">
-          <SumTotalDisplayCard />
+          <SumTotalDisplayCard
+            total_text="Total amount to pay"
+            total_value="$35,500"
+          />
         </div>
       </div>
     </div>
 
     <!-- CTA ACTION ROW -->
     <div class="action-row mgt-14">
-      <button class="btn btn-primary btn-md">Make Payment</button>
+      <button class="btn btn-primary btn-md" @click="togglePaymentModal">
+        Make Payment
+      </button>
     </div>
+
+    <!-- MODALS -->
+    <portal to="vesicash-modals">
+      <transition name="fade" v-if="show_payment_modal">
+        <MakePaymentModal @closeTriggered="togglePaymentModal" />
+      </transition>
+    </portal>
   </div>
 </template>
 
@@ -37,6 +49,21 @@ export default {
       import(
         /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/card-comps/sum-total-display-card"
       ),
+
+    MakePaymentModal: () =>
+      import(
+        /* webpackChunkName: "dashboard-modal-module" */ "@/modules/dashboard/modals/make-payment-modal"
+      ),
+  },
+
+  data: () => ({
+    show_payment_modal: false,
+  }),
+
+  methods: {
+    togglePaymentModal() {
+      this.show_payment_modal = !this.show_payment_modal;
+    },
   },
 };
 </script>

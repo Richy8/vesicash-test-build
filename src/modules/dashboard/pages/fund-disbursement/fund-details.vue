@@ -25,7 +25,7 @@
     </div>
 
     <!-- DISBURSEMENT TYPE SELECTIONS -->
-    <div class="disbursement-type-selections row">
+    <div class="disbursement-type-selections row mgb-12">
       <div
         class="col-12 col-sm-6 col-lg-5 col-xl-4"
         v-for="(fund, index) in disbursement_types"
@@ -45,7 +45,7 @@
     </div>
 
     <!-- TRANSACTING PARTY SELECTIONS -->
-    <div class="disbursement-type-selections row">
+    <div class="disbursement-type-selections row mgb-8">
       <div
         class="col-12 col-sm-6 col-lg-5 col-xl-4"
         v-for="(fund, index) in transacting_types"
@@ -58,6 +58,15 @@
           @updateSelection="updateUserSelection"
         />
       </div>
+    </div>
+
+    <!-- DISPUTE POLICY -->
+    <div class="disbursement-type-title grey-900 primary-1-text mgb-10">
+      Dispute resolution policy (Optional)
+    </div>
+
+    <div class="col-12 col-lg-10 col-xl-8 mgb-40">
+      <ContractUploadCard />
     </div>
 
     <!-- CTA ACTION ROW -->
@@ -78,6 +87,10 @@ export default {
       import(
         /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/card-comps/fund-disburse-type-card"
       ),
+    ContractUploadCard: () =>
+      import(
+        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/card-comps/contract-upload-card"
+      ),
   },
 
   data: () => ({
@@ -85,14 +98,14 @@ export default {
       {
         title: "One off disbursement type",
         description:
-          "Suitable for people that want to do one off payment to people ",
+          "Suitable for people that want to do one off payment to people",
         type: "disbursement",
         selected: false,
       },
       {
         title: "Milestone disbursment type",
         description:
-          "Suitable for people that want to disburse in milestones until their    money is complete",
+          "Suitable for people that want to disburse in milestones until their money is complete",
         type: "disbursement",
         selected: false,
       },
@@ -102,14 +115,14 @@ export default {
       {
         title: "Two parties",
         description:
-          "Suitable for transaction between buyer and seller only to make transactions possible ",
+          "Suitable for transaction between buyer and seller only to make transactions possible",
         type: "transactions",
         selected: false,
       },
       {
         title: "Multiple parties",
         description:
-          "Suitable for people that want to have several middle mans in their trabsaction for transparency sakes",
+          "Suitable for people that want to have several middlemen in their transaction for transparency sake",
         type: "transactions",
         selected: false,
       },
@@ -138,6 +151,12 @@ export default {
 .disbursement-title {
   @include breakpoint-down(xl) {
     @include generate-font-type("h5");
+  }
+}
+
+.disbursement-type-title {
+  @include breakpoint-down(xs) {
+    font-size: toRem(15.75);
   }
 }
 
