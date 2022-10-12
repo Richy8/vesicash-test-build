@@ -1,5 +1,5 @@
 <template>
-  <tr>
+  <tr @click="viewTransactionDetail">
     <td class="body-data" :class="`${table_name}-1`">4th July, 2022</td>
 
     <td class="body-data text-no-wrap" :class="`${table_name}-2`">
@@ -41,6 +41,12 @@ export default {
     data: {
       type: Object,
       default: () => ({}),
+    },
+  },
+
+  methods: {
+    viewTransactionDetail() {
+      this.$bus.$emit("showTransactionSummary");
     },
   },
 };

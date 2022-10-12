@@ -94,7 +94,7 @@ export default {
       margin-right: toRem(16);
 
       @include breakpoint-down(sm) {
-        margin-right: toRem(14);
+        margin-right: toRem(12);
       }
 
       svg {
@@ -105,13 +105,13 @@ export default {
 
     .card-title {
       @include breakpoint-down(sm) {
-        font-size: toRem(15.75);
+        font-size: toRem(15.25);
       }
     }
 
     .card-description {
       @include breakpoint-down(sm) {
-        font-size: toRem(13.75);
+        font-size: toRem(13.5);
       }
     }
   }

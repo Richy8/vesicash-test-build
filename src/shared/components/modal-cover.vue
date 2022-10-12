@@ -1,11 +1,18 @@
 <template>
   <div class="modal-overlay" @click.self="selfCloseModal">
-    <div class="modal-outer-container rounded-16 overflow-hidden">
+    <div class="modal-outer-container">
       <div
-        class="modal-cover modal-sm box-shadow-effect px-0 mx-auto"
+        class="
+          modal-cover modal-sm
+          box-shadow-effect
+          px-0
+          mx-auto
+          rounded-16
+          overflow-hidden
+        "
         :class="getModalWrapperStyle"
       >
-        <div class="modal-cover-body-wrapper rounded-16 px-0">
+        <div class="modal-cover-body-wrapper px-0">
           <!-- DISMISS DIALOG -->
           <div
             v-if="show_close_btn"

@@ -34,7 +34,14 @@
     <!-- MODALS -->
     <portal to="vesicash-modals">
       <transition name="fade" v-if="show_payment_modal">
-        <MakePaymentModal @closeTriggered="togglePaymentModal" />
+        <MakePaymentModal
+          @closeTriggered="togglePaymentModal"
+          @initiateWireTransfer="closePaymentOpenWire"
+        />
+      </transition>
+
+      <transition name="fade" v-if="show_wire_transfer_modal">
+        <WireTransferModal @closeTriggered="toggleWireTransferModal" />
       </transition>
     </portal>
   </div>
@@ -54,15 +61,30 @@ export default {
       import(
         /* webpackChunkName: "dashboard-modal-module" */ "@/modules/dashboard/modals/make-payment-modal"
       ),
+
+    WireTransferModal: () =>
+      import(
+        /* webpackChunkName: "dashboard-modal-module" */ "@/modules/dashboard/modals/wire-transfer-modal"
+      ),
   },
 
   data: () => ({
     show_payment_modal: false,
+    show_wire_transfer_modal: false,
   }),
 
   methods: {
     togglePaymentModal() {
       this.show_payment_modal = !this.show_payment_modal;
+    },
+
+    toggleWireTransferModal() {
+      this.show_wire_transfer_modal = !this.show_wire_transfer_modal;
+    },
+
+    closePaymentOpenWire() {
+      this.show_payment_modal = false;
+      this.toggleWireTransferModal();
     },
   },
 };
@@ -80,7 +102,7 @@ export default {
     }
 
     @include breakpoint-down(sm) {
-      @include font-height(16.25, 28);
+      @include font-height(15.25, 28);
     }
 
     span {

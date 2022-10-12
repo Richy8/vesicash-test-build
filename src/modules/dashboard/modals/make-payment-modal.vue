@@ -36,8 +36,6 @@ export default {
   },
 
   data: () => ({
-    show_wire_transfer_modal: false,
-
     payment_options: [
       {
         id: 1,
@@ -68,7 +66,7 @@ export default {
 
   methods: {
     toggleWireTransferModal() {
-      this.show_wire_transfer_modal = !this.show_wire_transfer_modal;
+      this.$emit("initiateWireTransfer");
     },
   },
 };

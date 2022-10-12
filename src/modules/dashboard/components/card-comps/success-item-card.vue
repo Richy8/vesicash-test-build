@@ -51,8 +51,28 @@ export default {
     margin-right: toRem(16);
     top: toRem(3);
 
+    @include breakpoint-down(xs) {
+      margin-right: toRem(13);
+    }
+
     svg {
       @include draw-shape(48);
+
+      @include breakpoint-down(xs) {
+        @include draw-shape(42);
+      }
+    }
+  }
+
+  .title {
+    @include breakpoint-down(xs) {
+      font-size: toRem(15.5);
+    }
+  }
+
+  .description {
+    @include breakpoint-down(xs) {
+      font-size: toRem(13.5);
     }
   }
 }

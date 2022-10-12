@@ -12,7 +12,6 @@
 
   .modal-outer-container {
     animation: zoom-out 0.65s ease-in-out forwards;
-    background: getColor("neutral-10");
     width: fit-content;
     z-index: 4099;
     position: relative;
@@ -22,11 +21,16 @@
     // margin-bottom: toRem(60);
     // @include center-placement();
     // top: 25%;
+
+    @include breakpoint-down(sm) {
+      width: 100%;
+    }
   }
 
   .modal-cover {
+    background: getColor("neutral-10");
+    // border: 1px solid transparent;
     position: relative;
-    border: 1px solid transparent;
     z-index: 4999;
 
     .modal-cover-body-wrapper {
@@ -47,7 +51,7 @@
 
       @include breakpoint-down(sm) {
         right: toRem(16);
-        top: toRem(24);
+        top: toRem(16);
       }
 
       &:hover {
@@ -81,8 +85,8 @@
   .modal-md {
     width: toRem(560) !important;
 
-    @include breakpoint-custom-up-down(450, 650) {
-      width: toRem(520) !important;
+    @include breakpoint-down(md) {
+      width: toRem(540) !important;
     }
 
     @include breakpoint-down(sm) {
@@ -91,10 +95,14 @@
   }
 
   .modal-lg {
-    width: toRem(500);
+    width: toRem(660) !important;
+
+    @include breakpoint-down(md) {
+      width: 80% !important;
+    }
 
     @include breakpoint-down(sm) {
-      width: 92%;
+      width: 92% !important;
     }
   }
 
@@ -125,7 +133,17 @@
   font-size: toRem(21);
 
   @include breakpoint-down(sm) {
-    font-size: toRem(20);
+    font-size: toRem(18.5);
+  }
+}
+
+.modal-cover-meta {
+  @include generate-font-type("tertiary-2");
+  color: getColor("grey-600");
+  margin-top: toRem(8);
+
+  @include breakpoint-down(sm) {
+    font-size: toRem(12.75);
   }
 }
 

@@ -29,8 +29,10 @@
       </div>
 
       <!-- BUTTON AREA -->
-      <div class="btn-area mgt-30 mgb-10 wt-100">
-        <router-link to="/dashboard" class="btn btn-primary btn-md wt-100"
+      <div class="btn-area mgt-30 mgb-10">
+        <div class="btn btn-secondary btn-md mgb-24">Download Receipt</div>
+
+        <router-link to="/dashboard" class="btn btn-primary btn-md"
           >Go to Dashboard</router-link
         >
       </div>
@@ -63,8 +65,20 @@ export default {
 .auth-payment-success {
   width: toRem(520) !important;
 
+  @include breakpoint-down(md) {
+    width: toRem(480) !important;
+  }
+
+  @include breakpoint-down(sm) {
+    width: 100% !important;
+  }
+
   .title-text {
     font-size: toRem(23);
+
+    @include breakpoint-down(xs) {
+      font-size: toRem(22);
+    }
   }
 }
 </style>

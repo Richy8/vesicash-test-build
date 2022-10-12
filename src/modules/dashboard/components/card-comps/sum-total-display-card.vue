@@ -46,13 +46,13 @@ export default {
 
   .title {
     @include breakpoint-down(sm) {
-      font-size: toRem(15);
+      font-size: toRem(14);
     }
   }
 
   .value {
     @include breakpoint-down(sm) {
-      font-size: toRem(15);
+      font-size: toRem(14);
     }
   }
 }
