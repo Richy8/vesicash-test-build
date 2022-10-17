@@ -6,12 +6,19 @@
   >
     <!-- SELECT AREA -->
     <div class="select-area">
-      <input
-        type="radio"
-        :id="label_id"
-        :name="card_name"
-        :class="single_type ? 'mgr-18' : 'mgr-8'"
-      />
+      <template v-if="single_type">
+        <div class="icon icon-plus f-size-20 grey-500 mgr-12"></div>
+      </template>
+
+      <template v-else>
+        <input
+          type="radio"
+          :id="label_id"
+          :name="card_name"
+          :class="single_type ? 'mgr-18' : 'mgr-8'"
+        />
+      </template>
+
       <div
         class="text tertiary-2-text"
         :class="single_type ? 'green-700' : 'grey-900'"

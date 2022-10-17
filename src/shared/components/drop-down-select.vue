@@ -2,7 +2,7 @@
   <div class="drop-option-wrapper w-100 mgt-7 smooth-animation">
     <div class="inner-wrapper rounded-8">
       <!-- SEARCH BAR -->
-      <div class="search-bar mgb-4" v-if="allow_search">
+      <div class="search-bar mgb-4 mgt-10" v-if="allow_search">
         <input
           type="text"
           class="form-control ignore"
@@ -10,7 +10,7 @@
           v-model="search_value"
           @input="$emit('searchItem', search_value)"
         />
-        <div class="icon icon-search grey-600 index-999"></div>
+        <div class="icon icon-search grey-400 index-999"></div>
       </div>
 
       <!-- OPTIONS -->
@@ -59,14 +59,6 @@ export default {
           id: 1,
           name: "Option 1",
         },
-        {
-          id: 1,
-          name: "Option 2",
-        },
-        {
-          id: 1,
-          name: "Option 3",
-        },
       ],
     },
 
@@ -74,6 +66,20 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+
+  data() {
+    return {
+      search_value: null,
+    };
+  },
+
+  methods: {
+    // makeSelection(index) {
+    //   this.selected_value = this.options[index].name;
+    //   this.$emit("selectedOption", this.options[index].id);
+    //   this.forceClose();
+    // },
   },
 };
 </script>

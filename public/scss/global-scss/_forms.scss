@@ -98,6 +98,13 @@ input[type="number"] {
   }
 }
 
+.error-message-text {
+  @include generate-font-type("tertiary-2");
+  color: getColor("red-600");
+  margin-top: toRem(5);
+  font-size: toRem(13);
+}
+
 // SELECT FORM STYLING
 select.form-control {
   background: getColor("neutral-10") url(../img/caret-fill-down.svg) right
@@ -333,6 +340,24 @@ input[type="checkbox"],
   &-right {
     input {
       text-align: right;
+    }
+  }
+}
+
+.form-suffix {
+  position: relative;
+
+  .icon {
+    @include center-placement("y-axis");
+    right: toRem(12);
+    cursor: pointer;
+    z-index: 9;
+
+    &-show {
+      font-size: toRem(13.5);
+    }
+    &-hide {
+      font-size: toRem(16);
     }
   }
 }

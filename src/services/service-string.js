@@ -30,7 +30,7 @@ class serviceString {
   // DECODE ENCODED STRING FROM ASCII TO BINARY
   // ==============================================
   decodeString(encoded_string) {
-    return +atob(encoded_string).split("+")[1];
+    return atob(encoded_string).split("+")[1];
   }
 
   // ==============================================

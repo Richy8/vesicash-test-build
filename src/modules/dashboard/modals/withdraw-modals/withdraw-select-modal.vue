@@ -18,7 +18,7 @@
           <RadioSelectCard
             card_name="wallet"
             label_id="walletCard1"
-            label_text="Dollar wallet ($100,240)"
+            label_text="Dollar wallet ($0)"
           />
         </div>
 
@@ -27,7 +27,7 @@
           <RadioSelectCard
             card_name="wallet"
             label_id="walletCard2"
-            label_text="Naira wallet (N6,400,000)"
+            label_text="Naira wallet (N0)"
           />
         </div>
       </div>

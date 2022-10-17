@@ -5,6 +5,7 @@ import Vue from "vue";
 // ===========================
 import { MixinAssets } from "@/shared/mixins/mixin-assets";
 import { MixinEvents } from "@/shared/mixins/mixin-events";
+import { MixinAuthUser } from "@/shared/mixins/mixin-auth-user";
 
 // ===========================
 // APPLICATION SERVICES
@@ -17,6 +18,7 @@ import { $serviceCurrency as $money } from "@/services/service-currency";
 
 Vue.mixin(MixinAssets);
 Vue.mixin(MixinEvents);
+Vue.mixin(MixinAuthUser);
 
 Vue.mixin({
   computed: {

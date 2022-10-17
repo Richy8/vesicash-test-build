@@ -13,7 +13,7 @@ const settingsRoutes = [
             /* webpackChunkName: "settings-module" */ "@/modules/settings/pages/settings"
           ),
         meta: {
-          guest: true,
+          requiresAuth: true,
         },
       },
     ],

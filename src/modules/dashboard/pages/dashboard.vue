@@ -1,7 +1,9 @@
 <template>
   <div class="dashboard-view">
     <!-- WELCOME MESSAGE -->
-    <div class="welcome-message mgb-20 h5-text grey-900">Welcome Olabisi</div>
+    <div class="welcome-message mgb-20 h5-text grey-900">
+      Welcome {{ getUser.fullname.split(" ")[0] || "" }}
+    </div>
 
     <!-- METRICS SECTION -->
     <div class="metrics-section mgb-40">
@@ -91,7 +93,7 @@ export default {
     @include flex-row-start-wrap;
 
     .btn {
-      padding: toRem(13) toRem(18);
+      padding: toRem(12) toRem(18);
       font-size: toRem(14.75);
 
       @include breakpoint-custom-down(1220) {

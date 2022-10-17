@@ -1,5 +1,0 @@
-export default {
-  VESICASH_API_BASE_URL: "",
-  VESICASH_API_VERSION: "",
-  VESICASH_SERVER_PORT: 4000,
-};

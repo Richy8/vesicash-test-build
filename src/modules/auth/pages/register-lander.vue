@@ -43,7 +43,7 @@ export default {
         description:
           "Suitable for personal purposes and to  perfrom some transcations",
         icon: "UserIcon",
-        link: "/register/personal",
+        link: "/register/individual",
         selected: false,
       },
       {

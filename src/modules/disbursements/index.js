@@ -13,7 +13,7 @@ const disbursementsRoutes = [
             /* webpackChunkName: "disbursements-module" */ "@/modules/disbursements/pages/disbursements"
           ),
         meta: {
-          guest: true,
+          requiresAuth: true,
         },
       },
     ],

@@ -1,7 +1,7 @@
 <template>
   <AuthWrapper
     title_text="Enter OTP code"
-    meta_text="Enter the OTP code we sent to <br> <span class='grey-800'>Ola**@gmail.com</span>"
+    :meta_text="`Enter the OTP code we sent to <br> <span class='grey-800'>${user_details.email_address}</span>`"
   >
     <!-- AUTH PAGE -->
     <div class="auth-page">
@@ -34,20 +34,54 @@
           ref="otpFour"
           :disabled="checkOTPThree"
         />
+        <input
+          type="number"
+          class="form-control"
+          v-model="otp_five"
+          ref="otpFive"
+          :disabled="checkOTPFour"
+        />
+        <input
+          type="number"
+          class="form-control"
+          v-model="otp_six"
+          ref="otpSix"
+          :disabled="checkOTPFive"
+        />
       </div>
 
       <!-- BUTTON AREA -->
       <div class="btn-area mgt-35 mgb-10">
-        <button class="btn btn-primary btn-md w-100">Verify OTP code</button>
+        <button
+          class="btn btn-primary btn-md w-100"
+          :disabled="getOTPToken.length === 6 ? false : true"
+          @click="handleUserOTPVerification"
+        >
+          Verify OTP code
+        </button>
       </div>
 
       <!-- HELP BLOCK TEXT -->
-      <div class="help-block text-center grey-600 pointer">Resend OTP code</div>
+      <template v-if="resend_countdown === 0">
+        <div
+          class="help-block text-center grey-600 pointer"
+          @click="resendOTPCode"
+        >
+          Resend OTP code
+        </div>
+      </template>
+
+      <template v-else>
+        <div class="help-block text-center grey-600 pointer">
+          Resending in.. 0.{{ resend_countdown }}s
+        </div>
+      </template>
     </div>
   </AuthWrapper>
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import AuthWrapper from "@/modules/auth/components/auth-wrapper";
 
 export default {
@@ -73,6 +107,18 @@ export default {
 
     checkOTPThree() {
       return this.otp_three.length === 1 ? false : true;
+    },
+
+    checkOTPFour() {
+      return this.otp_four.length === 1 ? false : true;
+    },
+
+    checkOTPFive() {
+      return this.otp_five.length === 1 ? false : true;
+    },
+
+    getOTPToken() {
+      return `${this.otp_one}${this.otp_two}${this.otp_three}${this.otp_four}${this.otp_five}${this.otp_six}`;
     },
   },
 
@@ -100,20 +146,44 @@ export default {
 
     otp_four: {
       handler(value) {
+        if (value.length === 1)
+          this.$nextTick(() => this.$refs.otpFive.focus());
+      },
+    },
+
+    otp_five: {
+      handler(value) {
+        if (value.length === 1) this.$nextTick(() => this.$refs.otpSix.focus());
+      },
+    },
+
+    otp_six: {
+      handler(value) {
         if (value.length === 1) {
-          this.$nextTick(() => this.$refs.otpFour.blur());
-          this.verifyUserAccount();
+          this.$nextTick(() => this.$refs.otpSix.blur());
+          this.handleUserOTPVerification();
         }
       },
     },
   },
 
-  data: () => ({
-    otp_one: "",
-    otp_two: "",
-    otp_three: "",
-    otp_four: "",
-  }),
+  data() {
+    return {
+      otp_one: "",
+      otp_two: "",
+      otp_three: "",
+      otp_four: "",
+      otp_five: "",
+      otp_six: "",
+
+      user_details: {
+        account_id: this.$route.params.account_id,
+        email_address: this.$route.query?.user_email || "",
+      },
+
+      resend_countdown: 0,
+    };
+  },
 
   mounted() {
     // ==================================================
@@ -123,6 +193,22 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      sendUserOTP: "auth/sendUserOTP",
+      verifyUserOTP: "auth/verifyUserOTP",
+    }),
+    // ===============================
+    // CLEAR OUT ALL OTP INPUTS
+    // ===============================
+    clearOutInput() {
+      this.otp_one = "";
+      this.otp_two = "";
+      this.otp_three = "";
+      this.otp_four = "";
+      this.otp_five = "";
+      this.otp_six = "";
+    },
+
     // ========================================================
     // CHECK IF A VALUE WAS PASTED INTO THE FIRST INPUT FIELD
     // ========================================================
@@ -134,15 +220,88 @@ export default {
         this.otp_two = splitted[1] || "";
         this.otp_three = splitted[2] || "";
         this.otp_four = splitted[3] || "";
+        this.otp_five = splitted[4] || "";
+        this.otp_six = splitted[5] || "";
       });
     },
 
     // ===================================
     // VERIFY USER ACCOUNT OTP ENTRY
     // ===================================
-    verifyUserAccount() {
-      setTimeout(() => this.togglePageLoader(), 400);
-      setTimeout(() => this.$router.push({ name: "VesicashDashboard" }), 2000);
+    handleUserOTPVerification() {
+      let request_payload = {
+        account_id: this.user_details?.account_id,
+        otp_token: this.getOTPToken,
+      };
+
+      this.verifyUserOTP(request_payload)
+        .then((response) => {
+          if (response.code === 200) {
+            this.togglePageLoader();
+            setTimeout(() => this.togglePageLoader(), 1500);
+
+            setTimeout(
+              () =>
+                this.pushToast(
+                  "OTP was verified successfully, Login to account now",
+                  "success"
+                ),
+              2000
+            );
+
+            setTimeout(
+              () => this.$router.push({ name: "VesicashLogin" }),
+              4500
+            );
+          }
+
+          // HANDLE NON 200 RESPONSE
+          else {
+            this.pushToast("You entered an invalid OTP token", "error");
+            this.clearOutInput();
+          }
+        })
+        .catch(() => {
+          this.pushToast("Unable to verify OTP token", "error");
+          this.clearOutInput();
+        });
+    },
+
+    // ===================================
+    // SEND OUT OTP VERIFICATION CODE
+    // ===================================
+    sendOutOTPVerificationCode() {
+      let request_payload = { account_id: this.user_details?.account_id };
+
+      this.sendUserOTP(request_payload)
+        .then((response) => {
+          if (response.code === 200)
+            this.pushToast(
+              "An OTP code has been sent to your email",
+              "success"
+            );
+        })
+        .catch(() => this.pushToast("Unable to generate an OTP code", "error"));
+    },
+
+    // ===================================
+    // RESEND USER OTP CODE
+    // ===================================
+    resendOTPCode() {
+      this.triggerResetCountdown(30);
+      this.sendOutOTPVerificationCode();
+    },
+
+    // ===================================
+    // TRIGGER SENDING A NEW OTP CODE
+    // ===================================
+    triggerResetCountdown(count) {
+      this.resend_countdown = count;
+      const intervalCall = setInterval(() => {
+        this.resend_countdown -= 1;
+
+        if (this.resend_countdown === 0) clearInterval(intervalCall);
+      }, 1000);
     },
   },
 };
@@ -156,7 +315,7 @@ export default {
     .form-control {
       padding: toRem(8) toRem(10);
       @include draw-shape(36);
-      margin: 0 toRem(12);
+      margin: 0 toRem(5);
       text-align: center;
     }
   }

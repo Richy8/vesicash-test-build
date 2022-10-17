@@ -2,20 +2,22 @@
 // ALL APPLICATION METHODS RELATED TO API HANDLING
 // ============================================================
 import axios from "axios";
-import { API_VERSION, API_BASE_URL } from "env";
 import { urlHash } from "./service-route";
-import { VESICASH_TOKEN_STRING } from "@/utilities/constant";
+import { getStorage } from "@/utilities/auth-utils";
+import {
+  VESICASH_API_BASE_URL,
+  VESICASH_PRIVATE_KEY,
+  VESICASH_PUBLIC_KEY,
+  VESICASH_AUTH_TOKEN,
+} from "@/utilities/constant";
 
 // ===============================
 // SERVICE API CLSS
 // ===============================
 class serviceApi {
-  base_url = API_BASE_URL;
-  base_version = API_VERSION;
-
   // INSTANTIATE BASE API URL
   constructor() {
-    axios.defaults.baseURL = `${this.base_url}${this.base_version}`;
+    axios.defaults.baseURL = VESICASH_API_BASE_URL;
     this.injectTokenInterceptor();
   }
 
@@ -28,6 +30,18 @@ class serviceApi {
     try {
       const response = await axios.get(hashed_url, this.getHeaders());
       return option.resolve ? response.data : response;
+    } catch (err) {
+      return this.handleErrors(err);
+    }
+  }
+
+  // ========================================
+  // GET API REQUEST FROM A CUSTOM BASE_URL
+  // ========================================
+  async fetchRaw(url) {
+    try {
+      const response = await axios.get(url);
+      return response?.data;
     } catch (err) {
       return this.handleErrors(err);
     }
@@ -84,19 +98,23 @@ class serviceApi {
   // SETUP REQUEST HEADERS
   // ===============================
   getHeaders(attach = false) {
-    const authUserToken = localStorage.getItem(VESICASH_TOKEN_STRING) ?? null;
+    const authUserToken = getStorage(VESICASH_AUTH_TOKEN) || null;
 
     return attach
       ? {
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${authUserToken}`,
+            "V-PUBLIC-KEY": VESICASH_PUBLIC_KEY,
+            "V-PRIVATE-KEY": VESICASH_PRIVATE_KEY,
           },
         }
       : {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${authUserToken}`,
+            "V-PUBLIC-KEY": VESICASH_PUBLIC_KEY,
+            "V-PRIVATE-KEY": VESICASH_PRIVATE_KEY,
           },
         };
   }

@@ -13,19 +13,17 @@ export default (to, from, next) => {
   // =========================================
   // VERIFY IF ROUTE NEEDS AUTHENTICATION
   // =========================================
-  // if (to.matched.some((record) => record.meta.requiresAuth)) {
-  //   verifyAuthRoutes(to, next);
-  // }
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    verifyAuthRoutes(to, next);
+  }
 
   // =========================================
   // VERIFY IF ROUTE IS A JUST A GUEST
   // =========================================
-  // else if (to.matched.some((record) => record.meta.guest)) {
-  //   verifyGuestRoutes(to, next);
-  // }
+  else if (to.matched.some((record) => record.meta.guest)) {
+    verifyGuestRoutes(to, next);
+  }
 
   // FALLBACK
-  // else next();
-
-  next();
+  else next();
 };

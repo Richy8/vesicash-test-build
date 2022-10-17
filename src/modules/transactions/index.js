@@ -13,7 +13,7 @@ const transactionsRoutes = [
             /* webpackChunkName: "transactions-module" */ "@/modules/transactions/pages/transactions"
           ),
         meta: {
-          guest: true,
+          requiresAuth: true,
         },
       },
     ],

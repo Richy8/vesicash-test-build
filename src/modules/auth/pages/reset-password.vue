@@ -1,26 +1,56 @@
 <template>
   <AuthWrapper title_text="Enter new password">
     <!-- AUTH PAGE -->
-    <div class="auth-page">
+    <form @submit.prevent="handleUserResetPassword" class="auth-page">
       <!-- PASSWORD INPUT -->
       <div class="form-group mgb-13">
-        <div class="form-label" for="password">Password</div>
-        <input
-          type="password"
-          id="password"
-          class="form-control"
+        <BasicInput
+          label_title="New password"
+          label_id="password"
+          input_type="password"
+          is_required
           placeholder="Enter new password"
+          :toggle_password="false"
+          :input_value="form.password"
+          @getInputState="updateFormState($event, 'password')"
+          :error_handler="{
+            type: 'password',
+            message: 'Password should contain at least 6 characters',
+          }"
         />
       </div>
 
       <!-- CONFIRM PASSWORD INPUT -->
       <div class="form-group mgb-13">
-        <div class="form-label" for="confirmPassword">Confirm Password</div>
-        <input
-          type="password"
-          id="confirmPassword"
-          class="form-control"
-          placeholder="Confirm new password"
+        <BasicInput
+          label_title="Confirm password"
+          label_id="newPassword"
+          input_type="password"
+          is_required
+          placeholder="Enter new password"
+          :toggle_password="false"
+          :input_value="form.confirm_password"
+          @getInputState="updateFormState($event, 'confirm_password')"
+          :error_handler="{
+            type: 'password',
+            message: 'Password should contain at least 6 characters',
+          }"
+        />
+      </div>
+
+      <!-- PASSWORD RESET TOKEN -->
+      <div class="form-group mgb-13">
+        <BasicInput
+          label_title="Reset Token"
+          label_id="resetToken"
+          is_required
+          placeholder="Enter reset token"
+          :input_value="form.reset_token"
+          @getInputState="updateFormState($event, 'reset_token')"
+          :error_handler="{
+            type: 'required',
+            message: 'Reset token field is required',
+          }"
         />
       </div>
 
@@ -28,17 +58,21 @@
       <div class="btn-area mgt-30 mgb-10">
         <button
           class="btn btn-primary btn-md w-100"
-          @click="handlePasswordReset"
+          ref="resetBtn"
+          :disabled="isValidState"
         >
           Reset Password
         </button>
       </div>
-    </div>
+    </form>
   </AuthWrapper>
 </template>
 
 <script>
+import { mapActions } from "vuex";
+import AuthHelper from "@/modules/auth/mixins/auth-helper";
 import AuthWrapper from "@/modules/auth/components/auth-wrapper";
+import BasicInput from "@/shared/components/form-comps/basic-input";
 
 export default {
   name: "ResetPassword",
@@ -48,13 +82,83 @@ export default {
     titleTemplate: "%s - Vesicash",
   },
 
+  mixins: [AuthHelper],
+
   components: {
     AuthWrapper,
+    BasicInput,
+  },
+
+  computed: {
+    // CHECK FORM BUTTON VALIDITY STATE
+    isValidState() {
+      return Object.values(this.validity).every((valid) => !valid)
+        ? false
+        : true;
+    },
+  },
+
+  data() {
+    return {
+      form: {
+        password: "",
+        confirm_password: "",
+        reset_token: "",
+      },
+
+      validity: {
+        password: true,
+        confirm_password: true,
+        reset_token: true,
+      },
+    };
   },
 
   methods: {
-    handlePasswordReset() {
-      this.$router.push({ name: "VesicashSuccessfulPasswordReset" });
+    ...mapActions({ resetUserPassword: "auth/resetUserPassword" }),
+
+    // =========================================
+    // HANDLE USER CLIENT FORGOT PASSWORD BTN
+    // =========================================
+    handleUserResetPassword() {
+      this.handleClick("resetBtn");
+
+      let request_payload = {
+        account_id: this.$route.params.account_id,
+        token: this.form?.reset_token,
+        password: this.form?.confirm_password,
+      };
+
+      // COMPARE PASSWORD
+      if (this.form.password !== this.form.confirm_password) {
+        this.handleResponse("Password provided does not match");
+        return;
+      }
+
+      this.resetUserPassword(request_payload)
+        .then((response) => {
+          if (response.code === 200) {
+            setTimeout(
+              () =>
+                this.$router.push({ name: "VesicashSuccessfulPasswordReset" }),
+              2000
+            );
+          }
+
+          // HANDLE NON 200 RESPONSE
+          else this.handleResponse(response.message);
+        })
+        .catch(() =>
+          this.handleResponse("Unable to reset password at this time")
+        );
+    },
+
+    // ============================
+    // HANDLE USER ERROR STATE
+    // ============================
+    handleResponse(message, state = "error") {
+      this.pushToast(message, state);
+      this.handleClick("resetBtn", "Reset Password", false);
     },
   },
 };

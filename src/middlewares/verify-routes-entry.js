@@ -1,17 +1,17 @@
 import { getStorage, checkAuthTimeout } from "@/utilities/auth-utils";
-import { VESICASH_TOKEN_STRING } from "@/utilities/constant";
+import { VESICASH_AUTH_TOKEN } from "@/utilities/constant";
 
 // ========================================
 // VERIFY AUTHENTICATED USER ROUTE ENTRY
 // ========================================
 const verifyAuthRoutes = (to, next) => {
-  if (getStorage(VESICASH_TOKEN_STRING) === null) {
+  if (getStorage(VESICASH_AUTH_TOKEN) === null) {
     next({
       name: "VesicashLogin",
     });
-  } else if (getStorage(VESICASH_TOKEN_STRING) !== null) {
+  } else if (getStorage(VESICASH_AUTH_TOKEN) !== null) {
     // CHECK SESSION TIMEOUT IN 60 MINUTES
-    if (checkAuthTimeout(60));
+    if (checkAuthTimeout(90));
     else next();
   }
 };
@@ -20,10 +20,10 @@ const verifyAuthRoutes = (to, next) => {
 // VERIFY GUEST USER ROUTE ENTRY
 // ========================================
 const verifyGuestRoutes = (to, next) => {
-  if (getStorage(VESICASH_TOKEN_STRING) === null) next();
+  if (getStorage(VESICASH_AUTH_TOKEN) === null) next();
   else {
     // CHECK SESSION TIMEOUT IN 60 MINUTES
-    if (checkAuthTimeout(60));
+    if (checkAuthTimeout(90));
     else next({ name: "VesicashDashboard" });
   }
 };

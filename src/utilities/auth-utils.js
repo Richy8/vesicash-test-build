@@ -32,4 +32,13 @@ const getStorage = (storage_name, storage_type = "string") => {
     : JSON.parse(localStorage.getItem(storage_name));
 };
 
-export { logOutUser, checkAuthTimeout, getStorage };
+// ===============================
+// SET LOCAL STORAGE DATA
+// ===============================
+const setStorage = (storage_name, storage_value, storage_type = "string") => {
+  return storage_type === "string"
+    ? localStorage.setItem(storage_name, storage_value)
+    : localStorage.setItem(storage_name, JSON.stringify(storage_value));
+};
+
+export { logOutUser, checkAuthTimeout, getStorage, setStorage };

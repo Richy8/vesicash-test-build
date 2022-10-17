@@ -71,11 +71,11 @@
 @keyframes slide-right {
   0%,
   30% {
-    margin-right: toRem(40);
+    margin-right: -40%;
     opacity: 0;
   }
   to {
-    opacity: 0.9;
+    opacity: 1;
   }
 }
 
@@ -110,7 +110,7 @@
 }
 
 .animate {
-  animation: spin-icon 1.5s linear infinite;
+  animation: spin-icon 0.75s linear infinite;
   transform-origin: center;
   transform-box: fill-box;
 }

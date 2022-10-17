@@ -4,6 +4,13 @@
       <router-view />
     </transition>
 
+    <!-- ALERT BANNER -->
+    <AlertBanner
+      v-if="show_alert"
+      :message="alert.message"
+      :status="alert.status"
+    />
+
     <!-- FEATHER PAGE LOADER -->
     <transition name="fade" v-if="show_feather_loader">
       <PageLoader />
@@ -32,6 +39,11 @@ export default {
       import(
         /* webpackChunkName: "app-module" */ "@/shared/components/page-loader"
       ),
+
+    AlertBanner: () =>
+      import(
+        /* webpackChunkName: "app-module" */ "@/shared/components/alert-banner"
+      ),
   },
 
   watch: {
@@ -44,19 +56,31 @@ export default {
 
   data: () => ({
     show_feather_loader: false,
+
+    show_alert: false,
+    alert: {
+      status: "success",
+      message: "Alert message here...",
+    },
   }),
 
   created() {
-    // ==================================
     // EVENT BUS TO TOGGLE PAGE LOADER
-    // ==================================
     this.$bus.$on(
       "toggle-page-loader",
       () => (this.show_feather_loader = !this.show_feather_loader)
     );
+
+    // EVENT BUS TO TOGGLE ALERT BANNER
+    this.$bus.$on("toggle-alert-banner", (data) => this.toggleAlert(data));
   },
 
-  methods: {},
+  methods: {
+    toggleAlert(data = {}) {
+      Object.keys(data).length ? (this.alert = data) : null;
+      this.show_alert = !this.show_alert;
+    },
+  },
 };
 </script>
 

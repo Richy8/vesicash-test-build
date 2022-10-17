@@ -26,10 +26,6 @@
         <ModalListItem title="First name" value="Efemena" />
         <ModalListItem title="Last name" value="Elvis" />
         <ModalListItem title="Bank name" value="Guaranty Trust Bank" />
-        <ModalListItem title="Bank name" value="Guaranty Trust Bank" />
-        <ModalListItem title="Bank name" value="Guaranty Trust Bank" />
-        <ModalListItem title="Bank name" value="Guaranty Trust Bank" />
-        <ModalListItem title="Bank name" value="Guaranty Trust Bank" />
       </div>
     </template>
 

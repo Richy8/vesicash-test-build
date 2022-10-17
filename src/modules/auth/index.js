@@ -43,7 +43,7 @@ const authRoutes = [
       // VESICASH RESET PASSWORD ROUTE
       // ================================
       {
-        path: "/reset-password",
+        path: "/reset-password/:account_id",
         name: "VesicashResetPassword",
         component: () =>
           import(
@@ -80,7 +80,7 @@ const authRoutes = [
             /* webpackChunkName: "auth-module" */ "@/modules/auth/pages/register-lander"
           ),
         meta: {
-          requiresAuth: true,
+          guest: true,
         },
       },
 
@@ -95,7 +95,7 @@ const authRoutes = [
             /* webpackChunkName: "auth-module" */ "@/modules/auth/pages/register"
           ),
         meta: {
-          requiresAuth: true,
+          guest: true,
         },
       },
 
@@ -103,14 +103,14 @@ const authRoutes = [
       // VESICASH VERIFY OTP ROUTE
       // ==================================
       {
-        path: "/verify-otp",
+        path: "/verify-otp/:account_id",
         name: "VesicashVerifyOTP",
         component: () =>
           import(
             /* webpackChunkName: "auth-module" */ "@/modules/auth/pages/verify-otp"
           ),
         meta: {
-          requiresAuth: true,
+          guest: true,
         },
       },
     ],

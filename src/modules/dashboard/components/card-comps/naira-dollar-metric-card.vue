@@ -26,6 +26,13 @@
 
     <!-- BOTTOM ROW -->
     <div class="bottom-row">
+      <button
+        class="btn btn-secondary btn-md"
+        @click="toggleFundWalletSelectModal"
+      >
+        Fund Wallet
+      </button>
+
       <button class="btn btn-secondary btn-md" @click="toggleWalletModal">
         Withdraw money
       </button>
@@ -33,6 +40,21 @@
 
     <!-- MODALS -->
     <portal to="vesicash-modals">
+      <transition name="fade" v-if="show_fund_wallet_select_modal">
+        <FundWalletSelectModal
+          @closeTriggered="toggleFundWalletSelectModal"
+          @walletSelected="closeWalletOpenWalletDetails"
+        />
+      </transition>
+
+      <transition name="fade" v-if="show_fund_wallet_info_modal">
+        <FundWalletDetailsModal
+          :wallet_type="default_wallet"
+          @closeTriggered="toggleFundWalletDetailsModal"
+          @walletFunded="closeFundDetailsAndOpenSuccess"
+        />
+      </transition>
+
       <transition name="fade" v-if="show_wallet_modal">
         <WithdrawSelectModal
           @closeTriggered="toggleWalletModal"
@@ -63,6 +85,16 @@ export default {
   name: "NairaDollarMetricCard",
 
   components: {
+    FundWalletSelectModal: () =>
+      import(
+        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/modals/wallet-modals/wallet-select-modal"
+      ),
+
+    FundWalletDetailsModal: () =>
+      import(
+        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/modals/wallet-modals/wallet-details-modal"
+      ),
+
     WithdrawSelectModal: () =>
       import(
         /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/modals/withdraw-modals/withdraw-select-modal"
@@ -82,17 +114,22 @@ export default {
   data: () => ({
     show_wallet_modal: false,
     show_wallet_account_modal: false,
-    show_wallet_confirm_modal: false, //
+    show_wallet_confirm_modal: false,
+
+    show_fund_wallet_select_modal: false,
+    show_fund_wallet_info_modal: false,
+
+    default_wallet: "naira",
 
     wallets: [
       {
         title: "NAIRA",
-        value: "6,400,000",
+        value: "0",
         sign: "naira",
       },
       {
         title: "DOLLAR",
-        value: "100,240",
+        value: "0",
         sign: "dollar",
       },
     ],
@@ -109,6 +146,25 @@ export default {
 
     toggleWalletConfirmModal() {
       this.show_wallet_confirm_modal = !this.show_wallet_confirm_modal;
+    },
+
+    toggleFundWalletSelectModal() {
+      this.show_fund_wallet_select_modal = !this.show_fund_wallet_select_modal;
+    },
+
+    toggleFundWalletDetailsModal() {
+      this.show_fund_wallet_info_modal = !this.show_fund_wallet_info_modal;
+    },
+
+    closeWalletOpenWalletDetails($event) {
+      this.default_wallet = $event;
+      this.show_fund_wallet_select_modal = false;
+      this.toggleFundWalletDetailsModal();
+    },
+
+    closeFundDetailsAndOpenSuccess() {
+      this.show_fund_wallet_info_modal = false;
+      this.$router.push({ name: "SuccessfulWalletFund" });
     },
 
     closeWalletOpenAccount() {
@@ -223,8 +279,14 @@ export default {
   }
 
   .bottom-row {
+    @include flex-row-start-nowrap;
+
     .btn {
       padding: toRem(8) toRem(16);
+
+      &:first-of-type {
+        margin-right: toRem(16);
+      }
 
       @include breakpoint-down(lg) {
         @include get-btn-size("sm");

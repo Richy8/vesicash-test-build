@@ -27,6 +27,9 @@
               <slot></slot>
             </tbody>
           </table>
+
+          <!-- PAGINATION -->
+          <Pagination v-if="show_paging" />
         </div>
       </template>
 
@@ -48,6 +51,10 @@ export default {
       import(
         /* webpackChunkname:"shared-table-module" */ "@/shared/components/table-comps/table-skeleton"
       ),
+    Pagination: () =>
+      import(
+        /* webpackChunkname:"shared-table-module" */ "@/shared/components/pagination"
+      ),
   },
 
   props: {
@@ -67,6 +74,11 @@ export default {
     },
 
     is_loading: {
+      type: Boolean,
+      default: true,
+    },
+
+    show_paging: {
       type: Boolean,
       default: true,
     },

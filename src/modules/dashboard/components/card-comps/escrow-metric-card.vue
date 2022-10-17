@@ -12,8 +12,7 @@
 
     <!-- AMOUNT VALUE IN NAIRA -->
     <div class="amount-value">
-      <span v-html="$money.getSign('naira')"></span>34,000<span
-        class="amount-zero"
+      <span v-html="$money.getSign('naira')"></span>0<span class="amount-zero"
         >.00</span
       >
     </div>

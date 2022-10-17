@@ -10,18 +10,20 @@ const MixinEvents = {
         this.$refs[ref].disabled = true;
         this.$refs[
           ref
-        ].innerHTML = `<div class="icon-dotted-roller f-size-17 mgr-10 animate"></div>${text}`;
+        ].innerHTML = `<div class="icon-spinner f-size-19 mgr-10 animate"></div>${text}`;
       } else {
         this.$refs[ref].innerHTML = `${text}`;
         this.$refs[ref].disabled = false;
       }
     },
 
-    // POP UP ALERT
-    pushAlert(message, type) {
-      this.$bus.$emit("show_response_alert", {
+    // ==========================================
+    // MIXIN TO HANDLE TOAST NOTIFICATION
+    // ==========================================
+    pushToast(message, status) {
+      this.$bus.$emit("toggle-alert-banner", {
         message,
-        type,
+        status,
       });
     },
 

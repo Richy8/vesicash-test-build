@@ -21,7 +21,7 @@
     <div class="wrapper position-absolute wt-100">
       <div
         class="log-out-section smooth-transition rounded-8 pointer w-100"
-        @click="logOutUser"
+        @click="handleUserlogOut"
       >
         <!-- ICON COMPONENT -->
         <ExitIcon />
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import navRoutes from "@/shared/nav-routes";
 import VesicashBrandLogo from "@/shared/components/icon-comps/vesicash-brand-logo";
 import ExitIcon from "@/shared/components/icon-comps/exit-icon";
@@ -54,9 +55,11 @@ export default {
   },
 
   methods: {
-    logOutUser() {
+    ...mapActions({ logOutUser: "auth/logOutUser" }),
+
+    handleUserlogOut() {
       this.togglePageLoader();
-      setTimeout(() => (location.href = "/"), 2000);
+      setTimeout(() => this.logOutUser(), 2000);
     },
   },
 };
