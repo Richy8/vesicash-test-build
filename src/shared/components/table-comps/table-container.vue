@@ -80,7 +80,7 @@ export default {
 
     show_paging: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
 };

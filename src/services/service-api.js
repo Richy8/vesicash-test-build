@@ -5,9 +5,9 @@ import axios from "axios";
 import { urlHash } from "./service-route";
 import { getStorage } from "@/utilities/auth-utils";
 import {
-  VESICASH_API_BASE_URL,
-  VESICASH_PRIVATE_KEY,
-  VESICASH_PUBLIC_KEY,
+  VESICASH_API_URL,
+  VESICASH_PRIVATE_KEY_TOKEN,
+  VESICASH_PUBLIC_KEY_TOKEN,
   VESICASH_AUTH_TOKEN,
 } from "@/utilities/constant";
 
@@ -17,7 +17,7 @@ import {
 class serviceApi {
   // INSTANTIATE BASE API URL
   constructor() {
-    axios.defaults.baseURL = VESICASH_API_BASE_URL;
+    axios.defaults.baseURL = VESICASH_API_URL;
     this.injectTokenInterceptor();
   }
 
@@ -105,16 +105,16 @@ class serviceApi {
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${authUserToken}`,
-            "V-PUBLIC-KEY": VESICASH_PUBLIC_KEY,
-            "V-PRIVATE-KEY": VESICASH_PRIVATE_KEY,
+            "V-PUBLIC-KEY": VESICASH_PUBLIC_KEY_TOKEN,
+            "V-PRIVATE-KEY": VESICASH_PRIVATE_KEY_TOKEN,
           },
         }
       : {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${authUserToken}`,
-            "V-PUBLIC-KEY": VESICASH_PUBLIC_KEY,
-            "V-PRIVATE-KEY": VESICASH_PRIVATE_KEY,
+            "V-PUBLIC-KEY": VESICASH_PUBLIC_KEY_TOKEN,
+            "V-PRIVATE-KEY": VESICASH_PRIVATE_KEY_TOKEN,
           },
         };
   }
