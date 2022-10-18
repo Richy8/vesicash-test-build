@@ -1,4 +1,4 @@
-const authHelper = {
+const formHelper = {
   data: () => ({}),
 
   methods: {
@@ -12,4 +12,4 @@ const authHelper = {
   },
 };
 
-export default authHelper;
+export default formHelper;

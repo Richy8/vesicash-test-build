@@ -35,7 +35,7 @@ export default {
   props: {
     dataset: {
       type: Array,
-      default: () => [1, 2, 3],
+      default: () => [1],
     },
   },
 

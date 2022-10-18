@@ -51,6 +51,11 @@
             ></div>
           </div>
         </template>
+
+        <!-- FORM CURRENCY TYPE -->
+        <div class="prefix-select-area value-area" v-if="currency">
+          <div class="value grey-900 text-no-wrap">{{ currency }}</div>
+        </div>
       </div>
     </div>
 
@@ -120,6 +125,11 @@ export default {
     is_phone_type: {
       type: Boolean,
       default: false,
+    },
+
+    currency: {
+      type: String,
+      default: "",
     },
 
     placeholder: {

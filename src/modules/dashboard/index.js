@@ -144,11 +144,23 @@ const dashboardRoutes = [
       },
 
       {
-        path: "/fund-wallet-successful",
+        path: "/fund-wallet-success",
         name: "SuccessfulWalletFund",
         component: () =>
           import(
             /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/pages/fund-wallet-success"
+          ),
+        meta: {
+          requiresAuth: true,
+        },
+      },
+
+      {
+        path: "/fund-wallet-error",
+        name: "FailedWalletFund",
+        component: () =>
+          import(
+            /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/pages/fund-wallet-error"
           ),
         meta: {
           requiresAuth: true,

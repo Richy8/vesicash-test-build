@@ -8,10 +8,16 @@
     <!-- METRICS SECTION -->
     <div class="metrics-section mgb-40">
       <!-- NAIRA DOLLAR SECTION -->
-      <NairaDollarMetricCard />
+      <NairaDollarMetricCard
+        :wallet_balance="naira_dollar_wallet"
+        :loading_wallet="loading_wallet"
+      />
 
       <!-- ESCROW SECTION -->
-      <EscrowMetricCard />
+      <EscrowMetricCard
+        :escrow_balance="escrow_wallet"
+        :loading_wallet="loading_wallet"
+      />
 
       <!-- DISBURSE MONEY BUTTON -->
       <router-link
@@ -44,6 +50,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "Dashboard",
 
@@ -69,6 +77,88 @@ export default {
       import(
         /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/dashboard-transactions"
       ),
+  },
+
+  data() {
+    return {
+      naira_dollar_wallet: [
+        {
+          title: "NAIRA",
+          value: "0",
+          sign: "naira",
+        },
+        {
+          title: "DOLLAR",
+          value: "0",
+          sign: "dollar",
+        },
+      ],
+
+      escrow_wallet: [
+        {
+          title: "DOLLAR",
+          value: "0",
+          sign: "dollar",
+        },
+        {
+          title: "NAIRA",
+          value: "0",
+          sign: "naira",
+        },
+      ],
+
+      loading_wallet: true,
+    };
+  },
+
+  mounted() {
+    this.fetchUserWalletBalance();
+  },
+
+  methods: {
+    ...mapActions({ getWalletBalance: "dashboard/getWalletBalance" }),
+
+    // =============================================
+    // FETCH ALL WALLET BALANCE OF CURRENT USER
+    // =============================================
+    fetchUserWalletBalance() {
+      let request_payload = {
+        account_id: this.getAccountId,
+      };
+
+      this.getWalletBalance(request_payload)
+        .then((response) => {
+          // console.log("BALANCE", response);
+
+          if (response.code === 200) {
+            let { wallets } = response?.data;
+            // DOLLAR BALANCE
+            let dollar_balance = wallets.find(
+              (wallet) => wallet.currency == "USD"
+            );
+
+            // NAIRA BALANCE
+            let naira_balance = wallets.find(
+              (wallet) => wallet.currency == "NGN"
+            );
+
+            // ESCROW BALANCE
+            let escrow_balance = wallets.find(
+              (wallet) => wallet.currency == "ESCROW"
+            );
+
+            this.naira_dollar_wallet[0].value = naira_balance.available;
+            this.naira_dollar_wallet[1].value = dollar_balance.available;
+            this.escrow_wallet[0].value = escrow_balance.available;
+            this.escrow_wallet[1].value = escrow_balance.available;
+
+            this.loading_wallet = false;
+          } else {
+            this.loading_wallet = false;
+          }
+        })
+        .catch(() => (this.loading_wallet = false));
+    },
   },
 };
 </script>

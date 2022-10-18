@@ -6,6 +6,7 @@
       :table_data="dataset"
       :table_header="table_header"
       :is_loading="false"
+      empty_message="No payment transaction to display from your account"
     >
       <template v-for="(data, index) in dataset">
         <TransactionPaymentTableRow
@@ -35,7 +36,7 @@ export default {
   props: {
     dataset: {
       type: Array,
-      default: () => [1, 2, 3],
+      default: () => [],
     },
   },
 

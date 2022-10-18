@@ -3,18 +3,30 @@
     <!-- TOP ROW -->
     <div class="top-row mgb-16">
       <!-- WALLET COLUMN SECTION -->
-      <template v-for="(wallet, index) in wallets">
+      <template v-for="(wallet, index) in wallet_balance">
         <div class="column" :key="index">
           <!-- TITLE TEXT -->
           <div class="title-text tertiary-3-text grey-700 mgb-12">
             {{ wallet.title }} SIDE
           </div>
 
-          <!-- AMOUNT VALUE -->
-          <div class="amount-value teal-800 h4-text mgb-4">
-            <span v-html="$money.getSign(wallet.sign)"></span>{{ wallet.value
-            }}<span class="amount-zero">.00</span>
-          </div>
+          <!-- LOADING AMOUNT VALUE -->
+          <template v-if="loading_wallet">
+            <div
+              class="loading-amount-value rounded-3 skeleton-loader mgb-5"
+            ></div>
+          </template>
+
+          <template v-else>
+            <!-- AMOUNT VALUE -->
+            <div class="amount-value teal-800 h4-text mgb-4">
+              <span v-html="$money.getSign(wallet.sign)"></span
+              >{{ wallet.value.split(".")[0]
+              }}<span class="amount-zero"
+                >.{{ wallet.value.split(".")[1] }}</span
+              >
+            </div>
+          </template>
 
           <!-- TITLE DESCRIPTION -->
           <div class="title-description secondary-3-text grey-700">
@@ -51,6 +63,7 @@
         <FundWalletDetailsModal
           :wallet_type="default_wallet"
           @closeTriggered="toggleFundWalletDetailsModal"
+          @goBackWalletSelection="closeWalletDetailsOpenWalletSelect"
           @walletFunded="closeFundDetailsAndOpenSuccess"
         />
       </transition>
@@ -111,6 +124,18 @@ export default {
       ),
   },
 
+  props: {
+    wallet_balance: {
+      type: Array,
+      default: () => [],
+    },
+
+    loading_wallet: {
+      type: Boolean,
+      default: true,
+    },
+  },
+
   data: () => ({
     show_wallet_modal: false,
     show_wallet_account_modal: false,
@@ -120,19 +145,6 @@ export default {
     show_fund_wallet_info_modal: false,
 
     default_wallet: "naira",
-
-    wallets: [
-      {
-        title: "NAIRA",
-        value: "0",
-        sign: "naira",
-      },
-      {
-        title: "DOLLAR",
-        value: "0",
-        sign: "dollar",
-      },
-    ],
   }),
 
   methods: {
@@ -162,9 +174,17 @@ export default {
       this.toggleFundWalletDetailsModal();
     },
 
+    closeWalletDetailsOpenWalletSelect() {
+      this.show_fund_wallet_info_modal = false;
+      this.toggleFundWalletSelectModal();
+    },
+
     closeFundDetailsAndOpenSuccess() {
       this.show_fund_wallet_info_modal = false;
-      this.$router.push({ name: "SuccessfulWalletFund" });
+      this.$router.push({
+        name: "SuccessfulWalletFund",
+        query: { currency: "NGN" },
+      });
     },
 
     closeWalletOpenAccount() {
@@ -251,6 +271,10 @@ export default {
             font-size: toRem(16);
           }
         }
+      }
+
+      .loading-amount-value {
+        @include draw-shape(120, 32);
       }
 
       &:first-of-type {

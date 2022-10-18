@@ -45,6 +45,7 @@
         <button
           class="btn btn-primary btn-md wt-100"
           @click="handleWalletSelection"
+          :disabled="selected_wallet.length ? false : true"
         >
           Continue
         </button>

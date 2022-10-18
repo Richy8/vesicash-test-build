@@ -2,17 +2,16 @@
   <AuthWrapper title_text="">
     <!-- AUTH PAGE -->
     <div class="auth-page auth-page-success">
-      <WarningIcon v-if="$route.query.currency === 'NGN'" />
-      <SuccessIcon backgroundColor="#043B56" v-else />
+      <WarningIcon />
 
       <!-- TITLE TEXT -->
       <div class="title-text primary-1-text grey-900 mgb-8 text-center">
-        {{ getTitle }}
+        Wallet funding failed
       </div>
 
       <!-- DESCRIPTION TEXT -->
       <div class="description-text tertiary-2-text grey-600 text-center">
-        {{ getDescription }}
+        Your dollar wallet funding was unsuccessful, please try again.
       </div>
 
       <!-- BUTTON AREA -->
@@ -27,35 +26,19 @@
 
 <script>
 import AuthWrapper from "@/modules/auth/components/auth-wrapper";
-import SuccessIcon from "@/shared/components/icon-comps/success-icon";
 import WarningIcon from "@/shared/components/icon-comps/warning-icon";
 
 export default {
-  name: "FundWalletSuccess",
+  name: "FundWalletError",
 
   metaInfo: {
-    title: "Wallet Funded Successfully",
+    title: "Wallet Funding failed",
     titleTemplate: "%s - Vesicash",
   },
 
   components: {
     AuthWrapper,
-    SuccessIcon,
     WarningIcon,
-  },
-
-  computed: {
-    getTitle() {
-      return this.$route.query.currency === "NGN"
-        ? "Confirming your payment"
-        : "Payment confirmed";
-    },
-
-    getDescription() {
-      return this.$route.query.currency === "NGN"
-        ? `Please wait while we confirm the payment that you have made, if your payment is sucessful, it will reflect on your dashboard`
-        : `Your dollar wallet funding was completed successfully`;
-    },
   },
 };
 </script>
@@ -74,8 +57,6 @@ export default {
   }
 
   .description-text {
-    width: 90%;
-
     @include breakpoint-down(xs) {
       font-size: toRem(13.75);
     }

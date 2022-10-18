@@ -129,7 +129,7 @@
 
 <script>
 import { mapActions } from "vuex";
-import AuthHelper from "@/modules/auth/mixins/auth-helper";
+import FormHelper from "@/modules/auth/mixins/auth-helper";
 import AuthWrapper from "@/modules/auth/components/auth-wrapper";
 import BasicInput from "@/shared/components/form-comps/basic-input";
 
@@ -141,7 +141,7 @@ export default {
     titleTemplate: "%s - Vesicash",
   },
 
-  mixins: [AuthHelper],
+  mixins: [FormHelper],
 
   components: {
     AuthWrapper,

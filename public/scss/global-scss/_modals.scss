@@ -2,7 +2,7 @@
   @include fixed-display-area;
   @include transition(0.5s);
   overflow: auto;
-  z-index: 3099;
+  z-index: 2099;
   background: linear-gradient(
     180deg,
     rgba(1, 26, 39, 0.28) 4.69%,
@@ -13,7 +13,7 @@
   .modal-outer-container {
     animation: zoom-out 0.65s ease-in-out forwards;
     width: fit-content;
-    z-index: 4099;
+    z-index: 3099;
     position: relative;
     top: toRem(80);
     left: 50%;
@@ -31,7 +31,7 @@
     background: getColor("neutral-10");
     // border: 1px solid transparent;
     position: relative;
-    z-index: 4999;
+    z-index: 3999;
 
     .modal-cover-body-wrapper {
       position: relative;

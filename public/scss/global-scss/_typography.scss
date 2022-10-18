@@ -1,7 +1,7 @@
 //===========================
 // FONT FAMILY TYPE
 //===========================
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 @font-face {
   font-family: "Inter";
   src: local(Inter-Regular);
@@ -34,8 +34,8 @@ $font-types: (
   "h1": getFontVariant(64, $bold, 72),
   "h2": getFontVariant(40, $bold, 48),
   "h3": getFontVariant(32, $bold, 39),
-  "h4": getFontVariant(24, $bold, 32),
-  "h5": getFontVariant(20, $bold, 28),
+  "h4": getFontVariant(24, $semibold, 32),
+  "h5": getFontVariant(20, $semibold, 28),
   "h6": getFontVariant(24, $regular, 32),
   "h7": getFontVariant(20, $regular, 28),
   //========================================

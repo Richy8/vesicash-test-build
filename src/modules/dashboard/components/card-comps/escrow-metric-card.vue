@@ -4,18 +4,30 @@
     <div class="title-text tertiary-3-text grey-700 mgb-12">ESCROW SIDE</div>
 
     <!-- AMOUNT VALUE IN DOLLARS -->
-    <div class="amount-value mgb-8 border-bottom-grey-100">
-      <span v-html="$money.getSign('dollar')"></span>0<span class="amount-zero"
-        >.00</span
-      >
-    </div>
+    <template v-if="loading_wallet">
+      <div class="loading-amount-value rounded-3 skeleton-loader mgb-16"></div>
+    </template>
+
+    <template v-else>
+      <div class="amount-value mgb-8 border-bottom-grey-100">
+        <span v-html="$money.getSign('dollar')"></span
+        >{{ getEscrowDollar.split(".")[0]
+        }}<span class="amount-zero">.{{ getEscrowDollar.split(".")[1] }}</span>
+      </div>
+    </template>
 
     <!-- AMOUNT VALUE IN NAIRA -->
-    <div class="amount-value">
-      <span v-html="$money.getSign('naira')"></span>0<span class="amount-zero"
-        >.00</span
-      >
-    </div>
+    <template v-if="loading_wallet">
+      <div class="loading-amount-value rounded-3 skeleton-loader mgb-12"></div>
+    </template>
+
+    <template v-else>
+      <div class="amount-value">
+        <span v-html="$money.getSign('naira')"></span
+        >{{ getEscrowNaira.split(".")[0]
+        }}<span class="amount-zero">.{{ getEscrowNaira.split(".")[1] }}</span>
+      </div>
+    </template>
 
     <!-- TITLE DESCRIPTION -->
     <div class="title-description secondary-3-text grey-700">
@@ -27,6 +39,28 @@
 <script>
 export default {
   name: "EscrowMetricCard",
+
+  props: {
+    escrow_balance: {
+      type: Array,
+      default: () => [],
+    },
+
+    loading_wallet: {
+      type: Boolean,
+      default: true,
+    },
+  },
+
+  computed: {
+    getEscrowNaira() {
+      return this.escrow_balance[1].value;
+    },
+
+    getEscrowDollar() {
+      return this.escrow_balance[0].value;
+    },
+  },
 };
 </script>
 
@@ -80,6 +114,10 @@ export default {
         font-size: toRem(16);
       }
     }
+  }
+
+  .loading-amount-value {
+    @include draw-shape(120, 32);
   }
 }
 </style>

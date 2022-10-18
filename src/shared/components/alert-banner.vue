@@ -46,7 +46,7 @@ export default {
   position: fixed;
   top: toRem(20);
   right: toRem(15);
-  z-index: 999;
+  z-index: 4099;
   animation: slide-right 0.75s linear forwards;
 
   @include breakpoint-down(xs) {

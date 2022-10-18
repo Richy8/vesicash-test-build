@@ -34,7 +34,7 @@
       </template>
 
       <!-- TABLE EMPTY STATE -->
-      <TableEmptyState v-else />
+      <TableEmptyState :empty_message="empty_message" v-else />
     </template>
   </div>
 </template>
@@ -76,6 +76,11 @@ export default {
     is_loading: {
       type: Boolean,
       default: true,
+    },
+
+    empty_message: {
+      type: String,
+      default: "",
     },
 
     show_paging: {
