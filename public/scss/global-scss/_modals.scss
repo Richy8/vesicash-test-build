@@ -1,0 +1,183 @@
+.modal-overlay {
+  @include fixed-display-area;
+  @include transition(0.5s);
+  overflow: auto;
+  z-index: 2099;
+  background: linear-gradient(
+    180deg,
+    rgba(1, 26, 39, 0.28) 4.69%,
+    rgba(1, 26, 39, 0.25) 56.25%,
+    rgba(1, 26, 39, 0.37) 100%
+  );
+
+  .modal-outer-container {
+    animation: zoom-out 0.65s ease-in-out forwards;
+    width: fit-content;
+    z-index: 3099;
+    position: relative;
+    top: toRem(80);
+    left: 50%;
+    transform: translateX(-50%);
+    // margin-bottom: toRem(60);
+    // @include center-placement();
+    // top: 25%;
+
+    @include breakpoint-down(sm) {
+      width: 100%;
+    }
+  }
+
+  .modal-cover {
+    background: getColor("neutral-10");
+    // border: 1px solid transparent;
+    position: relative;
+    z-index: 3999;
+
+    .modal-cover-body-wrapper {
+      position: relative;
+      width: 100%;
+      height: auto;
+    }
+
+    .dialog-dismiss {
+      background: getColor("grey-50");
+      @include transition(0.4s);
+      @include draw-shape(30);
+      border-radius: 50%;
+      position: absolute;
+      right: toRem(24);
+      top: toRem(28);
+      z-index: 999;
+
+      @include breakpoint-down(sm) {
+        right: toRem(16);
+        top: toRem(16);
+      }
+
+      &:hover {
+        background: getColor("grey-100");
+      }
+
+      .icon {
+        color: getColor("grey-600");
+        @include center-placement();
+        font-size: toRem(24);
+      }
+    }
+  }
+
+  .modal-xs {
+    width: toRem(360) !important;
+
+    @include breakpoint-down(sm) {
+      width: 92% !important;
+    }
+  }
+
+  .modal-sm {
+    width: toRem(460) !important;
+
+    @include breakpoint-down(sm) {
+      width: 92% !important;
+    }
+  }
+
+  .modal-md {
+    width: toRem(560) !important;
+
+    @include breakpoint-down(md) {
+      width: toRem(540) !important;
+    }
+
+    @include breakpoint-down(sm) {
+      width: 92% !important;
+    }
+  }
+
+  .modal-lg {
+    width: toRem(660) !important;
+
+    @include breakpoint-down(md) {
+      width: 80% !important;
+    }
+
+    @include breakpoint-down(sm) {
+      width: 92% !important;
+    }
+  }
+
+  .modal-xl {
+    width: toRem(560);
+
+    @include breakpoint-custom-up-down(450, 650) {
+      width: toRem(520);
+    }
+
+    @include breakpoint-down(sm) {
+      width: 92%;
+    }
+  }
+}
+
+.modal-cover-header {
+  padding: toRem(24) toRem(24) 0;
+
+  @include breakpoint-down(sm) {
+    padding: toRem(16) toRem(16) 0;
+  }
+}
+
+.modal-cover-title {
+  @include generate-font-type("h4");
+  color: getColor("grey-900");
+  font-size: toRem(21);
+
+  @include breakpoint-down(sm) {
+    font-size: toRem(18.5);
+  }
+}
+
+.modal-cover-meta {
+  @include generate-font-type("tertiary-2");
+  color: getColor("grey-600");
+  margin-top: toRem(8);
+
+  @include breakpoint-down(sm) {
+    font-size: toRem(12.75);
+  }
+}
+
+.modal-cover-body {
+  padding: toRem(24) toRem(24) 0;
+  min-height: 20vh;
+  height: auto;
+
+  @include breakpoint-down(sm) {
+    padding: toRem(16);
+  }
+
+  &::-webkit-scrollbar {
+    width: toRem(5);
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: toRem(3);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: toRem(3);
+    background: getColor("green-100");
+  }
+}
+
+.modal-cover-footer {
+  padding: toRem(16) toRem(24) toRem(24);
+
+  .btn-md {
+    padding: toRem(9.45) toRem(18);
+  }
+
+  @include breakpoint-down(sm) {
+    padding: toRem(16);
+  }
+}

@@ -1,0 +1,20 @@
+// ==========================
+// BUTTON SIZES VARIANTS
+// ==========================
+$btn-sizes: (
+  'lg': (
+    'font': 'secondary-1',
+    'padding-y': 13,
+    'padding-x': 24,
+  ),
+  'md': (
+    'font': 'secondary-2',
+    'padding-y': 8,
+    'padding-x': 24,
+  ),
+  'sm': (
+    'font': 'secondary-3',
+    'padding-y': 8,
+    'padding-x': 16,
+  ),
+);

@@ -1,0 +1,70 @@
+//=====================================
+// APPLICATION BREAKPOINT VARIABLES
+//=====================================
+$xxs: 320px; // EXTRA-EXTRA SMALL SCREEN
+$xs: 450px; // EXTRA SMALL SCREEN
+$sm: 576px; // SMALL SCREEN
+$md: 768px; // MEDIUM SCREEN
+$lg: 1024px; // LARGE SCREEN
+$xl: 1280px; // EXTRA LARGE SCREEN
+$xxl: 1440px; // EXTRA EXTRA LARGE SCREEN
+$xxxl: 1620px; // EXTRA EXTRA LARGE DESKTOP SCREEN
+
+// BREAKPOINT LIST
+$breakpoint-list: (
+  "xxs": $xxs,
+  "xs": $xs,
+  "sm": $sm,
+  "md": $md,
+  "lg": $lg,
+  "xl": $xl,
+  "xxl": $xxl,
+  "xxxl": $xxxl,
+);
+
+//===============================================
+// RESPONSIVE MINIMUN MEDIA QUERY WIDTH UPWARDS
+//===============================================
+@mixin breakpoint-up($breakpoint) {
+  @each $bp-key, $bp-value in $breakpoint-list {
+    @if $breakpoint == $bp-key {
+      @media only screen and (min-width: $bp-value) {
+        @content;
+      }
+    }
+  }
+}
+
+//================================================
+// RESPONSIVE MAXIMUM MEDIA QUERY WIDTH DOWNWARDS
+//================================================
+@mixin breakpoint-down($breakpoint) {
+  @each $bp-key, $bp-value in $breakpoint-list {
+    @if $breakpoint == $bp-key {
+      @media only screen and (max-width: $bp-value) {
+        @content;
+      }
+    }
+  }
+}
+
+//=============================================
+// RESPONSIVE MEDIA QUERY CUSTOM WIDTH
+//=============================================
+@mixin breakpoint-custom-up-down($min, $max) {
+  @media (min-width: #{$min}px) and (max-width: #{$max}px) {
+    @content;
+  }
+}
+
+@mixin breakpoint-custom-up($min) {
+  @media only screen and (min-width: #{$min}px) {
+    @content;
+  }
+}
+
+@mixin breakpoint-custom-down($max) {
+  @media only screen and (max-width: #{$max}px) {
+    @content;
+  }
+}

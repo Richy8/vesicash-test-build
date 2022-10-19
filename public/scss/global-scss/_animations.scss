@@ -1,0 +1,116 @@
+// =========================
+// ANIMATIONS
+// =========================
+
+// PANEL SLIDE DOWN
+@keyframes panel-slide-down {
+  0%,
+  30% {
+    margin-top: toRem(-20);
+    opacity: 0;
+  }
+  to {
+    margin-top: 0;
+    opacity: 1;
+  }
+}
+
+// PANEL SLIDE UP
+@keyframes panel-slide-up {
+  0%,
+  30% {
+    margin-bottom: toRem(-30);
+    opacity: 0;
+  }
+  to {
+    margin-bottom: 0;
+    opacity: 1;
+  }
+}
+
+// PANEL SLIDE RIGHT
+@keyframes panel-slide-right {
+  0%,
+  30% {
+    margin-top: toRem(-30);
+    margin-right: toRem(-25);
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+// PANEL SLIDE LEFT
+@keyframes panel-slide-left {
+  0%,
+  30% {
+    margin-top: toRem(-30);
+    margin-left: toRem(-25);
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// SLIDE LEFT
+@keyframes slide-left {
+  0%,
+  30% {
+    margin-left: toRem(-40);
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// SLIDE RIGHT
+@keyframes slide-right {
+  0%,
+  30% {
+    margin-right: -40%;
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// LOADING ANIMATION
+@keyframes loading {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+// ZOOM OUT
+@keyframes zoom-out {
+  0% {
+    transform: translateX(-50%) scale(0.9);
+  }
+  50% {
+    transform: translateX(-50%) scale(1.05);
+  }
+  100% {
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+// SPINNER ICON
+@keyframes spin-icon {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate {
+  animation: spin-icon 0.75s linear infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}

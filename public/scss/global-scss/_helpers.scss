@@ -1,0 +1,76 @@
+// // =================
+// // CHIPS
+// // =================
+.app-chip {
+  padding: toRem(4.75) toRem(10) toRem(4) toRem(21);
+  @include generate-font-type("label-1");
+  @include flex-row-center-nowrap;
+  border-radius: toRem(24);
+  font-size: toRem(12.5);
+  white-space: nowrap;
+  position: relative;
+  width: max-content;
+
+  @include breakpoint-down(md) {
+    padding: toRem(4.75) toRem(13) toRem(4) toRem(21);
+  }
+
+  .chip-text {
+    &:before {
+      content: "";
+      border-radius: 50%;
+      @include draw-shape(4.75);
+      @include center-placement("y-axis");
+      margin-top: toRem(0.5);
+      left: toRem(10);
+    }
+  }
+
+  &-success {
+    border: toRem(1) solid getColor("green-100");
+    background-color: getColor("green-100");
+    color: getColor("green-800");
+
+    .chip-text {
+      &:before {
+        background-color: getColor("green-900");
+      }
+    }
+  }
+
+  &-error {
+    border: toRem(1) solid getColor("red-50");
+    background-color: getColor("red-50");
+    color: getColor("red-600");
+
+    .chip-text {
+      &:before {
+        background-color: getColor("red-600");
+      }
+    }
+  }
+
+  &-progress {
+    border: toRem(1) solid getColor("yellow-50");
+    background-color: getColor("yellow-50");
+    color: getColor("yellow-700");
+
+    .chip-text {
+      &:before {
+        background-color: getColor("yellow-700");
+      }
+    }
+  }
+
+  &-okay {
+    border: toRem(1) solid getColor("teal-100");
+    background-color: getColor("teal-100");
+    color: getColor("teal-800");
+
+    .chip-text {
+      &:before {
+        background-color: getColor("teal-800");
+      }
+    }
+  }
+}

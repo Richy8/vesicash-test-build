@@ -1,0 +1,81 @@
+.table-wrapper {
+  overflow: auto;
+  width: 100%;
+  padding: 0;
+
+  &::-webkit-scrollbar {
+    height: toRem(5);
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: toRem(5);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: getColor("grey-50");
+    border-radius: toRem(5);
+  }
+
+  .table {
+    border-collapse: collapse;
+    overflow: auto;
+    width: 100%;
+
+    @include breakpoint-down(xl) {
+      min-width: max-content;
+    }
+
+    thead {
+      @include generate-font-type("secondary-2");
+      color: getColor("grey-500");
+
+      @include breakpoint-down(sm) {
+        font-size: toRem(13.45);
+      }
+
+      tr {
+        border: none;
+        border-top: 0 !important;
+        border-bottom: toRem(0.5) solid getColor("grey-200");
+      }
+    }
+
+    tbody {
+      @include generate-font-type("tertiary-2");
+      color: getColor("grey-800");
+      font-size: toRem(13.85);
+
+      @include breakpoint-down(sm) {
+        font-size: toRem(13.5);
+      }
+
+      tr {
+        cursor: pointer;
+        vertical-align: middle;
+        transition: all 0.3s ease-in-out;
+        border-bottom: toRem(1) solid getColor("grey-100");
+        padding: toRem(30) toRem(32);
+
+        &:hover {
+          background: getColor("grey-10");
+        }
+      }
+    }
+
+    .head-data {
+      padding: toRem(8) toRem(32);
+
+      @include breakpoint-down(sm) {
+        padding: toRem(8) toRem(28);
+      }
+    }
+
+    .body-data {
+      padding: toRem(16) toRem(32);
+
+      @include breakpoint-down(sm) {
+        padding: toRem(16) toRem(28);
+      }
+    }
+  }
+}

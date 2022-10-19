@@ -1,0 +1,268 @@
+{
+    "countries": [
+        {
+            "country": "Argentina",
+            "dialing_code": "54",
+            "code": "ar",
+            "flag": "https://dyclassroom.com/image/flags/ar.png"
+        },
+        {
+            "country": "Australia",
+            "dialing_code": "61",
+            "code": "au",
+            "flag": "https://dyclassroom.com/image/flags/au.png"
+        },
+        {
+            "country": "Brazil",
+            "dialing_code": "55",
+            "code": "br",
+            "flag": "https://dyclassroom.com/image/flags/br.png"
+        },
+        {
+            "country": "Cameroon",
+            "dialing_code": "237",
+            "code": "cm",
+            "flag": "https://dyclassroom.com/image/flags/cm.png"
+        },
+        {
+            "country": "Canada",
+            "dialing_code": "1",
+            "code": "ca",
+            "flag": "https://dyclassroom.com/image/flags/ca.png"
+        },
+        {
+            "country": "Denmark",
+            "dialing_code": "45",
+            "code": "dk",
+            "flag": "https://dyclassroom.com/image/flags/dk.png"
+        },
+        {
+            "country": "Ecuador",
+            "dialing_code": "593",
+            "code": "ec",
+            "flag": "https://dyclassroom.com/image/flags/ec.png"
+        },
+        {
+            "country": "Egypt",
+            "dialing_code": "20",
+            "code": "eg",
+            "flag": "https://dyclassroom.com/image/flags/eg.png"
+        },
+        {
+            "country": "France",
+            "dialing_code": "33",
+            "code": "fr",
+            "flag": "https://dyclassroom.com/image/flags/fr.png"
+        },
+        {
+            "country": "Gabon",
+            "dialing_code": "241",
+            "code": "ga",
+            "flag": "https://dyclassroom.com/image/flags/ga.png"
+        },
+        {
+            "country": "Germany",
+            "dialing_code": "49",
+            "code": "de",
+            "flag": "https://dyclassroom.com/image/flags/de.png"
+        },
+        {
+            "country": "Ghana",
+            "dialing_code": "233",
+            "code": "gh",
+            "flag": "https://dyclassroom.com/image/flags/gh.png"
+        },
+        {
+            "country": "Ivory Coast",
+            "dialing_code": "225",
+            "code": "ci",
+            "flag": "https://dyclassroom.com/image/flags/ci.png"
+        },
+        {
+            "country": "Jamaica",
+            "dialing_code": "1-876",
+            "code": "jm",
+            "flag": "https://dyclassroom.com/image/flags/jm.png"
+        },
+        {
+            "country": "Mali",
+            "dialing_code": "223",
+            "code": "ml",
+            "flag": "https://dyclassroom.com/image/flags/ml.png"
+        },
+        {
+            "country": "Mexico",
+            "dialing_code": "52",
+            "code": "mx",
+            "flag": "https://dyclassroom.com/image/flags/mx.png"
+        },
+        {
+            "country": "Netherlands",
+            "dialing_code": "31",
+            "code": "nl",
+            "flag": "https://dyclassroom.com/image/flags/nl.png"
+        },
+        {
+            "country": "New Zealand",
+            "dialing_code": "64",
+            "code": "nz",
+            "flag": "https://dyclassroom.com/image/flags/nz.png"
+        },
+        {
+            "country": "Nigeria",
+            "dialing_code": "234",
+            "code": "ng",
+            "flag": "https://dyclassroom.com/image/flags/ng.png"
+        },
+        {
+            "country": "Niue",
+            "dialing_code": "683",
+            "code": "nu",
+            "flag": "https://dyclassroom.com/image/flags/nu.png"
+        },
+        {
+            "country": "North Korea",
+            "dialing_code": "850",
+            "code": "kp",
+            "flag": "https://dyclassroom.com/image/flags/kp.png"
+        },
+        {
+            "country": "Northern Mariana Islands",
+            "dialing_code": "1-670",
+            "code": "mp",
+            "flag": "https://dyclassroom.com/image/flags/mp.png"
+        },
+        {
+            "country": "Norway",
+            "dialing_code": "47",
+            "code": "no",
+            "flag": "https://dyclassroom.com/image/flags/no.png"
+        },
+        {
+            "country": "Paraguay",
+            "dialing_code": "595",
+            "code": "py",
+            "flag": "https://dyclassroom.com/image/flags/py.png"
+        },
+        {
+            "country": "Peru",
+            "dialing_code": "51",
+            "code": "pe",
+            "flag": "https://dyclassroom.com/image/flags/pe.png"
+        },
+        {
+            "country": "Poland",
+            "dialing_code": "48",
+            "code": "pl",
+            "flag": "https://dyclassroom.com/image/flags/pl.png"
+        },
+        {
+            "country": "Portugal",
+            "dialing_code": "351",
+            "code": "pt",
+            "flag": "https://dyclassroom.com/image/flags/pt.png"
+        },
+        {
+            "country": "Puerto Rico",
+            "dialing_code": "1-787, 1-939",
+            "code": "pr",
+            "flag": "https://dyclassroom.com/image/flags/pr.png"
+        },
+        {
+            "country": "Qatar",
+            "dialing_code": "974",
+            "code": "qa",
+            "flag": "https://dyclassroom.com/image/flags/qa.png"
+        },
+        {
+            "country": "Republic of the Congo",
+            "dialing_code": "242",
+            "code": "cg",
+            "flag": "https://dyclassroom.com/image/flags/cg.png"
+        },
+        {
+            "country": "Romania",
+            "dialing_code": "40",
+            "code": "ro",
+            "flag": "https://dyclassroom.com/image/flags/ro.png"
+        },
+        {
+            "country": "Russia",
+            "dialing_code": "7",
+            "code": "ru",
+            "flag": "https://dyclassroom.com/image/flags/ru.png"
+        },
+        {
+            "country": "Rwanda",
+            "dialing_code": "250",
+            "code": "rw",
+            "flag": "https://dyclassroom.com/image/flags/rw.png"
+        },
+        {
+            "country": "Senegal",
+            "dialing_code": "221",
+            "code": "sn",
+            "flag": "https://dyclassroom.com/image/flags/sn.png"
+        },
+        {
+            "country": "South Africa",
+            "dialing_code": "27",
+            "code": "za",
+            "flag": "https://dyclassroom.com/image/flags/za.png"
+        },
+        {
+            "country": "Spain",
+            "dialing_code": "34",
+            "code": "es",
+            "flag": "https://dyclassroom.com/image/flags/es.png"
+        },
+        {
+            "country": "Togo",
+            "dialing_code": "228",
+            "code": "tg",
+            "flag": "https://dyclassroom.com/image/flags/tg.png"
+        },
+        {
+            "country": "Tunisia",
+            "dialing_code": "216",
+            "code": "tn",
+            "flag": "https://dyclassroom.com/image/flags/tn.png"
+        },
+        {
+            "country": "Turkey",
+            "dialing_code": "90",
+            "code": "tr",
+            "flag": "https://dyclassroom.com/image/flags/tr.png"
+        },
+        {
+            "country": "U.S. Virgin Islands",
+            "dialing_code": "1-340",
+            "code": "vi",
+            "flag": "https://dyclassroom.com/image/flags/vi.png"
+        },
+        {
+            "country": "Ukraine",
+            "dialing_code": "380",
+            "code": "ua",
+            "flag": "https://dyclassroom.com/image/flags/ua.png"
+        },
+        {
+            "country": "United Arab Emirates",
+            "dialing_code": "971",
+            "code": "ae",
+            "flag": "https://dyclassroom.com/image/flags/ae.png"
+        },
+        {
+            "country": "United Kingdom",
+            "dialing_code": "44",
+            "code": "gb",
+            "flag": "https://dyclassroom.com/image/flags/gb.png"
+        },
+        {
+            "country": "United States",
+            "dialing_code": "1",
+            "code": "us",
+            "flag": "https://dyclassroom.com/image/flags/us.png"
+        }
+    ]
+}
