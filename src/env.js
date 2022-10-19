@@ -10,4 +10,3 @@ export const VESICASH_PRIVATE_KEY =
 export const VESICASH_PUBLIC_KEY =
   "v_sandbox_rXzegXqN6x6tDknVwf2cVjqlIzkM14i1yrH3RNXoDGQHDEh8Mt";
 
-// export const VESICASH_APP_RELEASE_VERSION = "0.1.0";
