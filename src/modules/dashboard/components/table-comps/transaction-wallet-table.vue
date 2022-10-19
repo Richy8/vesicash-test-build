@@ -3,15 +3,16 @@
     <!-- TABLE CONTAINER -->
     <TableContainer
       table_name="transaction-wallet-tb"
-      :table_data="dataset"
+      :table_data="table_data"
       :table_header="table_header"
-      :is_loading="false"
+      :is_loading="table_loading"
+      :empty_message="empty_message"
     >
-      <template v-for="(data, index) in dataset">
+      <template v-for="(data, index) in table_data">
         <TransactionWalletTableRow
           :key="index"
           table_name="transaction-wallet-tb"
-          :data="{ data }"
+          :data="data"
         />
       </template>
     </TableContainer>
@@ -19,6 +20,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import TableContainer from "@/shared/components/table-comps/table-container";
 
 export default {
@@ -32,25 +34,53 @@ export default {
       ),
   },
 
-  props: {
-    dataset: {
-      type: Array,
-      default: () => [1],
-    },
-  },
-
   data() {
     return {
       table_header: [
         "Date",
         "Transaction reference",
-        "Account name",
+        "Account id",
         "Wallet used",
         "Amount paid",
         "Status",
         "Actions",
       ],
+
+      table_data: [],
+      table_loading: true,
+      empty_message:
+        "You have not done any disbursement transaction. Please click on the disburse money button to start",
     };
+  },
+
+  mounted() {
+    this.getUserWalletTransactions();
+  },
+
+  methods: {
+    ...mapActions({
+      fetchWalletTransactions: "dashboard/fetchWalletTransactions",
+    }),
+
+    getUserWalletTransactions() {
+      this.fetchWalletTransactions(this.getAccountId)
+        .then((response) => {
+          console.log(response);
+
+          if (response.code === 200) {
+            this.table_data = response.data;
+            this.table_loading = false;
+          }
+
+          // HANDLE NON 200 RESPONSE
+          else this.handleErrorResponse();
+        })
+        .catch(() => this.handleErrorResponse());
+    },
+
+    handleErrorResponse() {
+      (this.table_loading = false), (this.table_data = []);
+    },
   },
 };
 </script>

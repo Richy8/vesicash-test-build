@@ -13,9 +13,11 @@ class serviceCurrency {
 
     switch (currency) {
       case "naira":
+      case "NGN":
         currency_type = naira;
         break;
       case "dollar":
+      case "USD":
         currency_type = dollar;
         break;
       default:

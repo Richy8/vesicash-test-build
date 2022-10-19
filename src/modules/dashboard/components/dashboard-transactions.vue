@@ -52,7 +52,7 @@ export default {
   },
 
   data: () => ({
-    transaction_table_type: "TransactionPaymentTable",
+    transaction_table_type: "TransactionWalletTable",
     show_transaction_summary_modal: false,
   }),
 

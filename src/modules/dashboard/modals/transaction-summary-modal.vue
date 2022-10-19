@@ -32,7 +32,9 @@
       <div class="modal-cover-footer">
         <button class="btn btn-primary btn-md mgr-24">Download receipt</button>
 
-        <button class="btn btn-secondary btn-md">Go to disbursements</button>
+        <button class="btn btn-secondary btn-md" v-if="type === 'disbursement'">
+          Go to disbursements
+        </button>
       </div>
     </template>
   </ModalCover>
@@ -50,7 +52,12 @@ export default {
     ModalItem,
   },
 
-  props: {},
+  props: {
+    type: {
+      type: String,
+      default: "disbursement",
+    },
+  },
 
   data: () => ({}),
 

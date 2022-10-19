@@ -21,20 +21,20 @@ export default {
 
   data: () => ({
     pages: [
-      {
-        title: "Payments",
-        table: "TransactionPaymentTable",
-        active: true,
-      },
-      {
-        title: "Disbursements",
-        table: "TransactionDisbursementTable",
-        active: false,
-      },
+      // {
+      //   title: "Payments",
+      //   table: "TransactionPaymentTable",
+      //   active: true,
+      // },
+      // {
+      //   title: "Disbursements",
+      //   table: "TransactionDisbursementTable",
+      //   active: false,
+      // },
       {
         title: "Wallets",
         table: "TransactionWalletTable",
-        active: false,
+        active: true,
       },
     ],
   }),
