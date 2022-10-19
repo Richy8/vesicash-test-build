@@ -12,10 +12,11 @@
           placeholder="Enter new password"
           :toggle_password="false"
           :input_value="form.password"
+          :custom_style="{ input_wrapper_style: 'form-suffix' }"
           @getInputState="updateFormState($event, 'password')"
           :error_handler="{
             type: 'password',
-            message: 'Password should contain at least 6 characters',
+            message: 'Password should contain at least 4 characters',
           }"
         />
       </div>
@@ -30,10 +31,11 @@
           placeholder="Enter new password"
           :toggle_password="false"
           :input_value="form.confirm_password"
+          :custom_style="{ input_wrapper_style: 'form-suffix' }"
           @getInputState="updateFormState($event, 'confirm_password')"
           :error_handler="{
             type: 'password',
-            message: 'Password should contain at least 6 characters',
+            message: 'Password should contain at least 4 characters',
           }"
         />
       </div>
