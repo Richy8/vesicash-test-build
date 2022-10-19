@@ -131,8 +131,6 @@ export default {
 
       this.getWalletBalance(request_payload)
         .then((response) => {
-          // console.log("BALANCE", response);
-
           if (response.code === 200) {
             let { wallets } = response?.data;
             // DOLLAR BALANCE

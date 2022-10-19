@@ -4,6 +4,7 @@ const routes = {
   wallet_balance: "/admin/account/wallet",
   dollar_funding: "/payment/pay/headless",
   naira_wallet: "/payment/payment_account/list",
+  verify_payment: "/payment/payment_account/verify",
   wallet_transactions: "/payment/list/wallet_funding",
 };
 
@@ -27,6 +28,13 @@ export default {
   // ====================================
   async fetchNairaWalletBankDetails(_, payload) {
     return await $api.push(routes.naira_wallet, { payload });
+  },
+
+  // ====================================
+  // VERIFY USER ACCOUNT PAYMENT
+  // ====================================
+  async verifyPaymentAccount(_, payload) {
+    return await $api.push(routes.verify_payment, { payload });
   },
 
   // =====================================

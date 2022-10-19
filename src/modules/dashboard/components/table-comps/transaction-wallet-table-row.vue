@@ -33,6 +33,7 @@
       <transition name="fade" v-if="show_transaction_summary_modal">
         <TransactionSummaryModal
           type="wallet"
+          :summary_data="data"
           @closeTriggered="toggleTransactionSummaryModal"
         />
       </transition>

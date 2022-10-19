@@ -45,9 +45,9 @@
         Fund Wallet
       </button>
 
-      <button class="btn btn-secondary btn-md" @click="toggleWalletModal">
+      <!-- <button class="btn btn-secondary btn-md" @click="toggleWalletModal">
         Withdraw money
-      </button>
+      </button> -->
     </div>
 
     <!-- MODALS -->
@@ -179,11 +179,11 @@ export default {
       this.toggleFundWalletSelectModal();
     },
 
-    closeFundDetailsAndOpenSuccess() {
+    closeFundDetailsAndOpenSuccess(reference_id) {
       this.show_fund_wallet_info_modal = false;
       this.$router.push({
         name: "SuccessfulWalletFund",
-        query: { currency: "NGN" },
+        query: { currency: "NGN", reference_id },
       });
     },
 

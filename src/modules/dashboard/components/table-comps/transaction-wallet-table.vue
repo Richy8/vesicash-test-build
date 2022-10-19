@@ -65,8 +65,6 @@ export default {
     getUserWalletTransactions() {
       this.fetchWalletTransactions(this.getAccountId)
         .then((response) => {
-          console.log(response);
-
           if (response.code === 200) {
             this.table_data = response.data;
             this.table_loading = false;

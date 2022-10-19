@@ -157,6 +157,7 @@ export default {
         dollar_amount: true,
       },
 
+      account_refernce_id: "",
       naira_wallet_info: [],
       naira_wallet_loading: true,
     };
@@ -184,6 +185,7 @@ export default {
         .then((response) => {
           if (response.code === 200) {
             let account = response?.data?.payment_account ?? {};
+            this.account_refernce_id = account.payment_account_id;
 
             delete account.id;
             delete account.business_id;
@@ -210,7 +212,7 @@ export default {
     },
 
     handleFundSuccess() {
-      this.$emit("walletFunded");
+      this.$emit("walletFunded", this.account_refernce_id);
     },
 
     // =======================================
