@@ -36,7 +36,7 @@ class serviceValidators {
   // =============================================
   // VALIDATE USER ENTERED PASSWORD INPUT VALUE
   // =============================================
-  validatePasswordInput(input, length = 6) {
+  validatePasswordInput(input, length = 4) {
     return this.trimInput(input).length < length ? false : true;
   }
 
