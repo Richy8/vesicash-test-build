@@ -16,16 +16,16 @@
 
     <!-- MODAL COVER BODY -->
     <template slot="modal-cover-body">
-      <div class="modal-cover-body mgb--10">
+      <div class="modal-cover-body mgb--50">
         <!-- DOLLAR WITHDRAWAL -->
-        <div class="mgb-20">
+        <!-- <div class="mgb-20">
           <RadioSelectCard
             card_name="wallet"
             label_id="walletCard1"
             label_text="Fund dollar wallet"
             @clicked="selected_wallet = 'dollar'"
           />
-        </div>
+        </div> -->
 
         <!-- NAIRA WITHDRAWAL -->
         <div>
@@ -87,5 +87,8 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.modal-cover-body {
+  margin-bottom: toRem(-90) !important;
+}
 </style>
