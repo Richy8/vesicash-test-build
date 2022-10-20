@@ -27,7 +27,7 @@
           />
         </div>
 
-        <!-- NAIRA WITHDRAWAL -->
+        <!-- NAIRA WITHDRAWAL  -->
         <div>
           <RadioSelectCard
             card_name="wallet"
@@ -87,5 +87,8 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.mgb-hack {
+  margin-bottom: toRem(-90) !important;
+}
 </style>

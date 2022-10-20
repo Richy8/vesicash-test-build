@@ -16,12 +16,12 @@ export default {
 
   props: {
     title: {
-      type: String,
+      type: [String, Number],
       required: true,
     },
 
     value: {
-      type: String,
+      type: [String, Number],
       required: true,
     },
   },

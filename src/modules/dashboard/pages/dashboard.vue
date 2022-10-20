@@ -2,7 +2,10 @@
   <div class="dashboard-view">
     <!-- WELCOME MESSAGE -->
     <div class="welcome-message mgb-20 h5-text grey-900">
-      Welcome {{ getUser.fullname.split(" ")[0] || "" }}
+      Welcome
+      <span class="text-capitalize">{{
+        getUser.fullname.split(" ")[0] || ""
+      }}</span>
     </div>
 
     <!-- METRICS SECTION -->
@@ -84,12 +87,12 @@ export default {
       naira_dollar_wallet: [
         {
           title: "NAIRA",
-          value: "0",
+          value: "0.00",
           sign: "naira",
         },
         {
           title: "DOLLAR",
-          value: "0",
+          value: "0.00",
           sign: "dollar",
         },
       ],
@@ -97,12 +100,12 @@ export default {
       escrow_wallet: [
         {
           title: "DOLLAR",
-          value: "0",
+          value: "0.00",
           sign: "dollar",
         },
         {
           title: "NAIRA",
-          value: "0",
+          value: "0.00",
           sign: "naira",
         },
       ],
@@ -116,7 +119,9 @@ export default {
   },
 
   methods: {
-    ...mapActions({ getWalletBalance: "dashboard/getWalletBalance" }),
+    ...mapActions({
+      getWalletBalance: "dashboard/getWalletBalance",
+    }),
 
     // =============================================
     // FETCH ALL WALLET BALANCE OF CURRENT USER
@@ -128,8 +133,6 @@ export default {
 
       this.getWalletBalance(request_payload)
         .then((response) => {
-          // console.log("BALANCE", response);
-
           if (response.code === 200) {
             let { wallets } = response?.data;
             // DOLLAR BALANCE
@@ -142,15 +145,20 @@ export default {
               (wallet) => wallet.currency == "NGN"
             );
 
-            // ESCROW BALANCE
-            let escrow_balance = wallets.find(
-              (wallet) => wallet.currency == "ESCROW"
+            // ESCROW NAIRA BALANCE
+            let escrow_naira_balance = wallets.find(
+              (wallet) => wallet.currency == "ESCROW_NGN"
+            );
+
+            // ESCROW DOLLAR BALANCE
+            let escrow_dollar_balance = wallets.find(
+              (wallet) => wallet.currency == "ESCROW_USD"
             );
 
             this.naira_dollar_wallet[0].value = naira_balance.available;
             this.naira_dollar_wallet[1].value = dollar_balance.available;
-            this.escrow_wallet[0].value = escrow_balance.available;
-            this.escrow_wallet[1].value = escrow_balance.available;
+            this.escrow_wallet[0].value = escrow_naira_balance.available;
+            this.escrow_wallet[1].value = escrow_dollar_balance.available;
 
             this.loading_wallet = false;
           } else {

@@ -102,7 +102,7 @@
           @getInputState="updateFormState($event, 'password')"
           :error_handler="{
             type: 'password',
-            message: 'Password should contain at least 6 characters',
+            message: 'Password should contain at least 4 characters',
           }"
         />
       </div>

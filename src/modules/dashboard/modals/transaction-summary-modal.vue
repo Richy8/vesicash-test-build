@@ -13,26 +13,20 @@
     <!-- MODAL COVER BODY -->
     <template slot="modal-cover-body">
       <div class="modal-cover-body">
-        <ModalItem title="Amount Paid" value="$100,000" />
-        <ModalItem title="Disbursement Name" value="Payment for landing page" />
-        <ModalItem title="Date of Transaction" value="24th Apr 2022" />
-
-        <ModalItem title="Amount Paid" value="$100,000" />
-        <ModalItem title="Disbursement Name" value="Payment for landing page" />
-        <ModalItem title="Date of Transaction" value="24th Apr 2022" />
-
-        <ModalItem title="Amount Paid" value="$100,000" />
-        <ModalItem title="Disbursement Name" value="Payment for landing page" />
-        <ModalItem title="Date of Transaction" value="24th Apr 2022" />
+        <template v-for="(data, index) in getSummaryData">
+          <ModalItem :title="data.title" :value="data.value" :key="index" />
+        </template>
       </div>
     </template>
 
     <!-- MODAL COVER FOOTER -->
     <template slot="modal-cover-footer">
-      <div class="modal-cover-footer">
+      <div class="modal-cover-footer" v-if="false">
         <button class="btn btn-primary btn-md mgr-24">Download receipt</button>
 
-        <button class="btn btn-secondary btn-md">Go to disbursements</button>
+        <button class="btn btn-secondary btn-md" v-if="type === 'disbursement'">
+          Go to disbursements
+        </button>
       </div>
     </template>
   </ModalCover>
@@ -50,11 +44,70 @@ export default {
     ModalItem,
   },
 
-  props: {},
+  props: {
+    type: {
+      type: String,
+      default: "disbursement",
+    },
 
-  data: () => ({}),
+    summary_data: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
 
-  methods: {},
+  computed: {
+    getSummaryData() {
+      delete this.summary_data.payment_made_at;
+      delete this.summary_data.shipping_fee;
+      delete this.summary_data.deleted_at;
+      delete this.summary_data.broker_charge;
+      delete this.summary_data.payment_type;
+      delete this.summary_data.transaction_id;
+      delete this.summary_data.disburse_currency;
+
+      for (const prop in this.summary_data) {
+        let prop_obj = {};
+        prop_obj.title = prop.split("_").join(" ");
+        prop_obj.value = this.summary_data[prop];
+
+        this.summary_list.push(prop_obj);
+      }
+
+      return this.summary_list;
+    },
+  },
+
+  // watch: {
+  //   summary_data: {
+  //     handler(value) {
+  //       console.log(value);
+  //       this.processSummaryData(value);
+  //     },
+  //   },
+  // },
+
+  data() {
+    return {
+      summary_list: [],
+    };
+  },
+
+  methods: {
+    processSummaryData(summary) {
+      console.log("SUMMARY", summary);
+
+      for (const prop in summary) {
+        let prop_obj = {};
+        prop_obj.title = prop.split("_").join(" ");
+        prop_obj.value = summary[prop];
+
+        this.summary_list.push(prop_obj);
+      }
+
+      console.log("SUMMARY", this.summary_list);
+    },
+  },
 };
 </script>
 

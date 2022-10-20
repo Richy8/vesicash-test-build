@@ -1,3 +1,4 @@
+export const VESICASH_APP_BASE_URL = "";
 export const VESICASH_API_BASE_URL = "";
 export const VESICASH_API_VERSION = "";
 export const VESICASH_PRIVATE_KEY = "";
