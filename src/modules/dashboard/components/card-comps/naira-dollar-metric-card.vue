@@ -45,7 +45,11 @@
         Fund Wallet
       </button>
 
-      <button class="btn btn-secondary btn-md" @click="toggleWalletModal">
+      <button
+        class="btn btn-secondary btn-md"
+        v-if="false"
+        @click="toggleWalletModal"
+      >
         Withdraw money
       </button>
     </div>

@@ -24,6 +24,7 @@
 
       <!-- DISBURSE MONEY BUTTON -->
       <router-link
+        v-if="false"
         :to="{ name: 'VesicashFundDetails' }"
         class="btn btn-primary btn-lg"
         >Disburse Money</router-link
@@ -31,7 +32,7 @@
     </div>
 
     <!-- DISBURSEMENT SECTION -->
-    <template>
+    <template v-if="false">
       <div class="section-title mgb-18 h5-text grey-900">Disbursements</div>
 
       <!-- DISBURSEMENT TABLE DATA -->
