@@ -16,18 +16,18 @@
 
     <!-- MODAL COVER BODY -->
     <template slot="modal-cover-body">
-      <div class="modal-cover-body mgb--50">
+      <div class="modal-cover-body mgb--10">
         <!-- DOLLAR WITHDRAWAL -->
-        <!-- <div class="mgb-20">
+        <div class="mgb-20">
           <RadioSelectCard
             card_name="wallet"
             label_id="walletCard1"
             label_text="Fund dollar wallet"
             @clicked="selected_wallet = 'dollar'"
           />
-        </div> -->
+        </div>
 
-        <!-- NAIRA WITHDRAWAL -->
+        <!-- NAIRA WITHDRAWAL  -->
         <div>
           <RadioSelectCard
             card_name="wallet"
@@ -88,7 +88,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.modal-cover-body {
+.mgb-hack {
   margin-bottom: toRem(-90) !important;
 }
 </style>

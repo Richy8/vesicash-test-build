@@ -1,7 +1,10 @@
 <template>
   <div class="dashboard-transactions">
     <!-- PAGE SWITCHER -->
-    <PageSwitcher @swapTable="transaction_table_type = $event" />
+    <PageSwitcher
+      :page_data="pages"
+      @swapTable="transaction_table_type = $event"
+    />
 
     <!-- DISPLAY AREA FOR PAYMENTS/DISBURSEMENTS/WALLET -->
     <transition name="fade" mode="out-in">
@@ -52,6 +55,24 @@ export default {
   },
 
   data: () => ({
+    pages: [
+      {
+        title: "Payments",
+        table: "TransactionPaymentTable",
+        active: false,
+      },
+      {
+        title: "Disbursements",
+        table: "TransactionDisbursementTable",
+        active: false,
+      },
+      {
+        title: "Wallets",
+        table: "TransactionWalletTable",
+        active: true,
+      },
+    ],
+
     transaction_table_type: "TransactionWalletTable",
     show_transaction_summary_modal: false,
   }),

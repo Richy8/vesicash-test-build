@@ -21,9 +21,9 @@
             <!-- AMOUNT VALUE -->
             <div class="amount-value teal-800 h4-text mgb-4">
               <span v-html="$money.getSign(wallet.sign)"></span
-              >{{ wallet.value.split(".")[0]
+              >{{ $money.addComma(wallet.value.split(".")[0])
               }}<span class="amount-zero"
-                >.{{ wallet.value.split(".")[1] }}</span
+                >.{{ wallet.value.split(".")[1] || "00" }}</span
               >
             </div>
           </template>
@@ -45,9 +45,9 @@
         Fund Wallet
       </button>
 
-      <!-- <button class="btn btn-secondary btn-md" @click="toggleWalletModal">
+      <button class="btn btn-secondary btn-md" @click="toggleWalletModal">
         Withdraw money
-      </button> -->
+      </button>
     </div>
 
     <!-- MODALS -->

@@ -11,8 +11,10 @@
     <template v-else>
       <div class="amount-value mgb-8 border-bottom-grey-100">
         <span v-html="$money.getSign('dollar')"></span
-        >{{ getEscrowDollar.split(".")[0]
-        }}<span class="amount-zero">.{{ getEscrowDollar.split(".")[1] }}</span>
+        >{{ $money.addComma(getEscrowDollar.split(".")[0])
+        }}<span class="amount-zero"
+          >.{{ getEscrowDollar.split(".")[1] || "00" }}</span
+        >
       </div>
     </template>
 

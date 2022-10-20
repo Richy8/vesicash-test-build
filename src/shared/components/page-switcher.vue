@@ -19,25 +19,18 @@
 export default {
   name: "PageSwitcher",
 
-  data: () => ({
-    pages: [
-      // {
-      //   title: "Payments",
-      //   table: "TransactionPaymentTable",
-      //   active: true,
-      // },
-      // {
-      //   title: "Disbursements",
-      //   table: "TransactionDisbursementTable",
-      //   active: false,
-      // },
-      {
-        title: "Wallets",
-        table: "TransactionWalletTable",
-        active: true,
-      },
-    ],
-  }),
+  props: {
+    page_data: {
+      type: Array,
+      default: () => [],
+    },
+  },
+
+  data() {
+    return {
+      pages: this.page_data,
+    };
+  },
 
   methods: {
     changeTableView(index) {

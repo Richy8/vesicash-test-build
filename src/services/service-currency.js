@@ -26,6 +26,13 @@ class serviceCurrency {
 
     return currency_type;
   }
+
+  // ===================================
+  // FORMAT CURRENCY COMMA SEPARATOR
+  // ===================================
+  addComma(currency) {
+    return new Intl.NumberFormat().format(currency);
+  }
 }
 
 export const $serviceCurrency = new serviceCurrency();

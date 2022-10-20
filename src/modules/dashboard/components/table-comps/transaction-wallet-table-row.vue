@@ -14,7 +14,7 @@
 
     <td class="body-data" :class="`${table_name}-5`">
       <span v-html="$money.getSign(data.currency)"></span
-      >{{ data.total_amount }}
+      >{{ $money.addComma(data.total_amount) }}
     </td>
 
     <td class="body-data" :class="`${table_name}-6`">
