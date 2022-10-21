@@ -40,16 +40,14 @@ export default {
     onboarding_accounts: [
       {
         title: "Personal account",
-        description:
-          "Suitable for personal purposes and to  perfrom some transcations",
+        description: "Suitable for Personal Escrow purpose",
         icon: "UserIcon",
         link: "/register/individual",
         selected: false,
       },
       {
         title: "Business account",
-        description:
-          "Suitable for people that have businesses and want to perform escrow duties",
+        description: "Suitable for all Business Escrow Purposes",
         icon: "BusinessIcon",
         link: "/register/business",
         selected: false,

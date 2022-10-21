@@ -6,7 +6,7 @@
       :table_data="dataset"
       :table_header="table_header"
       :is_loading="false"
-      empty_message="You have not done any disbursement transaction. Please click on the disburse money button to start"
+      empty_message="You have not created any Transactions yet. Click the “New Payment” Button to get started"
     >
       <template v-for="(data, index) in dataset">
         <DisbursementTableRow

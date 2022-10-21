@@ -1,27 +1,26 @@
 <template>
-  <div class="transactions-page">
+  <div class="disbursement-page">
     <!-- PAGE TITILE -->
     <div class="page-title grey-900 h4-text mgb-25">Transactions</div>
 
-    <!-- DASHBOARD TRANSACTIONS -->
-    <div class="wrapper pdb-30">
-      <DashboardTransactions />
+    <!-- DISBURSEMENT TABLE DATA -->
+    <div class="disbursement-table-wrapper">
+      <DisbursementTable />
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Transactions",
+  name: "Disbursements",
 
   components: {
-    DashboardTransactions: () =>
+    DisbursementTable: () =>
       import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/dashboard-transactions"
+        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/table-comps/disbursement-table"
       ),
   },
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
