@@ -1,15 +1,15 @@
-const transactionRoutes = [{
-    path: "/transactions",
+const paymentsRoutes = [{
+    path: "/payments",
     component: () =>
         import ( /* webpackChunkName: "base-layout" */ "@/layouts/layout-base"),
 
     children: [{
         path: "",
-        name: "TransactionPage",
+        name: "PaymentsPage",
         component: () =>
             import (
-                /* webpackChunkName: "disbursements-module" */
-                "@/modules/transactions/pages/transactions"
+                /* webpackChunkName: "transactions-module" */
+                "@/modules/payments/pages/payments"
             ),
         meta: {
             requiresAuth: true,
@@ -17,4 +17,4 @@ const transactionRoutes = [{
     }, ],
 }, ];
 
-export default transactionRoutes;
+export default paymentsRoutes;

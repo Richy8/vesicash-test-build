@@ -39,7 +39,7 @@ export default {
       default: () => [
         {
           id: 1,
-          title: "Payment Details",
+          title: "Payment details",
           route: "VesicashFundDetails",
           alias_route: "",
           state: "current",

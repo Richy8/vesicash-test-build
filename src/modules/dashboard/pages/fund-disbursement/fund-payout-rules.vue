@@ -1,8 +1,6 @@
 <template>
   <div class="fund-payout-rules">
-    <div class="disbursement-title h4-text grey-900 mgb-32">
-      Add payout rules
-    </div>
+    <div class="disbursement-title h4-text grey-900 mgb-32">Payout Details</div>
 
     <div class="instruction-wrapper col-xl-8 mgb-12">
       <!-- INSTRUCTION TEXT -->
@@ -36,7 +34,7 @@
               card_name="dispute"
               label_id="disputeCard1"
               label_text="Handled by the platform"
-              tooltip_text=" Information to be passed to the audience"
+              tooltip_text="Dispute resolution will be handled by Vesicash."
             />
           </div>
 
@@ -45,7 +43,7 @@
               card_name="dispute"
               label_id="disputeCard2"
               label_text="Arbitration"
-              tooltip_text=" Information to be passed to the audience"
+              tooltip_text="Any dispute will be handled via arbitration. Cost of which will be borne by the transacting parties."
             />
           </div>
         </div>

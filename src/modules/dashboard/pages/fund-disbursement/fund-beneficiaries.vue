@@ -4,8 +4,8 @@
 
     <!-- INSTRUCTION TEXT -->
     <div class="instruction-text grey-900 primary-2-text mgb-12">
-      <!-- Provide the details [use for single user] -->
-      Provide their details, roles and access levels.
+      Provide their details, roles and access levels
+      <!-- Provide the details [for single user]-->
     </div>
 
     <!-- FUND USERS TABLE -->
@@ -15,8 +15,8 @@
 
     <!-- ADD BENEFICIARY BLOCK -->
     <div class="wrapper mgb-40">
-      <!-- <AddBeneficiarySingleBlock /> -->
-      <AddBeneficiaryMultiBlock />
+      <AddBeneficiarySingleBlock />
+      <!-- <AddBeneficiaryMultiBlock /> -->
     </div>
 
     <!-- CTA ACTION ROW -->

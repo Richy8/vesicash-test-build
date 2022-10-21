@@ -1,7 +1,7 @@
 <template>
   <div class="summation-card rounded-16 border-grey-100">
     <div class="item-row">
-      <div class="item grey-600 tertiary-2-text">Total amount</div>
+      <div class="item grey-600 tertiary-2-text">Amount to pay</div>
       <div class="value grey-900 secondary-2-text">$70,000</div>
     </div>
 

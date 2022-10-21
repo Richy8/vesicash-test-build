@@ -11,7 +11,7 @@
         <!-- PAYMENT DESCRIPTION -->
         <div class="payment-description mgb-32">
           Your payment will be held in Escrow and you can monitor the status on
-          your dashboard.
+          your dashboard
         </div>
 
         <!-- TOTAL DISPLAY CARDS -->

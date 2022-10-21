@@ -8,7 +8,7 @@
     <div class="row mgb-10">
       <div class="col-12 col-sm-6 col-lg-5 col-xl-4">
         <div class="form-group">
-          <div class="form-label" for="transactionName">Payment Name</div>
+          <div class="form-label" for="transactionName">Payment name</div>
           <input
             type="text"
             id="transactionName"
@@ -62,7 +62,7 @@
 
     <!-- DISPUTE POLICY -->
     <div class="disbursement-type-title grey-900 primary-1-text mgb-10">
-      Attach a contract or document
+      Attach a contract or document (Optional)
     </div>
 
     <div class="col-12 col-lg-10 col-xl-8 mgb-40">
@@ -97,14 +97,14 @@ export default {
     disbursement_types: [
       {
         title: "One off disbursement",
-        description: "Your payment will be released in a single disbursement",
+        description: "Your payment will be released in a single disbursement.",
         type: "disbursement",
         selected: false,
       },
       {
-        title: "In Milestones",
+        title: "In Milestone",
         description:
-          "Your payment will be released in multiple disbursements according to the agreed milestones",
+          "Your payment will be released in multiple disbursements according to the agreed milestones.",
         type: "disbursement",
         selected: false,
       },
@@ -113,7 +113,7 @@ export default {
     transacting_types: [
       {
         title: "Two parties",
-        description: "A transaction involving just two parties/entities",
+        description: "A transaction involving just two parties/entities.",
         type: "transactions",
         selected: false,
       },

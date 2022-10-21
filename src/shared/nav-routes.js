@@ -6,12 +6,12 @@ const navRoutes = [{
     {
         title: "transactions",
         icon: "DisbursementIcon",
-        link: "/disbursements",
+        link: "/transactions",
     },
     {
         title: "payments",
         icon: "TransactionIcon",
-        link: "/transactions",
+        link: "/payments",
     },
     {
         title: "settings",

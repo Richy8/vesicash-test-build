@@ -80,6 +80,7 @@ export default {
   }
 
   &-6 {
+    min-width: toRem(150);
   }
 }
 </style>

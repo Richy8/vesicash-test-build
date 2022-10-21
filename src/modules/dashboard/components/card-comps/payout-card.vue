@@ -36,7 +36,7 @@
         <template>
           <div class="col-12 col-sm-6">
             <div class="form-group">
-              <div class="form-label" for="userEmail1">Recipient's email</div>
+              <div class="form-label" for="userEmail1">Recipient’s email</div>
               <input
                 type="email"
                 id="userEmail1"

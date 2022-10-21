@@ -7,7 +7,7 @@
         <div class="column" :key="index">
           <!-- TITLE TEXT -->
           <div class="title-text tertiary-3-text grey-700 mgb-12">
-            {{ wallet.title }} SIDE
+            {{ wallet.title }} Balance
           </div>
 
           <!-- LOADING AMOUNT VALUE -->
@@ -210,7 +210,7 @@ export default {
 };
 </script>
 
-<style  lang="scss" scoped>
+<style lang="scss" scoped>
 .naira-dollar-metric-card {
   padding: toRem(16) toRem(24);
   margin-right: toRem(32);
