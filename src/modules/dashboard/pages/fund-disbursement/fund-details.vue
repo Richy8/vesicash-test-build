@@ -1,19 +1,19 @@
 <template>
   <div class="fund-details">
     <div class="disbursement-title h4-text grey-900 mgb-32">
-      Add disbursement details
+      Add Payment Details
     </div>
 
     <!-- TRANSACTION NAME -->
     <div class="row mgb-10">
       <div class="col-12 col-sm-6 col-lg-5 col-xl-4">
         <div class="form-group">
-          <div class="form-label" for="transactionName">Transaction name</div>
+          <div class="form-label" for="transactionName">Payment name</div>
           <input
             type="text"
             id="transactionName"
             class="form-control"
-            placeholder="Enter your transaction name"
+            placeholder="Please give this payment a name"
           />
         </div>
       </div>
@@ -21,7 +21,7 @@
 
     <!-- DISBURSEMENT TYPE TITLE -->
     <div class="disbursement-type-title grey-900 primary-1-text mgb-10">
-      Select disbursment type
+      How Will This Payment Be Disbursed?
     </div>
 
     <!-- DISBURSEMENT TYPE SELECTIONS -->
@@ -41,7 +41,7 @@
 
     <!-- DISBURSEMENT TYPE TITLE -->
     <div class="disbursement-type-title grey-900 primary-1-text mgb-10">
-      How many people are transacting
+      How many people are transacting?
     </div>
 
     <!-- TRANSACTING PARTY SELECTIONS -->
@@ -62,7 +62,7 @@
 
     <!-- DISPUTE POLICY -->
     <div class="disbursement-type-title grey-900 primary-1-text mgb-10">
-      Dispute resolution policy (Optional)
+      Attach a contract or document (Optional)
     </div>
 
     <div class="col-12 col-lg-10 col-xl-8 mgb-40">
@@ -96,16 +96,15 @@ export default {
   data: () => ({
     disbursement_types: [
       {
-        title: "One off disbursement type",
-        description:
-          "Suitable for people that want to do one off payment to people",
+        title: "One off disbursement",
+        description: "Your payment will be released in a single disbursement.",
         type: "disbursement",
         selected: false,
       },
       {
-        title: "Milestone disbursment type",
+        title: "In Milestone",
         description:
-          "Suitable for people that want to disburse in milestones until their money is complete",
+          "Your payment will be released in multiple disbursements according to the agreed milestones.",
         type: "disbursement",
         selected: false,
       },
@@ -114,15 +113,14 @@ export default {
     transacting_types: [
       {
         title: "Two parties",
-        description:
-          "Suitable for transaction between buyer and seller only to make transactions possible",
+        description: "A transaction involving just two parties/entities.",
         type: "transactions",
         selected: false,
       },
       {
         title: "Multiple parties",
         description:
-          "Suitable for people that want to have several middlemen in their transaction for transparency sake",
+          "Provides involvement for a minimum of 3 parties. Set commissions and levels of control and access.",
         type: "transactions",
         selected: false,
       },

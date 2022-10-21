@@ -41,23 +41,23 @@ export default {
         id: 1,
         icon: "CreditCardIcon",
         title: "Pay with card",
-        description: "Lorem ipsum, dolor sit amet consectetur adipisicing.",
+        description: "Supports all Naira denominated debit and credit cards.",
         action_type: "route",
         action: "SuccessfulPayment",
       },
       {
         id: 2,
         icon: "ArrowRightIcon",
-        title: "Pay with wire transfer",
-        description: "Lorem ipsum, dolor sit amet consectetur adipisicing.",
+        title: "Pay with bank transfer",
+        description: "Make a transfer to the designated account",
         action_type: "modal",
         action: "toggleWireTransferModal",
       },
       {
         id: 3,
         icon: "BusinessIcon",
-        title: "Pay with flutterwave business account",
-        description: "Lorem ipsum, dolor sit amet consectetur adipisicing.",
+        title: "Pay With Flutterwave Business Account",
+        description: "Make a transfer from your Flutterwave Business Account.",
         action_type: "route",
         action: "SuccessfulPayment",
       },
@@ -72,5 +72,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

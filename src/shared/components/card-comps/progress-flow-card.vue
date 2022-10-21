@@ -39,21 +39,21 @@ export default {
       default: () => [
         {
           id: 1,
-          title: "Fund details",
+          title: "Payment details",
           route: "VesicashFundDetails",
           alias_route: "",
           state: "current",
         },
         {
           id: 2,
-          title: "Add beneficiaries",
+          title: "Invite Parties",
           route: "VesicashBeneficiaries",
           alias_route: "",
           state: "next",
         },
         {
           id: 3,
-          title: "Add payout rules",
+          title: "Payout Details",
           route: "VesicashPayoutRules",
           alias_route: "VesicashConfirmPayoutRules",
           state: "next",

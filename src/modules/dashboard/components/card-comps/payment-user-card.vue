@@ -17,7 +17,7 @@ export default {
   data: () => ({
     payment_details: [
       { title: "User Details", value: "Salimadeyemi@gmail.com" },
-      { title: "Amount to Pay", value: "$30,000" },
+      { title: "Amount", value: "$30,000" },
     ],
   }),
 };

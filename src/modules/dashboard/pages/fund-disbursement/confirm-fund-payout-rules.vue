@@ -29,7 +29,7 @@
             :card_items="[
               { title: 'Dispute Type', value: 'Vesicash handles dispute' },
               {
-                title: 'Dispute Policy Doc',
+                title: 'Attached Document(s)',
                 value: 'Two parties',
                 file: { name: 'PolicyFile.doc' },
               },

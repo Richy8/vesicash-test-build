@@ -1,12 +1,11 @@
 <template>
   <div class="fund-beneficiaries">
-    <div class="disbursement-title h4-text grey-900 mgb-32">
-      Add beneficiaries
-    </div>
+    <div class="disbursement-title h4-text grey-900 mgb-32">Invite Parties</div>
 
     <!-- INSTRUCTION TEXT -->
     <div class="instruction-text grey-900 primary-2-text mgb-12">
-      Add users to this transaction
+      Provide their details, roles and access levels
+      <!-- Provide the details [for single user]-->
     </div>
 
     <!-- FUND USERS TABLE -->
@@ -16,8 +15,8 @@
 
     <!-- ADD BENEFICIARY BLOCK -->
     <div class="wrapper mgb-40">
-      <!-- <AddBeneficiarySingleBlock /> -->
-      <AddBeneficiaryMultiBlock />
+      <AddBeneficiarySingleBlock />
+      <!-- <AddBeneficiaryMultiBlock /> -->
     </div>
 
     <!-- CTA ACTION ROW -->

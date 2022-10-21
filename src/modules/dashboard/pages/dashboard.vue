@@ -26,13 +26,13 @@
       <router-link
         :to="{ name: 'VesicashFundDetails' }"
         class="btn btn-primary btn-lg"
-        >Disburse Money</router-link
+        >New Payment</router-link
       >
     </div>
 
     <!-- DISBURSEMENT SECTION -->
     <template>
-      <div class="section-title mgb-18 h5-text grey-900">Disbursements</div>
+      <div class="section-title mgb-18 h5-text grey-900">Transactions</div>
 
       <!-- DISBURSEMENT TABLE DATA -->
       <div class="disbursement-table-wrapper">
@@ -42,7 +42,7 @@
 
     <!-- TRANSACTION SECTION -->
     <template>
-      <div class="section-title mgb-8 h5-text grey-900">Transactions</div>
+      <div class="section-title mgb-8 h5-text grey-900">Payments</div>
 
       <!-- DASHBOARD TRANSACTIONS -->
       <div class="wrapper pdb-30">
@@ -86,12 +86,12 @@ export default {
     return {
       naira_dollar_wallet: [
         {
-          title: "NAIRA",
+          title: "NGN",
           value: "0.00",
           sign: "naira",
         },
         {
-          title: "DOLLAR",
+          title: "USD",
           value: "0.00",
           sign: "dollar",
         },
@@ -226,4 +226,4 @@ export default {
     }
   }
 }
-</style>  
+</style>
