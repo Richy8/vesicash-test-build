@@ -7,7 +7,7 @@
     <div class="instruction-wrapper col-xl-8 mgb-12">
       <!-- INSTRUCTION TEXT -->
       <div class="instruction-text grey-900 primary-2-text mgr-5">
-        Add payout rules for your users
+        Provide details for the Payout
       </div>
 
       <button class="btn btn-secondary btn-md">
@@ -25,7 +25,7 @@
 
     <!-- INSTRUCTION TEXT -->
     <div class="instruction-text grey-900 primary-2-text mgb-12">
-      Who handles the dispute?
+      How May Any Dispute Be Handled?
     </div>
 
     <div class="wrapper row mgb-32">
@@ -35,7 +35,7 @@
             <RadioSelectCard
               card_name="dispute"
               label_id="disputeCard1"
-              label_text="Vesicash handles dispute"
+              label_text="Handled by the platform"
               tooltip_text=" Information to be passed to the audience"
             />
           </div>
@@ -44,7 +44,7 @@
             <RadioSelectCard
               card_name="dispute"
               label_id="disputeCard2"
-              label_text="Arbitrator handles dispute"
+              label_text="Arbitration"
               tooltip_text=" Information to be passed to the audience"
             />
           </div>

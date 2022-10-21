@@ -12,7 +12,7 @@
           label_title="Business name"
           label_id="businessName"
           :input_value="form.business_name"
-          placeholder="Enter your business name"
+          placeholder="What is your business called?"
           @getInputState="updateFormState($event, 'business_name')"
           :error_handler="{
             type: 'required',
@@ -40,7 +40,7 @@
       <!-- LASTNAME INPUT -->
       <div class="form-group">
         <BasicInput
-          label_title="Last name"
+          label_title="Surname"
           label_id="lastName"
           :input_value="form.lastname"
           is_required
@@ -294,5 +294,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

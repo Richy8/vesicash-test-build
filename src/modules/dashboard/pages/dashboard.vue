@@ -23,7 +23,7 @@
       <router-link
         :to="{ name: 'VesicashFundDetails' }"
         class="btn btn-primary btn-lg"
-        >Disburse Money</router-link
+        >New Payment</router-link
       >
     </div>
 
@@ -218,4 +218,4 @@ export default {
     }
   }
 }
-</style>  
+</style>

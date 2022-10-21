@@ -10,8 +10,8 @@
 
         <!-- PAYMENT DESCRIPTION -->
         <div class="payment-description mgb-32">
-          Your payment will be added to your escrow acccount on the dashboard
-          until the order is fulfiled by the parties and the transaction is paid
+          Your payment will be held in Escrow and you can monitor the status on
+          your dashboard.
         </div>
 
         <!-- TOTAL DISPLAY CARDS -->

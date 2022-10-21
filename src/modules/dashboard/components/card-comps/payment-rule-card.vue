@@ -57,8 +57,8 @@ export default {
   data: () => ({
     payment_rules: [
       { title: "User Details", value: "Salimadeyemi@gmail.com" },
-      { title: "Amount to Pay", value: "$30,000" },
-      { title: "Payment due date", value: "12th April, 2022" },
+      { title: "Amount", value: "$30,000" },
+      { title: "Due date", value: "12th April, 2022" },
       { title: "Inspection Period", value: "4 days" },
       { title: "Status", value: "In Progress" },
     ],

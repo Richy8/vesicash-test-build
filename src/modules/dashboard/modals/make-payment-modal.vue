@@ -48,7 +48,7 @@ export default {
       {
         id: 2,
         icon: "ArrowRightIcon",
-        title: "Pay with wire transfer",
+        title: "Pay with bank transfer",
         description: "Lorem ipsum, dolor sit amet consectetur adipisicing.",
         action_type: "modal",
         action: "toggleWireTransferModal",
@@ -57,7 +57,7 @@ export default {
         id: 3,
         icon: "BusinessIcon",
         title: "Pay with flutterwave business account",
-        description: "Lorem ipsum, dolor sit amet consectetur adipisicing.",
+        description: "Make a transfer from your Flutterwave Business Accoun",
         action_type: "route",
         action: "SuccessfulPayment",
       },
@@ -72,5 +72,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

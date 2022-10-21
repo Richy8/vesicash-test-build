@@ -27,7 +27,7 @@
               type="text"
               id="milestoneName"
               class="form-control"
-              placeholder="Enter milestone name"
+              placeholder="What milestone is this?"
             />
           </div>
         </div>
@@ -36,7 +36,7 @@
         <template>
           <div class="col-12 col-sm-6">
             <div class="form-group">
-              <div class="form-label" for="userEmail1">Recipient details</div>
+              <div class="form-label" for="userEmail1">Recipient's email</div>
               <input
                 type="email"
                 id="userEmail1"
@@ -48,7 +48,7 @@
 
           <div class="col-12 col-sm-6">
             <div class="form-group">
-              <div class="form-label" for="amount">Amount to pay</div>
+              <div class="form-label" for="amount">Amount</div>
 
               <div class="form-prefix form-prefix-right">
                 <input
@@ -70,7 +70,7 @@
         <!-- PAYMENT DUE DATE -->
         <div class="col-12 col-sm-6">
           <div class="form-group">
-            <div class="form-label" for="dueDate">Payment due date</div>
+            <div class="form-label" for="dueDate">Due date</div>
             <input
               type="date"
               id="dueDate"
