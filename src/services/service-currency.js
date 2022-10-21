@@ -13,9 +13,11 @@ class serviceCurrency {
 
     switch (currency) {
       case "naira":
+      case "NGN":
         currency_type = naira;
         break;
       case "dollar":
+      case "USD":
         currency_type = dollar;
         break;
       default:
@@ -23,6 +25,13 @@ class serviceCurrency {
     }
 
     return currency_type;
+  }
+
+  // ===================================
+  // FORMAT CURRENCY COMMA SEPARATOR
+  // ===================================
+  addComma(currency) {
+    return new Intl.NumberFormat().format(currency);
   }
 }
 

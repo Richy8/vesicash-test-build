@@ -1,24 +1,43 @@
 <template>
-  <tr @click="viewTransactionDetail">
-    <td class="body-data" :class="`${table_name}-1`">4th July, 2022</td>
+  <tr @click="toggleTransactionSummaryModal">
+    <td class="body-data" :class="`${table_name}-1`">{{ getCreatedDate }}</td>
 
     <td class="body-data text-no-wrap" :class="`${table_name}-2`">
-      1124949599
+      {{ data.payment_id }}
     </td>
 
-    <td class="body-data" :class="`${table_name}-3`">Awo Bangalee</td>
+    <td class="body-data" :class="`${table_name}-3`">{{ data.account_id }}</td>
 
-    <td class="body-data" :class="`${table_name}-4`">Dollar</td>
+    <td class="body-data" :class="`${table_name}-4`">
+      {{ data.currency === "USD" ? "Dollar" : "Naira" }}
+    </td>
 
-    <td class="body-data" :class="`${table_name}-5`">$10,000</td>
+    <td class="body-data" :class="`${table_name}-5`">
+      <span v-html="$money.getSign(data.currency)"></span
+      >{{ $money.addComma(data.total_amount) }}
+    </td>
 
     <td class="body-data" :class="`${table_name}-6`">
-      <TagCard card_text="Completed" card_type="success" />
+      <TagCard
+        :card_text="data.is_paid ? 'Completed' : 'Failed'"
+        :card_type="data.is_paid ? 'success' : 'error'"
+      />
     </td>
 
     <td class="body-data" :class="`${table_name}-7`">
       <button class="btn btn-secondary btn-sm">View</button>
     </td>
+
+    <!-- MODALS -->
+    <portal to="vesicash-modals">
+      <transition name="fade" v-if="show_transaction_summary_modal">
+        <TransactionSummaryModal
+          type="wallet"
+          :summary_data="data"
+          @closeTriggered="toggleTransactionSummaryModal"
+        />
+      </transition>
+    </portal>
   </tr>
 </template>
 
@@ -30,6 +49,11 @@ export default {
 
   components: {
     TagCard,
+
+    TransactionSummaryModal: () =>
+      import(
+        /* webpackChunkName: "dashboard-table-module" */ "@/modules/dashboard/modals/transaction-summary-modal"
+      ),
   },
 
   props: {
@@ -44,9 +68,22 @@ export default {
     },
   },
 
+  computed: {
+    getCreatedDate() {
+      let { d3, m4, y1 } = this.$date.formatDate(this.data.created_at).getAll();
+
+      return `${d3} ${m4}, ${y1}`;
+    },
+  },
+
+  data: () => ({
+    show_transaction_summary_modal: false,
+  }),
+
   methods: {
-    viewTransactionDetail() {
-      this.$bus.$emit("showTransactionSummary");
+    toggleTransactionSummaryModal() {
+      this.show_transaction_summary_modal =
+        !this.show_transaction_summary_modal;
     },
   },
 };

@@ -17,15 +17,19 @@
 
       <!-- BUTTON AREA -->
       <div class="btn-area mgt-30 mgb-10 wt-100">
-        <router-link to="/dashboard" class="btn btn-primary btn-md wt-100"
-          >Go to Dashboard</router-link
+        <button
+          @click="handleGoToDashboard"
+          class="btn btn-primary btn-md wt-100"
         >
+          Go to Dashboard
+        </button>
       </div>
     </div>
   </AuthWrapper>
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import AuthWrapper from "@/modules/auth/components/auth-wrapper";
 import SuccessIcon from "@/shared/components/icon-comps/success-icon";
 import WarningIcon from "@/shared/components/icon-comps/warning-icon";
@@ -55,6 +59,36 @@ export default {
       return this.$route.query.currency === "NGN"
         ? `Please wait while we confirm the payment that you have made, if your payment is sucessful, it will reflect on your dashboard`
         : `Your dollar wallet funding was completed successfully`;
+    },
+  },
+
+  methods: {
+    ...mapActions({ verifyPaymentAccount: "dashboard/verifyPaymentAccount" }),
+
+    // ===============================
+    // VERIFY USER WALLET PAYMENT
+    // ===============================
+    verifyWalletPayment() {
+      this.verifyPaymentAccount({
+        reference: this.$route.query?.reference_id,
+      }).then((response) => {
+        console.log(response);
+      });
+    },
+
+    // ===============================
+    // HANDLE DASHBOARD REDIRECT
+    // ===============================
+    handleGoToDashboard() {
+      // CHECK IF ROUTE HAS A CURRENCY TYPE OF NGN AND VERIFY
+      if (this.$route?.query?.currency === "NGN") {
+        this.verifyWalletPayment();
+
+        setTimeout(() => this.$router.push("/dashboard"), 1500);
+      }
+
+      // MOVE TO DASHBOARD
+      else this.$router.push("/dashboard");
     },
   },
 };

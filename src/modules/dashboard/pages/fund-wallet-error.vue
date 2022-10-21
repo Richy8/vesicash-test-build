@@ -2,11 +2,11 @@
   <AuthWrapper title_text="">
     <!-- AUTH PAGE -->
     <div class="auth-page auth-page-success">
-      <WarningIcon />
+      <ErrorIcon />
 
       <!-- TITLE TEXT -->
       <div class="title-text primary-1-text grey-900 mgb-8 text-center">
-        Wallet funding failed
+        Payment unsucessful
       </div>
 
       <!-- DESCRIPTION TEXT -->
@@ -26,7 +26,7 @@
 
 <script>
 import AuthWrapper from "@/modules/auth/components/auth-wrapper";
-import WarningIcon from "@/shared/components/icon-comps/warning-icon";
+import ErrorIcon from "@/shared/components/icon-comps/error-icon";
 
 export default {
   name: "FundWalletError",
@@ -38,7 +38,7 @@ export default {
 
   components: {
     AuthWrapper,
-    WarningIcon,
+    ErrorIcon,
   },
 };
 </script>

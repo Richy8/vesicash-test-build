@@ -21,9 +21,9 @@
             <!-- AMOUNT VALUE -->
             <div class="amount-value teal-800 h4-text mgb-4">
               <span v-html="$money.getSign(wallet.sign)"></span
-              >{{ wallet.value.split(".")[0]
+              >{{ $money.addComma(wallet.value.split(".")[0])
               }}<span class="amount-zero"
-                >.{{ wallet.value.split(".")[1] }}</span
+                >.{{ wallet.value.split(".")[1] || "00" }}</span
               >
             </div>
           </template>
@@ -179,11 +179,11 @@ export default {
       this.toggleFundWalletSelectModal();
     },
 
-    closeFundDetailsAndOpenSuccess() {
+    closeFundDetailsAndOpenSuccess(reference_id) {
       this.show_fund_wallet_info_modal = false;
       this.$router.push({
         name: "SuccessfulWalletFund",
-        query: { currency: "NGN" },
+        query: { currency: "NGN", reference_id },
       });
     },
 
