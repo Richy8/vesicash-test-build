@@ -18,7 +18,8 @@
           <RadioSelectCard
             card_name="wallet"
             label_id="walletCard1"
-            label_text="Dollar wallet ($0)"
+            :label_text="`Dollar wallet ($${getDollarBalance})`"
+            @clicked="updateWalletSelection('dollar')"
           />
         </div>
 
@@ -27,7 +28,8 @@
           <RadioSelectCard
             card_name="wallet"
             label_id="walletCard2"
-            label_text="Naira wallet (N0)"
+            :label_text="`Naira wallet (N${getNairaBalance})`"
+            @clicked="updateWalletSelection('naira')"
           />
         </div>
       </div>
@@ -39,6 +41,7 @@
         <button
           class="btn btn-primary btn-md wt-100"
           @click="handleWalletSelection"
+          :disabled="!wallet_type"
         >
           Continue
         </button>
@@ -48,6 +51,7 @@
 </template>
 
 <script>
+import { mapMutations, mapGetters } from "vuex";
 import ModalCover from "@/shared/components/modal-cover";
 
 export default {
@@ -68,9 +72,25 @@ export default {
     },
   },
 
-  data: () => ({}),
+  computed: {
+    ...mapGetters({
+      getNairaBalance: "dashboard/getNairaBalance",
+      getDollarBalance: "dashboard/getDollarBalance",
+    }),
+  },
+
+  data: () => ({
+    wallet_type: "",
+  }),
 
   methods: {
+    ...mapMutations({ setWalletType: "dashboard/SET_WALLET_TYPE" }),
+
+    updateWalletSelection(type) {
+      this.wallet_type = type;
+      this.setWalletType(type);
+    },
+
     handleWalletSelection() {
       this.$emit("walletSelected");
     },
@@ -78,5 +98,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

@@ -58,11 +58,7 @@ export default {
     payment_rules: [
       { title: "User Details", value: "Salimadeyemi@gmail.com" },
       { title: "Amount", value: "$30,000" },
-<<<<<<< HEAD
       { title: "Due date", value: "12th April, 2022" },
-=======
-      { title: "Payment due date", value: "12th April, 2022" },
->>>>>>> origin/issues/dashboard-copy-updates
       { title: "Inspection Period", value: "4 days" },
       { title: "Status", value: "In Progress" },
     ],

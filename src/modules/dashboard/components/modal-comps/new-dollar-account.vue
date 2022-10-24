@@ -8,6 +8,7 @@
       <DropSelectInput
         placeholder="Select country"
         :options="country_options"
+        @optionSelected="country = $event"
       />
     </div>
 
@@ -21,6 +22,7 @@
           id="phoneNumber"
           class="form-control"
           placeholder="Enter your phone number"
+          v-model="phone"
         />
 
         <!-- PREFIX AREA -->
@@ -50,6 +52,7 @@
             id="firstName"
             class="form-control"
             placeholder="Your first name"
+            v-model="first_name"
           />
         </div>
       </div>
@@ -62,6 +65,7 @@
             id="lastName"
             class="form-control"
             placeholder="Your last name"
+            v-model="last_name"
           />
         </div>
       </div>
@@ -75,6 +79,19 @@
       <DropSelectInput
         placeholder="Select bank name"
         :options="bank_name_options"
+        @optionSelected="bank = $event"
+      />
+    </div>
+
+    <!-- ACCOUNT NUMBER-->
+    <div class="form-group">
+      <div class="form-label" for="accountNumber">IBAN/Account Number</div>
+      <input
+        type="text"
+        id="accountNumber"
+        class="form-control"
+        placeholder="Your IBAN/Account Number"
+        v-model="account_number"
       />
     </div>
 
@@ -88,6 +105,7 @@
             id="swiftCode"
             class="form-control"
             placeholder="Your swift code"
+            v-model="swift_code"
           />
         </div>
       </div>
@@ -100,6 +118,7 @@
             id="sortCode"
             class="form-control"
             placeholder="Your routing/sort code"
+            v-model="sort_code"
           />
         </div>
       </div>
@@ -113,6 +132,7 @@
         id="bankAddress"
         class="form-control"
         placeholder="Your bank address"
+        v-model="bank_address"
       />
     </div>
   </div>
@@ -133,8 +153,49 @@ export default {
       ),
   },
 
+  computed: {
+    getBankDetails() {
+      return {
+        account_name: `${this.last_name} ${this.first_name}`,
+        account_no: this.account_number,
+        swift_code: this.swift_code,
+        sort_code: this.sort_code,
+        bank_address: this.bank_address,
+        bank_name: this.bank?.name,
+        currency: "USD",
+        phone: this.phone,
+      };
+    },
+  },
+
+  watch: {
+    getBankDetails: {
+      handler(bank) {
+        if (!this.phone) {
+          this.$emit("dollarBankUpdated", null);
+        }
+        for (const key in bank) {
+          if (!bank[key]) {
+            this.$emit("dollarBankUpdated", null);
+            return;
+          }
+        }
+        this.$emit("dollarBankUpdated", bank);
+      },
+    },
+  },
+
   data: () => ({
     show_dropdown: false,
+    country: null,
+    phone: "",
+    first_name: "",
+    last_name: "",
+    bank: null,
+    swift_code: "",
+    sort_code: "",
+    account_number: "",
+    bank_address: "",
     country_options: [
       { id: 1, name: "United State of America" },
       { id: 2, name: "Canada" },
@@ -162,5 +223,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
