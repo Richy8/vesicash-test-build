@@ -29,25 +29,21 @@
 
         <!-- AMOUNT TO WITHDRAW -->
         <div class="form-group">
-          <label class="form-label" for="withdrawAmount">Amount to withdraw</label>
-
-          <div class="form-prefix form-prefix-right">
-            <input
-              type="number"
-              id="withdrawAmount"
-              class="form-control"
-              placeholder="0.00"
-              v-model="amount"
-            />
-
-            <!-- PREFIX AREA -->
-            <div class="prefix-select-area value-area">
-              <div class="value grey-900 text-no-wrap">
-                {{ getWalletType === "naira" ? "NGN" : "USD" }} (
-                <span v-html="$money.getSign(getWalletType)"></span>)
-              </div>
-            </div>
-          </div>
+          <BasicInput
+            label_title="Amount to withdraw"
+            label_id="amount"
+            :input_value="form.amount"
+            is_required
+            placeholder="0.00"
+            :custom_style="{ input_wrapper_style: 'form-prefix' }"
+            :currency="withdrawalCurrency"
+            class="form-prefix-right"
+            @getInputState="updateFormState($event, 'amount')"
+            :error_handler="{
+            type: 'required',
+            message: 'Enter an amount',
+          }"
+          />
         </div>
 
         <template v-if="!initiate_new_account">
@@ -110,9 +106,12 @@
 import { mapGetters, mapActions, mapMutations } from "vuex";
 import ModalCover from "@/shared/components/modal-cover";
 import PageBackBtn from "@/shared/components/page-back-btn";
+import FormHelper from "@/modules/auth/mixins/auth-helper";
 
 export default {
   name: "WithdrawAccountModal",
+
+  mixins: [FormHelper],
 
   components: {
     ModalCover,
@@ -141,6 +140,10 @@ export default {
       import(
         /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/modal-comps/new-dollar-account"
       ),
+    BasicInput: () =>
+      import(
+        /* webpackChunkName: 'shared-module' */ "@/shared/components/form-comps/basic-input"
+      ),
   },
 
   props: {
@@ -156,6 +159,11 @@ export default {
       getNairaBalance: "dashboard/getNairaBalance",
       getDollarBalance: "dashboard/getDollarBalance",
     }),
+
+    withdrawalCurrency() {
+      const currency = this.getWalletType === "naira" ? "NGN" : "USD";
+      return `${currency} (${this.$money.getSign(this.getWalletType)})`;
+    },
 
     getAccountType() {
       return this.getWalletType === "naira"
@@ -208,9 +216,9 @@ export default {
 
     nairaWithdrawalDetails() {
       return {
-        amount: this.amount,
+        amount: this.form.amount,
         fee: 500,
-        total: Number(Number(this.amount) + 500),
+        total: Number(Number(this.form.amount) + 500),
         country: "Nigeria",
         phone: this.phone,
         first_name: this.getFirstName,
@@ -224,9 +232,9 @@ export default {
 
     dollarWithdrawalDetails() {
       return {
-        amount: this.amount,
+        amount: this.form.amount,
         fee: 500,
-        total: Number(Number(this.amount) + 500),
+        total: Number(Number(this.form.amount) + 500),
         country: "United States",
         phone: this.phone,
         first_name: this.getFirstName,
@@ -243,7 +251,7 @@ export default {
     },
 
     continueDisabled() {
-      if (!this.amount) return true;
+      if (!this.form.amount) return true;
       if (this.initiate_new_account) {
         return this.getAccountType === "NewNairaAccount"
           ? !this.new_naira_account
@@ -277,6 +285,13 @@ export default {
     new_dollar_account: null,
     phone: "",
     amount: "",
+    form: {
+      amount: "",
+    },
+
+    validity: {
+      form: true,
+    },
 
     accounts: [],
   }),

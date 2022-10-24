@@ -22,9 +22,8 @@
       <div
         class="text tertiary-2-text"
         :class="single_type ? 'green-700' : 'grey-900'"
-      >
-        {{ label_text }}
-      </div>
+        v-html="label_text"
+      ></div>
     </div>
 
     <div class="helper-icon pointer" v-if="tooltip_text">
@@ -37,9 +36,7 @@
 
     <!-- BOTTOM TOOLTIP -->
     <div class="tooltip-wrapper wt-100 position-absolute">
-      <div class="tooltip-data wt-100 grey-10-bg rounded-8">
-        {{ tooltip_text }}
-      </div>
+      <div class="tooltip-data wt-100 grey-10-bg rounded-8">{{ tooltip_text }}</div>
     </div>
   </label>
 </template>
