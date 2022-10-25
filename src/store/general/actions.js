@@ -4,7 +4,7 @@ const routes = {
     location: "https://ip2c.org/s",
 
     country_bank_list: "/admin/banks/country",
-    verify_account: "/payment/banks/account_verification"
+    verify_account: "/payment/banks/account_verification",
 };
 
 export default {
@@ -25,14 +25,9 @@ export default {
     // ==============================
     // VERIFY BANK ACCOUNT
     // ==============================
-    async verifyBankAccount(_, payload) {
-        await $api.fetch(routes.verify_account, { payload });
-        return {
-            code: 200,
-            data: {
-                account_name: 'Simon Peters',
-                account_number: payload.account_number
-            }
-        }
+    async verifyBankAccount(_, { bank_code, account_number }) {
+        return await $api.fetch(
+            `${routes.verify_account}?bank_code=${bank_code}&account_number=${account_number}`
+        );
     },
 };

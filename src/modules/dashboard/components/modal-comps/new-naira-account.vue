@@ -32,8 +32,9 @@
     <!-- ACCOUNT CONFIRM CARD -->
     <div class="account-confirm-card grey-10-bg rounded-12 mgt--10">
       <div
-        class="name tertiary-2-text grey-900"
-      >{{ account_details ? account_details.account_name : "Account name" }}</div>
+        class="name tertiary-2-text"
+        :class="invalid_account ?'red-600':'grey-900'"
+      >{{ account_details ? account_details.account_name : verification_message }}</div>
     </div>
   </div>
 </template>
@@ -81,17 +82,16 @@ export default {
         this.account_details = null;
         this.$emit("nairaBankUpdated", null);
         if (state && this.form.account_number.length >= 10)
-          // await this.verifyAccount(this.form.account_number, state.code);
-          await this.verifyAccount("0690000032", "044");
+          await this.verifyAccount(this.form.account_number, state.code);
       },
     },
 
     "form.account_number": {
       async handler(state) {
+        this.account_details = null;
         this.$emit("nairaBankUpdated", null);
         if (state.length >= 10 && this.bank)
-          // await this.verifyAccount(state, this.bank.code);
-          await this.verifyAccount("0690000032", "044");
+          await this.verifyAccount(state, this.bank.code);
       },
     },
   },
@@ -107,6 +107,8 @@ export default {
       account_number: true,
     },
     account_details: null,
+    verification_message: "Account Name",
+    invalid_account: false,
   }),
 
   methods: {
@@ -121,6 +123,9 @@ export default {
     },
 
     async verifyAccount(account_number, bank_code) {
+      this.invalid_account = false;
+      this.verification_message = "Verifying account...";
+
       const payload = {
         bank_code,
         account_number,
@@ -128,9 +133,14 @@ export default {
 
       const response = await this.verifyBankAccount(payload);
 
-      if (response.code === 200) {
+      if (response.status === "ok") {
+        this.verification_message = "Account Name";
         this.account_details = response.data;
         this.$emit("nairaBankUpdated", this.getNairaBankDetails);
+      } else {
+        this.verification_message =
+          response.message || "Account number is invalid";
+        this.invalid_account = true;
       }
     },
   },
