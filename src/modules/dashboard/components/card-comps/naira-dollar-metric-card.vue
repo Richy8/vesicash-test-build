@@ -19,7 +19,9 @@
               <span v-html="$money.getSign(wallet.sign)"></span>
               {{ $money.addComma(wallet.value.split(".")[0])
               }}
-              <span class="amount-zero">.{{ wallet.value.split(".")[1] || "00" }}</span>
+              <span
+                class="amount-zero"
+              >.{{ wallet.value.split(".")[1] || "00" }}</span>
             </div>
           </template>
 
@@ -34,7 +36,7 @@
       <button class="btn btn-secondary btn-md" @click="toggleFundWalletSelectModal">Fund Wallet</button>
 
       <button class="btn btn-secondary btn-md" @click="closeWalletOpenAccount">Withdraw money</button>
-      <!-- toggleWalletModal -->
+      <!-- closeWalletOpenAccount will be replaced with toggleWalletModal when dollar withdrawal is ready -->
     </div>
 
     <!-- MODALS -->
@@ -181,7 +183,8 @@ export default {
 
     closeAccountOpenWallet() {
       this.show_wallet_account_modal = false;
-      this.toggleWalletModal();
+      // this will be un-commented when dollar withdrawal works
+      // this.toggleWalletModal();
     },
 
     closeConfimWithdrawOpenAccount() {

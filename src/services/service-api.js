@@ -28,13 +28,7 @@ class serviceApi {
     const hashed_url = urlHash(url);
 
     try {
-      const response = option.payload
-        ? await axios.get(
-            hashed_url,
-            { params: option.payload },
-            this.getHeaders()
-          )
-        : await axios.get(hashed_url, this.getHeaders());
+      const response = await axios.get(hashed_url, this.getHeaders());
       return option.resolve ? response.data : response;
     } catch (err) {
       return this.handleErrors(err);
