@@ -3,9 +3,11 @@
     <div :class="getGroupStyle">
       <!-- INPUT LABEL -->
       <template v-if="label_title">
-        <label class="form-label" :for="label_id" :class="getLabelStyle">{{
+        <label class="form-label" :for="label_id" :class="getLabelStyle">
+          {{
           label_title
-        }}</label>
+          }}
+        </label>
       </template>
 
       <!-- INPUT WRAPPER AREA -->
@@ -54,7 +56,7 @@
 
         <!-- FORM CURRENCY TYPE -->
         <div class="prefix-select-area value-area" v-if="currency">
-          <div class="value grey-900 text-no-wrap">{{ currency }}</div>
+          <div class="value grey-900 text-no-wrap" v-html="currency"></div>
         </div>
       </div>
     </div>
@@ -62,17 +64,12 @@
     <!-- DROP DOWN SELECT AREA -->
     <template v-if="is_phone_type">
       <template name="drop-select-area" v-if="show_dropdown">
-        <CountryDropSelect
-          :countries="countries_data"
-          @countrySelected="current_country = $event"
-        />
+        <CountryDropSelect :countries="countries_data" @countrySelected="current_country = $event" />
       </template>
     </template>
 
     <!-- MESSAGE TEXT -->
-    <div class="error-message-text" v-if="error_message">
-      {{ error_message }}
-    </div>
+    <div class="error-message-text" v-if="error_message">{{ error_message }}</div>
   </div>
 </template>
 

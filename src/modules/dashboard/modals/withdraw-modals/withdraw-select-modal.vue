@@ -1,8 +1,5 @@
 <template>
-  <ModalCover
-    @closeModal="$emit('closeTriggered')"
-    :modal_style="{ size: 'modal-xs' }"
-  >
+  <ModalCover @closeModal="$emit('closeTriggered')" :modal_style="{ size: 'modal-xs' }">
     <!-- MODAL COVER HEADER -->
     <template slot="modal-cover-header">
       <div class="modal-cover-header">
@@ -18,7 +15,8 @@
           <RadioSelectCard
             card_name="wallet"
             label_id="walletCard1"
-            label_text="Dollar wallet ($0)"
+            :label_text="dollarBalanceText"
+            @clicked="updateWalletSelection('dollar')"
           />
         </div>
 
@@ -27,7 +25,8 @@
           <RadioSelectCard
             card_name="wallet"
             label_id="walletCard2"
-            label_text="Naira wallet (N0)"
+            :label_text="nairaBalanceText"
+            @clicked="updateWalletSelection('naira')"
           />
         </div>
       </div>
@@ -39,15 +38,15 @@
         <button
           class="btn btn-primary btn-md wt-100"
           @click="handleWalletSelection"
-        >
-          Continue
-        </button>
+          :disabled="!wallet_type"
+        >Continue</button>
       </div>
     </template>
   </ModalCover>
 </template>
 
 <script>
+import { mapMutations, mapGetters } from "vuex";
 import ModalCover from "@/shared/components/modal-cover";
 
 export default {
@@ -68,9 +67,37 @@ export default {
     },
   },
 
-  data: () => ({}),
+  computed: {
+    ...mapGetters({
+      getNairaBalance: "dashboard/getNairaBalance",
+      getDollarBalance: "dashboard/getDollarBalance",
+    }),
+
+    nairaBalanceText() {
+      return `Naira wallet (&#8358;${this.$money.addComma(
+        this.getNairaBalance
+      )})`;
+    },
+
+    dollarBalanceText() {
+      return `Dollar wallet (&#36;${this.$money.addComma(
+        this.getDollarBalance
+      )})`;
+    },
+  },
+
+  data: () => ({
+    wallet_type: "",
+  }),
 
   methods: {
+    ...mapMutations({ setWalletType: "dashboard/SET_WALLET_TYPE" }),
+
+    updateWalletSelection(type) {
+      this.wallet_type = type;
+      this.setWalletType(type);
+    },
+
     handleWalletSelection() {
       this.$emit("walletSelected");
     },
@@ -78,5 +105,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

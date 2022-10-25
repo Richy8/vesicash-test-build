@@ -6,48 +6,35 @@
       <template v-for="(wallet, index) in wallet_balance">
         <div class="column" :key="index">
           <!-- TITLE TEXT -->
-          <div class="title-text tertiary-3-text grey-700 mgb-12">
-            {{ wallet.title }} Balance
-          </div>
+          <div class="title-text tertiary-3-text grey-700 mgb-12">{{ wallet.title }} Balance</div>
 
           <!-- LOADING AMOUNT VALUE -->
           <template v-if="loading_wallet">
-            <div
-              class="loading-amount-value rounded-3 skeleton-loader mgb-5"
-            ></div>
+            <div class="loading-amount-value rounded-3 skeleton-loader mgb-5"></div>
           </template>
 
           <template v-else>
             <!-- AMOUNT VALUE -->
             <div class="amount-value teal-800 h4-text mgb-4">
-              <span v-html="$money.getSign(wallet.sign)"></span
-              >{{ $money.addComma(wallet.value.split(".")[0])
-              }}<span class="amount-zero"
-                >.{{ wallet.value.split(".")[1] || "00" }}</span
-              >
+              <span v-html="$money.getSign(wallet.sign)"></span>
+              {{ $money.addComma(wallet.value.split(".")[0])
+              }}
+              <span class="amount-zero">.{{ wallet.value.split(".")[1] || "00" }}</span>
             </div>
           </template>
 
           <!-- TITLE DESCRIPTION -->
-          <div class="title-description secondary-3-text grey-700">
-            Wallet balance
-          </div>
+          <div class="title-description secondary-3-text grey-700">Wallet balance</div>
         </div>
       </template>
     </div>
 
     <!-- BOTTOM ROW -->
     <div class="bottom-row">
-      <button
-        class="btn btn-secondary btn-md"
-        @click="toggleFundWalletSelectModal"
-      >
-        Fund Wallet
-      </button>
+      <button class="btn btn-secondary btn-md" @click="toggleFundWalletSelectModal">Fund Wallet</button>
 
-      <button class="btn btn-secondary btn-md" @click="toggleWalletModal">
-        Withdraw money
-      </button>
+      <button class="btn btn-secondary btn-md" @click="closeWalletOpenAccount">Withdraw money</button>
+      <!-- toggleWalletModal -->
     </div>
 
     <!-- MODALS -->
