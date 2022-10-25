@@ -81,7 +81,8 @@ export default {
         this.account_details = null;
         this.$emit("nairaBankUpdated", null);
         if (state && this.form.account_number.length >= 10)
-          await this.verifyAccount(this.form.account_number, state.code);
+          // await this.verifyAccount(this.form.account_number, state.code);
+          await this.verifyAccount("0690000032", "044");
       },
     },
 
@@ -89,7 +90,8 @@ export default {
       async handler(state) {
         this.$emit("nairaBankUpdated", null);
         if (state.length >= 10 && this.bank)
-          await this.verifyAccount(state, this.bank.code);
+          // await this.verifyAccount(state, this.bank.code);
+          await this.verifyAccount("0690000032", "044");
       },
     },
   },
