@@ -107,6 +107,18 @@
         />
       </div>
 
+      <!-- TERMS AND CONDITION -->
+      <div class="form-group">
+        <div class="d-flex justify-content-start align-items-center">
+          <input type="checkbox" v-model="accept_terms" class="mgr-10" />
+
+          <div class="tertiary-2-text grey-900">
+            I agree to
+            <a href="https://vesicash.com/legal">Terms and Conditions</a>
+          </div>
+        </div>
+      </div>
+
       <!-- BUTTON AREA -->
       <div class="btn-area mgt-35 mgb-10">
         <button
@@ -129,7 +141,6 @@
 
 <script>
 import { mapActions } from "vuex";
-import FormHelper from "@/modules/auth/mixins/auth-helper";
 import AuthWrapper from "@/modules/auth/components/auth-wrapper";
 import BasicInput from "@/shared/components/form-comps/basic-input";
 
@@ -140,8 +151,6 @@ export default {
     title: "Register",
     titleTemplate: "%s - Vesicash",
   },
-
-  mixins: [FormHelper],
 
   components: {
     AuthWrapper,
@@ -162,7 +171,8 @@ export default {
         delete this.validity.business_name;
       }
 
-      return Object.values(this.validity).every((valid) => !valid)
+      return Object.values(this.validity).every((valid) => !valid) &&
+        this.accept_terms
         ? false
         : true;
     },
@@ -194,6 +204,7 @@ export default {
         password: true,
       },
 
+      accept_terms: false,
       user_details: {},
     };
   },

@@ -1,10 +1,7 @@
 <template>
-  <div class="dashboard-disbursement-view">
-    <!-- BACK BUTTON -->
-    <PageBackBtn />
-
-    <!-- PAGE TITILE -->
-    <div class="page-title grey-900 h4-text mgb-25">
+  <div class="confirm-fund-payout">
+    <div class="disbursement-title h4-text grey-900 mgb-32">
+      Confirm details for:<br />
       Payment for web app landing page
     </div>
 
@@ -32,7 +29,7 @@
             :card_items="[
               { title: 'Dispute Type', value: 'Vesicash handles dispute' },
               {
-                title: 'Dispute Policy Doc',
+                title: 'Attached Document(s)',
                 value: 'Two parties',
                 file: { name: 'PolicyFile.doc' },
               },
@@ -47,8 +44,8 @@
       <div class="section-wrapper">
         <div class="section-title">Users Involved</div>
 
-        <!-- USERS INVOLVED TABLE -->
-        <UsersTable />
+        <!-- FUND USERS INVOLVED TABLE -->
+        <FundUsersTable type="multiple" />
       </div>
     </template>
 
@@ -64,77 +61,61 @@
       </div>
     </template>
 
-    <!-- TRANSACTIONS SECTION -->
-    <template name="transactions-section">
-      <div class="section-wrapper">
-        <div class="section-title">Transactions</div>
-
-        <!-- TRANSACTIONS TABLE -->
-        <DashboardTransactions />
+    <!-- SUMMATION TOTAL -->
+    <div class="wrapper mgb-40">
+      <div class="col-xl-9">
+        <SummationCard />
       </div>
-    </template>
+    </div>
 
-    <!-- ACTIVITY SECTION -->
-    <template name="activity-section">
-      <div class="section-wrapper">
-        <div class="section-title">Activity</div>
-
-        <div class="activity-wrapper wt-50">
-          <ActivityCard />
-        </div>
-      </div>
-    </template>
+    <!-- CTA ACTION ROW -->
+    <div class="action-row mgt-14">
+      <button class="btn btn-primary btn-md" @click="nextProgressFlow">
+        Continue
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
-import PageBackBtn from "@/shared/components/page-back-btn";
-
 export default {
-  name: "DashboardDisbursement",
-
-  metaInfo: {
-    title: "Disbursement Details",
-    titleTemplate: "%s - Vesicash",
-  },
+  name: "ConfirmFundPayoutRules",
 
   components: {
-    PageBackBtn,
     FundInfoCard: () =>
       import(
         /* webpackChunkName: "transactions-module" */ "@/modules/transactions/components/card-comps/fund-info-card"
       ),
+
+    FundUsersTable: () =>
+      import(
+        /* webpackChunkName: "transactions-module" */ "@/modules/transactions/components/table-comps/fund-users-table"
+      ),
+
     PaymentRuleCard: () =>
       import(
         /* webpackChunkName: "transactions-module" */ "@/modules/transactions/components/card-comps/payment-rule-card"
       ),
-    ActivityCard: () =>
+
+    SummationCard: () =>
       import(
-        /* webpackChunkName: "transactions-module" */ "@/modules/transactions/components/card-comps/activity-card"
+        /* webpackChunkName: "transactions-module" */ "@/modules/transactions/components/card-comps/summation-card"
       ),
-    UsersTable: () =>
-      import(
-        /* webpackChunkName: "transactions-module" */ "@/modules/transactions/components/table-comps/users-table"
-      ),
-    DashboardTransactions: () =>
-      import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/dashboard-transactions"
-      ),
+  },
+
+  methods: {
+    nextProgressFlow() {
+      this.$router.push({ name: "TransactionPayment" });
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.dashboard-disbursement-view {
-  .page-title {
-    font-size: toRem(22.5);
-
-    @include breakpoint-down(md) {
-      font-size: toRem(20.75);
-    }
-
-    @include breakpoint-down(xs) {
-      font-size: toRem(19);
+.confirm-fund-payout {
+  .disbursement-title {
+    @include breakpoint-down(xl) {
+      @include generate-font-type("h5");
     }
   }
 
@@ -152,19 +133,17 @@ export default {
     }
   }
 
-  .activity-wrapper {
-    @include breakpoint-down(xl) {
-      width: 65%;
-    }
+  .action-row {
+    padding-bottom: toRem(55);
 
-    @include breakpoint-down(lg) {
-      padding-bottom: toRem(40);
-      width: 75%;
-    }
+    .btn {
+      padding: toRem(9) toRem(24);
+      width: toRem(260);
 
-    @include breakpoint-down(sm) {
-      width: 100%;
+      @include breakpoint-down(xs) {
+        width: 100%;
+      }
     }
   }
 }
-</style>  
+</style>

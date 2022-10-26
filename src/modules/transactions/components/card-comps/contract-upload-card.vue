@@ -15,8 +15,10 @@
           <div class="wt-100">
             <!-- FILE TITLE -->
             <div class="file-title primary-1-text grey-900">
-              File_name.doc &nbsp;
-              <span class="tertiary-2-text green-500">(30%)</span>
+              {{ file.name }} &nbsp;
+              <span class="tertiary-2-text green-500" v-if="is_uploading"
+                >(30%)</span
+              >
             </div>
 
             <!-- FILE PROGRESS -->
@@ -31,7 +33,9 @@
 
             <!-- FILE SIZE -->
             <template v-else>
-              <div class="file-size tertiary-2-text grey-600">6kb</div>
+              <div class="file-size tertiary-2-text grey-600">
+                {{ file.size }}
+              </div>
             </template>
           </div>
         </div>
@@ -66,7 +70,14 @@
       </label>
 
       <!-- FILE INPUT FIELD -->
-      <input type="file" id="fileUpload" class="position-absolute invisible" />
+      <input
+        type="file"
+        id="fileUpload"
+        ref="fileUpload"
+        @change="handleFileUpload"
+        class="position-absolute invisible"
+        accept=".doc, .docx, .pdf"
+      />
     </template>
   </div>
 </template>
@@ -84,7 +95,30 @@ export default {
   data: () => ({
     has_content: false,
     is_uploading: false,
+
+    file: {
+      name: "",
+      size: "",
+    },
   }),
+
+  methods: {
+    handleFileUpload($event) {
+      let uploaded_file = [...$event.target.files].slice().reverse()[0];
+      this.$refs.fileUpload.value = ""; // CLEAR OUT FILE CACHE
+
+      this.file.name = uploaded_file.name;
+      this.file.size = this.processFileSize(uploaded_file.size);
+
+      this.has_content = true;
+    },
+
+    processFileSize(size) {
+      return size.toString().length >= 6
+        ? `${(size / 1000000).toFixed(1)}mb`
+        : `${(size / 1000).toFixed(1)}kb`;
+    },
+  },
 };
 </script>
 

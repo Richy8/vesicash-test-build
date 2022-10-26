@@ -32,9 +32,9 @@ export default {
       import(
         /* webpackChunkName: "shared-module" */ "@/shared/components/icon-comps/dashboard-icon"
       ),
-    DisbursementIcon: () =>
+    PaymentIcon: () =>
       import(
-        /* webpackChunkName: "shared-module" */ "@/shared/components/icon-comps/disbursement-icon"
+        /* webpackChunkName: "shared-module" */ "@/shared/components/icon-comps/payment-icon"
       ),
     TransactionIcon: () =>
       import(

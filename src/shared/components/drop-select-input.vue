@@ -10,8 +10,8 @@
     >
       <!-- SELECTIONS -->
       <div class="selections" v-if="selected_value">
-        <div class="select-text grey-900 tertiary-2-text">
-          {{ selected_value | getSelection(options) }}
+        <div class="select-text grey-900 tertiary-2-text text-capitalize">
+          <span v-html="selected_value"></span>
         </div>
       </div>
 
@@ -53,7 +53,7 @@
                 class="inner-lining wt-100"
                 :class="index + 1 === options.length && 'no-bottom-border'"
               >
-                {{ option.name }}
+                <span v-html="option.name"></span>
               </div>
             </div>
           </div>

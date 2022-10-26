@@ -44,7 +44,7 @@
 
 <script>
 import TagCard from "@/shared/components/card-comps/tag-card";
-import PaymentUserCard from "@/modules/dashboard/components/card-comps/payment-user-card";
+import PaymentUserCard from "@/modules/transactions/components/card-comps/payment-user-card";
 
 export default {
   name: "PaymentRuleCard",

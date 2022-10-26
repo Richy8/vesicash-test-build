@@ -5,19 +5,19 @@
 
     <!-- DISBURSEMENT TABLE DATA -->
     <div class="disbursement-table-wrapper">
-      <DisbursementTable />
+      <TransactionTable />
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Disbursements",
+  name: "Transactions",
 
   components: {
-    DisbursementTable: () =>
+    TransactionTable: () =>
       import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/table-comps/disbursement-table"
+        /* webpackChunkName: "transactions-module" */ "@/modules/transactions/components/table-comps/transaction-table"
       ),
   },
 };

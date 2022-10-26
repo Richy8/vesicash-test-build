@@ -35,15 +35,15 @@ export default {
   components: {
     FundUsersTable: () =>
       import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/table-comps/fund-users-table"
+        /* webpackChunkName: "transactions-module" */ "@/modules/transactions/components/table-comps/fund-users-table"
       ),
     AddBeneficiarySingleBlock: () =>
       import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/add-beneficiary-single-block"
+        /* webpackChunkName: "transactions-module" */ "@/modules/transactions/components/add-beneficiary-single-block"
       ),
     AddBeneficiaryMultiBlock: () =>
       import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/add-beneficiary-multi-block"
+        /* webpackChunkName: "transactions-module" */ "@/modules/transactions/components/add-beneficiary-multi-block"
       ),
   },
 

@@ -33,6 +33,14 @@ const MixinEvents = {
     togglePageLoader() {
       this.$bus.$emit("toggle-page-loader");
     },
+
+    // ===========================================
+    // UPDATE USER INPUT FORM AND VALIDITY STATE
+    // ===========================================
+    updateFormState(data, type) {
+      this.form[type] = data?.value;
+      this?.validity ? (this.validity[type] = data?.validity) : null;
+    },
   },
 };
 

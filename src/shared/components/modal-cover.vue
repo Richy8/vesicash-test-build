@@ -2,14 +2,7 @@
   <div class="modal-overlay" @click.self="selfCloseModal">
     <div class="modal-outer-container">
       <div
-        class="
-          modal-cover modal-sm
-          box-shadow-effect
-          px-0
-          mx-auto
-          rounded-16
-          overflow-hidden
-        "
+        class="modal-cover modal-sm box-shadow-effect px-0 mx-auto rounded-16"
         :class="getModalWrapperStyle"
       >
         <div class="modal-cover-body-wrapper px-0">

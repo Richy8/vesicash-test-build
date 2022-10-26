@@ -31,41 +31,14 @@
 
 <script>
 export default {
-  name: "ProgressFlow",
+  name: "ProgressFlowCard",
 
   props: {
     flows: {
       type: Array,
-      default: () => [
-        {
-          id: 1,
-          title: "Payment details",
-          route: "VesicashFundDetails",
-          alias_route: "",
-          state: "current",
-        },
-        {
-          id: 2,
-          title: "Invite Parties",
-          route: "VesicashBeneficiaries",
-          alias_route: "",
-          state: "next",
-        },
-        {
-          id: 3,
-          title: "Payout Details",
-          route: "VesicashPayoutRules",
-          alias_route: "VesicashConfirmPayoutRules",
-          state: "next",
-        },
-        {
-          id: 4,
-          title: "Make payment",
-          route: "VesicashPayment",
-          alias_route: "",
-          state: "next",
-        },
-      ],
+      default: () => {
+        [];
+      },
     },
   },
 

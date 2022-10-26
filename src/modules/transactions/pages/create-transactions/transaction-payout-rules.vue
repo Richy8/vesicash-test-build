@@ -8,7 +8,11 @@
         Provide details for the Payout
       </div>
 
-      <button class="btn btn-secondary btn-md">
+      <button
+        class="btn btn-secondary btn-md"
+        v-if="getTransactionType === 'milestone'"
+        @click="addNewMilestone"
+      >
         <div class="icon icon-plus"></div>
         <div class="text">Add new milestone</div>
       </button>
@@ -16,8 +20,16 @@
 
     <!-- PAYOUT CARDS -->
     <div class="wrapper row">
-      <div class="col-xl-8">
-        <PayoutCard />
+      <div
+        class="col-xl-8"
+        v-for="(milestone, index) in getTransactionMilestones"
+        :key="index"
+      >
+        <PayoutCard
+          :milestone="milestone"
+          :currency="getTransactionAmount.currency"
+          :index="index"
+        />
       </div>
     </div>
 
@@ -34,7 +46,9 @@
               card_name="dispute"
               label_id="disputeCard1"
               label_text="Handled by the platform"
-              tooltip_text="Dispute resolution will be handled by Vesicash."
+              tooltip_text="Dispute
+              resolution will be handled by Vesicash."
+              @clicked="UPDATE_TRANSACTION_DISPUTE_MGT('vesicash')"
             />
           </div>
 
@@ -44,6 +58,7 @@
               label_id="disputeCard2"
               label_text="Arbitration"
               tooltip_text="Any dispute will be handled via arbitration. Cost of which will be borne by the transacting parties."
+              @clicked="UPDATE_TRANSACTION_DISPUTE_MGT('arbitration')"
             />
           </div>
         </div>
@@ -53,7 +68,7 @@
     <!-- SUMMATION TOTAL -->
     <div class="wrapper mgb-40">
       <div class="col-xl-8">
-        <SummationCard />
+        <SummationCard :amount_data="getTransactionAmount" />
       </div>
     </div>
 
@@ -67,6 +82,8 @@
 </template>
 
 <script>
+import { mapMutations, mapGetters } from "vuex";
+
 export default {
   name: "FundPayoutRules",
 
@@ -87,9 +104,83 @@ export default {
       ),
   },
 
+  computed: {
+    ...mapGetters({
+      getTransactionBeneficiaries: "transactions/getTransactionBeneficiaries",
+      getTransactionMilestones: "transactions/getTransactionMilestones",
+      getTransactionAmount: "transactions/getTransactionAmount",
+    }),
+
+    // =============================================
+    // GET THE TRANSACTION PARTY TYPE FROM ROUTE
+    // =============================================
+    getTransactionParty() {
+      return this.$route.query.party ? this.$route.query.party : "single";
+    },
+
+    // ===================================================
+    // GET THE TRANSACTION DISBURSEMENT TYPE FROM ROUTE
+    // ===================================================
+    getTransactionType() {
+      return this.$route.query.type ? this.$route.query.type : "oneoff";
+    },
+  },
+
+  mounted() {
+    this.loadMileStoneData();
+  },
+
   methods: {
+    ...mapMutations({
+      UPDATE_TRANSACTION_BENEFICIARIES:
+        "transactions/UPDATE_TRANSACTION_BENEFICIARIES",
+      UPDATE_TRANSACTION_MILESTONE: "transactions/UPDATE_TRANSACTION_MILESTONE",
+      UPDATE_TRANSACTION_DISPUTE_MGT:
+        "transactions/UPDATE_TRANSACTION_DISPUTE_MGT",
+    }),
+
     nextProgressFlow() {
-      this.$router.push({ name: "VesicashConfirmPayoutRules" });
+      this.$router.push({ name: "TransactionConfirmPayout" });
+    },
+
+    getBeneficiariesReceivingPay() {
+      return this.getTransactionBeneficiaries.filter(
+        (user) => user.recipient.name === "Yes"
+      );
+    },
+
+    // ==============================
+    // LOAD MILESTONE DATA
+    // ==============================
+    loadMileStoneData() {
+      let milestone_data = {};
+
+      milestone_data.id = this.$string.getRandomString(12);
+      milestone_data.name = "";
+      milestone_data.due_date = "";
+      milestone_data.inspection_period = {};
+
+      milestone_data.recipients = this.getBeneficiariesReceivingPay();
+
+      this.UPDATE_TRANSACTION_MILESTONE([milestone_data]);
+    },
+
+    // ==============================
+    // CREATE A NEW MILESTONE DATA
+    // ==============================
+    addNewMilestone() {
+      let previous_milestone =
+        this.getTransactionMilestones[this.getTransactionMilestones.length - 1];
+
+      let new_milestone_data = {
+        ...previous_milestone,
+        id: this.$string.getRandomString(12),
+      };
+
+      this.UPDATE_TRANSACTION_MILESTONE([
+        ...this.getTransactionMilestones,
+        new_milestone_data,
+      ]);
     },
   },
 };

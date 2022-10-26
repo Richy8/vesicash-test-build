@@ -22,7 +22,7 @@
       </div>
 
       <!-- CONFIRM PASSWORD INPUT -->
-      <div class="form-group mgb-13">
+      <!-- <div class="form-group mgb-13">
         <BasicInput
           label_title="Confirm password"
           label_id="newPassword"
@@ -38,7 +38,7 @@
             message: 'Password should contain at least 4 characters',
           }"
         />
-      </div>
+      </div> -->
 
       <!-- PASSWORD RESET TOKEN -->
       <div class="form-group mgb-13">
@@ -72,7 +72,6 @@
 
 <script>
 import { mapActions } from "vuex";
-import FormHelper from "@/modules/auth/mixins/auth-helper";
 import AuthWrapper from "@/modules/auth/components/auth-wrapper";
 import BasicInput from "@/shared/components/form-comps/basic-input";
 
@@ -83,8 +82,6 @@ export default {
     title: "ResetPassword",
     titleTemplate: "%s - Vesicash",
   },
-
-  mixins: [FormHelper],
 
   components: {
     AuthWrapper,
@@ -104,13 +101,11 @@ export default {
     return {
       form: {
         password: "",
-        confirm_password: "",
         reset_token: "",
       },
 
       validity: {
         password: true,
-        confirm_password: true,
         reset_token: true,
       },
     };
@@ -128,14 +123,14 @@ export default {
       let request_payload = {
         account_id: this.$route.params.account_id,
         token: this.form?.reset_token,
-        password: this.form?.confirm_password,
+        password: this.form?.password,
       };
 
       // COMPARE PASSWORD
-      if (this.form.password !== this.form.confirm_password) {
-        this.handleResponse("Password provided does not match");
-        return;
-      }
+      // if (this.form.password !== this.form.confirm_password) {
+      //   this.handleResponse("Password provided does not match");
+      //   return;
+      // }
 
       this.resetUserPassword(request_payload)
         .then((response) => {

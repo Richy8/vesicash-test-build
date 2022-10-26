@@ -7,6 +7,7 @@ import Vuex from "vuex";
 import general from "./general";
 import auth from "@/modules/auth/store";
 import dashboard from "@/modules/dashboard/store";
+import transactions from "@/modules/transactions/store";
 
 Vue.use(Vuex);
 
@@ -15,5 +16,6 @@ export default new Vuex.Store({
     general,
     auth,
     dashboard,
+    transactions
   },
 });

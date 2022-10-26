@@ -2,16 +2,16 @@
   <div>
     <!-- TABLE CONTAINER -->
     <TableContainer
-      table_name="transaction-wallet-tb"
+      table_name="transaction-tb"
       :table_data="table_data"
       :table_header="table_header"
       :is_loading="table_loading"
       :empty_message="empty_message"
     >
       <template v-for="(data, index) in table_data">
-        <TransactionWalletTableRow
+        <TransactionTableRow
           :key="index"
-          table_name="transaction-wallet-tb"
+          table_name="transaction-tb"
           :data="data"
         />
       </template>
@@ -24,24 +24,30 @@ import { mapActions } from "vuex";
 import TableContainer from "@/shared/components/table-comps/table-container";
 
 export default {
-  name: "TransactionWalletTable",
+  name: "TransactionTable",
 
   components: {
     TableContainer,
-    TransactionWalletTableRow: () =>
+    TransactionTableRow: () =>
       import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/table-comps/transaction-wallet-table-row"
+        /* webpackChunkName: "transactions-module" */ "@/modules/transactions/components/table-comps/transaction-table-row"
       ),
+  },
+
+  props: {
+    dataset: {
+      type: Array,
+      default: () => [],
+    },
   },
 
   data() {
     return {
       table_header: [
-        "Date",
-        "Transaction reference",
-        "Account id",
-        "Wallet used",
-        "Amount paid",
+        "Transaction name",
+        "Transacting parties",
+        "Payment due date",
+        "Amount to be paid",
         "Status",
         "Actions",
       ],
@@ -49,25 +55,27 @@ export default {
       table_data: [],
       table_loading: true,
       empty_message:
-        "You have not done any disbursement transaction. Please click on the disburse money button to start",
+        "You have not created any Transactions yet. Click the 'Create Transaction' Button to get started",
     };
   },
 
   mounted() {
-    this.getUserWalletTransactions();
+    this.getUserTransactions();
   },
 
   methods: {
     ...mapActions({
-      fetchWalletTransactions: "dashboard/fetchWalletTransactions",
+      fetchTransactionsByUser: "transactions/fetchTransactionsByUser",
     }),
 
     // ====================================
-    // FETCH ALL USER WALLET TRANSACTIONS
+    // FETCH ALL USER TRANSACTIONS
     // ====================================
-    getUserWalletTransactions() {
-      this.fetchWalletTransactions(this.getAccountId)
+    getUserTransactions() {
+      this.fetchTransactionsByUser({ account_id: this.getAccountId })
         .then((response) => {
+          console.log(response);
+
           if (response.code === 200) {
             this.table_data = response.data;
             this.table_loading = false;
@@ -91,40 +99,30 @@ export default {
 </script>
 
 <style lang="scss">
-.transaction-wallet-tb {
+.transaction-tb {
   &-1 {
-    max-width: toRem(210);
+    min-width: toRem(200);
+    max-width: toRem(205);
   }
 
   &-2 {
-    @include text-truncate();
-    max-width: toRem(160);
+    min-width: toRem(150);
   }
 
   &-3 {
-    max-width: toRem(210);
+    min-width: toRem(150);
+    vertical-align: top;
   }
 
   &-4 {
-    max-width: toRem(140);
+    min-width: toRem(150);
   }
 
   &-5 {
-    max-width: toRem(140);
+    min-width: toRem(150);
   }
 
   &-6 {
-  }
-
-  &-7 {
-  }
-
-  .head-data {
-    padding: toRem(8) toRem(24) !important;
-  }
-
-  .body-data {
-    padding: toRem(16) toRem(24) !important;
   }
 }
 </style>

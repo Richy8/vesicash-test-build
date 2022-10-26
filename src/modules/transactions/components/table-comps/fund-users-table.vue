@@ -5,13 +5,14 @@
       :table_name="`fund-users-${type}-tb`"
       :table_data="dataset"
       :table_header="getTableHeader"
-      :is_loading="false"
+      :is_loading="loading"
+      :empty_message="empty_message"
     >
       <template v-for="(data, index) in dataset">
         <FundUsersTableRow
           :key="index"
           :table_name="`fund-users-${type}-tb`"
-          :data="{ data }"
+          :data="data"
           :type="type"
         />
       </template>
@@ -29,14 +30,19 @@ export default {
     TableContainer,
     FundUsersTableRow: () =>
       import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/table-comps/fund-users-table-row"
+        /* webpackChunkName: "transactions-module" */ "@/modules/transactions/components/table-comps/fund-users-table-row"
       ),
   },
 
   props: {
     dataset: {
       type: Array,
-      default: () => [1, 2, 3],
+      default: () => [],
+    },
+
+    loading: {
+      type: Boolean,
+      default: true,
     },
 
     type: {
@@ -68,6 +74,8 @@ export default {
         "Receives payout",
         "Actions",
       ],
+
+      empty_message: "You have not invited any user to this transaction",
     };
   },
 };

@@ -110,12 +110,12 @@ export default {
     PageBackBtn,
     RadioSelectCard: () =>
       import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/card-comps/radio-select-card"
+        /* webpackChunkName: "shared-module" */ "@/shared/components/card-comps/radio-select-card"
       ),
 
     SumTotalDisplayCard: () =>
       import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/card-comps/sum-total-display-card"
+        /* webpackChunkName: "shared-module" */ "@/shared/components/card-comps/sum-total-display-card"
       ),
 
     AccountDisplayCard: () =>
@@ -143,7 +143,7 @@ export default {
 
   data: () => ({
     initiate_new_account: false,
-    new_account_type: "NewNairaAccount",
+    new_account_type: "NewDollarAccount",
 
     accounts: [
       {
