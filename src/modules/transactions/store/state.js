@@ -15,6 +15,7 @@ export default () => ({
 
     beneficiaries: [],
     milestones: [],
+    milestone_recipients: [],
   },
 });
 

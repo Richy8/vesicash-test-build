@@ -109,6 +109,7 @@ export default {
       getTransactionBeneficiaries: "transactions/getTransactionBeneficiaries",
       getTransactionMilestones: "transactions/getTransactionMilestones",
       getTransactionAmount: "transactions/getTransactionAmount",
+      getMilestoneRecipients: "transactions/getMilestoneRecipients",
     }),
 
     // =============================================
@@ -128,13 +129,15 @@ export default {
 
   mounted() {
     this.loadMileStoneData();
+    // this.getTransactionMilestones.length
+    //   ? this.loadAllCurrentMilestones()
+    //   : this.loadMileStoneData();
   },
 
   methods: {
     ...mapMutations({
-      UPDATE_TRANSACTION_BENEFICIARIES:
-        "transactions/UPDATE_TRANSACTION_BENEFICIARIES",
       UPDATE_TRANSACTION_MILESTONE: "transactions/UPDATE_TRANSACTION_MILESTONE",
+      UPDATE_MILESTONE_RECIPIENT: "transactions/UPDATE_MILESTONE_RECIPIENT",
       UPDATE_TRANSACTION_DISPUTE_MGT:
         "transactions/UPDATE_TRANSACTION_DISPUTE_MGT",
     }),
@@ -143,10 +146,20 @@ export default {
       this.$router.push({ name: "TransactionConfirmPayout" });
     },
 
-    getBeneficiariesReceivingPay() {
-      return this.getTransactionBeneficiaries.filter(
-        (user) => user.recipient.name === "Yes"
-      );
+    getBeneficiariesReceivingPay(milestone_id) {
+      let milestone_recipients = [];
+
+      this.getTransactionBeneficiaries
+        .filter((user) => user.recipient.name === "Yes")
+        .map((i) => {
+          milestone_recipients.push({
+            ...i,
+            milestone_id,
+            update_id: this.$string.getRandomString(12),
+          });
+        });
+
+      return milestone_recipients;
     },
 
     // ==============================
@@ -160,9 +173,17 @@ export default {
       milestone_data.due_date = "";
       milestone_data.inspection_period = {};
 
-      milestone_data.recipients = this.getBeneficiariesReceivingPay();
-
       this.UPDATE_TRANSACTION_MILESTONE([milestone_data]);
+      this.UPDATE_MILESTONE_RECIPIENT([
+        ...this.getBeneficiariesReceivingPay(milestone_data.id),
+      ]);
+    },
+
+    // ==============================
+    // LOAD ALL CURRENT MILESTONES
+    // ==============================
+    loadAllCurrentMilestones() {
+      this.UPDATE_TRANSACTION_MILESTONE([...this.getTransactionMilestones]);
     },
 
     // ==============================
@@ -180,6 +201,11 @@ export default {
       this.UPDATE_TRANSACTION_MILESTONE([
         ...this.getTransactionMilestones,
         new_milestone_data,
+      ]);
+
+      this.UPDATE_MILESTONE_RECIPIENT([
+        ...this.getMilestoneRecipients,
+        ...this.getBeneficiariesReceivingPay(new_milestone_data.id),
       ]);
     },
   },

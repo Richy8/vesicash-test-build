@@ -31,7 +31,15 @@ export default {
   },
 
   UPDATE_MILESTONE_RECIPIENT: (state, payload) => {
-   
+    state.transaction.milestone_recipients = payload;
+  },
+
+  UPDATE_RECIPIENT_AMOUNT: (state, { recipient_payload, recipient_index }) => {
+    state.transaction.milestone_recipients.splice(
+      recipient_index,
+      1,
+      recipient_payload
+    );
   },
 
   EVALUATE_TRANSACTION_FEES: (state) => {

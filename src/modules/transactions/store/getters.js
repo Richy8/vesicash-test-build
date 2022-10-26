@@ -11,6 +11,8 @@ export default {
 
   getTransactionMilestones: (state) => state.transaction.milestones,
 
+  getMilestoneRecipients: (state) => state.transaction.milestone_recipients,
+
   getTransactionAmount: (state) => {
     return {
       currency: state.transaction.currency,

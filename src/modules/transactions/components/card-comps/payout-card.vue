@@ -49,7 +49,7 @@
         ></div>
 
         <!-- RECIPIENTS DATA -->
-        <template v-for="(user, user_index) in milestone.recipients">
+        <template v-for="(user, user_index) in loadCurrentMilestoneRecipients">
           <div class="col-12 col-sm-6" :key="`${user_index}a`">
             <div class="form-group">
               <BasicInput
@@ -76,12 +76,7 @@
                   input_wrapper_style: 'form-prefix form-prefix-right',
                 }"
                 @getInputState="
-                  updateUserRecipientData(
-                    'amount',
-                    $event.value,
-                    user_index,
-                    milestone.id
-                  )
+                  updateUserRecipientAmount($event.value, user.update_id)
                 "
                 :error_handler="{
                   type: 'required',
@@ -134,7 +129,7 @@ import {
   CURRENCY_OPTIONS,
   INSPECTION_OPTIONS,
 } from "@/modules/transactions/constants";
-import { mapMutations } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import BasicInput from "@/shared/components/form-comps/basic-input";
 import DropSelectInput from "@/shared/components/drop-select-input";
 
@@ -163,6 +158,10 @@ export default {
   },
 
   computed: {
+    ...mapGetters({
+      getMilestoneRecipients: "transactions/getMilestoneRecipients",
+    }),
+
     // =============================================
     // GET THE TRANSACTION PARTY TYPE FROM ROUTE
     // =============================================
@@ -177,10 +176,19 @@ export default {
       return this.$route.query.type ? this.$route.query.type : "oneoff";
     },
 
+    // ===================================================
+    // GET THE TRANSACTION MILESTONE NAME
+    // ===================================================
     getMilestoneName() {
       return this.milestone.name
         ? this.milestone.name
         : `Milestone ${this.index + 1}`;
+    },
+
+    loadCurrentMilestoneRecipients() {
+      return this.getMilestoneRecipients.filter(
+        (recipient) => recipient.milestone_id === this.milestone.id
+      );
     },
   },
 
@@ -198,7 +206,7 @@ export default {
   methods: {
     ...mapMutations({
       UPDATE_MILESTONE_DATA: "transactions/UPDATE_MILESTONE_DATA",
-      UPDATE_MILESTONE_RECIPIENT: "transactions/UPDATE_MILESTONE_RECIPIENT",
+      UPDATE_RECIPIENT_AMOUNT: "transactions/UPDATE_RECIPIENT_AMOUNT",
       EVALUATE_TRANSACTION_FEES: "transactions/EVALUATE_TRANSACTION_FEES",
     }),
 
@@ -227,27 +235,17 @@ export default {
       });
     },
 
-    updateUserRecipientData(type, value, recipient_index, milestone_id) {
-      console.log(milestone_id, recipient_index);
+    updateUserRecipientAmount(value, update_id) {
+      let recipient_index = this.getMilestoneRecipients.findIndex(
+        (user) => user.update_id == update_id
+      );
 
-      if (milestone_id === this.milestone.id) {
-        let milestone_data = { ...this.milestone };
-        milestone_data.recipients[recipient_index][type] = value;
+      let recipient_payload = {
+        ...this.getMilestoneRecipients[recipient_index],
+      };
+      recipient_payload.amount = value;
 
-        console.log(milestone_data);
-      }
-
-      // this.UPDATE_MILESTONE_DATA({
-      //   milestone_index: this.index,
-      //   milestone_data,
-      // });
-
-      // this.UPDATE_MILESTONE_RECIPIENT({
-      //   milestone_index: this.index,
-      //   milestone_key: type,
-      //   milestone_value: value,
-      //   milestone_recipient_index: recipient_index,
-      // });
+      this.UPDATE_RECIPIENT_AMOUNT({ recipient_payload, recipient_index });
 
       // RE-EVALUATE TOTAL FEE
       // this.EVALUATE_TRANSACTION_FEES();
