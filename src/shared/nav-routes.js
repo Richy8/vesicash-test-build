@@ -1,20 +1,20 @@
 const navRoutes = [{
-        title: "dashboard",
+        title: "Dashboard",
         icon: "DashboardIcon",
         link: "/dashboard",
     },
     {
-        title: "transactions",
+        title: "Escrow Transactions",
         icon: "DisbursementIcon",
         link: "/transactions",
     },
     {
-        title: "payments",
+        title: "Payments",
         icon: "TransactionIcon",
         link: "/payments",
     },
     {
-        title: "settings",
+        title: "Settings",
         icon: "SettingsIcon",
         link: "/settings",
     },

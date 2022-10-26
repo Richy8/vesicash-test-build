@@ -35,7 +35,7 @@
     <div class="bottom-row">
       <button class="btn btn-secondary btn-md" @click="toggleFundWalletSelectModal">Fund Wallet</button>
 
-      <button class="btn btn-secondary btn-md" @click="closeWalletOpenAccount">Withdraw money</button>
+      <button class="btn btn-secondary btn-md" @click="closeWalletOpenAccount">Withdraw</button>
       <!-- closeWalletOpenAccount will be replaced with toggleWalletModal when dollar withdrawal is ready -->
     </div>
 
