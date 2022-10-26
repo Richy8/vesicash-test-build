@@ -8,17 +8,7 @@
       <component :is="nav.icon" />
 
       <!-- NAV TEXT -->
-      <div
-        class="
-          nav-text
-          secondary-2-text
-          grey-600
-          text-capitalize
-          smooth-transition
-        "
-      >
-        {{ nav.title }}
-      </div>
+      <div class="nav-text secondary-2-text grey-600 smooth-transition">{{ nav.title }}</div>
     </div>
   </router-link>
 </template>
