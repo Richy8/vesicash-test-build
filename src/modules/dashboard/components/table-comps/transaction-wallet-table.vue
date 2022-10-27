@@ -49,7 +49,7 @@ export default {
       table_data: [],
       table_loading: true,
       empty_message:
-        "You have not done any disbursement transaction. Please click on the disburse money button to start",
+        "You have not done any wallet transaction. You can fund your wallet to get started",
     };
   },
 
