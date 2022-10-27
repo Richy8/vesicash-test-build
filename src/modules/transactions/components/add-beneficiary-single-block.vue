@@ -79,13 +79,22 @@ export default {
       form: {
         email_address: "",
         phone_number: "",
+        country: "",
       },
 
       validity: {
         email_address: true,
         phone_number: true,
+        country: false,
       },
     };
+  },
+
+  created() {
+    this.$bus.$on(
+      "update-country-state",
+      (value) => (this.form.country = value)
+    );
   },
 
   methods: {
@@ -115,6 +124,7 @@ export default {
       user_data.account_id = "";
       user_data.email_address = this.form.email_address;
       user_data.phone_number = this.form.phone_number;
+      user_data.country = this.form.country;
       user_data.role = SINGLE_ROLE_OPTIONS[1];
 
       user_data.access = USER_ACCESS_OPTIONS[1];

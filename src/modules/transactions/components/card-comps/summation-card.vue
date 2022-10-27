@@ -1,12 +1,43 @@
 <template>
   <div class="summation-card rounded-16 border-grey-100">
-    <div class="item-row">
-      <div class="item grey-600 tertiary-2-text">Amount to pay</div>
+    <!-- ONE-OFF DISBURSEMENT -->
+    <template v-if="getTransactionType === 'oneoff'">
+      <div class="item-row">
+        <div class="item grey-600 tertiary-2-text">Amount to pay</div>
+
+        <div
+          class="value grey-900 secondary-2-text"
+          v-html="
+            `${getCurrencySign} ${$money.addComma(
+              amount_data.milestone_amounts[0] || 0
+            )}`
+          "
+        ></div>
+      </div>
+    </template>
+
+    <!-- MILESTONE DISBURSEMENT -->
+    <template v-else>
       <div
-        class="value grey-900 secondary-2-text"
-        v-html="`${getCurrencySign} ${$money.addComma(amount_data.amount)}`"
-      ></div>
-    </div>
+        class="item-row"
+        v-for="(milestone, index) in milestones"
+        :key="index"
+      >
+        <div class="item grey-600 tertiary-2-text">
+          {{ milestone.name ? milestone.name : `Milestone ${index + 1}` }}
+          payment
+        </div>
+
+        <div
+          class="value grey-900 secondary-2-text"
+          v-html="
+            `${getCurrencySign} ${$money.addComma(
+              amount_data.milestone_amounts[index] || 0
+            )}`
+          "
+        ></div>
+      </div>
+    </template>
 
     <div class="item-row">
       <div class="item grey-600 tertiary-2-text">15% Escrow fee</div>
@@ -32,6 +63,10 @@ export default {
   name: "SummationCard",
 
   props: {
+    milestones: {
+      type: Array,
+    },
+
     amount_data: {
       type: Object,
       default: () => ({}),
@@ -41,6 +76,13 @@ export default {
   computed: {
     getCurrencySign() {
       return this.$money.getSign(this.amount_data.currency.slug);
+    },
+
+    // ===================================================
+    // GET THE TRANSACTION DISBURSEMENT TYPE FROM ROUTE
+    // ===================================================
+    getTransactionType() {
+      return this.$route.query.type ? this.$route.query.type : "oneoff";
     },
   },
 };

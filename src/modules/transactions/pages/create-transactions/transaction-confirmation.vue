@@ -2,7 +2,7 @@
   <div class="confirm-fund-payout">
     <div class="disbursement-title h4-text grey-900 mgb-32">
       Confirm details for:<br />
-      Payment for web app landing page
+      {{ getTransactionSetup.name }}
     </div>
 
     <!-- FUND DETAILS SECTION -->
@@ -15,9 +15,18 @@
             :card_items="[
               {
                 title: 'Disbursement Type',
-                value: 'One-off disbursement type',
+                value:
+                  getTransactionSetup.type === 'oneoff'
+                    ? 'One-off disbursement type'
+                    : 'Milestone disbursement type',
               },
-              { title: 'Transacting Parties', value: 'Two parties' },
+              {
+                title: 'Transacting Parties',
+                value:
+                  getTransactionSetup.party === 'single'
+                    ? 'Two parties'
+                    : 'Multiple parties',
+              },
             ]"
           />
         </div>
@@ -27,11 +36,17 @@
           <FundInfoCard
             card_title="Dispute handling"
             :card_items="[
-              { title: 'Dispute Type', value: 'Vesicash handles dispute' },
+              {
+                title: 'Dispute Type',
+                value:
+                  getTransactionSetup.dispute_handler === 'vesicash'
+                    ? 'Vesicash handles dispute'
+                    : 'Arbitration',
+              },
               {
                 title: 'Attached Document(s)',
-                value: 'Two parties',
-                file: { name: 'PolicyFile.doc' },
+                value: 'No file attached',
+                file: null,
               },
             ]"
           />
@@ -45,7 +60,11 @@
         <div class="section-title">Users Involved</div>
 
         <!-- FUND USERS INVOLVED TABLE -->
-        <FundUsersTable type="multiple" />
+        <FundUsersTable
+          :type="getTransactionSetup.party"
+          :dataset="getTransactionBeneficiaries"
+          :loading="false"
+        />
       </div>
     </template>
 
@@ -56,7 +75,13 @@
 
         <!-- PAYMENT RULES CARD -->
         <template>
-          <PaymentRuleCard />
+          <PaymentRuleCard
+            v-for="(milestone, index) in getTransactionMilestones"
+            :key="index"
+            :index="index"
+            :milestone="milestone"
+            :currency="getTransactionAmount.currency"
+          />
         </template>
       </div>
     </template>
@@ -64,13 +89,16 @@
     <!-- SUMMATION TOTAL -->
     <div class="wrapper mgb-40">
       <div class="col-xl-9">
-        <SummationCard />
+        <SummationCard
+          :milestones="getTransactionMilestones"
+          :amount_data="getTransactionAmount"
+        />
       </div>
     </div>
 
     <!-- CTA ACTION ROW -->
     <div class="action-row mgt-14">
-      <button class="btn btn-primary btn-md" @click="nextProgressFlow">
+      <button class="btn btn-primary btn-md" @click="createTransaction">
         Continue
       </button>
     </div>
@@ -78,6 +106,8 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+
 export default {
   name: "ConfirmFundPayoutRules",
 
@@ -103,9 +133,50 @@ export default {
       ),
   },
 
+  computed: {
+    ...mapGetters({
+      getTransactionSetup: "transactions/getTransactionSetup",
+      getTransactionBeneficiaries: "transactions/getTransactionBeneficiaries",
+      getTransactionMilestones: "transactions/getTransactionMilestones",
+      getTransactionAmount: "transactions/getTransactionAmount",
+      getMilestoneRecipients: "transactions/getMilestoneRecipients",
+    }),
+  },
+
   methods: {
-    nextProgressFlow() {
-      this.$router.push({ name: "TransactionPayment" });
+    ...mapActions({ registerBulkUsers: "auth/registerBulkUsers" }),
+
+    createTransaction() {
+      this.signupBulkUsers();
+      // this.$router.push({ name: "TransactionPayment" });
+    },
+
+    // =======================================
+    // SIGNUP ALL USERS WITHOUT ACCOUNT ID
+    // =======================================
+    signupBulkUsers() {
+      let signup_payload = [];
+
+      let users = this.getTransactionBeneficiaries.filter(
+        (user) => !user.account_id
+      );
+
+      users.map((user) => {
+        signup_payload.push({
+          account_type: "individual",
+          email_address: user.email_address,
+          country: user.country,
+          phone: user.phone_number,
+        });
+      });
+
+      console.log(signup_payload);
+
+      this.registerBulkUsers({ bulk: signup_payload })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => console.log(err));
     },
   },
 };

@@ -4,7 +4,7 @@
     <PageBackBtn history_mode />
 
     <!-- FUND DISBURSMENT FLOW -->
-    <ProgressFlowCard :flows="page_flows" />
+    <ProgressFlowCard :flows="getComputedPageFlow" />
 
     <transition name="fade" mode="out-in">
       <router-view />
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapGetters, mapMutations } from "vuex";
 import { getStorage, setStorage, removeStorage } from "@/utilities/auth-utils";
 import PageBackBtn from "@/shared/components/page-back-btn";
 import ProgressFlowCard from "@/shared/components/card-comps/progress-flow-card";
@@ -28,9 +28,38 @@ export default {
 
   computed: {
     ...mapState({ transaction: "transactions/transaction" }),
+    ...mapGetters({
+      getTransactionBeneficiaries: "transactions/getTransactionBeneficiaries",
+    }),
+
+    getComputedPageFlow() {
+      return this.computed_page_flow;
+    },
+  },
+
+  watch: {
+    getTransactionBeneficiaries: {
+      handler(value) {
+        // CHECK IF BENEFICIARIES HAS LENGTH
+        if (value.length) {
+          if (value[0].role.name === "Seller") {
+            let cloned_page_flow = [...this.page_flows];
+            cloned_page_flow.pop();
+            this.computed_page_flow = cloned_page_flow;
+          }
+
+          // HANDLE NON SELLER ROLE
+          else this.computed_page_flow = this.page_flows;
+        } else this.computed_page_flow = this.page_flows;
+      },
+      immediate: true,
+      deep: true,
+    },
   },
 
   data: () => ({
+    computed_page_flow: [],
+
     page_flows: [
       {
         id: 1,

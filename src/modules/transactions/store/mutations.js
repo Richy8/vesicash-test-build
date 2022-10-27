@@ -47,16 +47,21 @@ export default {
 
     // LOOP THROUGH ALL MILESTONES RECIPIENTS AND EXTRACT THEIR AMOUNT
     state.transaction.milestones.map((milestone) => {
-      milestone.recipients.map((user) => amount_list.push(user.amount));
+      let amount = [];
+
+      state.transaction.milestone_recipients.map((user) => {
+        if (user.milestone_id === milestone.id)
+          amount.push(Number(user.amount));
+      });
+
+      // REDUCE AMOUNT
+      amount_list.push(amount.reduce((prev, next) => (prev += next), 0));
     });
 
-    let amount_to_pay = amount_list.reduce(
-      (prev, next) => (prev += Number(next)),
-      0
-    );
+    let sum_total = amount_list.reduce((prev, next) => (prev += next), 0);
 
-    state.transaction.amount = amount_to_pay;
-    state.transaction.escrow_fee = amount_to_pay * 0.15;
-    state.transaction.total_fee = amount_to_pay + state.transaction.escrow_fee;
+    state.transaction.milestone_amounts = amount_list;
+    state.transaction.escrow_fee = sum_total * 0.15;
+    state.transaction.total_fee = sum_total + state.transaction.escrow_fee;
   },
 };

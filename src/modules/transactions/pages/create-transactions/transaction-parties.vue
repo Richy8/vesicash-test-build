@@ -33,6 +33,7 @@
 
 <script>
 import { mapMutations, mapGetters } from "vuex";
+import { countries } from "@/utilities/countries.json";
 import {
   SINGLE_ROLE_OPTIONS,
   MULTIPLE_ROLE_OPTIONS,
@@ -177,6 +178,11 @@ export default {
       user_data.account_id = this.getAccountId;
       user_data.email_address = this.getUser.email;
       user_data.phone_number = this.getUser.phone;
+
+      user_data.country = countries.find(
+        (country) => country.code.toUpperCase() == this.getUser.country
+      ).country;
+
       user_data.role =
         this.getTransactionParty === "single"
           ? SINGLE_ROLE_OPTIONS[0]

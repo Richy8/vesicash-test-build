@@ -201,6 +201,7 @@ export default {
       handler(value) {
         this.$bus.$emit("update-country-state", value?.country);
       },
+      immediate: true,
     },
   },
 

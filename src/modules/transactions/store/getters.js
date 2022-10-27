@@ -4,6 +4,8 @@ export default {
       name: state.transaction.name,
       type: state.transaction.type,
       parties: state.transaction.parties,
+      file: state.transaction.file,
+      dispute_handler: state.transaction.dispute_handler,
     };
   },
 
@@ -16,7 +18,7 @@ export default {
   getTransactionAmount: (state) => {
     return {
       currency: state.transaction.currency,
-      amount: state.transaction.amount,
+      milestone_amounts: state.transaction.milestone_amounts,
       escrow_fee: state.transaction.escrow_fee,
       total_fee: state.transaction.total_fee,
     };

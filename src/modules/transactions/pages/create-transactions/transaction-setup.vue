@@ -66,13 +66,15 @@
     </div>
 
     <!-- DISPUTE POLICY -->
-    <div class="disbursement-type-title grey-900 primary-1-text mgb-10">
-      Attach a contract or document (Optional)
-    </div>
+    <template v-if="false">
+      <div class="disbursement-type-title grey-900 primary-1-text mgb-10">
+        Attach a contract or document (Optional)
+      </div>
 
-    <div class="col-12 col-lg-10 col-xl-8 mgb-40">
-      <ContractUploadCard />
-    </div>
+      <div class="col-12 col-lg-10 col-xl-8 mgb-40">
+        <ContractUploadCard />
+      </div>
+    </template>
 
     <!-- CTA ACTION ROW -->
     <div class="action-row mgt-14">

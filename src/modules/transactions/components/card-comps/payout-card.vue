@@ -248,7 +248,7 @@ export default {
       this.UPDATE_RECIPIENT_AMOUNT({ recipient_payload, recipient_index });
 
       // RE-EVALUATE TOTAL FEE
-      // this.EVALUATE_TRANSACTION_FEES();
+      this.EVALUATE_TRANSACTION_FEES();
     },
   },
 };

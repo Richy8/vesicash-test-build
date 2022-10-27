@@ -68,7 +68,10 @@
     <!-- SUMMATION TOTAL -->
     <div class="wrapper mgb-40">
       <div class="col-xl-8">
-        <SummationCard :amount_data="getTransactionAmount" />
+        <SummationCard
+          :milestones="getTransactionMilestones"
+          :amount_data="getTransactionAmount"
+        />
       </div>
     </div>
 
@@ -143,7 +146,13 @@ export default {
     }),
 
     nextProgressFlow() {
-      this.$router.push({ name: "TransactionConfirmPayout" });
+      this.$router.push({
+        name: "TransactionConfirmPayout",
+        query: {
+          type: this.$route.query.type,
+          party: this.$route.query.party,
+        },
+      });
     },
 
     getBeneficiariesReceivingPay(milestone_id) {

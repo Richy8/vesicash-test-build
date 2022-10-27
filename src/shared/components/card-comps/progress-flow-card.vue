@@ -1,7 +1,7 @@
 <template>
   <div class="progress-flow mgb-28 rounded-8 grey-50-bg">
     <!-- ITEM FLOWS -->
-    <template v-for="(flow, index) in page_flows">
+    <template v-for="(flow, index) in getPageFlows">
       <div
         class="item-flow smooth-transition"
         :key="index"
@@ -42,6 +42,12 @@ export default {
     },
   },
 
+  computed: {
+    getPageFlows() {
+      return this.page_flows;
+    },
+  },
+
   data() {
     return {
       page_flows: this.flows,
@@ -62,6 +68,12 @@ export default {
         this.reEvaluatePageFlows(value.name);
       },
       immediate: true,
+    },
+
+    flows: {
+      handler(value) {
+        this.page_flows = value;
+      },
     },
   },
 

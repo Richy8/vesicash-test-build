@@ -5,11 +5,11 @@ export default () => ({
     name: "",
     type: "",
     parties: "",
-    files: "",
+    file: "",
     dispute_handler: "",
 
     currency: CURRENCY_OPTIONS[0],
-    amount: 0,
+    milestone_amounts: [],
     escrow_fee: 0,
     total_fee: 0,
 
@@ -37,9 +37,4 @@ export default () => ({
 //     name: "";
 //     due_date: "";
 //     inspection_period: "";
-//     recipients: [
-//          id: "",
-//          email: "",
-//          amount: "",
-//      ]
 // }

@@ -83,6 +83,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import FileIcon from "@/shared/components/icon-comps/file-icon";
 
 export default {
@@ -103,14 +104,24 @@ export default {
   }),
 
   methods: {
+    ...mapActions({ uploadFile: "general/uploadFile" }),
+
     handleFileUpload($event) {
       let uploaded_file = [...$event.target.files].slice().reverse()[0];
       this.$refs.fileUpload.value = ""; // CLEAR OUT FILE CACHE
 
       this.file.name = uploaded_file.name;
       this.file.size = this.processFileSize(uploaded_file.size);
-
       this.has_content = true;
+
+      let formData = new FormData();
+      formData.append("files", [uploaded_file]);
+
+      this.uploadFile({ files: [formData] })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => console.log(err));
     },
 
     processFileSize(size) {
