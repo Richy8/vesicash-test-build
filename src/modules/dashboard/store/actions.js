@@ -7,7 +7,7 @@ const routes = {
     verify_payment: "/payment/payment_account/verify",
     wallet_transactions: "/payment/list/wallet_funding",
     bank_details: "/admin/user/fetch/bank",
-    withdraw:"/payment/disbursement/wallet/withdraw"
+    withdraw: "/payment/disbursement/wallet/withdraw",
 };
 
 export default {
@@ -16,8 +16,9 @@ export default {
     // ==================================
     async getWalletBalance({ commit }, payload) {
         const response = await $api.push(routes.wallet_balance, { payload });
-        if (response.code === 200) commit('SET_WALLET_BALANCES', response.data.wallets);
-        return response
+        if (response.code === 200)
+            commit("SET_WALLET_BALANCES", response.data.wallets);
+        return response;
     },
 
     // =============================================
@@ -44,21 +45,25 @@ export default {
     // =====================================
     // FETCH ALL USER WALLET TRANSACTIONS
     // =====================================
-    async fetchWalletTransactions(_, account_id) {
-        return await $api.push(`${routes.wallet_transactions}/${account_id}`, {});
+    async fetchWalletTransactions(_, { account_id, page }) {
+        return await $api.push(
+            `${routes.wallet_transactions}/${account_id}?page=${page}`, {}
+        );
     },
 
     // =====================================
     // FETCH USER BANK DETAILS
     // =====================================
     async fetchBankDetails(_, account_id) {
-        return await $api.push(`${routes.bank_details}/${account_id}?array=true`, {});
+        return await $api.push(
+            `${routes.bank_details}/${account_id}?array=true`, {}
+        );
     },
 
     // =====================================
     // FETCH USER BANK DETAILS
     // =====================================
     async withdraw(_, payload) {
-        return await $api.push(routes.withdraw, {payload});
+        return await $api.push(routes.withdraw, { payload });
     },
 };
