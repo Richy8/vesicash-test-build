@@ -1,8 +1,6 @@
 <template>
   <div class="fund-details">
-    <div class="disbursement-title h4-text grey-900 mgb-32">
-      Add Transaction Details
-    </div>
+    <div class="disbursement-title h4-text grey-900 mgb-32">Add Transaction Details</div>
 
     <!-- TRANSACTION NAME -->
     <div class="row mgb-10">
@@ -25,9 +23,9 @@
     </div>
 
     <!-- DISBURSEMENT TYPE TITLE -->
-    <div class="disbursement-type-title grey-900 primary-1-text mgb-10">
-      How many people are transacting?
-    </div>
+    <div
+      class="disbursement-type-title grey-900 primary-1-text mgb-10"
+    >How many people are transacting?</div>
 
     <!-- TRANSACTING PARTY SELECTIONS -->
     <div class="disbursement-type-selections row mgb-8">
@@ -46,9 +44,9 @@
     </div>
 
     <!-- DISBURSEMENT TYPE TITLE -->
-    <div class="disbursement-type-title grey-900 primary-1-text mgb-10">
-      How will this payment be disbursed?
-    </div>
+    <div
+      class="disbursement-type-title grey-900 primary-1-text mgb-10"
+    >How will this payment be disbursed?</div>
 
     <!-- DISBURSEMENT TYPE SELECTIONS -->
     <div class="disbursement-type-selections row mgb-12">
@@ -67,9 +65,9 @@
 
     <!-- DISPUTE POLICY -->
     <template v-if="false">
-      <div class="disbursement-type-title grey-900 primary-1-text mgb-10">
-        Attach a contract or document (Optional)
-      </div>
+      <div
+        class="disbursement-type-title grey-900 primary-1-text mgb-10"
+      >Attach a contract or document (Optional)</div>
 
       <div class="col-12 col-lg-10 col-xl-8 mgb-40">
         <ContractUploadCard />
@@ -82,9 +80,7 @@
         class="btn btn-primary btn-md"
         :disabled="isDisabled"
         @click="nextProgressFlow"
-      >
-        Continue
-      </button>
+      >Continue</button>
     </div>
   </div>
 </template>
@@ -156,7 +152,7 @@ export default {
           selected: false,
         },
         {
-          title: "In Milestone",
+          title: "In Milestones",
           slug: "milestone",
           description:
             "Your payment will be released in multiple disbursements based on agreed milestones.",
