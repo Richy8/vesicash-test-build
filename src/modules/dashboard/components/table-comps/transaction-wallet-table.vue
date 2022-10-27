@@ -7,13 +7,12 @@
       :table_header="table_header"
       :is_loading="table_loading"
       :empty_message="empty_message"
+      :show_paging="showPagination"
+      @goToPage="getUserWalletTransactions($event)"
+      :pagination="pagination"
     >
       <template v-for="(data, index) in table_data">
-        <TransactionWalletTableRow
-          :key="index"
-          table_name="transaction-wallet-tb"
-          :data="data"
-        />
+        <TransactionWalletTableRow :key="index" table_name="transaction-wallet-tb" :data="data" />
       </template>
     </TableContainer>
   </div>
@@ -34,6 +33,12 @@ export default {
       ),
   },
 
+  computed: {
+    showPagination() {
+      return this.$route?.name === "PaymentsPage" ? true : false;
+    },
+  },
+
   data() {
     return {
       table_header: [
@@ -48,13 +53,23 @@ export default {
 
       table_data: [],
       table_loading: true,
+      pagination: {
+        current_page: 1,
+        per_page: 10,
+        last_page: 3,
+        from: 1,
+        to: 20,
+        total: 50,
+      },
+      paginatedData: {},
+      paginationPages: {},
       empty_message:
-        "You have not done any disbursement transaction. Please click on the disburse money button to start",
+        "You have not created any Transactions yet. Click the “New Payment” Button to get started",
     };
   },
 
   mounted() {
-    this.getUserWalletTransactions();
+    this.getUserWalletTransactions(1);
   },
 
   methods: {
@@ -62,12 +77,45 @@ export default {
       fetchWalletTransactions: "dashboard/fetchWalletTransactions",
     }),
 
-    getUserWalletTransactions() {
-      this.fetchWalletTransactions(this.getAccountId)
+    getUserWalletTransactions(page) {
+      // USE PREVIOUSLY SAVED DATA FOR THAT PAGE NUMBER (AVOID UNNECESSARY API CALLS)
+      if (this.paginatedData[page] && this.paginationPages[page]) {
+        this.table_data = this.paginatedData[page];
+        this.pagination = this.paginationPages[page];
+        return;
+      }
+
+      const payload = {
+        page,
+        account_id: this.getAccountId,
+      };
+
+      this.fetchWalletTransactions(payload)
         .then((response) => {
           if (response.code === 200) {
-            this.table_data = response.data;
+            // SHOW ALL DATA ROWS OR THREE ROWS BASED ON ROUTE
+            this.table_data =
+              this.$route?.name === "PaymentsPage"
+                ? response?.data?.data
+                : response?.data?.data?.slice(0, 3);
             this.table_loading = false;
+
+            //SET PAGINATION DATA
+            this.pagination = {
+              current_page: response?.data?.current_page,
+              per_page: response?.data?.per_page,
+              last_page: response?.data?.last_page,
+              from: response?.data?.from,
+              to: response?.data?.to,
+              total: response?.data?.total,
+            };
+
+            this.paginationPages[page] = this.pagination;
+
+            this.paginatedData[page] =
+              this.$route?.name === "PaymentsPage"
+                ? response?.data?.data
+                : response?.data?.data?.slice(0, 3);
           }
 
           // HANDLE NON 200 RESPONSE

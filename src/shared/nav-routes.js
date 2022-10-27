@@ -4,7 +4,7 @@ const navRoutes = [{
         link: "/dashboard",
     },
     {
-        title: "Escrow Transactions",
+        title: "Escrow transactions",
         icon: "DisbursementIcon",
         link: "/transactions",
     },
