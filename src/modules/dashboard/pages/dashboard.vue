@@ -24,19 +24,19 @@
 
       <!-- DISBURSE MONEY BUTTON -->
       <router-link
-        :to="{ name: 'VesicashFundDetails' }"
+        :to="{ name: 'TransactionSetup' }"
         class="btn btn-primary btn-lg"
-        >New Payment</router-link
+        >Create Escrow</router-link
       >
     </div>
 
-    <!-- DISBURSEMENT SECTION -->
+    <!-- TRANSACTION SECTION -->
     <template>
       <div class="section-title mgb-18 h5-text grey-900">Transactions</div>
 
-      <!-- DISBURSEMENT TABLE DATA -->
+      <!-- TRANSACTION TABLE DATA -->
       <div class="disbursement-table-wrapper">
-        <DisbursementTable />
+        <TransactionTable />
       </div>
     </template>
 
@@ -72,9 +72,9 @@ export default {
       import(
         /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/card-comps/escrow-metric-card"
       ),
-    DisbursementTable: () =>
+    TransactionTable: () =>
       import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/table-comps/disbursement-table"
+        /* webpackChunkName: "transactions-module" */ "@/modules/transactions/components/table-comps/transaction-table"
       ),
     DashboardTransactions: () =>
       import(

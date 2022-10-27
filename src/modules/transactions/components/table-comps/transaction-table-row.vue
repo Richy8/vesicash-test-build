@@ -1,10 +1,10 @@
 <template>
-  <tr @click="viewDisbursementDetails">
+  <tr @click="viewTransactionDetails">
     <td class="body-data" :class="`${table_name}-1`">
       <div class="text mgb-6 text-no-wrap">
-        Payment for landing Payment for landing
+        {{ data.title }}
       </div>
-      <div class="meta tertiary-3-text grey-600">One-off disbursment</div>
+      <div class="meta tertiary-3-text grey-600">{{ getTransactionType }}</div>
     </td>
 
     <td class="body-data" :class="`${table_name}-2`">
@@ -12,10 +12,13 @@
       <div class="meta tertiary-3-text grey-600">2 people</div>
     </td>
 
-    <td class="body-data" :class="`${table_name}-3`">14th July, 2022</td>
+    <td class="body-data" :class="`${table_name}-3`">{{ getCreatedDate }}</td>
 
     <td class="body-data" :class="`${table_name}-4`">
-      <div class="text mgb-6 text-no-wrap">$40,000</div>
+      <div class="text mgb-6 text-no-wrap">
+        <span v-html="$money.getSign(data.currency)"></span
+        >{{ $money.addComma(data.amount) }}
+      </div>
       <div class="meta tertiary-3-text grey-600">$0 paid</div>
     </td>
 
@@ -51,9 +54,25 @@ export default {
     },
   },
 
+  computed: {
+    getCreatedDate() {
+      let { d3, m4, y1 } = this.$date
+        .formatDate(this.data.due_date_formatted)
+        .getAll();
+
+      return `${d3} ${m4}, ${y1}`;
+    },
+
+    getTransactionType() {
+      return this.data.type === "oneoff"
+        ? "One-off disbursement"
+        : "Milestone disbursement";
+    },
+  },
+
   methods: {
-    viewDisbursementDetails() {
-      this.$router.push({ name: "VesicashDisbursementDetails" });
+    viewTransactionDetails() {
+      this.$router.push({ name: "TransactionDetails" });
     },
   },
 };

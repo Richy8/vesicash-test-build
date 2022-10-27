@@ -1,7 +1,7 @@
 <template>
   <div class="progress-flow mgb-28 rounded-8 grey-50-bg">
     <!-- ITEM FLOWS -->
-    <template v-for="(flow, index) in page_flows">
+    <template v-for="(flow, index) in getPageFlows">
       <div
         class="item-flow smooth-transition"
         :key="index"
@@ -31,41 +31,20 @@
 
 <script>
 export default {
-  name: "ProgressFlow",
+  name: "ProgressFlowCard",
 
   props: {
     flows: {
       type: Array,
-      default: () => [
-        {
-          id: 1,
-          title: "Payment details",
-          route: "VesicashFundDetails",
-          alias_route: "",
-          state: "current",
-        },
-        {
-          id: 2,
-          title: "Invite Parties",
-          route: "VesicashBeneficiaries",
-          alias_route: "",
-          state: "next",
-        },
-        {
-          id: 3,
-          title: "Payout Details",
-          route: "VesicashPayoutRules",
-          alias_route: "VesicashConfirmPayoutRules",
-          state: "next",
-        },
-        {
-          id: 4,
-          title: "Make payment",
-          route: "VesicashPayment",
-          alias_route: "",
-          state: "next",
-        },
-      ],
+      default: () => {
+        [];
+      },
+    },
+  },
+
+  computed: {
+    getPageFlows() {
+      return this.page_flows;
     },
   },
 
@@ -89,6 +68,12 @@ export default {
         this.reEvaluatePageFlows(value.name);
       },
       immediate: true,
+    },
+
+    flows: {
+      handler(value) {
+        this.page_flows = value;
+      },
     },
   },
 

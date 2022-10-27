@@ -24,7 +24,7 @@ export default {
     TableContainer,
     UsersTableRow: () =>
       import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/table-comps/users-table-row"
+        /* webpackChunkName: "transactions-module" */ "@/modules/transactions/components/table-comps/users-table-row"
       ),
   },
 

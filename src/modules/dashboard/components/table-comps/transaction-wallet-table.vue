@@ -12,7 +12,11 @@
       :pagination="pagination"
     >
       <template v-for="(data, index) in table_data">
-        <TransactionWalletTableRow :key="index" table_name="transaction-wallet-tb" :data="data" />
+        <TransactionWalletTableRow
+          :key="index"
+          table_name="transaction-wallet-tb"
+          :data="data"
+        />
       </template>
     </TableContainer>
   </div>
@@ -64,7 +68,7 @@ export default {
       paginatedData: {},
       paginationPages: {},
       empty_message:
-        "You have not created any Transactions yet. Click the “New Payment” Button to get started",
+        "You have not done any wallet transaction. You can fund your wallet to get started",
     };
   },
 
@@ -124,8 +128,12 @@ export default {
         .catch(() => this.handleErrorResponse());
     },
 
+    // ==========================
+    // HANDLE ERROR RESPONSE
+    // ==========================
     handleErrorResponse() {
-      (this.table_loading = false), (this.table_data = []);
+      this.table_loading = false;
+      this.table_data = [];
     },
   },
 };

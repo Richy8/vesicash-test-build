@@ -26,7 +26,7 @@
         <!-- ICON COMPONENT -->
         <ExitIcon />
 
-        <div class="nav-text secondary-2-text red-500">Logout account</div>
+        <div class="nav-text secondary-2-text red-500">Logout</div>
       </div>
     </div>
   </div>

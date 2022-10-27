@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="getGroupWrapperStyle">
     <div :class="getGroupStyle">
       <!-- INPUT LABEL -->
       <template v-if="label_title">
@@ -142,6 +142,7 @@ export default {
     custom_style: {
       type: Object,
       default: () => ({
+        group_wrapper_style: "",
         group_style: "",
         label_style: "",
         input_style: "",
@@ -159,6 +160,10 @@ export default {
   },
 
   computed: {
+    getGroupWrapperStyle() {
+      return this.custom_style?.group_wrapper_style || null;
+    },
+
     getGroupStyle() {
       return this.custom_style?.group_style || null;
     },
@@ -186,12 +191,14 @@ export default {
       handler(value) {
         this.form_value = value;
       },
+      immediate: true,
     },
 
     current_country: {
       handler(value) {
         this.$bus.$emit("update-country-state", value?.country);
       },
+      immediate: true,
     },
   },
 

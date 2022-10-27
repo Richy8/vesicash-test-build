@@ -112,14 +112,11 @@
 import { mapActions } from "vuex";
 import ModalCover from "@/shared/components/modal-cover";
 import PageBackBtn from "@/shared/components/page-back-btn";
-import FormHelper from "@/modules/auth/mixins/auth-helper";
 import BasicInput from "@/shared/components/form-comps/basic-input";
 import { VESICASH_APP_URL } from "@/utilities/constant";
 
 export default {
   name: "WalletDetailsModal",
-
-  mixins: [FormHelper],
 
   components: {
     ModalCover,

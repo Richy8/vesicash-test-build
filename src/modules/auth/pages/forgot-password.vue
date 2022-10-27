@@ -38,7 +38,6 @@
 
 <script>
 import { mapActions } from "vuex";
-import FormHelper from "@/modules/auth/mixins/auth-helper";
 import AuthWrapper from "@/modules/auth/components/auth-wrapper";
 import BasicInput from "@/shared/components/form-comps/basic-input";
 
@@ -49,8 +48,6 @@ export default {
     title: "Forgot Password",
     titleTemplate: "%s - Vesicash",
   },
-
-  mixins: [FormHelper],
 
   components: {
     AuthWrapper,

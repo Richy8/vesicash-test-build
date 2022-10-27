@@ -4,7 +4,16 @@
     <template v-for="(detail, index) in payment_details">
       <div class="item" :key="index">
         <div class="title grey-600">{{ detail.title }}</div>
-        <div class="value grey-900 text-wrap">{{ detail.value }}</div>
+
+        <div
+          v-if="detail.has_sign"
+          class="value grey-900 text-wrap"
+          v-html="
+            `${$money.getSign(currency.slug)} ${$money.addComma(detail.value)}`
+          "
+        ></div>
+
+        <div v-else class="value grey-900 text-wrap">{{ detail.value }}</div>
       </div>
     </template>
   </div>
@@ -14,12 +23,28 @@
 export default {
   name: "PaymentUserCard",
 
-  data: () => ({
-    payment_details: [
-      { title: "User Details", value: "Salimadeyemi@gmail.com" },
-      { title: "Amount", value: "$30,000" },
-    ],
-  }),
+  props: {
+    payment_details: {
+      type: Array,
+      default: () => [
+        {
+          title: "User Details",
+          value: "Salimadeyemi@gmail.com",
+          has_sign: false,
+        },
+        { title: "Amount", value: "30,000", has_sign: true },
+      ],
+    },
+
+    currency: {
+      type: Object,
+      default: () => ({
+        slug: "naira",
+      }),
+    },
+  },
+
+  data: () => ({}),
 };
 </script>
 

@@ -84,22 +84,22 @@ export default {
   components: {
     FundInfoCard: () =>
       import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/card-comps/fund-info-card"
+        /* webpackChunkName: "transactions-module" */ "@/modules/transactions/components/card-comps/fund-info-card"
       ),
 
     FundUsersTable: () =>
       import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/table-comps/fund-users-table"
+        /* webpackChunkName: "transactions-module" */ "@/modules/transactions/components/table-comps/fund-users-table"
       ),
 
     PaymentRuleCard: () =>
       import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/card-comps/payment-rule-card"
+        /* webpackChunkName: "transactions-module" */ "@/modules/transactions/components/card-comps/payment-rule-card"
       ),
 
     SummationCard: () =>
       import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/card-comps/summation-card"
+        /* webpackChunkName: "transactions-module" */ "@/modules/transactions/components/card-comps/summation-card"
       ),
   },
 

@@ -8,7 +8,9 @@
       <component :is="nav.icon" />
 
       <!-- NAV TEXT -->
-      <div class="nav-text secondary-2-text grey-600 smooth-transition">{{ nav.title }}</div>
+      <div class="nav-text secondary-2-text grey-600 smooth-transition">
+        {{ nav.title }}
+      </div>
     </div>
   </router-link>
 </template>
@@ -22,9 +24,9 @@ export default {
       import(
         /* webpackChunkName: "shared-module" */ "@/shared/components/icon-comps/dashboard-icon"
       ),
-    DisbursementIcon: () =>
+    PaymentIcon: () =>
       import(
-        /* webpackChunkName: "shared-module" */ "@/shared/components/icon-comps/disbursement-icon"
+        /* webpackChunkName: "shared-module" */ "@/shared/components/icon-comps/payment-icon"
       ),
     TransactionIcon: () =>
       import(
@@ -49,7 +51,7 @@ export default {
 
   computed: {
     isActive() {
-      return this.path_list.includes(this.nav.title) ? true : false;
+      return this.path_list.includes(this.nav.slug) ? true : false;
     },
   },
 

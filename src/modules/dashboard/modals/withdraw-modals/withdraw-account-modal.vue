@@ -40,9 +40,9 @@
             class="form-prefix-right"
             @getInputState="updateFormState($event, 'amount')"
             :error_handler="{
-            type: 'required',
-            message: 'Enter an amount',
-          }"
+              type: 'required',
+              message: 'Enter an amount',
+            }"
           />
         </div>
 
@@ -50,7 +50,10 @@
           <!--ACCOUNT DISPLAY DETAILS -->
           <div class="form-group mgb-20">
             <div class="form-label">Select bank details</div>
-            <div class="skeleton-data skeleton-loader rounded-2" v-if="loading_banks"></div>
+            <div
+              class="skeleton-data skeleton-loader rounded-2"
+              v-if="loading_banks"
+            ></div>
 
             <template v-else>
               <AccountDisplayCard
@@ -96,7 +99,9 @@
           @click="handleAccountSelection"
           :disabled="continueDisabled"
           ref="continue"
-        >Continue</button>
+        >
+          Continue
+        </button>
       </div>
     </template>
   </ModalCover>
@@ -118,12 +123,12 @@ export default {
     PageBackBtn,
     RadioSelectCard: () =>
       import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/card-comps/radio-select-card"
+        /* webpackChunkName: "shared-module" */ "@/shared/components/card-comps/radio-select-card"
       ),
 
     SumTotalDisplayCard: () =>
       import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/card-comps/sum-total-display-card"
+        /* webpackChunkName: "shared-module" */ "@/shared/components/card-comps/sum-total-display-card"
       ),
 
     AccountDisplayCard: () =>

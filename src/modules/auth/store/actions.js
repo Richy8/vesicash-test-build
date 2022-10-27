@@ -27,6 +27,13 @@ export default {
   },
 
   // ============================================
+  // REGISTER BULK USERS (PERSONAL / BUSINESS)
+  // ============================================
+  async registerBulkUsers(_, payload) {
+    return await $api.push(`${routes.register_user}/bulk`, { payload });
+  },
+
+  // ============================================
   // SEND OTP TO REGISTERED USER
   // ============================================
   async sendUserOTP(_, payload) {

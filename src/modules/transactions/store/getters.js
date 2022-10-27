@@ -1,0 +1,26 @@
+export default {
+  getTransactionSetup: (state) => {
+    return {
+      name: state.transaction.name,
+      type: state.transaction.type,
+      parties: state.transaction.parties,
+      file: state.transaction.file,
+      dispute_handler: state.transaction.dispute_handler,
+    };
+  },
+
+  getTransactionBeneficiaries: (state) => state.transaction.beneficiaries,
+
+  getTransactionMilestones: (state) => state.transaction.milestones,
+
+  getMilestoneRecipients: (state) => state.transaction.milestone_recipients,
+
+  getTransactionAmount: (state) => {
+    return {
+      currency: state.transaction.currency,
+      milestone_amounts: state.transaction.milestone_amounts,
+      escrow_fee: state.transaction.escrow_fee,
+      total_fee: state.transaction.total_fee,
+    };
+  },
+};

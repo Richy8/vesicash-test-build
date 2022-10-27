@@ -41,4 +41,11 @@ const setStorage = (storage_name, storage_value, storage_type = "string") => {
     : localStorage.setItem(storage_name, JSON.stringify(storage_value));
 };
 
-export { logOutUser, checkAuthTimeout, getStorage, setStorage };
+// ===============================
+// REMOVE LOCAL STORAGE DATA
+// ===============================
+const removeStorage = (storage_name) => {
+  localStorage.removeItem(storage_name);
+};
+
+export { logOutUser, checkAuthTimeout, getStorage, setStorage, removeStorage };

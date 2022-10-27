@@ -1,16 +1,24 @@
 <template>
   <tr>
     <td class="body-data" :class="`${table_name}-1`">
-      Kunleafolayan@gmail.com
+      {{ data.email_address }}
     </td>
 
-    <td class="body-data" :class="`${table_name}-2`">09148585833</td>
+    <td class="body-data" :class="`${table_name}-2`">
+      {{ data.phone_number }}
+    </td>
 
-    <td class="body-data" :class="`${table_name}-3`">Buyer</td>
+    <td class="body-data text-capitalize" :class="`${table_name}-3`">
+      {{ data.role.name }}
+    </td>
 
     <template v-if="type !== 'single'">
-      <td class="body-data" :class="`${table_name}-4`">Approve</td>
-      <td class="body-data" :class="`${table_name}-5`">No</td>
+      <td class="body-data text-capitalize" :class="`${table_name}-4`">
+        {{ data.access.name }}
+      </td>
+      <td class="body-data text-capitalize" :class="`${table_name}-5`">
+        {{ data.recipient.name }}
+      </td>
     </template>
 
     <td class="body-data" :class="`${table_name}-6`">
@@ -22,7 +30,11 @@
     <!-- MODALS -->
     <portal to="vesicash-modals">
       <transition name="fade" v-if="show_edit_modal">
-        <EditUserModal :type="type" @closeTriggered="toggleEditModal" />
+        <EditUserModal
+          :type="type"
+          :user_data="data"
+          @closeTriggered="toggleEditModal"
+        />
       </transition>
     </portal>
   </tr>
@@ -35,7 +47,7 @@ export default {
   components: {
     EditUserModal: () =>
       import(
-        /* webpackChunkName: "dashboard-modal-module" */ "@/modules/dashboard/modals/edit-user-modal"
+        /* webpackChunkName: "transactions-modal-module" */ "@/modules/transactions/modals/edit-user-modal"
       ),
   },
 

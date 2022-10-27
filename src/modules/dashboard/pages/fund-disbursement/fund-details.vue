@@ -81,11 +81,11 @@ export default {
   components: {
     FundDisburseTypeCard: () =>
       import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/card-comps/fund-disburse-type-card"
+        /* webpackChunkName: "transactions-module" */ "@/modules/transactions/components/card-comps/fund-disburse-type-card"
       ),
     ContractUploadCard: () =>
       import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/card-comps/contract-upload-card"
+        /* webpackChunkName: "transactions-module" */ "@/modules/transactions/components/card-comps/contract-upload-card"
       ),
   },
 

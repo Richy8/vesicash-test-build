@@ -229,7 +229,7 @@ export default {
     DropSelectInput,
     SumTotalDisplayCard: () =>
       import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/card-comps/sum-total-display-card"
+        /* webpackChunkName: "shared-module" */ "@/shared/components/card-comps/sum-total-display-card"
       ),
   },
 

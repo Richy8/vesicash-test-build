@@ -73,17 +73,17 @@ export default {
   components: {
     PayoutCard: () =>
       import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/card-comps/payout-card"
+        /* webpackChunkName: "transactions-module" */ "@/modules/transactions/components/card-comps/payout-card"
       ),
 
     RadioSelectCard: () =>
       import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/card-comps/radio-select-card"
+        /* webpackChunkName: "shared-module" */ "@/shared/components/card-comps/radio-select-card"
       ),
 
     SummationCard: () =>
       import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/card-comps/summation-card"
+        /* webpackChunkName: "transactions-module" */ "@/modules/transactions/components/card-comps/summation-card"
       ),
   },
 

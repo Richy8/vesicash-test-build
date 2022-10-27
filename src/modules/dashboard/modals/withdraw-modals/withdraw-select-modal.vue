@@ -56,7 +56,7 @@ export default {
     ModalCover,
     RadioSelectCard: () =>
       import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/card-comps/radio-select-card"
+        /* webpackChunkName: "shared-module" */ "@/shared/components/card-comps/radio-select-card"
       ),
   },
 

@@ -6,11 +6,15 @@
       <template v-for="(wallet, index) in wallet_balance">
         <div class="column" :key="index">
           <!-- TITLE TEXT -->
-          <div class="title-text tertiary-3-text grey-700 mgb-12">{{ wallet.title }} Balance</div>
+          <div class="title-text tertiary-3-text grey-700 mgb-12">
+            {{ wallet.title }} Balance
+          </div>
 
           <!-- LOADING AMOUNT VALUE -->
           <template v-if="loading_wallet">
-            <div class="loading-amount-value rounded-3 skeleton-loader mgb-5"></div>
+            <div
+              class="loading-amount-value rounded-3 skeleton-loader mgb-5"
+            ></div>
           </template>
 
           <template v-else>
@@ -18,24 +22,37 @@
             <div class="amount-value teal-800 h4-text mgb-4">
               <span v-html="$money.getSign(wallet.sign)"></span>
               {{ $money.addComma(wallet.value.split(".")[0])
-              }}
-              <span
-                class="amount-zero"
-              >.{{ wallet.value.split(".")[1] || "00" }}</span>
+              }}<span class="amount-zero"
+                >.{{ wallet.value.split(".")[1] || "00" }}</span
+              >
             </div>
           </template>
 
           <!-- TITLE DESCRIPTION -->
-          <div class="title-description secondary-3-text grey-700">Wallet balance</div>
+          <div class="title-description secondary-3-text grey-700">
+            Wallet balance
+          </div>
         </div>
       </template>
     </div>
 
     <!-- BOTTOM ROW -->
     <div class="bottom-row">
-      <button class="btn btn-secondary btn-md" @click="toggleFundWalletSelectModal">Fund Wallet</button>
+      <button
+        class="btn btn-tertiary btn-md"
+        @click="toggleFundWalletSelectModal"
+      >
+        <div class="icon-plus mgr-6 f-size-17"></div>
+        Fund Wallet
+      </button>
 
-      <button class="btn btn-secondary btn-md" @click="closeWalletOpenAccount">Withdraw</button>
+      <button class="btn btn-tertiary btn-md" @click="closeWalletOpenAccount">
+        <div class="mgr-8 position-relative" style="top: -1px">
+          <MoneyIcon />
+        </div>
+
+        Withdraw Money
+      </button>
       <!-- closeWalletOpenAccount will be replaced with toggleWalletModal when dollar withdrawal is ready -->
     </div>
 
@@ -83,10 +100,13 @@
 </template>
 
 <script>
+import MoneyIcon from "@/shared/components/icon-comps/money-icon";
+
 export default {
   name: "NairaDollarMetricCard",
 
   components: {
+    MoneyIcon,
     FundWalletSelectModal: () =>
       import(
         /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/modals/wallet-modals/wallet-select-modal"
