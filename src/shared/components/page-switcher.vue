@@ -8,9 +8,7 @@
         v-for="(page, index) in pages"
         :key="index"
         @click="changeTableView(index)"
-      >
-        {{ page.title }}
-      </div>
+      >{{ page.title }}</div>
     </template>
   </div>
 </template>
