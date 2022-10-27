@@ -16,6 +16,6 @@ export default new Vuex.Store({
     general,
     auth,
     dashboard,
-    transactions
+    transactions,
   },
 });

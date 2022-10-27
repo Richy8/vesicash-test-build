@@ -2,31 +2,38 @@
   <div class="pagination-row mgt-30">
     <div class="left">
       <!-- PAGINATION TEXT -->
-      <div class="pagination-text text-left tertiary-2-text grey-600">
-        Showing 1 to 20 of 50 entries.
-      </div>
+      <div
+        class="pagination-text text-left tertiary-2-text grey-600"
+      >Showing {{pagination.from}} to {{pagination.to}} of {{pagination.total}} entries.</div>
     </div>
 
     <div class="right mgb-5">
-      <div class="nav disabled">
+      <div class="nav" :class="[isPrevDisabled && 'disabled']">
         <div class="icon icon-caret-left"></div>
-        <div class="nav-text mgl-3 pdr-4">Prev</div>
+        <div class="nav-text mgl-3 pdr-4" @click="isPrevDisabled ? null : updatePage(-1)">Prev</div>
       </div>
 
       <!--PAGING -->
       <div class="paging">
         <input
-          type="text"
+          type="number"
           class="form-control page-input text-center mgr-7"
-          v-model="page"
+          onkeypress="return event.charCode >= 48"
+          min="1"
+          :max="pagination.last_page"
+          v-model.number="page"
         />
         <div class="page-slash">/</div>
-        <div class="page-total mgl-5 mgr-4">3</div>
-        <button class="btn btn-primary btn-sm mgl-4 page-btn">Go</button>
+        <div class="page-total mgl-5 mgr-4">{{pagination.last_page}}</div>
+        <button
+          class="btn btn-primary btn-sm mgl-4 page-btn"
+          :disabled="is_go_disabled"
+          @click="navigatePage(page)"
+        >Go</button>
       </div>
 
-      <div class="nav">
-        <div class="nav-text mgr-3 pdl-5">Next</div>
+      <div class="nav" :class="[isNextDisabled && 'disabled']">
+        <div class="nav-text mgr-3 pdl-5" @click="isNextDisabled ? null : updatePage(1)">Next</div>
         <div class="icon icon-caret-right"></div>
       </div>
 
@@ -34,9 +41,7 @@
       <div
         class="error-text smooth-transition primary-3-text red-500"
         v-if="show_error"
-      >
-        Provided page, exceeds page size!
-      </div>
+      >Provided page exceeds page size!</div>
     </div>
   </div>
 </template>
@@ -46,20 +51,26 @@ export default {
   name: "pagination",
 
   props: {
-    pagination: Object,
-    default: () => ({
-      current_page: 1,
-      per_page: 10,
-      last_page: 1,
-      from: 1,
-      to: 15,
-      total: 10,
-    }),
+    pagination: {
+      type: Object,
+      default: () => ({
+        current_page: 1,
+        per_page: 10,
+        last_page: 3,
+        from: 1,
+        to: 20,
+        total: 50,
+      }),
+    },
   },
 
   computed: {
-    isDisabled() {
-      return this.page && this.page <= this.pagination.last_page ? false : true;
+    isNextDisabled() {
+      return this.page && this.page < this.pagination.last_page ? false : true;
+    },
+
+    isPrevDisabled() {
+      return this.page && this.page !== 1 ? false : true;
     },
   },
 
@@ -67,15 +78,21 @@ export default {
     page: null,
     show_dropdown: false,
     show_error: false,
+    is_go_disabled: false,
   }),
 
   watch: {
     page: {
       handler(value) {
-        this.show_error = value > this.pagination.last_page ? true : false;
+        this.show_error =
+          value > this.pagination.last_page || value < 1 ? true : false;
+
+        this.is_go_disabled = this.show_error;
+
         setTimeout(() => (this.show_error = false), 3000);
       },
     },
+
     pagination: {
       handler(value) {
         this.page = value?.current_page ?? 1;
@@ -94,7 +111,11 @@ export default {
     },
 
     navigatePage(page) {
-      this.$emit("gotoPage", page);
+      this.$emit("goToPage", page);
+    },
+
+    updatePage(increment) {
+      this.page += increment;
     },
   },
 };

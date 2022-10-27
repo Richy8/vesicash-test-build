@@ -1,24 +1,28 @@
 const navRoutes = [
   {
-    title: "dashboard",
+    title: "Dashboard",
     icon: "DashboardIcon",
     link: "/dashboard",
+    slug: "dashboard",
   },
   {
-    title: "transactions",
+    title: "Escrow transactions",
     icon: "TransactionIcon",
     link: "/transactions",
+    slug: "transactions",
   },
   {
-    title: "payments",
+    title: "Payments",
     icon: "PaymentIcon",
     link: "/payments",
+    slug: "payments",
   },
-  {
-    title: "settings",
-    icon: "SettingsIcon",
-    link: "/settings",
-  },
+  // {
+  //   title: "Settings",
+  //   icon: "SettingsIcon",
+  //   link: "/settings",
+  //   slug: "settings",
+  // },
 ];
 
 export default navRoutes;

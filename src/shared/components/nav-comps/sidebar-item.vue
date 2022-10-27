@@ -8,15 +8,7 @@
       <component :is="nav.icon" />
 
       <!-- NAV TEXT -->
-      <div
-        class="
-          nav-text
-          secondary-2-text
-          grey-600
-          text-capitalize
-          smooth-transition
-        "
-      >
+      <div class="nav-text secondary-2-text grey-600 smooth-transition">
         {{ nav.title }}
       </div>
     </div>
@@ -59,7 +51,7 @@ export default {
 
   computed: {
     isActive() {
-      return this.path_list.includes(this.nav.title) ? true : false;
+      return this.path_list.includes(this.nav.slug) ? true : false;
     },
   },
 

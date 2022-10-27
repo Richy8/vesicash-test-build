@@ -153,6 +153,7 @@ export default {
     makeSelection(index) {
       this.selected_value = this.options[index].name;
       this.$emit("selectedOption", this.options[index].id);
+      this.$emit("optionSelected", this.options[index]);
       this.forceClose();
     },
   },

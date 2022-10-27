@@ -26,7 +26,7 @@
       <router-link
         :to="{ name: 'TransactionSetup' }"
         class="btn btn-primary btn-lg"
-        >Create Transaction</router-link
+        >Create Escrow</router-link
       >
     </div>
 

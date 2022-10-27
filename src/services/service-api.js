@@ -24,7 +24,7 @@ class serviceApi {
   // ===============================
   // GET API REQUEST
   // ===============================
-  async fetch(url, option = { resolve: true }) {
+  async fetch(url, option = { resolve: true, payload: null }) {
     const hashed_url = urlHash(url);
 
     try {

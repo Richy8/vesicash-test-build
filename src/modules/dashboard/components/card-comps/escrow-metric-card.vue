@@ -1,7 +1,7 @@
 <template>
   <div class="escrow-metric-card rounded-12 border-green-100 green-10-bg">
     <!-- TITLE TEXT -->
-    <div class="title-text tertiary-3-text grey-700 mgb-12">ESCROW SIDE</div>
+    <div class="title-text tertiary-3-text grey-700 mgb-12">In Escrow</div>
 
     <!-- AMOUNT VALUE IN DOLLARS -->
     <template v-if="loading_wallet">
@@ -10,8 +10,8 @@
 
     <template v-else>
       <div class="amount-value mgb-8 border-bottom-grey-100">
-        <span v-html="$money.getSign('dollar')"></span
-        >{{ $money.addComma(getEscrowDollar.split(".")[0])
+        <span v-html="$money.getSign('dollar')"></span>
+        {{ $money.addComma(getEscrowDollar.split(".")[0])
         }}<span class="amount-zero"
           >.{{ getEscrowDollar.split(".")[1] || "00" }}</span
         >
@@ -25,8 +25,8 @@
 
     <template v-else>
       <div class="amount-value">
-        <span v-html="$money.getSign('naira')"></span
-        >{{ getEscrowNaira.split(".")[0]
+        <span v-html="$money.getSign('naira')"></span>
+        {{ getEscrowNaira.split(".")[0]
         }}<span class="amount-zero">.{{ getEscrowNaira.split(".")[1] }}</span>
       </div>
     </template>

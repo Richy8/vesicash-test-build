@@ -21,50 +21,53 @@
         <!-- TOTAL DISPLAY CARDS -->
         <div class="mgb-24">
           <SumTotalDisplayCard
-            total_text="Naira balance"
-            total_value="N6,400,000"
+            :total_text="getBalanceTitle"
+            :total_value="getWalletBalance"
             use_custom_style
           />
         </div>
 
         <!-- AMOUNT TO WITHDRAW -->
         <div class="form-group">
-          <label class="form-label" for="withdrawAmount"
-            >Amount to withdraw</label
-          >
-
-          <div class="form-prefix form-prefix-right">
-            <input
-              type="number"
-              id="withdrawAmount"
-              class="form-control"
-              placeholder="0.00"
-            />
-
-            <!-- PREFIX AREA -->
-            <div class="prefix-select-area value-area">
-              <div class="value grey-900 text-no-wrap">
-                NGN (<span v-html="$money.getSign('naira')"></span>)
-              </div>
-            </div>
-          </div>
+          <BasicInput
+            label_title="Amount to withdraw"
+            label_id="amount"
+            :input_value="form.amount"
+            is_required
+            placeholder="0.00"
+            :custom_style="{ input_wrapper_style: 'form-prefix' }"
+            :currency="withdrawalCurrency"
+            class="form-prefix-right"
+            @getInputState="updateFormState($event, 'amount')"
+            :error_handler="{
+              type: 'required',
+              message: 'Enter an amount',
+            }"
+          />
         </div>
 
         <template v-if="!initiate_new_account">
           <!--ACCOUNT DISPLAY DETAILS -->
           <div class="form-group mgb-20">
             <div class="form-label">Select bank details</div>
-            <AccountDisplayCard
-              v-for="(account, index) in accounts"
-              :key="index"
-              :index="index"
-              :card_detail="account"
-              @selectAccount="toggleSelection"
-            />
+            <div
+              class="skeleton-data skeleton-loader rounded-2"
+              v-if="loading_banks"
+            ></div>
+
+            <template v-else>
+              <AccountDisplayCard
+                v-for="(account, index) in getWithdrawalAccounts"
+                :key="index"
+                :index="index"
+                :card_detail="account"
+                @selectAccount="toggleSelection(account.index)"
+              />
+            </template>
           </div>
 
           <!-- RADIO SELECT -->
-          <div class="">
+          <div class>
             <RadioSelectCard
               label_id="account1"
               label_text="Add new bank details"
@@ -78,7 +81,11 @@
         <!-- NEW ACCOUNT VIEW -->
         <template v-if="initiate_new_account">
           <transition name="fade" mode="out-in">
-            <component :is="new_account_type" />
+            <component
+              :is="getAccountType"
+              @nairaBankUpdated="new_naira_account = $event"
+              @dollarBankUpdated="updateDollarAccount"
+            />
           </transition>
         </template>
       </div>
@@ -90,6 +97,8 @@
         <button
           class="btn btn-primary btn-md wt-100"
           @click="handleAccountSelection"
+          :disabled="continueDisabled"
+          ref="continue"
         >
           Continue
         </button>
@@ -99,11 +108,15 @@
 </template>
 
 <script>
+import { mapGetters, mapActions, mapMutations } from "vuex";
 import ModalCover from "@/shared/components/modal-cover";
 import PageBackBtn from "@/shared/components/page-back-btn";
+import FormHelper from "@/modules/auth/mixins/auth-helper";
 
 export default {
   name: "WithdrawAccountModal",
+
+  mixins: [FormHelper],
 
   components: {
     ModalCover,
@@ -132,6 +145,10 @@ export default {
       import(
         /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/modal-comps/new-dollar-account"
       ),
+    BasicInput: () =>
+      import(
+        /* webpackChunkName: 'shared-module' */ "@/shared/components/form-comps/basic-input"
+      ),
   },
 
   props: {
@@ -141,29 +158,190 @@ export default {
     },
   },
 
+  computed: {
+    ...mapGetters({
+      getWalletType: "dashboard/getWalletType",
+      getNairaBalance: "dashboard/getNairaBalance",
+      getDollarBalance: "dashboard/getDollarBalance",
+    }),
+
+    withdrawalCurrency() {
+      const currency = this.getWalletType === "naira" ? "NGN" : "USD";
+      return `${currency} (${this.$money.getSign(this.getWalletType)})`;
+    },
+
+    getAccountType() {
+      return this.getWalletType === "naira"
+        ? "NewNairaAccount"
+        : "NewDollarAccount";
+    },
+
+    getBalanceTitle() {
+      return this.getWalletType === "naira"
+        ? "Naira balance"
+        : "Dollar balance";
+    },
+
+    getWalletBalance() {
+      const balance =
+        this.getWalletType === "naira"
+          ? this.getNairaBalance
+          : this.getDollarBalance;
+
+      const sign = this.getWalletType === "naira" ? "₦" : "$";
+
+      return `${sign}${this.$money.addComma(balance)}`;
+    },
+
+    getWithdrawalAccounts() {
+      return this.getWalletType === "naira"
+        ? this.accounts.filter((account) => account.currency === "NGN")
+        : this.accounts.filter((account) => account.currency === "USD");
+    },
+
+    getSelectedAccount() {
+      return this.accounts.find((account) => account.selected);
+    },
+    getNewAccount() {
+      if (!this.initiate_new_account) return this.getSelectedAccount;
+      return this.getWalletType === "naira"
+        ? this.new_naira_account
+        : this.new_dollar_account;
+    },
+
+    getFirstName() {
+      if (!this.getNewAccount) return "";
+      return this.getNewAccount?.account_name?.trim().split(/\s+/)[1];
+    },
+
+    getLastName() {
+      if (!this.getNewAccount) return "";
+      return this.getNewAccount?.account_name?.trim().split(/\s+/)[0];
+    },
+
+    nairaWithdrawalDetails() {
+      return {
+        amount: this.form.amount,
+        fee: 500,
+        total: Number(Number(this.form.amount) + 500),
+        country: "Nigeria",
+        phone: this.phone,
+        first_name: this.getFirstName,
+        last_name: this.getLastName,
+        name: this.getNewAccount?.account_name || "",
+        bank_name: this.getNewAccount?.bank_name || "",
+        account_no: this.getNewAccount?.account_no || "",
+        bank_code: this.getNewAccount?.bank_id,
+      };
+    },
+
+    dollarWithdrawalDetails() {
+      return {
+        amount: this.form.amount,
+        fee: 500,
+        total: Number(Number(this.form.amount) + 500),
+        country: "United States",
+        phone: this.phone,
+        first_name: this.getFirstName,
+        last_name: this.getLastName,
+        name: this.getNewAccount?.account_name || "",
+        bank_name: this.getNewAccount?.bank_name || "",
+        iban: this.getNewAccount?.account_no || "",
+        account_no: this.getNewAccount?.account_no || "",
+        swift_code: this.getNewAccount?.swift_code || "",
+        sort_code: this.getNewAccount?.sort_code || "",
+        bank_address: this.getNewAccount?.bank_address || "",
+        bank_code: this.getNewAccount?.bank_id,
+      };
+    },
+
+    continueDisabled() {
+      if (!this.form.amount) return true;
+      if (this.initiate_new_account) {
+        return this.getAccountType === "NewNairaAccount"
+          ? !this.new_naira_account
+          : !this.new_dollar_account;
+      } else {
+        return this.getSelectedAccount ? false : true;
+      }
+    },
+  },
+
+  watch: {
+    getWithdrawalAccounts: {
+      handler(accounts) {
+        if (!accounts.length)
+          this.pushToast(
+            `Please add a ${this.getWalletType} account to continue`
+          );
+      },
+    },
+  },
+
+  async mounted() {
+    await this.fetchUserBanks();
+  },
+
   data: () => ({
     initiate_new_account: false,
     new_account_type: "NewDollarAccount",
+    loading_banks: false,
+    new_naira_account: null,
+    new_dollar_account: null,
+    phone: "",
+    amount: "",
+    form: {
+      amount: "",
+    },
 
-    accounts: [
-      {
-        account_name: "Awotunde bangalee",
-        account_no: "01398595485",
-        bank_name: "GtBank",
-        sort_code: "2020300440",
-        selected: false,
-      },
-      //   {
-      //     account_name: "Awotunde bangalee",
-      //     account_no: "01398595485",
-      //     bank_name: "GtBank",
-      //     sort_code: "2020300440",
-      //     selected: false,
-      //   },
-    ],
+    validity: {
+      form: true,
+    },
+
+    accounts: [],
   }),
 
   methods: {
+    ...mapActions({
+      fetchBankDetails: "dashboard/fetchBankDetails",
+      addNewBank: "settings/addNewBank",
+    }),
+
+    ...mapMutations({
+      setWithrawalMeta: "dashboard/SET_WITHDRAWAL_META",
+    }),
+
+    updateDollarAccount(account) {
+      this.phone = account?.phone;
+      const dollar_account = account;
+      delete dollar_account?.phone;
+      this.new_dollar_account = dollar_account;
+    },
+
+    async fetchUserBanks() {
+      this.loading_banks = true;
+      try {
+        const response = await this.fetchBankDetails(this.getAccountId);
+        this.loading_banks = false;
+
+        response.code === 200
+          ? (this.accounts = response.data.map((account, index) => ({
+              ...account,
+              index,
+              selected: false,
+            })))
+          : this.pushToast(
+              response.message
+                ? `${response.message}. Add new bank to continue`
+                : "Failed to load bank details. Add new bank to continue",
+              "warning"
+            );
+      } catch {
+        this.loading_banks = false;
+        this.pushToast("Failed to load bank details", "error");
+      }
+    },
+
     toggleSelection(index) {
       this.accounts.map((account) => (account.selected = false));
       this.accounts[index].selected = true;
@@ -173,12 +351,43 @@ export default {
       this.initiate_new_account = true;
     },
 
-    handleAccountSelection() {
-      this.$emit("accountSelected");
+    async handleAccountSelection() {
+      const withdrawalMeta =
+        this.getAccountType === "NewNairaAccount"
+          ? this.nairaWithdrawalDetails
+          : this.dollarWithdrawalDetails;
+
+      if (this.initiate_new_account) {
+        this.handleClick("continue", "Adding new account");
+
+        const response = await this.addNewBank({
+          account_id: this.getAccountId,
+          updates:
+            this.getAccountType === "NewNairaAccount"
+              ? this.new_naira_account
+              : this.new_dollar_account,
+        });
+
+        this.handleClick("continue", "Continue", false);
+        if (response.code === 200) {
+          this.setWithrawalMeta(withdrawalMeta);
+          this.$emit("accountSelected");
+        }
+      } else {
+        this.setWithrawalMeta(withdrawalMeta);
+        this.$emit("accountSelected");
+      }
     },
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.skeleton-data {
+  height: toRem(35);
+  width: 100%;
+}
+</style>
 
 <style lang="scss">
 .modal-cover-body {

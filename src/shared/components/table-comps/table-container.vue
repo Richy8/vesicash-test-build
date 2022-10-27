@@ -29,7 +29,11 @@
           </table>
 
           <!-- PAGINATION -->
-          <Pagination v-if="show_paging" />
+          <Pagination
+            :pagination="pagination"
+            v-if="show_paging"
+            @goToPage="$emit('goToPage',$event)"
+          />
         </div>
       </template>
 
@@ -86,6 +90,18 @@ export default {
     show_paging: {
       type: Boolean,
       default: false,
+    },
+
+    pagination: {
+      type: Object,
+      default: () => ({
+        current_page: 1,
+        per_page: 10,
+        last_page: 3,
+        from: 1,
+        to: 20,
+        total: 50,
+      }),
     },
   },
 };

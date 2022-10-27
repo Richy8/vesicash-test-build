@@ -1,8 +1,6 @@
 <template>
   <div class="fund-details">
-    <div class="disbursement-title h4-text grey-900 mgb-32">
-      Add Payment Details
-    </div>
+    <div class="disbursement-title h4-text grey-900 mgb-32">Add Payment Details</div>
 
     <!-- TRANSACTION NAME -->
     <div class="row mgb-10">
@@ -20,9 +18,9 @@
     </div>
 
     <!-- DISBURSEMENT TYPE TITLE -->
-    <div class="disbursement-type-title grey-900 primary-1-text mgb-10">
-      How Will This Payment Be Disbursed?
-    </div>
+    <div
+      class="disbursement-type-title grey-900 primary-1-text mgb-10"
+    >How will this payment be disbursed?</div>
 
     <!-- DISBURSEMENT TYPE SELECTIONS -->
     <div class="disbursement-type-selections row mgb-12">
@@ -40,9 +38,9 @@
     </div>
 
     <!-- DISBURSEMENT TYPE TITLE -->
-    <div class="disbursement-type-title grey-900 primary-1-text mgb-10">
-      How many people are transacting?
-    </div>
+    <div
+      class="disbursement-type-title grey-900 primary-1-text mgb-10"
+    >How many people are transacting?</div>
 
     <!-- TRANSACTING PARTY SELECTIONS -->
     <div class="disbursement-type-selections row mgb-8">
@@ -61,9 +59,9 @@
     </div>
 
     <!-- DISPUTE POLICY -->
-    <div class="disbursement-type-title grey-900 primary-1-text mgb-10">
-      Attach a contract or document (Optional)
-    </div>
+    <div
+      class="disbursement-type-title grey-900 primary-1-text mgb-10"
+    >Attach a contract or document (Optional)</div>
 
     <div class="col-12 col-lg-10 col-xl-8 mgb-40">
       <ContractUploadCard />
@@ -71,9 +69,7 @@
 
     <!-- CTA ACTION ROW -->
     <div class="action-row mgt-14">
-      <button class="btn btn-primary btn-md" @click="nextProgressFlow">
-        Continue
-      </button>
+      <button class="btn btn-primary btn-md" @click="nextProgressFlow">Continue</button>
     </div>
   </div>
 </template>
@@ -102,7 +98,7 @@ export default {
         selected: false,
       },
       {
-        title: "In Milestone",
+        title: "In Milestones",
         description:
           "Your payment will be released in multiple disbursements according to the agreed milestones.",
         type: "disbursement",
