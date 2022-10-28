@@ -29,7 +29,7 @@
     >
       <div class="inner-wrapper rounded-8">
         <!-- SEARCH BAR -->
-        <div class="search-bar mgb-4" v-if="allow_search">
+        <div class="search-bar mgb-4 mgt-10" v-if="allow_search">
           <input
             type="text"
             class="form-control ignore"

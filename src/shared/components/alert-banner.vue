@@ -28,7 +28,7 @@ export default {
   },
 
   mounted() {
-    setTimeout(() => this.dismissAlert(), 4500);
+    setTimeout(() => this.dismissAlert(), 5000);
   },
 
   methods: {

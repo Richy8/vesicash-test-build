@@ -180,10 +180,6 @@ export default {
 
     createTransaction() {
       this.signupBulkUsers();
-
-      // if (this.signupBulkUsers()) {
-      //   this.setupAndCreateTransaction();
-      // }
       // this.$router.push({ name: "TransactionPayment" });
     },
 

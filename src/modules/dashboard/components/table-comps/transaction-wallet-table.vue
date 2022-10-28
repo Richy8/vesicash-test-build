@@ -12,11 +12,7 @@
       :pagination="pagination"
     >
       <template v-for="(data, index) in table_data">
-        <TransactionWalletTableRow
-          :key="index"
-          table_name="transaction-wallet-tb"
-          :data="data"
-        />
+        <TransactionWalletTableRow :key="index" table_name="transaction-wallet-tb" :data="data" />
       </template>
     </TableContainer>
   </div>
@@ -86,6 +82,7 @@ export default {
       if (this.paginatedData[page] && this.paginationPages[page]) {
         this.table_data = this.paginatedData[page];
         this.pagination = this.paginationPages[page];
+        this.table_loading = false;
         return;
       }
 
@@ -93,6 +90,8 @@ export default {
         page,
         account_id: this.getAccountId,
       };
+
+      this.table_loading = true;
 
       this.fetchWalletTransactions(payload)
         .then((response) => {

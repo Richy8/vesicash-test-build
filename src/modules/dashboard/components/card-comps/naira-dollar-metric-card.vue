@@ -50,8 +50,7 @@
         <div class="mgr-8 position-relative" style="top: -1px">
           <MoneyIcon />
         </div>
-
-        Withdraw Money
+        Withdraw
       </button>
       <!-- closeWalletOpenAccount will be replaced with toggleWalletModal when dollar withdrawal is ready -->
     </div>

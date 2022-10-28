@@ -155,6 +155,7 @@ export default {
     }),
 
     nextProgressFlow() {
+      // this.checkValidState();
       this.$router.push({
         name: "TransactionConfirmPayout",
         query: {
@@ -164,6 +165,105 @@ export default {
       });
     },
 
+    // ========================================================
+    // CHECK IF ALL INPUT AND SELECTIONS ARE MADE
+    // ========================================================
+    checkValidState() {
+      this.getTransactionMilestones.map((milestone, index) => {
+        let payout_error = [];
+
+        let milestone_recipients = this.getMilestoneRecipients.filter(
+          (user) => user.milestone_id === milestone.id
+        );
+
+        milestone_recipients.map((user) => {
+          if (!user.amount) {
+            let error_obj = {};
+
+            error_obj.name = milestone.name;
+            error_obj.index = index;
+            error_obj.message = `is missing a payout for '${user.email_address}'`;
+
+            payout_error.push(error_obj);
+          }
+        });
+
+        // DUE DATE
+        if (!milestone.due_date) {
+          this.logErrorMessage(milestone.name, index, "is missing a due date.");
+          return true;
+        }
+
+        // INSPECTION PERIOD
+        else if (!Object.values(milestone.inspection_period).length) {
+          this.logErrorMessage(
+            milestone.name,
+            index,
+            "is missing an inspection period."
+          );
+          return true;
+        }
+
+        // DISPUTE HANDLING
+        else if (!this.getTransactionSetup.dispute_handler) {
+          console.log("HIT");
+          this.logErrorMessage(
+            milestone.name,
+            index,
+            "is missing a dispute handler.",
+            true
+          );
+          return true;
+        }
+
+        // FETCH MILESTONE RECIPIENTS
+        else if (payout_error.length) {
+          console.log(payout_error);
+
+          this.logErrorMessage(
+            payout_error[0].name,
+            payout_error[0].index,
+            payout_error[0].message
+          );
+          return true;
+        } else {
+          this.$router.push({
+            name: "TransactionConfirmPayout",
+            query: {
+              type: this.$route.query.type,
+              party: this.$route.query.party,
+            },
+          });
+
+          return false;
+        }
+      });
+    },
+
+    // ==========================================================
+    // LOG ERROR MESSAGE DEPENDING ON MILESTONE
+    // ==========================================================
+    logErrorMessage(
+      milestone_name = "",
+      milestone_index = 0,
+      message = "",
+      pass = false
+    ) {
+      let naming_intro =
+        this.getTransactionType === "oneoff" || pass
+          ? "Transaction"
+          : milestone_name
+          ? milestone_name
+          : `Milestone ${milestone_index + 1}`;
+
+      console.log(`${naming_intro} ${message}`);
+
+      this.pushToast(`${naming_intro} ${message}`, "error");
+    },
+
+    // ============================================================
+    // GENERATE A LIST OF BENEFICIARIES WHO ARE PAYOUT RECIPIENTS
+    // ============================================================
     getBeneficiariesReceivingPay(milestone_id) {
       let milestone_recipients = [];
 

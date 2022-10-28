@@ -8,7 +8,9 @@
       <DropSelectInput
         placeholder="Select bank name"
         :options="bank_name_options"
+        :allow_search="true"
         @optionSelected="bank = $event"
+        @searchItem="filterBankList"
       />
     </div>
 
@@ -23,9 +25,9 @@
         placeholder="Your account number"
         @getInputState="updateFormState($event, 'account_number')"
         :error_handler="{
-            type: 'required',
-            message: 'Enter your account number',
-          }"
+          type: 'required',
+          message: 'Enter your account number',
+        }"
       />
     </div>
 
@@ -33,8 +35,12 @@
     <div class="account-confirm-card grey-10-bg rounded-12 mgt--10">
       <div
         class="name tertiary-2-text"
-        :class="invalid_account ?'red-600':'grey-900'"
-      >{{ account_details ? account_details.account_name : verification_message }}</div>
+        :class="invalid_account ? 'red-600' : 'grey-900'"
+      >
+        {{
+          account_details ? account_details.account_name : verification_message
+        }}
+      </div>
     </div>
   </div>
 </template>
@@ -97,7 +103,9 @@ export default {
   },
 
   data: () => ({
+    bank_name_options_repo: [],
     bank_name_options: [],
+
     bank: null,
     form: {
       account_number: "",
@@ -119,7 +127,26 @@ export default {
 
     async fetchNigeriaBanks() {
       const response = await this.getAllBanks("Nigeria");
-      if (response.code === 200) this.bank_name_options = response.data;
+      console.log(response.data);
+
+      if (response.code === 200) {
+        let bank_options = response.data;
+
+        bank_options.sort((a, b) => {
+          if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+          if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+          return 0;
+        });
+
+        let filtered_banks = [];
+
+        bank_options.map((bank) => {
+          if (filtered_banks.findIndex((b) => b.code === bank.code) === -1)
+            filtered_banks.push(bank);
+        });
+
+        this.bank_name_options_repo = this.bank_name_options = filtered_banks;
+      }
     },
 
     async verifyAccount(account_number, bank_code) {
@@ -142,6 +169,20 @@ export default {
           response.message || "Account number is invalid";
         this.invalid_account = true;
       }
+    },
+
+    // FILTER THROUGH BANK NAMES
+    filterBankList($event) {
+      let filtered_list = [];
+
+      if ($event.length) {
+        this.bank_name_options_repo.map((bank) => {
+          if (bank.name.toLowerCase().includes($event.toLowerCase())) {
+            filtered_list.push(bank);
+          }
+        });
+        this.bank_name_options = filtered_list;
+      } else this.bank_name_options = this.bank_name_options_repo;
     },
   },
 };
