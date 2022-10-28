@@ -1,5 +1,9 @@
 <template>
-  <ModalCover @closeModal="$emit('closeTriggered')" :modal_style="{ size: 'modal-xs' }">
+  <ModalCover
+    class="withdraw-select-modal"
+    @closeModal="$emit('closeTriggered')"
+    :modal_style="{ size: 'modal-xs' }"
+  >
     <!-- MODAL COVER HEADER -->
     <template slot="modal-cover-header">
       <div class="modal-cover-header">
@@ -11,12 +15,13 @@
     <template slot="modal-cover-body">
       <div class="modal-cover-body mgb--10">
         <!-- DOLLAR WITHDRAWAL -->
-        <div class="mgb-20">
+        <div class="mgb-20" v-if="false">
           <RadioSelectCard
             card_name="wallet"
             label_id="walletCard1"
             :label_text="dollarBalanceText"
             @clicked="updateWalletSelection('dollar')"
+            :is_checked="wallet_type==='dollar'"
           />
         </div>
 
@@ -26,17 +31,20 @@
             card_name="wallet"
             label_id="walletCard2"
             :label_text="nairaBalanceText"
+            :tooltip_text="tool_tip"
             @clicked="updateWalletSelection('naira')"
+            :is_checked="wallet_type==='naira'"
           />
         </div>
       </div>
     </template>
 
     <!-- MODAL COVER FOOTER -->
+    <!-- The class .raise-40 will be removed when dollar withdrawal is back -->
     <template slot="modal-cover-footer">
       <div class="modal-cover-footer">
         <button
-          class="btn btn-primary btn-md wt-100"
+          class="btn btn-primary btn-md wt-100 raise-40"
           @click="handleWalletSelection"
           :disabled="!wallet_type"
         >Continue</button>
@@ -87,7 +95,9 @@ export default {
   },
 
   data: () => ({
-    wallet_type: "",
+    wallet_type: "naira",
+    tool_tip:
+      "Wallet Withdrawal Fees <br> ₦500 for ₦0 - ₦500,000 <br> ₦1,000 for #500,001 - ₦1,000,000  <br> ₦2,000 (capped) for ₦1,000,001 and above",
   }),
 
   methods: {
@@ -104,5 +114,15 @@ export default {
   },
 };
 </script>
+<style  lang="scss" scoped>
+.raise-40 {
+  margin-top: -40px;
+}
+</style>
 
-<style></style>
+<style lang="scss">
+.withdraw-select-modal {
+  .modal-cover-body {
+    overflow-y: visible;
+  }
+}

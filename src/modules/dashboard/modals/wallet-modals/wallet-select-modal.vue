@@ -1,5 +1,6 @@
 <template>
   <ModalCover
+    class="wallet-select-modal"
     @closeModal="$emit('closeTriggered')"
     :modal_style="{ size: 'modal-xs' }"
   >
@@ -8,9 +9,7 @@
       <div class="modal-cover-header">
         <div class="modal-cover-title">Select wallet to fund</div>
 
-        <div class="modal-cover-meta">
-          Please select the wallet you wish to fund
-        </div>
+        <div class="modal-cover-meta">Please select the wallet you wish to fund</div>
       </div>
     </template>
 
@@ -25,7 +24,7 @@
             label_text="Fund dollar wallet"
             @clicked="selected_wallet = 'dollar'"
           />
-        </div> -->
+        </div>-->
 
         <!-- NAIRA WITHDRAWAL  -->
         <div>
@@ -33,7 +32,9 @@
             card_name="wallet"
             label_id="walletCard2"
             label_text="Fund naira wallet"
+            :tooltip_text="tool_tip"
             @clicked="selected_wallet = 'naira'"
+            :is_checked="selected_wallet === 'naira'? true:false"
           />
         </div>
       </div>
@@ -43,12 +44,10 @@
     <template slot="modal-cover-footer">
       <div class="modal-cover-footer">
         <button
-          class="btn btn-primary btn-md wt-100"
+          class="btn btn-primary btn-md wt-100 mgt-50"
           @click="handleWalletSelection"
           :disabled="selected_wallet.length ? false : true"
-        >
-          Continue
-        </button>
+        >Continue</button>
       </div>
     </template>
   </ModalCover>
@@ -76,7 +75,9 @@ export default {
   },
 
   data: () => ({
-    selected_wallet: "",
+    selected_wallet: "naira",
+    tool_tip:
+      "Wallet Funding Fees <br> ₦500 for ₦0 - ₦500,000 <br> ₦1,000 for #500,001 - ₦1,000,000  <br> ₦2,000 (capped) for ₦1,000,001 and above",
   }),
 
   methods: {
@@ -90,5 +91,13 @@ export default {
 <style lang="scss" scoped>
 .mgb-hack {
   margin-bottom: toRem(-90) !important;
+}
+</style>
+
+<style lang="scss">
+.wallet-select-modal {
+  .modal-cover-body {
+    overflow-y: visible;
+  }
 }
 </style>

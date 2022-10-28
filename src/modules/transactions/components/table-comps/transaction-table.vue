@@ -132,7 +132,7 @@ export default {
         last_page: pagination?.totalPages,
         from,
         to: from + (data?.length - 1),
-        total: pagination?.totalPages * pagination?.limit,
+        total: pagination?.total_records,
       };
 
       this.paginationPages[page] = this.pagination;
