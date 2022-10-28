@@ -16,14 +16,14 @@
               {
                 title: 'Disbursement Type',
                 value:
-                  getTransactionSetup.type === 'oneoff'
+                  getTransactionType === 'oneoff'
                     ? 'One-off disbursement type'
                     : 'Milestone disbursement type',
               },
               {
                 title: 'Transacting Parties',
                 value:
-                  getTransactionSetup.party === 'single'
+                  getTransactionParty === 'single'
                     ? 'Two parties'
                     : 'Multiple parties',
               },
@@ -61,9 +61,10 @@
 
         <!-- FUND USERS INVOLVED TABLE -->
         <FundUsersTable
-          :type="getTransactionSetup.party"
+          :type="getTransactionParty"
           :dataset="getTransactionBeneficiaries"
           :loading="false"
+          :evaluate_cta="true"
         />
       </div>
     </template>
@@ -106,7 +107,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
   name: "ConfirmFundPayoutRules",
@@ -141,22 +142,56 @@ export default {
       getTransactionAmount: "transactions/getTransactionAmount",
       getMilestoneRecipients: "transactions/getMilestoneRecipients",
     }),
+
+    // ===================================================
+    // GET THE TRANSACTION DISBURSEMENT TYPE FROM ROUTE
+    // ===================================================
+    getTransactionType() {
+      return this.$route.query.type ? this.$route.query.type : "oneoff";
+    },
+
+    // =============================================
+    // GET THE TRANSACTION PARTY TYPE FROM ROUTE
+    // =============================================
+    getTransactionParty() {
+      return this.$route.query.party ? this.$route.query.party : "single";
+    },
+
+    // =============================================
+    // GET THE TRANSACTION PAYMENT TYPE
+    // =============================================
+    userCanMakePayment() {
+      return this.$route.query.pay ? true : false;
+    },
   },
 
   methods: {
-    ...mapActions({ registerBulkUsers: "auth/registerBulkUsers" }),
+    ...mapActions({
+      registerBulkUsers: "auth/registerBulkUsers",
+      createUserTransaction: "transactions/createUserTransaction",
+      sendUserTransaction: "transactions/sendUserTransaction",
+    }),
+
+    ...mapMutations({
+      UPDATE_TRANSACTION_BENEFICIARIES:
+        "transactions/UPDATE_TRANSACTION_BENEFICIARIES",
+      UPDATE_MILESTONE_RECIPIENT: "transactions/UPDATE_MILESTONE_RECIPIENT",
+    }),
 
     createTransaction() {
       this.signupBulkUsers();
+
+      // if (this.signupBulkUsers()) {
+      //   this.setupAndCreateTransaction();
+      // }
       // this.$router.push({ name: "TransactionPayment" });
     },
 
     // =======================================
     // SIGNUP ALL USERS WITHOUT ACCOUNT ID
     // =======================================
-    signupBulkUsers() {
+    async signupBulkUsers() {
       let signup_payload = [];
-
       let users = this.getTransactionBeneficiaries.filter(
         (user) => !user.account_id
       );
@@ -170,11 +205,183 @@ export default {
         });
       });
 
-      console.log(signup_payload);
-
       this.registerBulkUsers({ bulk: signup_payload })
         .then((response) => {
-          console.log(response);
+          let user_payload = [];
+          let updated_beneficiaries = [];
+          let updated_recipients = [];
+
+          let cloned_beneficiaries = [...this.getTransactionBeneficiaries];
+          let cloned_recipients = [...this.getMilestoneRecipients];
+
+          // CREATE NEW USER PAYLOAD
+          response.data?.bulk.map((user) => {
+            user_payload.push({
+              account_id: user.account_id,
+              email_address: user.email_address ?? user.email,
+            });
+          });
+
+          this.updateUserData(
+            cloned_beneficiaries,
+            updated_beneficiaries,
+            user_payload
+          );
+
+          this.updateUserData(
+            cloned_recipients,
+            updated_recipients,
+            user_payload
+          );
+
+          this.UPDATE_TRANSACTION_BENEFICIARIES(updated_beneficiaries);
+          this.UPDATE_MILESTONE_RECIPIENT(updated_recipients);
+
+          setTimeout(() => this.setupAndCreateTransaction(), 300);
+          return true;
+        })
+        .catch(() => {
+          return false;
+        });
+    },
+
+    // =======================================
+    // HELPER FUNCTION TO UPDATE USER STATE
+    // =======================================
+    updateUserData(list, store, user_payload) {
+      list.map((user) => {
+        let user_index = user_payload.findIndex(
+          (u) => u.email_address === user.email_address
+        );
+
+        if (user_index !== -1)
+          user.account_id = user_payload[user_index].account_id;
+
+        store.push(user);
+      });
+    },
+
+    // ================================================
+    // SETUP UP THE TRANSACTION PAYLOAD AND CREATE IT
+    // ================================================
+    setupAndCreateTransaction() {
+      let transaction_payload = {};
+
+      transaction_payload.title = this.getTransactionSetup.name;
+      transaction_payload.currency =
+        this.getTransactionAmount.currency?.name.split(" ")[0];
+
+      transaction_payload.type = this.getTransactionSetup.type;
+      transaction_payload.amount =
+        this.getTransactionAmount.total_fee -
+        this.getTransactionAmount.escrow_fee;
+
+      transaction_payload.files = this.getTransactionSetup.file;
+      transaction_payload.dispute_handler =
+        this.getTransactionSetup.dispute_handler;
+      transaction_payload.source = "api";
+
+      // GENERATE PARTIES PAYLOAD
+      let parties_payload = [];
+
+      this.getTransactionBeneficiaries.map((user) => {
+        let party_obj = {};
+
+        party_obj.account_id = user.account_id;
+        party_obj.role = user.role?.name.toLowerCase();
+        party_obj.access_level = {
+          can_view: true,
+          can_receive: user.recipient.name === "Yes" ? true : false,
+          mark_as_done: user.access.name === "Mark as done" ? true : false,
+          approve: user.access.name === "Approve" ? true : false,
+        };
+
+        parties_payload.push(party_obj);
+      });
+
+      // SETUP MILESTONE PAYLOAD FOR ALL TRANSACTION
+      let milestone_payload = [];
+
+      this.getTransactionMilestones.map((milestone, index) => {
+        let milestone_obj = {};
+
+        milestone_obj.title = milestone.name
+          ? milestone.name
+          : `Milestone ${index + 1}`;
+
+        milestone_obj.amount =
+          this.getTransactionAmount.milestone_amounts[index];
+
+        milestone_obj.inspection_period =
+          milestone.inspection_period.name.split(" ")[0];
+        milestone_obj.due_date = milestone.due_date;
+
+        // FETCH MILESTONE RECIPIENTS
+        let milestone_recipients = this.getMilestoneRecipients.filter(
+          (user) => user.milestone_id === milestone.id
+        );
+
+        let recipients_payload = [];
+        milestone_recipients.map((user) => {
+          let recipient_obj = {};
+
+          recipient_obj.account_id = user.account_id;
+          recipient_obj.amount = Number(user.amount);
+
+          // PUSH RECIPIENT OBJECT INTO THE RECIPIENT PAYLOAD
+          recipients_payload.push(recipient_obj);
+        });
+
+        milestone_obj.recipients = recipients_payload;
+
+        // PUSH MILESTONE OBJECT INTO THE MILESTONE PAYLOAD
+        milestone_payload.push(milestone_obj);
+      });
+
+      // UPDATE PARTIES AND MILESTONE DATA
+      transaction_payload.parties = parties_payload;
+      transaction_payload.milestones = milestone_payload;
+
+      // CALL AN API TO CREATE TRANSACTION
+      setTimeout(() => this.createMyTransaction(transaction_payload), 300);
+    },
+
+    // ================================================
+    // CREATE MY TRANSACTION
+    // ================================================
+    createMyTransaction(transaction_payload) {
+      this.createUserTransaction(transaction_payload)
+        .then((response) => {
+          // console.log(response);
+
+          if (response.code === 200) {
+            let transaction_id = response?.data?.transaction?.transaction_id;
+            this.sendOutCreatedTransaction(transaction_id);
+          } else {
+            this.pushToast(
+              "Transaction cannot be created at this time",
+              "error"
+            );
+            return false;
+          }
+        })
+        .catch((err) => console.log(err));
+    },
+
+    // ================================================
+    // SEND OUT CREATED TRANSACTION TO USERS INVOLVED
+    // ================================================
+    sendOutCreatedTransaction(transaction_id) {
+      let request_payload = { transaction_id };
+
+      this.sendUserTransaction(request_payload)
+        .then((response) => {
+          if (response.code === 200) {
+            this.pushToast(
+              "Transaction has been created successfully",
+              "success"
+            );
+          }
         })
         .catch((err) => console.log(err));
     },

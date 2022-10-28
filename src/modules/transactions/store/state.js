@@ -5,7 +5,7 @@ export default () => ({
     name: "",
     type: "",
     parties: "",
-    file: "",
+    file: [],
     dispute_handler: "",
 
     currency: CURRENCY_OPTIONS[0],

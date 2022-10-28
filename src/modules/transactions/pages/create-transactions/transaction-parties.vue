@@ -106,6 +106,10 @@ export default {
           query: {
             type: this.$route.query.type,
             party: this.$route.query.party,
+            pay:
+              this.getTransactionBeneficiaries[0].role?.name === "Buyer"
+                ? true
+                : false,
           },
         });
     },
@@ -117,6 +121,10 @@ export default {
       let buyers = [];
       let sellers = [];
 
+      let has_recipient = this.getTransactionBeneficiaries.filter(
+        (user) => user.recipient.name === "Yes"
+      );
+
       this.getTransactionBeneficiaries.map((user) => {
         if (user.role.name === "Buyer") buyers.push(user);
       });
@@ -127,8 +135,6 @@ export default {
 
       // CHECK SINGLE PARTY TRANSACTION
       if (this.getTransactionParty === "single") {
-        console.log(buyers, sellers);
-
         if (!buyers.length) {
           this.pushToast("Transaction is missing a buyer party", "error");
           return false;
@@ -161,6 +167,12 @@ export default {
         } else if (sellers.length > 1) {
           this.pushToast(
             "Transaction should contain a single seller party",
+            "error"
+          );
+          return false;
+        } else if (!has_recipient.length) {
+          this.pushToast(
+            "Transaction should contain at least one recipient party",
             "error"
           );
           return false;

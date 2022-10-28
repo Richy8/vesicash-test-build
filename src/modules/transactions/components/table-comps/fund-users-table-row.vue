@@ -22,7 +22,11 @@
     </template>
 
     <td class="body-data" :class="`${table_name}-6`">
-      <button class="btn btn-secondary btn-sm" @click="toggleEditModal">
+      <button
+        class="btn btn-secondary btn-sm"
+        :disabled="index === 0 && evaluate_cta ? true : false"
+        @click="toggleEditModal"
+      >
         Edit User
       </button>
     </td>
@@ -33,6 +37,7 @@
         <EditUserModal
           :type="type"
           :user_data="data"
+          :evaluate_cta="evaluate_cta"
           @closeTriggered="toggleEditModal"
         />
       </transition>
@@ -65,6 +70,15 @@ export default {
     type: {
       type: String,
       default: "single",
+    },
+
+    index: {
+      type: Number,
+    },
+
+    evaluate_cta: {
+      type: Boolean,
+      default: false,
     },
   },
 

@@ -53,42 +53,44 @@
         </div>
 
         <!-- USER ROLE INPUT -->
-        <div class="form-group">
-          <div class="form-label">Select user role</div>
-          <DropSelectInput
-            placeholder="Select user role"
-            @selectedOption="selectUserOption('role', $event)"
-            :pre_select="user_data.role"
-            :options="
-              type === 'single'
-                ? user_single_role_options
-                : user_multiple_role_options
-            "
-          />
-        </div>
-
-        <template v-if="type === 'multiple'">
-          <!-- USER ACCESS INPUT -->
+        <template v-if="!evaluate_cta">
           <div class="form-group">
-            <div class="form-label">Select user access</div>
+            <div class="form-label">Select user role</div>
             <DropSelectInput
-              placeholder="Select access"
-              @selectedOption="selectUserOption('access', $event)"
-              :pre_select="user_data.access"
-              :options="user_access_options"
+              placeholder="Select user role"
+              @selectedOption="selectUserOption('role', $event)"
+              :pre_select="user_data.role"
+              :options="
+                type === 'single'
+                  ? user_single_role_options
+                  : user_multiple_role_options
+              "
             />
           </div>
 
-          <!-- USER PAYOUT INPUT -->
-          <div class="form-group">
-            <div class="form-label">User receives payout</div>
-            <DropSelectInput
-              placeholder="Select payout status"
-              @selectedOption="selectUserOption('recipient', $event)"
-              :pre_select="user_data.recipient"
-              :options="user_payout_options"
-            />
-          </div>
+          <template v-if="type === 'multiple'">
+            <!-- USER ACCESS INPUT -->
+            <div class="form-group">
+              <div class="form-label">Select user access</div>
+              <DropSelectInput
+                placeholder="Select access"
+                @selectedOption="selectUserOption('access', $event)"
+                :pre_select="user_data.access"
+                :options="user_access_options"
+              />
+            </div>
+
+            <!-- USER PAYOUT INPUT -->
+            <div class="form-group">
+              <div class="form-label">User receives payout</div>
+              <DropSelectInput
+                placeholder="Select payout status"
+                @selectedOption="selectUserOption('recipient', $event)"
+                :pre_select="user_data.recipient"
+                :options="user_payout_options"
+              />
+            </div>
+          </template>
         </template>
       </div>
     </template>
@@ -133,6 +135,11 @@ export default {
 
     user_data: {
       type: Object,
+    },
+
+    evaluate_cta: {
+      type: Boolean,
+      default: false,
     },
   },
 

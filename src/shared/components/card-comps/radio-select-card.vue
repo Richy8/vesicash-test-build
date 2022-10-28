@@ -15,6 +15,7 @@
           type="radio"
           :id="label_id"
           :name="card_name"
+          :checked="isChecked"
           :class="single_type ? 'mgr-18' : 'mgr-8'"
         />
       </template>
@@ -36,7 +37,9 @@
 
     <!-- BOTTOM TOOLTIP -->
     <div class="tooltip-wrapper wt-100 position-absolute">
-      <div class="tooltip-data wt-100 grey-10-bg rounded-8">{{ tooltip_text }}</div>
+      <div class="tooltip-data wt-100 grey-10-bg rounded-8">
+        {{ tooltip_text }}
+      </div>
     </div>
   </label>
 </template>
@@ -69,6 +72,17 @@ export default {
     single_type: {
       type: Boolean,
       default: false,
+    },
+
+    is_checked: {
+      type: Boolean,
+      default: true,
+    },
+  },
+
+  computed: {
+    isChecked() {
+      return this.is_checked;
     },
   },
 };

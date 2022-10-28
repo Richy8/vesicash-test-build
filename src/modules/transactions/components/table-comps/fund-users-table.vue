@@ -14,6 +14,8 @@
           :table_name="`fund-users-${type}-tb`"
           :data="data"
           :type="type"
+          :index="index"
+          :evaluate_cta="evaluate_cta"
         />
       </template>
     </TableContainer>
@@ -48,6 +50,11 @@ export default {
     type: {
       type: String,
       default: "single",
+    },
+
+    evaluate_cta: {
+      type: Boolean,
+      default: false,
     },
   },
 

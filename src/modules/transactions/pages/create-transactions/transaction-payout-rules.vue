@@ -48,6 +48,9 @@
               label_text="Handled by the platform"
               tooltip_text="Dispute
               resolution will be handled by Vesicash."
+              :is_checked="
+                getTransactionSetup.dispute_handler == 'vesicash' ? true : false
+              "
               @clicked="UPDATE_TRANSACTION_DISPUTE_MGT('vesicash')"
             />
           </div>
@@ -58,6 +61,11 @@
               label_id="disputeCard2"
               label_text="Arbitration"
               tooltip_text="Any dispute will be handled via arbitration. Cost of which will be borne by the transacting parties."
+              :is_checked="
+                getTransactionSetup.dispute_handler == 'arbitration'
+                  ? true
+                  : false
+              "
               @clicked="UPDATE_TRANSACTION_DISPUTE_MGT('arbitration')"
             />
           </div>
@@ -109,6 +117,7 @@ export default {
 
   computed: {
     ...mapGetters({
+      getTransactionSetup: "transactions/getTransactionSetup",
       getTransactionBeneficiaries: "transactions/getTransactionBeneficiaries",
       getTransactionMilestones: "transactions/getTransactionMilestones",
       getTransactionAmount: "transactions/getTransactionAmount",
@@ -131,10 +140,10 @@ export default {
   },
 
   mounted() {
-    this.loadMileStoneData();
-    // this.getTransactionMilestones.length
-    //   ? this.loadAllCurrentMilestones()
-    //   : this.loadMileStoneData();
+    // this.loadMileStoneData();
+    this.getTransactionMilestones.length
+      ? this.loadAllCurrentMilestones()
+      : this.loadMileStoneData();
   },
 
   methods: {
@@ -193,6 +202,7 @@ export default {
     // ==============================
     loadAllCurrentMilestones() {
       this.UPDATE_TRANSACTION_MILESTONE([...this.getTransactionMilestones]);
+      this.UPDATE_MILESTONE_RECIPIENT([...this.getMilestoneRecipients]);
     },
 
     // ==============================
