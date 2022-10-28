@@ -7,13 +7,12 @@
       :table_header="table_header"
       :is_loading="table_loading"
       :empty_message="empty_message"
+      :show_paging="showPagination"
+      :pagination="pagination"
+      @goToPage="getUserTransactions($event)"
     >
       <template v-for="(data, index) in table_data">
-        <TransactionTableRow
-          :key="index"
-          table_name="transaction-tb"
-          :data="data"
-        />
+        <TransactionTableRow :key="index" table_name="transaction-tb" :data="data" />
       </template>
     </TableContainer>
   </div>
@@ -41,6 +40,12 @@ export default {
     },
   },
 
+  computed: {
+    showPagination() {
+      return this.$route?.name === "AllTransactions" ? true : false;
+    },
+  },
+
   data() {
     return {
       table_header: [
@@ -54,13 +59,23 @@ export default {
 
       table_data: [],
       table_loading: true,
+      paginatedData: {},
+      paginationPages: {},
+      pagination: {
+        current_page: 1,
+        per_page: 10,
+        last_page: 3,
+        from: 1,
+        to: 20,
+        total: 50,
+      },
       empty_message:
         "You have not created any Transactions yet. Click the 'Create Transaction' Button to get started",
     };
   },
 
   mounted() {
-    this.getUserTransactions();
+    this.getUserTransactions(1);
   },
 
   methods: {
@@ -71,20 +86,58 @@ export default {
     // ====================================
     // FETCH ALL USER TRANSACTIONS
     // ====================================
-    getUserTransactions() {
-      this.fetchTransactionsByUser({ account_id: this.getAccountId })
-        .then((response) => {
-          console.log(response);
+    getUserTransactions(page) {
+      // USE PREVIOUSLY SAVED DATA FOR THAT PAGE NUMBER (AVOID UNNECESSARY API CALLS)
+      if (this.paginatedData[page] && this.paginationPages[page]) {
+        this.table_data = this.paginatedData[page];
+        this.pagination = this.paginationPages[page];
+        this.table_loading = false;
+        return;
+      }
 
+      const payload = {
+        payload: { account_id: this.getAccountId },
+        page,
+        limit: this.$route?.name === "AllTransactions" ? 20 : 3,
+      };
+
+      this.table_loading = true;
+
+      this.fetchTransactionsByUser(payload)
+        .then((response) => {
           if (response.code === 200) {
             this.table_data = response.data;
             this.table_loading = false;
+
+            this.saveTransactionDataAndPagination(
+              response.data,
+              response.pagination,
+              page
+            );
           }
 
           // HANDLE NON 200 RESPONSE
           else this.handleErrorResponse();
         })
         .catch(() => this.handleErrorResponse());
+    },
+
+    saveTransactionDataAndPagination(data, pagination, page) {
+      //SET PAGINATION DATA
+      const from = pagination?.limit * (pagination?.currentPage - 1) + 1;
+
+      this.pagination = {
+        current_page: pagination?.currentPage,
+        per_page: pagination?.limit,
+        last_page: pagination?.totalPages,
+        from,
+        to: from + (data?.length - 1),
+        total: pagination?.totalPages * pagination?.limit,
+      };
+
+      this.paginationPages[page] = this.pagination;
+
+      this.paginatedData[page] = data;
     },
 
     // ==========================

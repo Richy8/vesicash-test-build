@@ -116,6 +116,7 @@ export default {
 
     updatePage(increment) {
       this.page += increment;
+      this.$emit("goToPage", this.page);
     },
   },
 };
