@@ -33,6 +33,7 @@
             label_title="Amount to withdraw"
             label_id="amount"
             :input_value="form.amount"
+            input_type="number"
             is_required
             placeholder="0.00"
             :custom_style="{ input_wrapper_style: 'form-prefix' }"
@@ -50,10 +51,7 @@
           <!--ACCOUNT DISPLAY DETAILS -->
           <div class="form-group mgb-20">
             <div class="form-label">Select bank details</div>
-            <div
-              class="skeleton-data skeleton-loader rounded-2"
-              v-if="loading_banks"
-            ></div>
+            <div class="skeleton-data skeleton-loader rounded-2" v-if="loading_banks"></div>
 
             <template v-else>
               <AccountDisplayCard
@@ -99,9 +97,7 @@
           @click="handleAccountSelection"
           :disabled="continueDisabled"
           ref="continue"
-        >
-          Continue
-        </button>
+        >Continue</button>
       </div>
     </template>
   </ModalCover>
@@ -219,11 +215,18 @@ export default {
       return this.getNewAccount?.account_name?.trim().split(/\s+/)[0];
     },
 
+    getFee() {
+      const amount = Number(this.form.amount);
+      if (amount > 1000000) return 2000;
+      if (amount > 500000) return 1000;
+      return 500;
+    },
+
     nairaWithdrawalDetails() {
       return {
         amount: this.form.amount,
-        fee: 500,
-        total: Number(Number(this.form.amount) + 500),
+        fee: this.getFee,
+        total: Number(Number(this.form.amount) + this.getFee),
         country: "Nigeria",
         phone: this.phone,
         first_name: this.getFirstName,
@@ -238,8 +241,8 @@ export default {
     dollarWithdrawalDetails() {
       return {
         amount: this.form.amount,
-        fee: 500,
-        total: Number(Number(this.form.amount) + 500),
+        fee: this.getFee,
+        total: Number(Number(this.form.amount) + this.getFee),
         country: "United States",
         phone: this.phone,
         first_name: this.getFirstName,
