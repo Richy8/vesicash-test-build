@@ -46,7 +46,7 @@
         Fund Wallet
       </button>
 
-      <button class="btn btn-tertiary btn-md" @click="closeWalletOpenAccount">
+      <button class="btn btn-tertiary btn-md" @click="toggleWalletModal">
         <div class="mgr-8 position-relative" style="top: -1px">
           <MoneyIcon />
         </div>
@@ -203,7 +203,7 @@ export default {
     closeAccountOpenWallet() {
       this.show_wallet_account_modal = false;
       // this will be un-commented when dollar withdrawal works
-      // this.toggleWalletModal();
+      this.toggleWalletModal();
     },
 
     closeConfimWithdrawOpenAccount() {

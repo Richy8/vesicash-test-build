@@ -37,9 +37,7 @@
 
     <!-- BOTTOM TOOLTIP -->
     <div class="tooltip-wrapper wt-100 position-absolute">
-      <div class="tooltip-data wt-100 grey-10-bg rounded-8">
-        {{ tooltip_text }}
-      </div>
+      <div class="tooltip-data wt-100 grey-10-bg rounded-8" v-html="tooltip_text"></div>
     </div>
   </label>
 </template>
@@ -114,6 +112,7 @@ export default {
     left: 0;
     top: 40%;
     visibility: hidden;
+    z-index: 10;
 
     .tooltip-data {
       position: relative;
