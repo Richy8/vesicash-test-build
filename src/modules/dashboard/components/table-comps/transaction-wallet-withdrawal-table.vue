@@ -12,7 +12,11 @@
       :pagination="pagination"
     >
       <template v-for="(data, index) in table_data">
-        <TransactionWalletTableRow :key="index" table_name="transaction-wallet-tb" :data="data" />
+        <TransactionWalletWithdrawalTableRow
+          :key="index"
+          table_name="transaction-wallet-tb"
+          :data="data"
+        />
       </template>
     </TableContainer>
   </div>
@@ -23,13 +27,13 @@ import { mapActions } from "vuex";
 import TableContainer from "@/shared/components/table-comps/table-container";
 
 export default {
-  name: "TransactionWalletTable",
+  name: "TransactionWalletWithdrawalTable",
 
   components: {
     TableContainer,
-    TransactionWalletTableRow: () =>
+    TransactionWalletWithdrawalTableRow: () =>
       import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/table-comps/transaction-wallet-table-row"
+        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/table-comps/transaction-wallet-withdrawal-table-row"
       ),
   },
 
@@ -44,7 +48,7 @@ export default {
       table_header: [
         "Date",
         "Transaction reference",
-        "Account id",
+        "Recipient id",
         "Wallet used",
         "Amount paid",
         "Status",
@@ -64,7 +68,7 @@ export default {
       paginatedData: {},
       paginationPages: {},
       empty_message:
-        "You have not done any wallet transaction. You can fund your wallet to get started",
+        "You have not done any wallet withdrawals transaction. Click the 'withdraw' button to get started",
     };
   },
 
@@ -74,7 +78,7 @@ export default {
 
   methods: {
     ...mapActions({
-      fetchWalletTransactions: "dashboard/fetchWalletTransactions",
+      fetchWalletTransactions: "dashboard/fetchWalletWithdrawals",
     }),
 
     getUserWalletTransactions(page) {
@@ -161,11 +165,11 @@ export default {
     max-width: toRem(140);
   }
 
-  // &-6 {
-  // }
+  //   &-6 {
+  //   }
 
-  // &-7 {
-  // }
+  //   &-7 {
+  //   }
 
   .head-data {
     padding: toRem(8) toRem(24) !important;
