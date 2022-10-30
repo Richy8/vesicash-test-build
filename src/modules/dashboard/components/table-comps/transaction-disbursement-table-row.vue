@@ -1,24 +1,40 @@
 <template>
-  <tr @click="viewTransactionDetail">
-    <td class="body-data" :class="`${table_name}-1`">4th July, 2022</td>
+  <tr @click="toggleTransactionSummaryModal">
+    <td class="body-data" :class="`${table_name}-1`">{{ getCreatedDate }}</td>
 
-    <td class="body-data text-no-wrap" :class="`${table_name}-2`">
-      Payment for landing Payment for landing
+    <td class="body-data text-no-wrap" :class="`${table_name}-2`">{{ data.name }}</td>
+
+    <td class="body-data" :class="`${table_name}-3`">{{ data.email }}</td>
+
+    <td class="body-data" :class="`${table_name}-4`">{{data.role}}</td>
+
+    <td class="body-data" :class="`${table_name}-5`">
+      <span v-html="$money.getSign(data.currency)"></span>
+      {{ $money.addComma(data.amount) }}
     </td>
 
-    <td class="body-data" :class="`${table_name}-3`">Awobanga@gmail.com</td>
-
-    <td class="body-data" :class="`${table_name}-4`">Seller</td>
-
-    <td class="body-data" :class="`${table_name}-5`">$10,000</td>
-
     <td class="body-data" :class="`${table_name}-6`">
-      <TagCard card_text="Completed" card_type="success" />
+      <TagCard
+        :card_text="data.status === 'failed' ? 'Failed' : 'Completed'"
+        :card_type="data.status === 'failed'? 'error' : 'success'"
+      />
     </td>
 
     <td class="body-data" :class="`${table_name}-7`">
       <button class="btn btn-secondary btn-sm">View</button>
     </td>
+
+    <!-- MODALS -->
+    <portal to="vesicash-modals">
+      <transition name="fade" v-if="show_transaction_summary_modal">
+        <TransactionSummaryModal
+          :prepared_summary="preparedSummary"
+          type="wallet"
+          :summary_data="data"
+          @closeTriggered="toggleTransactionSummaryModal"
+        />
+      </transition>
+    </portal>
   </tr>
 </template>
 
@@ -30,6 +46,11 @@ export default {
 
   components: {
     TagCard,
+
+    TransactionSummaryModal: () =>
+      import(
+        /* webpackChunkName: "dashboard-table-module" */ "@/modules/dashboard/modals/transaction-summary-modal"
+      ),
   },
 
   props: {
@@ -44,7 +65,39 @@ export default {
     },
   },
 
+  computed: {
+    getCreatedDate() {
+      let { d3, m4, y1 } = this.$date.formatDate(this.data.created_at).getAll();
+
+      return `${d3} ${m4}, ${y1}`;
+    },
+
+    preparedSummary() {
+      let summary_list = [];
+      delete this.data.shit;
+
+      for (const prop in this.data) {
+        let prop_obj = {};
+        prop_obj.title = prop.split("_").join(" ");
+        prop_obj.value = this.data[prop];
+
+        summary_list.push(prop_obj);
+      }
+
+      return summary_list;
+    },
+  },
+
+  data: () => ({
+    show_transaction_summary_modal: false,
+  }),
+
   methods: {
+    toggleTransactionSummaryModal() {
+      this.show_transaction_summary_modal =
+        !this.show_transaction_summary_modal;
+    },
+
     viewTransactionDetail() {
       this.$bus.$emit("showTransactionSummary");
     },

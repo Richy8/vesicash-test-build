@@ -45,6 +45,11 @@ export default {
       default: "disbursement",
     },
 
+    prepared_summary: {
+      type: Array,
+      default: () => [],
+    },
+
     summary_data: {
       type: Object,
       default: () => ({}),
@@ -105,6 +110,7 @@ export default {
     },
 
     getTxnSummary() {
+      if (this.prepared_summary.length) return this.prepared_summary;
       return this.withdrawals
         ? this.getWithdrawalsSummary
         : this.getSummaryData;
