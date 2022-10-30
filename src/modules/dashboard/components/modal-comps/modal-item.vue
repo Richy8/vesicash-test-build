@@ -1,9 +1,7 @@
 <template>
   <div class="modal-item">
     <!-- TITLE TEXT -->
-    <div class="title-text grey-600 tertiary-3-text text-uppercase mgb-8">
-      {{ title }}
-    </div>
+    <div class="title-text grey-600 tertiary-3-text text-uppercase mgb-8">{{ title }}</div>
 
     <!-- VALUE TEXT -->
     <div class="value-text grey-900 secondary-2-text">{{ value }}</div>
@@ -21,7 +19,7 @@ export default {
     },
 
     value: {
-      type: [String, Number],
+      type: [String, Number, Boolean],
       required: true,
     },
   },
