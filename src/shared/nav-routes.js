@@ -17,12 +17,12 @@ const navRoutes = [
     link: "/payments",
     slug: "payments",
   },
-  // {
-  //   title: "Settings",
-  //   icon: "SettingsIcon",
-  //   link: "/settings",
-  //   slug: "settings",
-  // },
+  {
+    title: "Settings",
+    icon: "SettingsIcon",
+    link: "/settings",
+    slug: "settings",
+  },
 ];
 
 export default navRoutes;
