@@ -51,7 +51,10 @@
           <!--ACCOUNT DISPLAY DETAILS -->
           <div class="form-group mgb-20">
             <div class="form-label">Select bank details</div>
-            <div class="skeleton-data skeleton-loader rounded-2" v-if="loading_banks"></div>
+            <div
+              class="skeleton-data skeleton-loader rounded-2"
+              v-if="loading_banks"
+            ></div>
 
             <template v-else>
               <AccountDisplayCard
@@ -97,7 +100,9 @@
           @click="handleAccountSelection"
           :disabled="continueDisabled"
           ref="continue"
-        >Continue</button>
+        >
+          Continue
+        </button>
       </div>
     </template>
   </ModalCover>
@@ -387,14 +392,9 @@ export default {
 
 <style lang="scss" scoped>
 .skeleton-data {
-  height: toRem(35);
-  width: 100%;
-}
-</style>
-
-<style lang="scss">
-.modal-cover-body {
   max-height: 60vh;
   overflow-y: auto;
+  height: toRem(35);
+  width: 100%;
 }
 </style>
