@@ -38,7 +38,7 @@
       </template>
 
       <!-- TABLE EMPTY STATE -->
-      <TableEmptyState :empty_message="empty_message" v-else />
+      <TableEmptyState :empty_message="empty_message" @emptyAction="$emit('emptyAction')" v-else />
     </template>
   </div>
 </template>

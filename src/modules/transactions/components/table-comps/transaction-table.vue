@@ -10,6 +10,7 @@
       :show_paging="showPagination"
       :pagination="pagination"
       @goToPage="getUserTransactions($event)"
+      @emptyAction="initiateEscrowTransaction"
     >
       <template v-for="(data, index) in table_data">
         <TransactionTableRow :key="index" table_name="transaction-tb" :data="data" />
@@ -70,7 +71,7 @@ export default {
         total: 50,
       },
       empty_message:
-        "You have not created any Transactions yet. Click the 'Create Transaction' Button to get started",
+        "You have not created any transactions yet. Click the button below to get started",
     };
   },
 
@@ -82,6 +83,10 @@ export default {
     ...mapActions({
       fetchTransactionsByUser: "transactions/fetchTransactionsByUser",
     }),
+
+    initiateEscrowTransaction() {
+      this.$router.push({ name: "TransactionSetup" });
+    },
 
     // ====================================
     // FETCH ALL USER TRANSACTIONS
