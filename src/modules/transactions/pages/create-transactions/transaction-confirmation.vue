@@ -392,6 +392,7 @@ export default {
                   query: {
                     type: this.$route.query.type,
                     party: this.$route.query.party,
+                    transaction_id,
                   },
                 });
               } else this.$router.push({ name: "VesicashDashboard" });
