@@ -50,7 +50,7 @@ export default {
         "Transaction reference",
         "Recipient id",
         "Wallet used",
-        "Amount paid",
+        "Amount",
         "Status",
         "Actions",
       ],

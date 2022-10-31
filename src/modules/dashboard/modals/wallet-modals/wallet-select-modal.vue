@@ -9,9 +9,7 @@
       <div class="modal-cover-header">
         <div class="modal-cover-title">Select wallet to fund</div>
 
-        <div class="modal-cover-meta">
-          Please select the wallet you wish to fund
-        </div>
+        <div class="modal-cover-meta">Please select the wallet you wish to fund</div>
       </div>
     </template>
 
@@ -49,9 +47,7 @@
           class="btn btn-primary btn-md wt-100 mgt-50"
           @click="handleWalletSelection"
           :disabled="selected_wallet.length ? false : true"
-        >
-          Continue
-        </button>
+        >Continue</button>
       </div>
     </template>
   </ModalCover>
@@ -83,7 +79,7 @@ export default {
     // tool_tip:
     //   "Fund wallet Charges <br> ₦500 for ₦0 - ₦500,000 <br> ₦1,000 for ₦500,001 - ₦1,000,000  <br> ₦2,000 (capped) for ₦1,000,001 and above",
     tool_tip:
-      "<table class='table f-size-13 grey-700'><thead><tr><td>Fund amount range</td><td>Charges</td></tr></thead><tbody><tr><td>₦0 - ₦500,000</td><td>₦500</td></tr><tr><td>₦500,001 - ₦1,000,000</td><td>₦1,000</td></tr><tr><td>₦1,000,001 and above</td><td>₦2,000 (capped)</td></tr></tbody></table>",
+      "<table class='table f-size-13 grey-700'><thead><tr><td>Fund amount range</td><td>Charges</td></tr></thead><tbody><tr><td>₦1,000 - ₦500,000</td><td>₦500</td></tr><tr><td>₦500,001 - ₦1,000,000</td><td>₦1,000</td></tr><tr><td>₦1,000,001 and above</td><td>₦2,000 (capped)</td></tr></tbody></table> Minimum wallet funding amount is <b>₦1,000</b>. Do not send below this amount.",
   }),
 
   methods: {
