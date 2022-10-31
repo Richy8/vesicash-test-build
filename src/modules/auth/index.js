@@ -4,7 +4,6 @@
 const authRoutes = [
   {
     path: "/login",
-    alias: "/",
     component: () =>
       import(/* webpackChunkName: "auth-layout" */ "@/layouts/layout-auth"),
 

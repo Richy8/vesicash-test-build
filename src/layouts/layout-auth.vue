@@ -4,9 +4,13 @@
     <!-- CENTERED PLACED SECTION -->
     <div class="auth-area position-relative mgt-40">
       <!-- VESICASH FEATHER BRAND LOGO -->
-      <div class="brand-logo mgb-32 text-center">
+      <a
+        href="/"
+        class="brand-logo mgb-32 text-center d-flex justify-content-center"
+        style="width: max-width"
+      >
         <VesicashBrandLogo type="light" />
-      </div>
+      </a>
 
       <!-- AUTH ENTRY VIEW -->
       <div class="auth-entry-view mx-auto">
