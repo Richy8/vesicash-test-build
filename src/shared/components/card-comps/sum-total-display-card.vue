@@ -7,7 +7,7 @@
     <div class="title grey-600 tertiary-1-text">{{ total_text }}</div>
 
     <!-- TOTAL AMOUNT VALUE -->
-    <div class="value grey-900 primary-1-text">{{ total_value }}</div>
+    <div class="value grey-900 primary-1-text" v-html="total_value"></div>
   </div>
 </template>
 

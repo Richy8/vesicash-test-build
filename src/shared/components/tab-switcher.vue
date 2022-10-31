@@ -1,12 +1,21 @@
 <template>
   <div class="tab-switcher">
     <div
-      class="tab-item"
-      v-for="(tab,index) in all_tabs"
+      class="
+        tab-item
+        secondary-3-text
+        grey-600
+        fw-500
+        smooth-transition
+        pointer
+      "
+      v-for="(tab, index) in all_tabs"
       :key="index"
       :class="[tab.active && 'tab-item--active']"
-      @click="selectTab(tab,index)"
-    >{{tab.name}}</div>
+      @click="selectTab(tab, index)"
+    >
+      {{ tab.name }}
+    </div>
   </div>
 </template>
 
@@ -61,28 +70,24 @@ export default {
 
 <style lang="scss" scoped>
 .tab-switcher {
-  @include flex-row-start-nowrap;
-  gap: 0 toRem(7);
-  padding: 0 toRem(10);
   border-bottom: toRem(0.5) solid getColor("grey-100");
+  @include flex-row-start-nowrap;
+  padding: 0 toRem(10);
+  gap: 0 toRem(7);
 
   .tab-item {
-    @include generate-font-type("secondary-3");
+    border-bottom: toRem(3) solid transparent;
     padding: toRem(7) toRem(14);
-    color: getColor("grey-700");
-    font-size: toRem(12.95);
-    font-weight: 500;
-    border-bottom: 3px solid transparent;
-    transition: ease-in-out border-color 0.3s;
-    cursor: pointer;
+    font-size: toRem(12.75);
 
     &:hover {
-      border-bottom: 3px solid getColor("teal-800");
+      border-bottom: toRem(3) solid getColor("teal-800");
     }
   }
 
   .tab-item--active {
-    border-bottom: 3px solid getColor("teal-800");
+    border-bottom: toRem(3) solid getColor("teal-800");
+    color: getColor("teal-800");
   }
 }
 </style>

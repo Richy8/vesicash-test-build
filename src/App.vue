@@ -13,7 +13,7 @@
 
     <!-- FEATHER PAGE LOADER -->
     <transition name="fade" v-if="show_feather_loader">
-      <PageLoader />
+      <PageLoader :message="feather_loader_msg" />
     </transition>
 
     <!-- VESICASH MODAL PORTAL TARGET -->
@@ -56,6 +56,7 @@ export default {
 
   data: () => ({
     show_feather_loader: false,
+    feather_loader_msg: "",
 
     show_alert: false,
     alert: {
@@ -66,10 +67,10 @@ export default {
 
   created() {
     // EVENT BUS TO TOGGLE PAGE LOADER
-    this.$bus.$on(
-      "toggle-page-loader",
-      () => (this.show_feather_loader = !this.show_feather_loader)
-    );
+    this.$bus.$on("toggle-page-loader", (message) => {
+      this.show_feather_loader = !this.show_feather_loader;
+      this.feather_loader_msg = message;
+    });
 
     // EVENT BUS TO TOGGLE ALERT BANNER
     this.$bus.$on("toggle-alert-banner", (data) => this.toggleAlert(data));

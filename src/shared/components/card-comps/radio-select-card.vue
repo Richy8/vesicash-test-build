@@ -37,7 +37,10 @@
 
     <!-- BOTTOM TOOLTIP -->
     <div class="tooltip-wrapper wt-100 position-absolute">
-      <div class="tooltip-data wt-100 grey-10-bg rounded-8" v-html="tooltip_text"></div>
+      <div
+        class="tooltip-data wt-100 grey-10-bg rounded-8 grey-700"
+        v-html="tooltip_text"
+      ></div>
     </div>
   </label>
 </template>

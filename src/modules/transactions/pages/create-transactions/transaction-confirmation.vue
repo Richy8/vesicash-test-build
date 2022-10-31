@@ -99,8 +99,12 @@
 
     <!-- CTA ACTION ROW -->
     <div class="action-row mgt-14">
-      <button class="btn btn-primary btn-md" @click="createTransaction">
-        Continue
+      <button
+        class="btn btn-primary btn-md"
+        ref="createEscrowBtn"
+        @click="createTransaction"
+      >
+        Create escrow
       </button>
     </div>
   </div>
@@ -179,8 +183,9 @@ export default {
     }),
 
     createTransaction() {
+      this.handleClick("createEscrowBtn");
+      this.togglePageLoader("Creating escrow transaction");
       this.signupBulkUsers();
-      // this.$router.push({ name: "TransactionPayment" });
     },
 
     // =======================================
@@ -237,6 +242,7 @@ export default {
           return true;
         })
         .catch(() => {
+          this.handleEscrowError("An error occured while creating users");
           return false;
         });
     },
@@ -361,7 +367,10 @@ export default {
             return false;
           }
         })
-        .catch((err) => console.log(err));
+        .catch(() => {
+          this.handleEscrowError("An error occured while creating escrow");
+          return false;
+        });
     },
 
     // ================================================
@@ -373,13 +382,37 @@ export default {
       this.sendUserTransaction(request_payload)
         .then((response) => {
           if (response.code === 200) {
-            this.pushToast(
-              "Transaction has been created successfully",
-              "success"
-            );
+            this.togglePageLoader("");
+            this.pushToast("Escrow created successfully", "success");
+
+            setTimeout(() => {
+              if (this.$route.query.pay) {
+                this.$router.push({
+                  name: "TransactionPayment",
+                  query: {
+                    type: this.$route.query.type,
+                    party: this.$route.query.party,
+                  },
+                });
+              } else this.$router.push({ name: "VesicashDashboard" });
+            }, 2000);
           }
         })
-        .catch((err) => console.log(err));
+        .catch(() => {
+          this.handleEscrowError(
+            "An error occured while inviting users to escrow"
+          );
+          return false;
+        });
+    },
+
+    // =================================
+    // HANDLE ESCROW CREATION ERROR
+    // =================================
+    handleEscrowError(message) {
+      this.pushToast(message, "error");
+      this.handleClick("createEscrowBtn", "Create escrow", false);
+      this.togglePageLoader("");
     },
   },
 };
