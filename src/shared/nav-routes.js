@@ -20,7 +20,7 @@ const navRoutes = [
   {
     title: "Settings",
     icon: "SettingsIcon",
-    link: "/settings",
+    link: "/settings/profile",
     slug: "settings",
   },
 ];
