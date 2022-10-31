@@ -6,7 +6,7 @@ node_modules
 # local env files
 .env.local
 .env.*.local
-# /src/env.js
+/src/env.js
 /src/env.prod.js
 
 # Log files
