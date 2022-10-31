@@ -2,17 +2,21 @@
   <div>
     <!-- TABLE CONTAINER -->
     <TableContainer
-      table_name="transaction-payment-tb"
+      table_name="transaction-wallet-tb"
       :table_data="table_data"
       :table_header="table_header"
       :is_loading="table_loading"
       :empty_message="empty_message"
       :show_paging="showPagination"
-      @goToPage="getUserPaymentTransactions($event)"
+      @goToPage="getUserWalletTransactions($event)"
       :pagination="pagination"
     >
       <template v-for="(data, index) in table_data">
-        <TransactionPaymentTableRow :key="index" table_name="transaction-payment-tb" :data="data" />
+        <TransactionWalletWithdrawalTableRow
+          :key="index"
+          table_name="transaction-wallet-tb"
+          :data="data"
+        />
       </template>
     </TableContainer>
   </div>
@@ -23,53 +27,19 @@ import { mapActions } from "vuex";
 import TableContainer from "@/shared/components/table-comps/table-container";
 
 export default {
-  name: "TransactionPaymentTable",
+  name: "TransactionWalletWithdrawalTable",
 
   components: {
     TableContainer,
-    TransactionPaymentTableRow: () =>
+    TransactionWalletWithdrawalTableRow: () =>
       import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/table-comps/transaction-payment-table-row"
+        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/table-comps/transaction-wallet-withdrawal-table-row"
       ),
-  },
-
-  props: {
-    dataset: {
-      type: Array,
-      default: () => [1],
-    },
-  },
-
-  mounted() {
-    this.getUserPaymentTransactions(1);
   },
 
   computed: {
     showPagination() {
       return this.$route?.name === "PaymentsPage" ? true : false;
-    },
-
-    dummyData() {
-      return [
-        {
-          created_at: "2022-08-30 07:45:28",
-          name: "Badge printing payment",
-          method: "Wire Transfer",
-          amount: "8065",
-          currency: "NGN",
-          status: "completed",
-          shit: "biscuit",
-        },
-        {
-          created_at: "2022-07-14 21:45:28",
-          name: "Payment for Mac",
-          method: "USSD",
-          amount: "1145",
-          currency: "USD",
-          status: "completed",
-          shit: "yoghurt",
-        },
-      ];
     },
   },
 
@@ -77,9 +47,10 @@ export default {
     return {
       table_header: [
         "Date",
-        "Disbursment name",
-        "Payment method",
-        "Amount to be paid",
+        "Transaction reference",
+        "Recipient id",
+        "Wallet used",
+        "Amount paid",
         "Status",
         "Actions",
       ],
@@ -97,8 +68,12 @@ export default {
       paginatedData: {},
       paginationPages: {},
       empty_message:
-        "You have not done any payment transaction. Click the 'Create Escrow' button to get started",
+        "You have not done any wallet withdrawals transaction. Click the 'withdraw' button to get started",
     };
+  },
+
+  mounted() {
+    this.getUserWalletTransactions(1);
   },
 
   methods: {
@@ -106,7 +81,7 @@ export default {
       fetchWalletTransactions: "dashboard/fetchWalletWithdrawals",
     }),
 
-    getUserPaymentTransactions(page) {
+    getUserWalletTransactions(page) {
       // USE PREVIOUSLY SAVED DATA FOR THAT PAGE NUMBER (AVOID UNNECESSARY API CALLS)
       if (this.paginatedData[page] && this.paginationPages[page]) {
         this.table_data = this.paginatedData[page];
@@ -128,18 +103,18 @@ export default {
             // SHOW ALL DATA ROWS OR THREE ROWS BASED ON ROUTE
             this.table_data =
               this.$route?.name === "PaymentsPage"
-                ? this.dummyData
-                : this.dummyData.slice(0, 3);
+                ? response?.data?.data
+                : response?.data?.data?.slice(0, 3);
             this.table_loading = false;
 
             //SET PAGINATION DATA
             this.pagination = {
-              current_page: 1 || response?.data?.current_page,
-              per_page: 30 || response?.data?.per_page,
-              last_page: 1 || response?.data?.last_page,
-              from: 1 || response?.data?.from,
-              to: 20 || response?.data?.to,
-              total: 5 || response?.data?.total,
+              current_page: response?.data?.current_page,
+              per_page: response?.data?.per_page,
+              last_page: response?.data?.last_page,
+              from: response?.data?.from,
+              to: response?.data?.to,
+              total: response?.data?.total,
             };
 
             this.paginationPages[page] = this.pagination;
@@ -168,24 +143,40 @@ export default {
 </script>
 
 <style lang="scss">
-.transaction-payment-tb {
+.transaction-wallet-tb {
   &-1 {
+    max-width: toRem(210);
   }
 
   &-2 {
-    max-width: toRem(205);
+    @include text-truncate();
+    max-width: toRem(160);
   }
 
   &-3 {
+    max-width: toRem(210);
   }
 
   &-4 {
+    max-width: toRem(140);
   }
 
   &-5 {
+    max-width: toRem(140);
   }
 
-  &-6 {
+  //   &-6 {
+  //   }
+
+  //   &-7 {
+  //   }
+
+  .head-data {
+    padding: toRem(8) toRem(24) !important;
+  }
+
+  .body-data {
+    padding: toRem(16) toRem(24) !important;
   }
 }
 </style>

@@ -7,13 +7,17 @@
     <!-- MODAL COVER HEADER -->
     <template slot="modal-cover-header">
       <div class="modal-cover-header">
-        <div class="modal-cover-title">Select wallet</div>
+        <div class="modal-cover-title">Select wallet to withdraw</div>
+
+        <div class="modal-cover-meta">
+          Please select the wallet you wish to withdraw
+        </div>
       </div>
     </template>
 
     <!-- MODAL COVER BODY -->
     <template slot="modal-cover-body">
-      <div class="modal-cover-body mgb--10">
+      <div class="modal-cover-body mgb--10 mgb-hack">
         <!-- DOLLAR WITHDRAWAL -->
         <div class="mgb-20" v-if="false">
           <RadioSelectCard
@@ -21,7 +25,7 @@
             label_id="walletCard1"
             :label_text="dollarBalanceText"
             @clicked="updateWalletSelection('dollar')"
-            :is_checked="wallet_type==='dollar'"
+            :is_checked="wallet_type === 'dollar'"
           />
         </div>
 
@@ -33,7 +37,7 @@
             :label_text="nairaBalanceText"
             :tooltip_text="tool_tip"
             @clicked="updateWalletSelection('naira')"
-            :is_checked="wallet_type==='naira'"
+            :is_checked="wallet_type === 'naira'"
           />
         </div>
       </div>
@@ -44,10 +48,12 @@
     <template slot="modal-cover-footer">
       <div class="modal-cover-footer">
         <button
-          class="btn btn-primary btn-md wt-100 raise-40"
+          class="btn btn-primary btn-md wt-100"
           @click="handleWalletSelection"
           :disabled="!wallet_type"
-        >Continue</button>
+        >
+          Continue
+        </button>
       </div>
     </template>
   </ModalCover>
@@ -96,8 +102,10 @@ export default {
 
   data: () => ({
     wallet_type: "naira",
+    // tool_tip:
+    //   "Wallet Withdrawal Fees <br> ₦500 for ₦0 - ₦500,000 <br> ₦1,000 for #500,001 - ₦1,000,000  <br> ₦2,000 (capped) for ₦1,000,001 and above",
     tool_tip:
-      "Wallet Withdrawal Fees <br> ₦500 for ₦0 - ₦500,000 <br> ₦1,000 for #500,001 - ₦1,000,000  <br> ₦2,000 (capped) for ₦1,000,001 and above",
+      "<table class='table f-size-13 grey-700'><thead><tr><td>Withdrawal range</td><td>Charges</td></tr></thead><tbody><tr><td>₦0 - ₦500,000</td><td>₦500</td></tr><tr><td>₦500,001 - ₦1,000,000</td><td>₦1,000</td></tr><tr><td>₦1,000,001 and above</td><td>₦2,000 (capped)</td></tr></tbody></table>",
   }),
 
   methods: {
@@ -118,11 +126,15 @@ export default {
 .raise-40 {
   margin-top: -40px;
 }
+
+.mgb-hack {
+  margin-bottom: toRem(-80) !important;
+}
 </style>
 
-<style lang="scss">
-.withdraw-select-modal {
-  .modal-cover-body {
-    overflow-y: visible;
-  }
-}
+// <style lang="scss">
+// .withdraw-select-modal {
+//   .modal-cover-body {
+//     overflow-y: visible;
+//   }
+// }

@@ -5,7 +5,7 @@
         <!-- PAYMENT TITLE -->
         <div class="payment-title mgb-32">
           You are making payment for
-          <span>“Web app landing pages”.</span>
+          <span>“{{ getTransactionSetup.name }}”.</span>
         </div>
 
         <!-- PAYMENT DESCRIPTION -->
@@ -18,7 +18,9 @@
         <div class="mgb-40">
           <SumTotalDisplayCard
             total_text="Total amount to pay"
-            total_value="$35,500"
+            :total_value="`${getCurrencySign} ${$money.addComma(
+              getTransactionAmount.total_fee
+            )}`"
           />
         </div>
       </div>
@@ -34,20 +36,33 @@
     <!-- MODALS -->
     <portal to="vesicash-modals">
       <transition name="fade" v-if="show_payment_modal">
-        <MakePaymentModal
+        <PaymentsModal
           @closeTriggered="togglePaymentModal"
           @initiateWireTransfer="closePaymentOpenWire"
+          @initiateFWBizPayment="closePaymentOpenFWBiz"
         />
       </transition>
 
       <transition name="fade" v-if="show_wire_transfer_modal">
-        <WireTransferModal @closeTriggered="toggleWireTransferModal" />
+        <WireTransferModal
+          @closeTriggered="toggleWireTransferModal"
+          @goBackPaymentSelection="closeWTPaymentOpenPayment"
+        />
+      </transition>
+
+      <transition name="fade" v-if="show_fw_biz_modal">
+        <FWBizModal
+          @closeTriggered="toggleFWBizModal"
+          @goBackPaymentSelection="closeFWBizOpenPayment"
+        />
       </transition>
     </portal>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "FundPayment",
 
@@ -57,20 +72,37 @@ export default {
         /* webpackChunkName: "shared-module" */ "@/shared/components/card-comps/sum-total-display-card"
       ),
 
-    MakePaymentModal: () =>
+    PaymentsModal: () =>
       import(
-        /* webpackChunkName: "transactions-modal-module" */ "@/modules/transactions/modals/make-payment-modal"
+        /* webpackChunkName: "transactions-modal-module" */ "@/modules/transactions/modals/payments-modal"
       ),
 
     WireTransferModal: () =>
       import(
-        /* webpackChunkName: "transactions-modal-module" */ "@/modules/transactions/modals/wire-transfer-modal"
+        /* webpackChunkName: "transactions-modal-module" */ "@/modules/transactions/modals/wt-payment-modal"
       ),
+
+    FWBizModal: () =>
+      import(
+        /* webpackChunkName: "transactions-modal-module" */ "@/modules/transactions/modals/fw-business-modal"
+      ),
+  },
+
+  computed: {
+    ...mapGetters({
+      getTransactionSetup: "transactions/getTransactionSetup",
+      getTransactionAmount: "transactions/getTransactionAmount",
+    }),
+
+    getCurrencySign() {
+      return this.$money.getSign(this.getTransactionAmount.currency.slug);
+    },
   },
 
   data: () => ({
     show_payment_modal: false,
     show_wire_transfer_modal: false,
+    show_fw_biz_modal: false,
   }),
 
   methods: {
@@ -82,9 +114,28 @@ export default {
       this.show_wire_transfer_modal = !this.show_wire_transfer_modal;
     },
 
+    toggleFWBizModal() {
+      this.show_fw_biz_modal = !this.show_fw_biz_modal;
+    },
+
     closePaymentOpenWire() {
       this.show_payment_modal = false;
       this.toggleWireTransferModal();
+    },
+
+    closePaymentOpenFWBiz() {
+      this.show_payment_modal = false;
+      this.toggleFWBizModal();
+    },
+
+    closeFWBizOpenPayment() {
+      this.toggleFWBizModal();
+      this.togglePaymentModal();
+    },
+
+    closeWTPaymentOpenPayment() {
+      this.toggleWireTransferModal();
+      this.togglePaymentModal();
     },
   },
 };

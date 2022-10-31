@@ -155,21 +155,27 @@ export default {
     }),
 
     nextProgressFlow() {
-      // this.checkValidState();
-      this.$router.push({
-        name: "TransactionConfirmPayout",
-        query: {
-          type: this.$route.query.type,
-          party: this.$route.query.party,
-        },
-      });
+      this.checkValidState();
+
+      // this.$router.push({
+      //   name: "TransactionConfirmPayout",
+      //   query: {
+      //     type: this.$route.query.type,
+      //     party: this.$route.query.party,
+      //   },
+      // });
     },
 
     // ========================================================
     // CHECK IF ALL INPUT AND SELECTIONS ARE MADE
     // ========================================================
     checkValidState() {
-      this.getTransactionMilestones.map((milestone, index) => {
+      for (
+        let index = 0;
+        index < this.getTransactionMilestones.length;
+        index++
+      ) {
+        let milestone = this.getTransactionMilestones[index];
         let payout_error = [];
 
         let milestone_recipients = this.getMilestoneRecipients.filter(
@@ -182,7 +188,7 @@ export default {
 
             error_obj.name = milestone.name;
             error_obj.index = index;
-            error_obj.message = `is missing a payout for '${user.email_address}'`;
+            error_obj.message = `is missing a payout amount for user (${user.email_address})`;
 
             payout_error.push(error_obj);
           }
@@ -191,7 +197,7 @@ export default {
         // DUE DATE
         if (!milestone.due_date) {
           this.logErrorMessage(milestone.name, index, "is missing a due date.");
-          return true;
+          break;
         }
 
         // INSPECTION PERIOD
@@ -201,43 +207,44 @@ export default {
             index,
             "is missing an inspection period."
           );
-          return true;
+          break;
+        }
+
+        // FETCH MILESTONE RECIPIENTS
+        else if (payout_error.length) {
+          this.logErrorMessage(
+            payout_error[0].name,
+            payout_error[0].index,
+            payout_error[0].message
+          );
+          break;
         }
 
         // DISPUTE HANDLING
         else if (!this.getTransactionSetup.dispute_handler) {
-          console.log("HIT");
           this.logErrorMessage(
             milestone.name,
             index,
             "is missing a dispute handler.",
             true
           );
-          return true;
+          break;
         }
 
-        // FETCH MILESTONE RECIPIENTS
-        else if (payout_error.length) {
-          console.log(payout_error);
-
-          this.logErrorMessage(
-            payout_error[0].name,
-            payout_error[0].index,
-            payout_error[0].message
-          );
-          return true;
-        } else {
-          this.$router.push({
-            name: "TransactionConfirmPayout",
-            query: {
-              type: this.$route.query.type,
-              party: this.$route.query.party,
-            },
-          });
-
-          return false;
+        // MOVE TO CONFIRM PAYOUT PAGE
+        else {
+          if (index + 1 === this.getTransactionMilestones.length) {
+            this.$router.push({
+              name: "TransactionConfirmPayout",
+              query: {
+                type: this.$route.query.type,
+                party: this.$route.query.party,
+                pay: this.$route.query.pay,
+              },
+            });
+          }
         }
-      });
+      }
     },
 
     // ==========================================================
@@ -255,8 +262,6 @@ export default {
           : milestone_name
           ? milestone_name
           : `Milestone ${milestone_index + 1}`;
-
-      console.log(`${naming_intro} ${message}`);
 
       this.pushToast(`${naming_intro} ${message}`, "error");
     },

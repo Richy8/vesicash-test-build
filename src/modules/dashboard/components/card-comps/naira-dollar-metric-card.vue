@@ -317,6 +317,10 @@ export default {
     .btn {
       padding: toRem(8) toRem(16);
 
+      svg {
+        @include draw-shape(17);
+      }
+
       &:first-of-type {
         margin-right: toRem(16);
       }

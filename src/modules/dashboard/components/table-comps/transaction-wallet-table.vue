@@ -161,11 +161,11 @@ export default {
     max-width: toRem(140);
   }
 
-  &-6 {
-  }
+  // &-6 {
+  // }
 
-  &-7 {
-  }
+  // &-7 {
+  // }
 
   .head-data {
     padding: toRem(8) toRem(24) !important;

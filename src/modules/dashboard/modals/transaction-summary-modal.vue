@@ -1,8 +1,5 @@
 <template>
-  <ModalCover
-    @closeModal="$emit('closeTriggered')"
-    :modal_style="{ size: 'modal-md' }"
-  >
+  <ModalCover @closeModal="$emit('closeTriggered')" :modal_style="{ size: 'modal-md' }">
     <!-- MODAL COVER HEADER -->
     <template slot="modal-cover-header">
       <div class="modal-cover-header">
@@ -13,7 +10,7 @@
     <!-- MODAL COVER BODY -->
     <template slot="modal-cover-body">
       <div class="modal-cover-body">
-        <template v-for="(data, index) in getSummaryData">
+        <template v-for="(data, index) in getTxnSummary">
           <ModalItem :title="data.title" :value="data.value" :key="index" />
         </template>
       </div>
@@ -24,9 +21,7 @@
       <div class="modal-cover-footer" v-if="false">
         <button class="btn btn-primary btn-md mgr-24">Download receipt</button>
 
-        <button class="btn btn-secondary btn-md" v-if="type === 'disbursement'">
-          Go to disbursements
-        </button>
+        <button class="btn btn-secondary btn-md" v-if="type === 'disbursement'">Go to disbursements</button>
       </div>
     </template>
   </ModalCover>
@@ -50,9 +45,19 @@ export default {
       default: "disbursement",
     },
 
+    prepared_summary: {
+      type: Array,
+      default: () => [],
+    },
+
     summary_data: {
       type: Object,
       default: () => ({}),
+    },
+
+    withdrawals: {
+      type: Boolean,
+      default: false,
     },
   },
 
@@ -76,6 +81,40 @@ export default {
 
       return this.summary_list;
     },
+
+    getWithdrawalsSummary() {
+      delete this.summary_data.payment_id;
+      delete this.summary_data.narration;
+      delete this.summary_data.reference;
+      delete this.summary_data.callback_url;
+      delete this.summary_data.destination_branch_code;
+      delete this.summary_data.gateway;
+      delete this.summary_data.debit_currency;
+      delete this.summary_data.type;
+      delete this.summary_data.payment_released_at;
+      delete this.summary_data.deleted_at;
+      delete this.summary_data.updated_at;
+      delete this.summary_data.tries;
+      delete this.summary_data.try_again_at;
+      delete this.summary_data.business_id;
+
+      for (const prop in this.summary_data) {
+        let prop_obj = {};
+        prop_obj.title = prop.split("_").join(" ");
+        prop_obj.value = this.summary_data[prop];
+
+        this.summary_withdrawal_list.push(prop_obj);
+      }
+
+      return this.summary_withdrawal_list;
+    },
+
+    getTxnSummary() {
+      if (this.prepared_summary.length) return this.prepared_summary;
+      return this.withdrawals
+        ? this.getWithdrawalsSummary
+        : this.getSummaryData;
+    },
   },
 
   // watch: {
@@ -90,6 +129,7 @@ export default {
   data() {
     return {
       summary_list: [],
+      summary_withdrawal_list: [],
     };
   },
 

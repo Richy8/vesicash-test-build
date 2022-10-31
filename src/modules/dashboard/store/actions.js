@@ -6,6 +6,7 @@ const routes = {
     naira_wallet: "/payment/payment_account/list",
     verify_payment: "/payment/payment_account/verify",
     wallet_transactions: "/payment/list/wallet_funding",
+    wallet_withdrawals: "/payment/list/wallet_withdrawals",
     bank_details: "/admin/user/fetch/bank",
     withdraw: "/payment/disbursement/wallet/withdraw",
 };
@@ -43,11 +44,20 @@ export default {
     },
 
     // =====================================
-    // FETCH ALL USER WALLET TRANSACTIONS
+    // FETCH ALL USER WALLET FUNDING TRANSACTIONS
     // =====================================
     async fetchWalletTransactions(_, { account_id, page }) {
         return await $api.push(
             `${routes.wallet_transactions}/${account_id}?page=${page}`, {}
+        );
+    },
+
+    // =====================================
+    // FETCH ALL USER WALLET WITHDRAWALS TRANSACTIONS
+    // =====================================
+    async fetchWalletWithdrawals(_, { account_id, page }) {
+        return await $api.push(
+            `${routes.wallet_withdrawals}/${account_id}?page=${page}`, {}
         );
     },
 

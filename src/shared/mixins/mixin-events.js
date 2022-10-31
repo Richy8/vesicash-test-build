@@ -30,8 +30,8 @@ const MixinEvents = {
     // ==========================================
     // MIXIN TO HANDLE PAGE LOADER INITIATION
     // ==========================================
-    togglePageLoader() {
-      this.$bus.$emit("toggle-page-loader");
+    togglePageLoader(message = "") {
+      this.$bus.$emit("toggle-page-loader", message);
     },
 
     // ===========================================
