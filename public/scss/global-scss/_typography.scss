@@ -1,15 +1,3 @@
-// ===========================
-// FONT FAMILY TYPE
-// ===========================
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
-
-@font-face {
-  font-family: "Inter";
-  src: local(Inter);
-}
-
-$body_font: "Inter", sans-serif;
-
 // =============================
 // FONT WEIGHT SIZE VARIANTS
 // =============================
@@ -67,14 +55,6 @@ $font-types: (
   "caption-1": getFontVariant(12, $regular, 16),
   "caption-2": getFontVariant(10, $regular, 12)
 );
-
-// ===================================
-// SET FONT ON APPLICATION BODY
-// ===================================
-body {
-  font-family: $body_font;
-  font-display: swap;
-}
 
 // ============================================
 // MIXIN TO GENERATE FONT TYPE BASED ON TITLE

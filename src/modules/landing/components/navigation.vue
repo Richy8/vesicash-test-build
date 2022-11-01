@@ -16,7 +16,14 @@
       </div>
 
       <!-- NAV BUTTONS -->
-      <div class="nav-buttons"></div>
+      <div class="nav-buttons">
+        <router-link to="/login" class="btn btn-tertiary btn-md mgr-16"
+          >Sign In</router-link
+        >
+        <router-link to="/register-lander" class="btn btn-primary btn-md"
+          >Create an account</router-link
+        >
+      </div>
     </div>
   </div>
 </template>
@@ -36,7 +43,7 @@ export default {
 <style lang="scss" scoped>
 .navigation-section {
   @include flex-row-between-nowrap;
-  padding: toRem(16) 0;
+  padding: toRem(11) 0;
 
   .brand-logo {
     svg {
@@ -52,15 +59,29 @@ export default {
       @include flex-row-end-nowrap;
 
       .nav-item {
-        padding: toRem(11) toRem(20);
-        margin: 0 toRem(16);
+        @include generate-font-type("secondary-1");
+        font-family: "Roobert-Medium", sans-serif;
+        color: getColor("grey-600");
+        @include transition(0.4s);
+        border-radius: toRem(8);
+        margin-right: toRem(56);
 
-        border: 1px solid red;
+        &:hover {
+          color: getColor("green-500");
+        }
       }
     }
 
     .nav-buttons {
       @include flex-row-end-nowrap;
+
+      .btn-tertiary {
+        padding: toRem(11) toRem(37);
+      }
+
+      .btn-primary {
+        padding: toRem(11.75) toRem(20);
+      }
     }
   }
 }

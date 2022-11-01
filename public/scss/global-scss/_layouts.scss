@@ -39,10 +39,10 @@
   }
 
   @include breakpoint-up(lg) {
-    max-width: toRem(1000);
+    max-width: toRem(1080);
   }
 
   @include breakpoint-up(xl) {
-    max-width: toRem(1120);
+    max-width: toRem(1150);
   }
 }
