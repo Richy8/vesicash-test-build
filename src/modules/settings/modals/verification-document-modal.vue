@@ -1,9 +1,5 @@
 <template>
-  <ModalCover
-    :show_close_btn="false"
-    @closeModal="$emit('closeTriggered')"
-    :modal_style="{ size: 'modal-sm' }"
-  >
+  <ModalCover @closeModal="$emit('closeTriggered')" :modal_style="{ size: 'modal-sm' }">
     <!-- MODAL COVER HEADER -->
     <template slot="modal-cover-header">
       <div class="modal-cover-header">
@@ -33,7 +29,7 @@
     <!-- MODAL COVER FOOTER -->
     <template slot="modal-cover-footer">
       <div class="modal-cover-footer">
-        <button class="btn btn-primary btn-md wt-100 mgt-17" @click="$emit('continue')">Submit</button>
+        <button ref="save" class="btn btn-primary btn-md wt-100 mgt-17" @click="save">Submit</button>
       </div>
     </template>
   </ModalCover>
@@ -61,6 +57,15 @@ export default {
     };
   },
 
-  methods: {},
+  methods: {
+    save() {
+      this.handleClick("save");
+
+      setTimeout(() => {
+        this.handleClick("save", "Submit", false);
+        this.$emit("saved", "Your document has been uploaded successfully");
+      }, 1500);
+    },
+  },
 };
 </script>

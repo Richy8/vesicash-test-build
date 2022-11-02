@@ -1,15 +1,21 @@
 <template>
   <div class="alert-wrapper">
     <span class="icon icon-info green-600 tertiary-1-text"></span>
-    <div
-      class="tertiary-1-text grey-900"
-    >Please ensure the date of birth you are providing is equal to the date of birth on your BVN(Bank verification number)</div>
+    <div class="tertiary-2-text grey-900">{{info}}</div>
   </div>
 </template>
 
 <script>
 export default {
   name: "InfoAlertCard",
+
+  props: {
+    info: {
+      tyep: String,
+      default:
+        "Please ensure the date of birth you are providing is equal to the date of birth on your BVN(Bank verification number)",
+    },
+  },
 };
 </script>
 
@@ -23,7 +29,7 @@ export default {
   gap: toRem(8);
 
   .icon-info {
-    font-size: toRem(18);
+    font-size: toRem(20);
   }
 
   .icon-wrapper {

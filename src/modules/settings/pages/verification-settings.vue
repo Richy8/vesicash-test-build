@@ -15,6 +15,7 @@
         subtitle="Verify your phone number."
         cta_title="Verify phone number"
         @action="toggleInputModal"
+        :verified="phone_verified"
       >
         <TelephoneIcon />
       </verification-card>
@@ -23,7 +24,8 @@
         title="Business information"
         subtitle="Update informations about your business."
         cta_title="Verify business information"
-        @action="toggleSuccessModal"
+        @action="toggleBusinessInfoModal"
+        :verified="business_info_verified"
       >
         <BusinessIcon />
       </verification-card>
@@ -33,6 +35,7 @@
         subtitle="Choose and upload documents for verification."
         cta_title="Verify document"
         @action="toggleDocUploadModal"
+        :verified="document_verified"
       >
         <FileIcon active />
       </verification-card>
@@ -42,6 +45,7 @@
         subtitle="Confirm your bvn details."
         cta_title="Verify BVN details"
         @action="toggleBvnModal"
+        :verified="bvn_verified"
       >
         <BvnIcon />
       </verification-card>
@@ -65,16 +69,29 @@
         <VerifyOtpModal @closeTriggered="toggleOtpModal" />
       </transition>
 
+      <transition name="fade" v-if="show_business_info_modal">
+        <BusinessInfoModal
+          @saved="showSuccessModal('show_business_info_modal','business_info_verified',$event)"
+          @closeTriggered="toggleBusinessInfoModal"
+        />
+      </transition>
+
       <transition name="fade" v-if="show_doc_upload_modal">
-        <VerificationDocumentModal @closeTriggered="toggleDocUploadModal" />
+        <VerificationDocumentModal
+          @saved="showSuccessModal('show_doc_upload_modal','document_verified',$event)"
+          @closeTriggered="toggleDocUploadModal"
+        />
       </transition>
 
       <transition name="fade" v-if="show_bvn_modal">
-        <VerificationBvnModal @closeTriggered="toggleBvnModal" />
+        <VerificationBvnModal
+          @saved="showSuccessModal('show_bvn_modal','bvn_verified',$event)"
+          @closeTriggered="toggleBvnModal"
+        />
       </transition>
 
       <transition name="fade" v-if="show_success_modal">
-        <SuccessModal @closeTriggered="toggleSuccessModal" />
+        <SuccessModal @closeTriggered="toggleSuccessModal" :message="response_message" />
       </transition>
     </portal>
   </div>
@@ -84,6 +101,7 @@
 import VerificationCard from "@/modules/settings/components/card-comps/verification-card";
 import VerifyInputModal from "@/modules/settings/modals/verify-input-modal";
 import VerifyOtpModal from "@/modules/settings/modals/verify-otp-modal";
+import BusinessInfoModal from "@/modules/settings/modals/business-info-modal";
 import VerificationDocumentModal from "@/modules/settings/modals/verification-document-modal";
 import VerificationBvnModal from "@/modules/settings/modals/verification-bvn-modal";
 import SuccessModal from "@/shared/modals/success-modal";
@@ -94,6 +112,7 @@ export default {
     VerificationCard,
     VerifyInputModal,
     VerifyOtpModal,
+    BusinessInfoModal,
     VerificationDocumentModal,
     VerificationBvnModal,
     SuccessModal,
@@ -127,6 +146,12 @@ export default {
       show_success_modal: false,
       show_doc_upload_modal: false,
       show_bvn_modal: false,
+      show_business_info_modal: false,
+      phone_verified: false,
+      business_info_verified: false,
+      document_verified: false,
+      bvn_verified: false,
+      response_message: "",
     };
   },
 
@@ -144,6 +169,10 @@ export default {
       this.toggleOtpModal();
     },
 
+    toggleBusinessInfoModal() {
+      this.show_business_info_modal = !this.show_business_info_modal;
+    },
+
     toggleBvnModal() {
       this.show_bvn_modal = !this.show_bvn_modal;
     },
@@ -154,6 +183,13 @@ export default {
 
     toggleDocUploadModal() {
       this.show_doc_upload_modal = !this.show_doc_upload_modal;
+    },
+
+    showSuccessModal(modal, verified, message) {
+      this[modal] = false;
+      this[verified] = true;
+      this.response_message = message;
+      this.show_success_modal = true;
     },
   },
 };

@@ -1,6 +1,5 @@
 <template>
   <ModalCover
-    :show_close_btn="false"
     @closeModal="$emit('closeTriggered')"
     :modal_style="{ size: 'modal-xs' }"
     class="bvn-form-modal"
@@ -10,7 +9,7 @@
       <div class="modal-cover-header">
         <div class="modal-cover-title">BVN details</div>
         <div
-          class="tertiary-2-text grey-600"
+          class="tertiary-2-text grey-600 wt-75"
         >Enter Your bank verificaton number to verify your identity</div>
       </div>
     </template>
@@ -46,7 +45,7 @@
     <!-- MODAL COVER FOOTER -->
     <template slot="modal-cover-footer">
       <div class="modal-cover-footer">
-        <button class="btn btn-primary btn-md wt-100 mgt-17" @click="$emit('continue')">Submit</button>
+        <button ref="save" class="btn btn-primary btn-md wt-100 mgt-17" @click="save">Submit</button>
       </div>
     </template>
   </ModalCover>
@@ -80,7 +79,16 @@ export default {
     };
   },
 
-  methods: {},
+  methods: {
+    save() {
+      this.handleClick("save");
+
+      setTimeout(() => {
+        this.handleClick("save", "Submit", false);
+        this.$emit("saved", "Your BVN has been verified successfully");
+      }, 1500);
+    },
+  },
 };
 </script>
 

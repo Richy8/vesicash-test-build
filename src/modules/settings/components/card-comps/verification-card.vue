@@ -1,7 +1,8 @@
 <template>
   <div class="verification-card-wrapper rounded-12">
-    <div class="icon-wrapper">
-      <slot></slot>
+    <div class="icon-wrapper" :class="[verified && 'icon-wrapper--verified']">
+      <CheckIcon v-if="verified" small />
+      <slot v-else></slot>
     </div>
 
     <div>
@@ -9,15 +10,20 @@
       <div class="tertiary-3-text grey-600">{{subtitle}}</div>
     </div>
 
-    <button class="btn btn-primary btn-sm" @click="$emit('action')">{{cta_title}}</button>
+    <button class="btn btn-primary btn-sm" v-if="!verified" @click="$emit('action')">{{cta_title}}</button>
   </div>
 </template>
 
 <script>
+import CheckIcon from "@/shared/components/icon-comps/check-icon";
 export default {
   name: "VerificationCard",
 
-  props: ["title", "subtitle", "cta_title"],
+  components: {
+    CheckIcon,
+  },
+
+  props: ["title", "subtitle", "cta_title", "verified"],
 };
 </script>
 
@@ -39,6 +45,10 @@ export default {
     @include flex-column-center;
     background: getColor("teal-50");
     border-radius: 50%;
+  }
+
+  .icon-wrapper--verified {
+    background: getColor("green-500");
   }
 
   .btn-sm {

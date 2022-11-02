@@ -101,6 +101,7 @@ input[type="number"] {
     @include generate-font-type("tertiary-2");
     color: getColor("red-600");
     margin-top: toRem(5);
+    margin-bottom: toRem(5);
     font-size: toRem(13);
 }
 

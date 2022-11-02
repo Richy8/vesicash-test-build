@@ -12,9 +12,7 @@
         </div>
 
         <div class="h4-text grey-900 text-center mgb-8">Congratulations</div>
-        <div
-          class="tertiary-1-text grey-900 text-center mgb-16"
-        >Your document has been uploaded successfully</div>
+        <div class="tertiary-1-text grey-900 text-center mgb-16">{{message}}</div>
       </div>
     </template>
 
@@ -31,6 +29,13 @@
 import ModalCover from "@/shared/components/modal-cover";
 export default {
   name: "SuccesModal",
+
+  props: {
+    message: {
+      type: "",
+      default: "Success",
+    },
+  },
 
   components: {
     ModalCover,
