@@ -2,7 +2,7 @@
   <ModalCover
     :show_close_btn="false"
     @closeModal="$emit('closeTriggered')"
-    :modal_style="{ size: 'modal-xs' }"
+    :modal_style="{ size: 'modal-sm' }"
   >
     <!-- MODAL COVER BODY -->
     <template slot="modal-cover-body">
@@ -29,13 +29,16 @@
 
 <script>
 import ModalCover from "@/shared/components/modal-cover";
-import CheckIcon from "@/shared/components/icon-comps/check-icon";
 export default {
   name: "SuccesModal",
 
   components: {
     ModalCover,
-    CheckIcon,
+
+    CheckIcon: () =>
+      import(
+        /* webpackChunkName: 'shared-module' */ "@/shared/components/icon-comps/check-icon"
+      ),
   },
 };
 </script>

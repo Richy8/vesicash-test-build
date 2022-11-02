@@ -41,6 +41,7 @@
         title="BVN details"
         subtitle="Confirm your bvn details."
         cta_title="Verify BVN details"
+        @action="toggleBvnModal"
       >
         <BvnIcon />
       </verification-card>
@@ -68,6 +69,10 @@
         <VerificationDocumentModal @closeTriggered="toggleDocUploadModal" />
       </transition>
 
+      <transition name="fade" v-if="show_bvn_modal">
+        <VerificationBvnModal @closeTriggered="toggleBvnModal" />
+      </transition>
+
       <transition name="fade" v-if="show_success_modal">
         <SuccessModal @closeTriggered="toggleSuccessModal" />
       </transition>
@@ -77,29 +82,42 @@
 
 <script>
 import VerificationCard from "@/modules/settings/components/card-comps/verification-card";
-import TelephoneIcon from "@/shared/components/icon-comps/telephone-icon";
-import BusinessIcon from "@/shared/components/icon-comps/business-icon";
-import FileIcon from "@/shared/components/icon-comps/file-icon";
-import BvnIcon from "@/shared/components/icon-comps/bvn-icon";
-import SettlementIcon from "@/shared/components/icon-comps/settlement-icon";
 import VerifyInputModal from "@/modules/settings/modals/verify-input-modal";
 import VerifyOtpModal from "@/modules/settings/modals/verify-otp-modal";
 import VerificationDocumentModal from "@/modules/settings/modals/verification-document-modal";
-import SuccessModal from "@/shared/components/modals/success-modal";
+import VerificationBvnModal from "@/modules/settings/modals/verification-bvn-modal";
+import SuccessModal from "@/shared/modals/success-modal";
 export default {
   name: "VerificationSettings",
 
   components: {
     VerificationCard,
-    TelephoneIcon,
-    BusinessIcon,
-    BvnIcon,
-    SettlementIcon,
-    FileIcon,
     VerifyInputModal,
     VerifyOtpModal,
     VerificationDocumentModal,
+    VerificationBvnModal,
     SuccessModal,
+
+    TelephoneIcon: () =>
+      import(
+        /* webpackChunkName: 'shared-module' */ "@/shared/components/icon-comps/telephone-icon"
+      ),
+    BusinessIcon: () =>
+      import(
+        /* webpackChunkName: 'shared-module' */ "@/shared/components/icon-comps/business-icon"
+      ),
+    BvnIcon: () =>
+      import(
+        /* webpackChunkName: 'shared-module' */ "@/shared/components/icon-comps/bvn-icon"
+      ),
+    FileIcon: () =>
+      import(
+        /* webpackChunkName: 'shared-module' */ "@/shared/components/icon-comps/file-icon"
+      ),
+    SettlementIcon: () =>
+      import(
+        /* webpackChunkName: 'shared-module' */ "@/shared/components/icon-comps/settlement-icon"
+      ),
   },
 
   data() {
@@ -108,6 +126,7 @@ export default {
       show_otp_modal: false,
       show_success_modal: false,
       show_doc_upload_modal: false,
+      show_bvn_modal: false,
     };
   },
 
@@ -123,6 +142,10 @@ export default {
     initiateOTPRequest() {
       this.toggleInputModal();
       this.toggleOtpModal();
+    },
+
+    toggleBvnModal() {
+      this.show_bvn_modal = !this.show_bvn_modal;
     },
 
     toggleSuccessModal() {

@@ -2,16 +2,14 @@
   <ModalCover
     class="wallet-select-modal"
     @closeModal="$emit('closeTriggered')"
-    :modal_style="{ size: 'modal-xs' }"
+    :modal_style="{ size: 'modal-sm' }"
   >
     <!-- MODAL COVER HEADER -->
     <template slot="modal-cover-header">
       <div class="modal-cover-header">
         <div class="modal-cover-title">Select wallet to fund</div>
 
-        <div class="modal-cover-meta">
-          Please select the wallet you wish to fund
-        </div>
+        <div class="modal-cover-meta">Please select the wallet you wish to fund</div>
       </div>
     </template>
 
@@ -49,9 +47,7 @@
           class="btn btn-primary btn-md wt-100 mgt-50"
           @click="handleWalletSelection"
           :disabled="selected_wallet.length ? false : true"
-        >
-          Continue
-        </button>
+        >Continue</button>
       </div>
     </template>
   </ModalCover>

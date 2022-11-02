@@ -1,7 +1,7 @@
 <template>
   <ModalCover
     @closeModal="$emit('closeTriggered')"
-    :modal_style="{ size: 'modal-xs' }"
+    :modal_style="{ size: 'modal-sm' }"
     :show_close_btn="false"
     :trigger_self_close="false"
   >
@@ -10,9 +10,7 @@
       <div class="modal-cover-header">
         <div class="modal-cover-title">
           <!-- BACK BUTTON -->
-          <PageBackBtn custom_mode @clicked="$emit('goBackPaymentSelection')" />
-
-          Pay with flutterwave business
+          <PageBackBtn custom_mode @clicked="$emit('goBackPaymentSelection')" />Pay with flutterwave business
         </div>
 
         <div class="modal-cover-meta">
@@ -37,10 +35,7 @@
           <template v-else>
             <ModalListItem title="Amount to pay" value="₦4000" />
             <ModalListItem title="Merchant ID" value="6868107" />
-            <ModalListItem
-              title="Merchant name"
-              value="Vesicash innovative Technologies"
-            />
+            <ModalListItem title="Merchant name" value="Vesicash innovative Technologies" />
           </template>
         </div>
       </div>
@@ -49,9 +44,7 @@
     <!-- MODAL COVER FOOTER -->
     <template slot="modal-cover-footer">
       <div class="modal-cover-footer">
-        <button class="btn btn-primary btn-md wt-100">
-          Pay with flutterwave
-        </button>
+        <button class="btn btn-primary btn-md wt-100">Pay with flutterwave</button>
       </div>
     </template>
   </ModalCover>

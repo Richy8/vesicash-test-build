@@ -155,6 +155,7 @@ export default {
       default: () => ({
         type: "",
         message: "",
+        minimum: 1,
       }),
     },
   },
@@ -249,6 +250,11 @@ export default {
 
         case "required":
           this.error_message = !value.length && message;
+          break;
+
+        case "minimum":
+          const minimum = this.error_handler?.minimum;
+          this.error_message = value.length < minimum && message;
           break;
 
         default:

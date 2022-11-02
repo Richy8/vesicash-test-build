@@ -2,7 +2,7 @@
   <ModalCover
     :show_close_btn="false"
     @closeModal="$emit('closeTriggered')"
-    :modal_style="{ size: 'modal-xs' }"
+    :modal_style="{ size: 'modal-sm' }"
   >
     <!-- MODAL COVER HEADER -->
     <template slot="modal-cover-header">
@@ -45,7 +45,7 @@ import ContractUploadCard from "@/modules/transactions/components/card-comps/con
 import DropSelectInput from "@/shared/components/drop-select-input";
 
 export default {
-  name: "VerifyInputModal",
+  name: "VerificationDocModal",
 
   components: {
     ModalCover,

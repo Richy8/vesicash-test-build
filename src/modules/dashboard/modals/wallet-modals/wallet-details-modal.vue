@@ -1,7 +1,7 @@
 <template>
   <ModalCover
     @closeModal="$emit('closeTriggered')"
-    :modal_style="{ size: 'modal-xs' }"
+    :modal_style="{ size: 'modal-sm' }"
     :show_close_btn="false"
     :trigger_self_close="false"
   >
@@ -10,9 +10,8 @@
       <div class="modal-cover-header">
         <div class="modal-cover-title">
           <!-- BACK BUTTON -->
-          <PageBackBtn custom_mode @clicked="$emit('goBackWalletSelection')" />
-
-          Fund <span class="text-capitalize">{{ wallet_type }}</span> wallet
+          <PageBackBtn custom_mode @clicked="$emit('goBackWalletSelection')" />Fund
+          <span class="text-capitalize">{{ wallet_type }}</span> wallet
         </div>
 
         <div class="modal-cover-meta">
@@ -21,19 +20,14 @@
             listed below
           </template>
 
-          <template v-else>
-            Please enter the amount you wish to fund on your dollar wallet
-          </template>
+          <template v-else>Please enter the amount you wish to fund on your dollar wallet</template>
         </div>
       </div>
     </template>
 
     <!-- MODAL COVER BODY -->
     <template slot="modal-cover-body">
-      <div
-        class="modal-cover-body"
-        :class="wallet_type === 'naira' ? 'mgb--10' : 'mgb--40'"
-      >
+      <div class="modal-cover-body" :class="wallet_type === 'naira' ? 'mgb--10' : 'mgb--40'">
         <!-- MODAL ITEMS WRAPPER -->
         <div
           class="modal-items-wrapper green-10-bg rounded-12 mgb-24"
@@ -85,12 +79,7 @@
     <template slot="modal-cover-footer">
       <div class="modal-cover-footer">
         <template v-if="wallet_type === 'naira'">
-          <button
-            class="btn btn-primary btn-md wt-100"
-            @click="handleFundSuccess"
-          >
-            I have funded
-          </button>
+          <button class="btn btn-primary btn-md wt-100" @click="handleFundSuccess">I have funded</button>
         </template>
 
         <template v-else>
@@ -99,9 +88,7 @@
             @click="handleDollarFunding"
             ref="fundBtn"
             :disabled="isValidState"
-          >
-            Make payment
-          </button>
+          >Make payment</button>
         </template>
       </div>
     </template>
