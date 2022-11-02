@@ -69,7 +69,7 @@
     </template>
 
     <!-- MESSAGE TEXT -->
-    <div class="error-message-text" v-if="error_message">{{ error_message }}</div>
+    <div class="error-message-text position-absolute" v-if="error_message">{{ error_message }}</div>
   </div>
 </template>
 

@@ -3,455 +3,404 @@
 ==================== */
 
 // INPUT PLACEHOLDER
-input {
-  &::placeholder {
-    @include generate-font-type("tertiary-2");
-    color: getColor("grey-300") !important;
-    font-size: toRem(13.5);
-  }
-
-  &:focus {
-    outline: none;
-  }
+input,
+textarea {
+    &::placeholder {
+        @include generate-font-type("tertiary-2");
+        color: getColor("grey-300") !important;
+        font-size: toRem(13.5);
+    }
+    &:focus {
+        outline: none;
+    }
 }
+
 
 /* Chrome, Safari, Edge, Opera */
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
+
 /* Firefox */
+
 input[type="number"] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
 }
 
 // FORM GROUP
 .form-group {
-  margin-bottom: toRem(24);
-  position: relative;
+    margin-bottom: toRem(24);
+    position: relative;
 }
 
 // FORM LABEL
 .form-label {
-  @include generate-font-type("secondary-2");
-  color: getColor("grey-900");
-  padding-bottom: toRem(8);
-  text-transform: none;
-  margin-bottom: 0;
-  padding-top: 0;
-
-  [class*="checkbox"] &,
-  [class*="radio"] & {
-    color: inherit;
-  }
+    @include generate-font-type("secondary-2");
+    color: getColor("grey-900");
+    padding-bottom: toRem(8);
+    text-transform: none;
+    margin-bottom: 0;
+    padding-top: 0;
+    [class*="checkbox"] &,
+    [class*="radio"] & {
+        color: inherit;
+    }
 }
 
 // FORM HELP BLOCK
 .help-block {
-  @include generate-font-type("tertiary-2");
-  color: getColor("grey-900");
+    @include generate-font-type("tertiary-2");
+    color: getColor("grey-900");
 }
 
 // FORM INPUT STYLING
 .form-control {
-  border: toRem(1) solid getColor("grey-300");
-  @include generate-font-type("tertiary-2");
-  background-color: getColor("neutral-10");
-  padding: toRem(8) toRem(16);
-  color: getColor("grey-900");
-  @include transition(0.3s);
-  border-radius: toRem(8);
-  box-sizing: border-box;
-  vertical-align: middle;
-  position: relative;
-  box-shadow: unset;
-  overflow: hidden;
-  appearance: none;
-  width: 100%;
-  z-index: 1;
-  outline: 0;
-  margin: 0;
-  left: 0;
-  top: 0;
-
-  &:hover {
-    border-color: getColor("grey-400");
-  }
-
-  &:focus {
-    border-color: getColor("green-500");
-    box-shadow: unset;
-    outline: 0;
-  }
-
-  &:disabled {
-    background-color: getColor("grey-10");
-    border-color: getColor("grey-200");
-    color: getColor("grey-500");
+    border: toRem(1) solid getColor("grey-300");
+    @include generate-font-type("tertiary-2");
+    background-color: getColor("neutral-10");
+    padding: toRem(8) toRem(16);
+    color: getColor("grey-900");
+    @include transition(0.3s);
+    border-radius: toRem(8);
     box-sizing: border-box;
-  }
-
-  &-error {
-    border-color: getColor("red-500");
-  }
+    vertical-align: middle;
+    position: relative;
+    box-shadow: unset;
+    overflow: hidden;
+    appearance: none;
+    width: 100%;
+    z-index: 1;
+    outline: 0;
+    margin: 0;
+    left: 0;
+    top: 0;
+    &:hover {
+        border-color: getColor("grey-400");
+    }
+    &:focus {
+        border-color: getColor("green-500");
+        box-shadow: unset;
+        outline: 0;
+    }
+    &:disabled {
+        background-color: getColor("grey-10");
+        border-color: getColor("grey-200");
+        color: getColor("grey-500");
+        box-sizing: border-box;
+    }
+    &-error {
+        border-color: getColor("red-500");
+    }
 }
 
 .error-message-text {
-  @include generate-font-type("tertiary-2");
-  color: getColor("red-600");
-  margin-top: toRem(5);
-  font-size: toRem(13);
+    @include generate-font-type("tertiary-2");
+    color: getColor("red-600");
+    margin-top: toRem(5);
+    font-size: toRem(13);
 }
 
 // SELECT FORM STYLING
 select.form-control {
-  background: getColor("neutral-10") url(../img/caret-fill-down.svg) right
-    center no-repeat;
-
-  &:focus {
-    outline: none;
-    background: getColor("neutral-10") url(../img/caret-fill-down.svg) right
-      center no-repeat;
-  }
+    background: getColor("neutral-10") url(../img/caret-fill-down.svg) right center no-repeat;
+    &:focus {
+        outline: none;
+        background: getColor("neutral-10") url(../img/caret-fill-down.svg) right center no-repeat;
+    }
 }
 
 // INPUT RADIO STYLING
 input[type="radio"],
 .radio input[type="radio"],
 .radio-inline input[type="radio"] {
-  background-color: transparent;
-  vertical-align: top;
-  position: relative;
-  appearance: none;
-  cursor: pointer;
-  border: none;
-
-  &:focus {
-    outline: none;
-  }
-
-  &:before,
-  &:after {
-    content: "";
-    display: block;
-    @include draw-shape(24);
-    transition: all 240ms;
-    border-radius: 50%;
-  }
-
-  &:after {
-    border: toRem(1.25) solid getColor("grey-300");
-    position: relative;
-  }
-
-  &:hover {
-    &:after {
-      border-color: getColor("grey-400");
-    }
-  }
-
-  &:before {
-    position: absolute;
-    top: 18.25%;
-    left: 18.25%;
     background-color: transparent;
-    @include transition(0.2s);
-    @include draw-shape(15);
-    transform: scale(0);
-    z-index: 1;
-  }
-
-  &:checked:after {
-    border-color: getColor("green-500");
-  }
-
-  &:checked:before {
-    border: toRem(1) solid getColor("green-500");
-    background: getColor("green-500");
-    transform: scale(1);
-  }
-
-  &:disabled:after,
-  &:disabled:checked:after,
-  &:disabled:checked:before {
-    border-color: getColor("grey-300");
-  }
-
-  &:disabled {
-    pointer-events: none;
-    cursor: not-allowed;
-
-    &:after {
-      border-color: getColor("grey-300");
+    vertical-align: top;
+    position: relative;
+    appearance: none;
+    cursor: pointer;
+    border: none;
+    &:focus {
+        outline: none;
     }
-
+    &:before,
+    &:after {
+        content: "";
+        display: block;
+        @include draw-shape(24);
+        transition: all 240ms;
+        border-radius: 50%;
+    }
+    &:after {
+        border: toRem(1.25) solid getColor("grey-300");
+        position: relative;
+    }
+    &:hover {
+        &:after {
+            border-color: getColor("grey-400");
+        }
+    }
     &:before {
-      border: toRem(1) solid getColor("grey-200");
-      background: getColor("grey-200");
-      transform: scale(1);
+        position: absolute;
+        top: 18.25%;
+        left: 18.25%;
+        background-color: transparent;
+        @include transition(0.2s);
+        @include draw-shape(15);
+        transform: scale(0);
+        z-index: 1;
     }
-  }
-
-  // ERROR RADIO INPUT
-  &.radio-error {
-    &:after {
-      border-color: getColor("red-500");
+    &:checked:after {
+        border-color: getColor("green-500");
     }
-  }
+    &:checked:before {
+        border: toRem(1) solid getColor("green-500");
+        background: getColor("green-500");
+        transform: scale(1);
+    }
+    &:disabled:after,
+    &:disabled:checked:after,
+    &:disabled:checked:before {
+        border-color: getColor("grey-300");
+    }
+    &:disabled {
+        pointer-events: none;
+        cursor: not-allowed;
+        &:after {
+            border-color: getColor("grey-300");
+        }
+        &:before {
+            border: toRem(1) solid getColor("grey-200");
+            background: getColor("grey-200");
+            transform: scale(1);
+        }
+    }
+    // ERROR RADIO INPUT
+    &.radio-error {
+        &:after {
+            border-color: getColor("red-500");
+        }
+    }
 }
 
 // CHECKED STATE
 %checked-check-box {
-  border-top-width: 0;
-  border-left-width: 0;
-  transform: scale(1) rotate(45deg);
+    border-top-width: 0;
+    border-left-width: 0;
+    transform: scale(1) rotate(45deg);
 }
 
 // INPUT CHECKBOX STYLING
 input[type="checkbox"],
 .checkbox input[type="checkbox"],
 .checkbox-inline input[type="checkbox"] {
-  position: relative;
-  appearance: none;
-  cursor: pointer;
-  border: none;
-
-  &:focus {
-    outline: none;
-  }
-
-  &:after {
-    content: "";
-    display: block;
-    border: toRem(1) solid getColor("grey-300");
-    @include draw-shape(24);
-    border-radius: toRem(8);
-    transition: all 240ms;
-    overflow: hidden;
-  }
-
-  &:before {
-    content: "";
-    position: absolute;
-    top: 23%;
-    left: 35%;
-    z-index: 1;
-    display: table;
-    transform: scale(0);
-    border-top-width: 0;
-    border-left-width: 0;
-    @include draw-shape(6, 11);
-    @include transition(0.15s);
-    border: toRem(2) solid getColor("neutral-10");
-  }
-
-  &:hover {
-    &:after {
-      border-color: getColor("grey-400");
+    position: relative;
+    appearance: none;
+    cursor: pointer;
+    border: none;
+    &:focus {
+        outline: none;
     }
-  }
-
-  &:checked {
     &:after {
-      background-color: getColor("green-500");
-      border-color: getColor("green-500");
+        content: "";
+        display: block;
+        border: toRem(1) solid getColor("grey-300");
+        @include draw-shape(24);
+        border-radius: toRem(8);
+        transition: all 240ms;
+        overflow: hidden;
     }
-
     &:before {
-      @extend %checked-check-box;
+        content: "";
+        position: absolute;
+        top: 23%;
+        left: 35%;
+        z-index: 1;
+        display: table;
+        transform: scale(0);
+        border-top-width: 0;
+        border-left-width: 0;
+        @include draw-shape(6, 11);
+        @include transition(0.15s);
+        border: toRem(2) solid getColor("neutral-10");
     }
-  }
-
-  &:disabled {
-    pointer-events: none;
-    cursor: not-allowed;
-
-    &:after {
-      background-color: getColor("grey-200");
-      border-color: getColor("grey-300");
+    &:hover {
+        &:after {
+            border-color: getColor("grey-400");
+        }
     }
-
-    &:before {
-      @extend %checked-check-box;
+    &:checked {
+        &:after {
+            background-color: getColor("green-500");
+            border-color: getColor("green-500");
+        }
+        &:before {
+            @extend %checked-check-box;
+        }
     }
-  }
+    &:disabled {
+        pointer-events: none;
+        cursor: not-allowed;
+        &:after {
+            background-color: getColor("grey-200");
+            border-color: getColor("grey-300");
+        }
+        &:before {
+            @extend %checked-check-box;
+        }
+    }
 }
 
 // FORM PREFIX
 .form-prefix {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  align-items: center;
-  flex-direction: row-reverse;
-  position: relative;
-
-  .prefix-select-area {
-    border: toRem(1) solid getColor("grey-300");
-    background-color: getColor("grey-50");
-    border-radius: toRem(8) 0 0 toRem(8);
-    @include flex-row-between-nowrap;
-    padding: toRem(8) toRem(10);
-    @include transition(0.3s);
-    padding-right: toRem(4);
-    border-right: none;
-    cursor: pointer;
-    height: toRem(38.2);
-    max-height: toRem(38.2);
-
-    img {
-      @include draw-shape(24);
-      margin-right: toRem(6);
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row-reverse;
+    position: relative;
+    .prefix-select-area {
+        border: toRem(1) solid getColor("grey-300");
+        background-color: getColor("grey-50");
+        border-radius: toRem(8) 0 0 toRem(8);
+        @include flex-row-between-nowrap;
+        padding: toRem(8) toRem(10);
+        @include transition(0.3s);
+        padding-right: toRem(4);
+        border-right: none;
+        cursor: pointer;
+        height: toRem(38.2);
+        max-height: toRem(38.2);
+        img {
+            @include draw-shape(24);
+            margin-right: toRem(6);
+        }
+        .icon {
+            color: getColor("grey-500");
+            font-size: toRem(24);
+        }
     }
-
-    .icon {
-      color: getColor("grey-500");
-      font-size: toRem(24);
+    .value-area {
+        padding: toRem(8) toRem(12);
+        font-size: toRem(13);
     }
-  }
-
-  .value-area {
-    padding: toRem(8) toRem(12);
-    font-size: toRem(13);
-  }
-
-  .form-control {
-    border-radius: 0 toRem(8) toRem(8) 0;
-
-    &:hover ~ .prefix-select-area {
-      border-color: getColor("grey-400");
+    .form-control {
+        border-radius: 0 toRem(8) toRem(8) 0;
+        &:hover~.prefix-select-area {
+            border-color: getColor("grey-400");
+        }
+        &:focus~.prefix-select-area {
+            border-color: getColor("green-500");
+        }
+        &:disabled~.prefix-select-area {
+            border-color: getColor("grey-200");
+        }
+        &-error~.prefix-select-area {
+            border-color: getColor("red-500");
+        }
     }
-
-    &:focus ~ .prefix-select-area {
-      border-color: getColor("green-500");
+    &-right {
+        input {
+            text-align: right;
+        }
     }
-
-    &:disabled ~ .prefix-select-area {
-      border-color: getColor("grey-200");
-    }
-
-    &-error ~ .prefix-select-area {
-      border-color: getColor("red-500");
-    }
-  }
-
-  &-right {
-    input {
-      text-align: right;
-    }
-  }
 }
 
 .form-suffix {
-  position: relative;
-
-  .icon {
-    @include center-placement("y-axis");
-    right: toRem(12);
-    cursor: pointer;
-    z-index: 9;
-
-    &-show {
-      font-size: toRem(13.5);
+    position: relative;
+    .icon {
+        @include center-placement("y-axis");
+        right: toRem(12);
+        cursor: pointer;
+        z-index: 9;
+        &-show {
+            font-size: toRem(13.5);
+        }
+        &-hide {
+            font-size: toRem(16);
+        }
     }
-    &-hide {
-      font-size: toRem(16);
-    }
-  }
 }
 
 // ======================
 // DROP SELECT STYLING
 // ======================
 .drop-option-wrapper {
-  position: absolute;
-  z-index: 999;
-  top: 102%;
-
-  .inner-wrapper {
-    border: toRem(1) solid getColor("grey-100");
-    background: getColor("neutral-10");
-    position: relative;
-    overflow: hidden;
-    z-index: 3999;
-  }
-
-  .search-bar {
-    padding: 0 toRem(10);
-    position: relative;
-
-    input {
-      padding-left: toRem(40);
-    }
-
-    .icon {
-      @include center-placement("y-axis");
-      font-size: toRem(19);
-      left: toRem(20);
-    }
-  }
-
-  .no-options {
-    @include generate-font-type("tertiary-2");
-    color: getColor("grey-900");
-    padding: toRem(5) toRem(7);
-  }
-
-  .option-scroll-wrapper {
-    overflow: auto;
-    min-height: 5vh;
-    height: auto;
-    max-height: 22vh;
-
-    &::-webkit-scrollbar {
-      width: toRem(3.5);
-    }
-
-    &::-webkit-scrollbar-track {
-      border-radius: toRem(5);
-    }
-
-    &::-webkit-scrollbar-thumb {
-      border-radius: toRem(5);
-      background: getColor("green-100");
-    }
-  }
-
-  .option-row {
-    @include generate-font-type("tertiary-2");
-    @include flex-row-between-nowrap;
-    padding: 0 toRem(8) 0 toRem(10);
-    color: getColor("grey-900");
-    @include transition(0.4s);
-    margin-bottom: toRem(2);
-    font-size: toRem(13);
-    text-align: left;
-    cursor: pointer;
-
-    .inner-lining {
-      border-bottom: toRem(0.5) solid getColor("grey-100");
-      padding: toRem(8) 0 toRem(8) 0;
-      @include flex-row-start-nowrap;
-
-      .img-wrapper {
-        margin-right: toRem(16);
-        @include draw-shape(24);
+    position: absolute;
+    z-index: 999;
+    top: 102%;
+    .inner-wrapper {
+        border: toRem(1) solid getColor("grey-100");
+        background: getColor("neutral-10");
         position: relative;
-
-        img {
-          @include set-full-bg("contain");
+        overflow: hidden;
+        z-index: 3999;
+    }
+    .search-bar {
+        padding: 0 toRem(10);
+        position: relative;
+        input {
+            padding-left: toRem(40);
         }
-      }
+        .icon {
+            @include center-placement("y-axis");
+            font-size: toRem(19);
+            left: toRem(20);
+        }
     }
-
-    &:hover {
-      background: getColor("grey-50");
+    .no-options {
+        @include generate-font-type("tertiary-2");
+        color: getColor("grey-900");
+        padding: toRem(5) toRem(7);
     }
-  }
+    .option-scroll-wrapper {
+        overflow: auto;
+        min-height: 5vh;
+        height: auto;
+        max-height: 22vh;
+        &::-webkit-scrollbar {
+            width: toRem(3.5);
+        }
+        &::-webkit-scrollbar-track {
+            border-radius: toRem(5);
+        }
+        &::-webkit-scrollbar-thumb {
+            border-radius: toRem(5);
+            background: getColor("green-100");
+        }
+    }
+    .option-row {
+        @include generate-font-type("tertiary-2");
+        @include flex-row-between-nowrap;
+        padding: 0 toRem(8) 0 toRem(10);
+        color: getColor("grey-900");
+        @include transition(0.4s);
+        margin-bottom: toRem(2);
+        font-size: toRem(13);
+        text-align: left;
+        cursor: pointer;
+        .inner-lining {
+            border-bottom: toRem(0.5) solid getColor("grey-100");
+            padding: toRem(8) 0 toRem(8) 0;
+            @include flex-row-start-nowrap;
+            .img-wrapper {
+                margin-right: toRem(16);
+                @include draw-shape(24);
+                position: relative;
+                img {
+                    @include set-full-bg("contain");
+                }
+            }
+        }
+        &:hover {
+            background: getColor("grey-50");
+        }
+    }
 }
 
 .no-bottom-border {
-  border-bottom: 0 !important;
+    border-bottom: 0 !important;
 }
