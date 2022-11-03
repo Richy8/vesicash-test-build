@@ -51,7 +51,7 @@ export default {
         icon: "CreditCardIcon",
         title: "Pay with card",
         description: "Supports all Naira denominated debit and credit cards.",
-        action_type: "route",
+        action_type: "modal",
         action: "SuccessfulPayment",
       },
       {
@@ -77,6 +77,7 @@ export default {
     handleModalClick(index) {
       if (index === 1) this.toggleWireTransferModal();
       if (index === 2) this.toggleFWBizModal();
+      this.$emit("initiateCardPayment");
     },
 
     toggleWireTransferModal() {

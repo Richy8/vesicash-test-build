@@ -28,9 +28,7 @@
 
     <!-- CTA ACTION ROW -->
     <div class="action-row mgt-14">
-      <button class="btn btn-primary btn-md" @click="togglePaymentModal">
-        Make Payment
-      </button>
+      <button ref="pay" class="btn btn-primary btn-md" @click="togglePaymentModal">Make Payment</button>
     </div>
 
     <!-- MODALS -->
@@ -40,6 +38,7 @@
           @closeTriggered="togglePaymentModal"
           @initiateWireTransfer="closePaymentOpenWire"
           @initiateFWBizPayment="closePaymentOpenFWBiz"
+          @initiateCardPayment="initiateCardPayment"
         />
       </transition>
 
@@ -61,7 +60,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
+import { VESICASH_APP_URL } from "@/utilities/constant";
 
 export default {
   name: "FundPayment",
@@ -97,15 +97,26 @@ export default {
     getCurrencySign() {
       return this.$money.getSign(this.getTransactionAmount.currency.slug);
     },
+
+    getCardPaymentDetails() {
+      return {
+        transaction_id: this.$route.query.transaction_id,
+        payment_gateway: "rave",
+        success_page: `${VESICASH_APP_URL}/transaction/payment-successful?type=${this.$route.query.type}&party=${this.$route.query.party}&transaction_id=${this.$route.query.transaction_id}`,
+      };
+    },
   },
 
   data: () => ({
     show_payment_modal: false,
     show_wire_transfer_modal: false,
     show_fw_biz_modal: false,
+    VESICASH_APP_URL: "https://sandbox.vesicash.com",
   }),
 
   methods: {
+    ...mapActions({ startCardPayment: "transactions/startCardPayment" }),
+
     togglePaymentModal() {
       this.show_payment_modal = !this.show_payment_modal;
     },
@@ -136,6 +147,27 @@ export default {
     closeWTPaymentOpenPayment() {
       this.toggleWireTransferModal();
       this.togglePaymentModal();
+    },
+
+    async initiateCardPayment() {
+      this.togglePaymentModal();
+      this.handleClick("pay", "Initiating card payment...");
+
+      try {
+        const response = await this.startCardPayment(
+          this.getCardPaymentDetails
+        );
+
+        console.log("RESPONSE STARTING CARD PAYMENT", response);
+
+        this.handleClick("pay", "Make Payment", false);
+      } catch (err) {
+        console.log("ERROR STARTING CARD PAYMENT", err);
+
+        this.handleClick("pay", "Make Payment", false);
+
+        this.pushToast("Failed to initiate card payment", "error");
+      }
     },
   },
 };
