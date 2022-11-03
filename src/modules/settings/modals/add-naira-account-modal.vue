@@ -1,82 +1,78 @@
 <template>
-  <div class="new-naira-account">
-    <!-- SELECT BANK NAME -->
-    <div class="form-group">
-      <div class="form-label">Select bank</div>
-
-      <!-- SELECT INPUT FIELD -->
-      <DropSelectInput
-        placeholder="Select bank name"
-        :options="bank_name_options"
-        :allow_search="true"
-        @optionSelected="bank = $event"
-        @searchItem="filterBankList"
-      />
-    </div>
-
-    <!-- BANK ACCOUNT NO -->
-    <div class="form-group">
-      <BasicInput
-        label_title="Account number"
-        label_id="account_number"
-        input_type="number"
-        :input_value="form.account_number"
-        is_required
-        placeholder="Your account number"
-        @getInputState="updateFormState($event, 'account_number')"
-        :error_handler="{
-          type: 'required',
-          message: 'Enter your account number',
-        }"
-      />
-    </div>
-
-    <!-- ACCOUNT CONFIRM CARD -->
-    <div class="account-confirm-card grey-10-bg rounded-12 mgt--10">
-      <div class="name tertiary-2-text" :class="invalid_account ? 'red-600' : 'grey-900'">
-        {{
-        account_details ? account_details.account_name : verification_message
-        }}
+  <ModalCover @closeModal="$emit('closeTriggered')" :modal_style="{ size: 'modal-xs' }">
+    <!-- MODAL COVER HEADER -->
+    <template slot="modal-cover-header">
+      <div class="modal-cover-header">
+        <div class="modal-cover-title">Add naira account</div>
+        <div class="tertiary-2-text grey-600 wt-75">Add a new naira account</div>
       </div>
-    </div>
-  </div>
+    </template>
+
+    <!-- MODAL COVER BODY -->
+    <template slot="modal-cover-body">
+      <div class="modal-cover-body">
+        <div class="form-group">
+          <div class="form-label">Select bank</div>
+
+          <!-- SELECT INPUT FIELD -->
+          <DropSelectInput
+            placeholder="Select bank"
+            :options="nigerian_banks"
+            @optionSelected="bank = $event"
+          />
+
+          <div class="skeleton-loader"></div>
+        </div>
+
+        <div class="form-group">
+          <BasicInput
+            label_title="Enter your account number"
+            label_id="acct-details"
+            :input_value="form.account_number"
+            is_required
+            placeholder="Emter account number"
+            @getInputState="updateFormState($event, 'account_number')"
+            :error_handler="{
+            type: 'minimum',
+            message: 'Enter a valid account number',
+            minimum:10
+          }"
+          />
+        </div>
+
+        <!-- ACCOUNT CONFIRM CARD -->
+        <div class="account-confirm-card grey-10-bg rounded-12 mgt--10">
+          <div class="name tertiary-2-text" :class="invalid_account ? 'red-600' : 'grey-900'">
+            {{
+            account_details ? account_details.account_name : verification_message
+            }}
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <!-- MODAL COVER FOOTER -->
+    <template slot="modal-cover-footer">
+      <div class="modal-cover-footer">
+        <button ref="save" class="btn btn-primary btn-md wt-100 mgt-17" @click="save">Add account</button>
+      </div>
+    </template>
+  </ModalCover>
 </template>
 
 <script>
 import { mapActions } from "vuex";
-import FormHelper from "@/modules/auth/mixins/auth-helper";
+import ModalCover from "@/shared/components/modal-cover";
+import BasicInput from "@/shared/components/form-comps/basic-input";
+import DropSelectInput from "@/shared/components/drop-select-input";
 
 export default {
-  name: "NewNairaAccount",
-
-  mixins: [FormHelper],
+  name: "VerificationBvnModal",
 
   components: {
-    DropSelectInput: () =>
-      import(
-        /* webpackChunkName: 'shared-module' */ "@/shared/components/drop-select-input"
-      ),
-    BasicInput: () =>
-      import(
-        /* webpackChunkName: 'shared-module' */ "@/shared/components/form-comps/basic-input"
-      ),
-  },
-
-  async mounted() {
-    await this.fetchNigeriaBanks();
-  },
-
-  computed: {
-    getNairaBankDetails() {
-      return {
-        account_name: this.account_details?.account_name,
-        account_no: this.account_details?.account_number,
-        bank_id: this.bank.id,
-        bank_name: this.bank.name,
-        country: "NG",
-        currency: "NGN",
-      };
-    },
+    ModalCover,
+    BasicInput,
+    DropSelectInput,
   },
 
   watch: {
@@ -97,6 +93,10 @@ export default {
           await this.verifyAccount(state, this.bank.code);
       },
     },
+  },
+
+  async mounted() {
+    await this.fetchNigeriaBanks();
   },
 
   data: () => ({
@@ -190,3 +190,4 @@ export default {
   padding: toRem(14) toRem(16);
 }
 </style>
+
