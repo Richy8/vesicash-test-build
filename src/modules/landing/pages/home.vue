@@ -4,7 +4,7 @@
     <HomeHeroSection />
 
     <!-- CLIENT BLOCK -->
-    <ClientBlock />
+    <!-- <ClientBlock /> -->
 
     <!-- FEATURE SECTION -->
     <FeatureSection />

@@ -13,7 +13,7 @@
         </div>
 
         <!-- DOC LINK -->
-        <a href="/" class="doc-link">
+        <a href="https://vesicash.com/developers" class="doc-link">
           <div class="icon-wrapper rounded-circle green-500-bg mgr-8">
             <div class="icon icon-caret-right neutral-10"></div>
           </div>

@@ -17,7 +17,11 @@
 
       <!-- BUTTON ROW -->
       <div class="button-row">
-        <button class="btn btn-secondary btn-md mgr-16">Get a demo</button>
+        <a
+          href="https://vesicash.com/contact"
+          class="btn btn-secondary btn-md mgr-16"
+          >Contact Sales</a
+        >
         <router-link to="/register-lander" class="btn btn-primary btn-md mgl-16"
           >Create an account</router-link
         >

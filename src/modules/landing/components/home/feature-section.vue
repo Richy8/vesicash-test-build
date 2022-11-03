@@ -6,7 +6,7 @@
           :feature="{
             title: 'Disburse escrow funds',
             description:
-              'Deploy escrow as a transparent fund management solution, or for (international) transactional purposes. Disburse escrowed funds in a single payment or according to milestones.split your disbursement into commissions as needed.',
+              'Deploy escrow as a transparent fund management solution, or for (international) transactional purposes. Disburse escrowed funds in a single payment or according to milestones. Split your disbursement into commissions as needed.',
             image: 'feature-one.png',
           }"
         />
