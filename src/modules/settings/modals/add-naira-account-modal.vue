@@ -11,17 +11,19 @@
     <!-- MODAL COVER BODY -->
     <template slot="modal-cover-body">
       <div class="modal-cover-body">
-        <div class="form-group">
+        <div class="skeleton-loader bank-skeleton rounded-3 mgb-15" v-if="loading_banks"></div>
+
+        <div class="form-group" v-else>
           <div class="form-label">Select bank</div>
 
           <!-- SELECT INPUT FIELD -->
           <DropSelectInput
             placeholder="Select bank"
-            :options="nigerian_banks"
+            :options="bank_name_options"
+            :allow_search="true"
             @optionSelected="bank = $event"
+            @searchItem="filterBankList"
           />
-
-          <div class="skeleton-loader"></div>
         </div>
 
         <div class="form-group">
@@ -41,7 +43,10 @@
         </div>
 
         <!-- ACCOUNT CONFIRM CARD -->
-        <div class="account-confirm-card grey-10-bg rounded-12 mgt--10">
+        <div
+          class="account-confirm-card grey-10-bg rounded-12 mgt--10"
+          v-if="account_details || verification_message"
+        >
           <div class="name tertiary-2-text" :class="invalid_account ? 'red-600' : 'grey-900'">
             {{
             account_details ? account_details.account_name : verification_message
@@ -54,14 +59,19 @@
     <!-- MODAL COVER FOOTER -->
     <template slot="modal-cover-footer">
       <div class="modal-cover-footer">
-        <button ref="save" class="btn btn-primary btn-md wt-100 mgt-17" @click="save">Add account</button>
+        <button
+          :disabled="!account_details"
+          ref="save"
+          class="btn btn-primary btn-md wt-100"
+          @click="addAccountDetails"
+        >Add account</button>
       </div>
     </template>
   </ModalCover>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapMutations, mapGetters } from "vuex";
 import ModalCover from "@/shared/components/modal-cover";
 import BasicInput from "@/shared/components/form-comps/basic-input";
 import DropSelectInput from "@/shared/components/drop-select-input";
@@ -79,7 +89,7 @@ export default {
     bank: {
       async handler(state) {
         this.account_details = null;
-        this.$emit("nairaBankUpdated", null);
+        // this.$emit("nairaBankUpdated", null);
         if (state && this.form.account_number.length >= 10)
           await this.verifyAccount(this.form.account_number, state.code);
       },
@@ -88,7 +98,7 @@ export default {
     "form.account_number": {
       async handler(state) {
         this.account_details = null;
-        this.$emit("nairaBankUpdated", null);
+        // this.$emit("nairaBankUpdated", null);
         if (state.length >= 10 && this.bank)
           await this.verifyAccount(state, this.bank.code);
       },
@@ -97,6 +107,21 @@ export default {
 
   async mounted() {
     await this.fetchNigeriaBanks();
+  },
+
+  computed: {
+    ...mapGetters({ getNigerianBanks: "settings/getNigerianBanks" }),
+
+    getNairaBankDetails() {
+      return {
+        account_name: this.account_details?.account_name,
+        account_no: this.account_details?.account_number,
+        bank_id: this.bank.id,
+        bank_name: this.bank.name,
+        country: "NG",
+        currency: "NGN",
+      };
+    },
   },
 
   data: () => ({
@@ -111,8 +136,11 @@ export default {
     validity: {
       account_number: true,
     },
+
+    loading_banks: false,
+
     account_details: null,
-    verification_message: "Account Name",
+    verification_message: "",
     invalid_account: false,
   }),
 
@@ -120,10 +148,40 @@ export default {
     ...mapActions({
       getAllBanks: "general/getAllBanks",
       verifyBankAccount: "general/verifyBankAccount",
+      addNewBank: "settings/addNewBank",
+      fetchAllBanks: "settings/fetchAllBanks",
     }),
 
+    ...mapMutations({
+      setNigerianBanks: "settings/SET_NIGERIAN_BANKS",
+    }),
+
+    async addAccountDetails() {
+      this.handleClick("save", "Adding account...");
+      const response = await this.addNewBank({
+        account_id: this.getAccountId,
+        updates: this.getNairaBankDetails,
+      });
+
+      this.handleClick("save", "Add account", false);
+
+      if (response.code === 200) {
+        await this.fetchAllBanks(this.getAccountId);
+        this.$emit("saved", "You have successfully added another bank account");
+      }
+    },
+
     async fetchNigeriaBanks() {
+      // AVOID CALLING API IF BANKS IS ALREADY SAVED IN THE STORE
+      if (this.getNigerianBanks?.length) {
+        this.bank_name_options_repo = this.bank_name_options =
+          this.getNigerianBanks;
+        return;
+      }
+
+      this.loading_banks = true;
       const response = await this.getAllBanks("Nigeria");
+      this.loading_banks = false;
 
       if (response.code === 200) {
         let bank_options = response.data;
@@ -142,6 +200,9 @@ export default {
         });
 
         this.bank_name_options_repo = this.bank_name_options = filtered_banks;
+
+        // SAVE FILTERED BANKS IN THE STORE
+        this.setNigerianBanks(filtered_banks);
       }
     },
 
@@ -159,7 +220,7 @@ export default {
       if (response.status === "ok") {
         this.verification_message = "Account Name";
         this.account_details = response.data;
-        this.$emit("nairaBankUpdated", this.getNairaBankDetails);
+        // this.$emit("nairaBankUpdated", this.getNairaBankDetails);
       } else {
         this.verification_message =
           response.message || "Account number is invalid";
@@ -188,6 +249,10 @@ export default {
 .account-confirm-card {
   border: toRem(1) dashed getColor("grey-200");
   padding: toRem(14) toRem(16);
+}
+
+.bank-skeleton {
+  height: toRem(35);
 }
 </style>
 
