@@ -51,10 +51,7 @@
           <!--ACCOUNT DISPLAY DETAILS -->
           <div class="form-group mgb-20">
             <div class="form-label">Select bank details</div>
-            <div
-              class="skeleton-data skeleton-loader rounded-2"
-              v-if="loading_banks"
-            ></div>
+            <div class="skeleton-data skeleton-loader rounded-2" v-if="loading_banks"></div>
 
             <template v-else>
               <AccountDisplayCard
@@ -100,9 +97,7 @@
           @click="handleAccountSelection"
           :disabled="continueDisabled"
           ref="continue"
-        >
-          Continue
-        </button>
+        >Continue</button>
       </div>
     </template>
   </ModalCover>
@@ -222,16 +217,17 @@ export default {
 
     getFee() {
       const amount = Number(this.form.amount);
-      if (amount > 1000000) return 2000;
-      if (amount > 500000) return 1000;
-      return 500;
+      // 2000 & 1000 & 500
+      if (amount > 1000000) return 50;
+      if (amount > 500000) return 50;
+      return 50;
     },
 
     nairaWithdrawalDetails() {
       return {
-        amount: this.form.amount,
+        amount: Number(Number(this.form.amount) - this.getFee),
         fee: this.getFee,
-        total: Number(Number(this.form.amount) + this.getFee),
+        total: Number(this.form.amount),
         country: "Nigeria",
         phone: this.phone,
         first_name: this.getFirstName,
@@ -245,9 +241,9 @@ export default {
 
     dollarWithdrawalDetails() {
       return {
-        amount: this.form.amount,
+        amount: Number(Number(this.form.amount) - this.getFee),
         fee: this.getFee,
-        total: Number(Number(this.form.amount) + this.getFee),
+        total: Number(this.form.amount),
         country: "United States",
         phone: this.phone,
         first_name: this.getFirstName,
