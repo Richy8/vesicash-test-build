@@ -12,7 +12,11 @@
       :pagination="pagination"
     >
       <template v-for="(data, index) in table_data">
-        <TransactionPaymentTableRow :key="index" table_name="transaction-payment-tb" :data="data" />
+        <TransactionPaymentTableRow
+          :key="index"
+          table_name="transaction-payment-tb"
+          :data="data"
+        />
       </template>
     </TableContainer>
   </div>
@@ -36,7 +40,7 @@ export default {
   props: {
     dataset: {
       type: Array,
-      default: () => [1],
+      default: () => [],
     },
   },
 
@@ -51,24 +55,24 @@ export default {
 
     dummyData() {
       return [
-        {
-          created_at: "2022-08-30 07:45:28",
-          name: "Badge printing payment",
-          method: "Wire Transfer",
-          amount: "8065",
-          currency: "NGN",
-          status: "completed",
-          shit: "biscuit",
-        },
-        {
-          created_at: "2022-07-14 21:45:28",
-          name: "Payment for Mac",
-          method: "USSD",
-          amount: "1145",
-          currency: "USD",
-          status: "completed",
-          shit: "yoghurt",
-        },
+        // {
+        //   created_at: "2022-08-30 07:45:28",
+        //   name: "Badge printing payment",
+        //   method: "Wire Transfer",
+        //   amount: "8065",
+        //   currency: "NGN",
+        //   status: "completed",
+        //   shit: "biscuit",
+        // },
+        // {
+        //   created_at: "2022-07-14 21:45:28",
+        //   name: "Payment for Mac",
+        //   method: "USSD",
+        //   amount: "1145",
+        //   currency: "USD",
+        //   status: "completed",
+        //   shit: "yoghurt",
+        // },
       ];
     },
   },
