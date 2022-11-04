@@ -58,37 +58,37 @@ export default {
         {
           title: "Escrow financing",
           description: "Secure payment platform between you and third party.",
-          image: "tool-one.png",
+          image: "tool-card-one.png",
         },
         {
           title: "Split disbursements",
           description:
             "Seamless disbursements process between the buyer and seller",
-          image: "tool-two.png",
+          image: "tool-card-two.png",
         },
         {
           title: "Bulk transactions",
           description:
             "Make multiple payments to recipients in a single transaction.",
-          image: "tool-three.png",
+          image: "tool-card-three.png",
         },
         {
           title: "Milestone disbursements",
           description:
             "Schedule payments for when projects have been successfully delivered.",
-          image: "tool-four.png",
+          image: "tool-card-four.png",
         },
         {
           title: "Full team oversight",
           description:
             "Add as many parties as you need. We pay proper attention to escrow transactions to avoid error.",
-          image: "tool-five.png",
+          image: "tool-card-five.png",
         },
         {
           title: "Flexible role assignment & management",
           description:
             "Easily assign roles to counter parties. All parties invlove have clear goals and objectives",
-          image: "tool-six.png",
+          image: "tool-card-six.png",
         },
       ],
     };

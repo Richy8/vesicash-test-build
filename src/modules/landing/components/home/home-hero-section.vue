@@ -17,7 +17,7 @@
       <!-- HERO IMAGE -->
       <div class="hero-img-container mx-auto">
         <img
-          v-lazy="loadImage('hero-img.png', 'landing')"
+          v-lazy="loadImage('home-hero-img.png', 'landing')"
           alt="Vesicash dashboard"
           class="mx-auto"
         />
