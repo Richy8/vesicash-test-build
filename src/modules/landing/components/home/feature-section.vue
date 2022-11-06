@@ -1,7 +1,7 @@
 <template>
   <div class="feature-section">
     <div class="vesicash-container row">
-      <div class="col-12 col-sm-6">
+      <div class="col-12 col-md-6 mb-5 mb-md-0">
         <FeatureCard
           :feature="{
             title: 'Disburse escrow funds',
@@ -12,7 +12,7 @@
         />
       </div>
 
-      <div class="col-12 col-sm-6">
+      <div class="col-12 col-md-6">
         <FeatureCard
           :feature="{
             title: 'Global payout and settlements',
@@ -42,5 +42,13 @@ export default {
 <style lang="scss" scoped>
 .feature-section {
   padding: toRem(120) toRem(20);
+
+  @include breakpoint-down(lg) {
+    padding: toRem(100) 0;
+  }
+
+  @include breakpoint-down(md) {
+    padding: toRem(80) 0;
+  }
 }
 </style>

@@ -28,21 +28,28 @@
 }
 
 .vesicash-container {
+  width: 100%;
   margin: 0 auto;
 
-  @include breakpoint-up(sm) {
-    max-width: toRem(680);
+  @include breakpoint-down(xxs) {
+    padding: 0 toRem(14);
   }
 
-  @include breakpoint-up(md) {
-    max-width: toRem(980);
+  @include breakpoint-up(xxs) {
+    padding: 0 toRem(16);
+  }
+
+  @include breakpoint-up(sm) {
+    padding: 0 toRem(24);
   }
 
   @include breakpoint-up(lg) {
-    max-width: toRem(1080);
+    max-width: toRem(1020);
+    padding: 0 toRem(32);
   }
 
   @include breakpoint-up(xl) {
-    max-width: toRem(1150);
+    max-width: toRem(1160);
+    padding: 0 toRem(48);
   }
 }

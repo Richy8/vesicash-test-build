@@ -30,7 +30,29 @@ export default {
 
 <style lang="scss" scoped>
 .client-block {
-  padding: toRem(50) 0;
+  padding: toRem(50) 0 0;
+
+  @include breakpoint-down(md) {
+    margin-bottom: toRem(-20);
+  }
+
+  .title-text {
+    @include breakpoint-down(lg) {
+      font-size: toRem(18);
+    }
+
+    @include breakpoint-down(md) {
+      margin-bottom: toRem(40) !important;
+    }
+
+    @include breakpoint-down(sm) {
+      margin-bottom: toRem(35) !important;
+    }
+
+    @include breakpoint-down(xs) {
+      font-size: toRem(16);
+    }
+  }
 
   .client-row {
     @include flex-row-center-nowrap;
@@ -39,6 +61,26 @@ export default {
       margin: 0 toRem(50);
       width: toRem(180);
       height: auto;
+
+      @include breakpoint-down(lg) {
+        margin: 0 toRem(40);
+        width: toRem(160);
+      }
+
+      @include breakpoint-down(md) {
+        margin: 0 toRem(20);
+        width: toRem(140);
+      }
+
+      @include breakpoint-down(sm) {
+        margin: 0 toRem(12);
+        width: toRem(120);
+      }
+
+      @include breakpoint-down(xs) {
+        margin: 0 toRem(8);
+        width: toRem(100);
+      }
     }
   }
 }

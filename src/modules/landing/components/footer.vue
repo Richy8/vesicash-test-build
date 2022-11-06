@@ -2,7 +2,7 @@
   <div class="footer-section">
     <div class="vesicash-container">
       <div class="row mgb-50">
-        <div class="col-12 col-sm-6 footer-left">
+        <div class="col-12 col-sm-12 col-md-5 col-lg-6 footer-left">
           <div class="brand-logo mgb-28">
             <VesicashBrandLogo />
           </div>
@@ -34,9 +34,11 @@
         </div>
 
         <!-- NAVIGATION LINKS CONTAINER -->
-        <div class="col-12 col-sm-6 footer-right">
+        <div
+          class="col-12 col-sm-12 col-md-7 col-lg-6 footer-right mt-5 mt-md-0"
+        >
           <div class="row">
-            <div class="col-12 col-sm-4">
+            <div class="col-12 col-sm-4 mb-5 mb-sm-0">
               <div class="nav-item fw-700 mgb-24">Product</div>
 
               <a href="" class="nav-item nav-item-link">Our products</a>
@@ -46,7 +48,7 @@
               <a href="" class="nav-item nav-item-link">Terms of Use</a>
             </div>
 
-            <div class="col-12 col-sm-4">
+            <div class="col-12 col-sm-4 mb-5 mb-sm-0">
               <div class="nav-item fw-700 mgb-24">Company</div>
 
               <a href="" class="nav-item nav-item-link">About Us</a>
@@ -72,7 +74,16 @@
 
       <!-- COPYRIGHT TEXT -->
       <div class="row copyright-row">
-        <div class="col-12 grey-900 text-center tertiary-1-text roobert-400">
+        <div
+          class="
+            copyright-text
+            col-12
+            grey-900
+            text-center
+            tertiary-1-text
+            roobert-400
+          "
+        >
           Copyright 2022. Vesicash Innovative Technologies.
         </div>
       </div>
@@ -95,6 +106,10 @@ export default {
 <style lang="scss" scoped>
 .footer-section {
   margin-top: toRem(110);
+
+  @include breakpoint-down(md) {
+    margin-top: toRem(80);
+  }
 
   .footer-left {
     .brand-logo {
@@ -175,6 +190,12 @@ export default {
   .copyright-row {
     border-top: toRem(0.5) solid getColor("grey-100");
     padding: toRem(50) 0 toRem(84);
+
+    .copyright-text {
+      @include breakpoint-down(sm) {
+        font-size: toRem(15);
+      }
+    }
   }
 }
 </style>

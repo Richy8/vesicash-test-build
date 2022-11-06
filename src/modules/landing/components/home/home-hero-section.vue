@@ -42,17 +42,63 @@ export default {
     .header-text {
       @include font-height(70, 90);
       margin-top: toRem(120);
+
+      @include breakpoint-down(xl) {
+        @include font-height(64, 72);
+      }
+
+      @include breakpoint-down(lg) {
+        margin-top: toRem(100);
+        @include font-height(50, 68);
+      }
+
+      @include breakpoint-down(md) {
+        margin-top: toRem(80);
+        @include font-height(40, 60);
+      }
+
+      @include breakpoint-down(xs) {
+        @include font-height(34, 56);
+
+        br {
+          display: none;
+        }
+      }
     }
 
     .description-text {
       margin-bottom: toRem(100);
       font-size: toRem(18.75);
       width: 60%;
+
+      @include breakpoint-down(xl) {
+        width: 80%;
+      }
+
+      @include breakpoint-down(lg) {
+        margin-bottom: toRem(80);
+        font-size: toRem(18);
+        width: 80%;
+      }
+
+      @include breakpoint-down(md) {
+        margin-bottom: toRem(60);
+        font-size: toRem(17);
+        width: 100%;
+      }
+
+      @include breakpoint-down(sm) {
+        margin-bottom: toRem(50);
+      }
     }
 
     .hero-img-container {
       position: relative;
       width: 95%;
+
+      @include breakpoint-down(lg) {
+        width: 100%;
+      }
 
       img {
         width: 100%;
