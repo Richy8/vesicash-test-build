@@ -1,28 +1,33 @@
-const navRoutes = [
-  {
-    title: "Dashboard",
-    icon: "DashboardIcon",
-    link: "/dashboard",
-    slug: "dashboard",
-  },
-  {
-    title: "Escrow transactions",
-    icon: "TransactionIcon",
-    link: "/transactions",
-    slug: "transactions",
-  },
-  {
-    title: "Payments",
-    icon: "PaymentIcon",
-    link: "/payments",
-    slug: "payments",
-  },
-  // {
-  //   title: "Settings",
-  //   icon: "SettingsIcon",
-  //   link: "/settings",
-  //   slug: "settings",
-  // },
+const navRoutes = [{
+        title: "Dashboard",
+        icon: "DashboardIcon",
+        link: "/dashboard",
+        slug: "dashboard",
+    },
+    {
+        title: "Escrow transactions",
+        icon: "TransactionIcon",
+        link: "/transactions",
+        slug: "transactions",
+    },
+    {
+        title: "Payments",
+        icon: "PaymentIcon",
+        link: "/payments",
+        slug: "payments",
+    },
+    {
+        title: "Foreign exchange",
+        icon: "CardIcon",
+        link: "",
+        slug: "fx-exchange",
+    },
+    // {
+    //   title: "Settings",
+    //   icon: "SettingsIcon",
+    //   link: "/settings",
+    //   slug: "settings",
+    // },
 ];
 
 export default navRoutes;
