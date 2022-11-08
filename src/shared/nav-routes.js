@@ -17,7 +17,7 @@ const navRoutes = [{
         slug: "payments",
     },
     {
-        title: "Foreign Exchange",
+        title: "Foreign exchange",
         icon: "CardIcon",
         link: "",
         slug: "fx-exchange",
