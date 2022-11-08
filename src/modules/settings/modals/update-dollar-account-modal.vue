@@ -152,7 +152,14 @@ import BasicInput from "@/shared/components/form-comps/basic-input";
 import DropSelectInput from "@/shared/components/drop-select-input";
 
 export default {
-  name: "AddDollarAccountModal",
+  name: "UpdateDollarAccountModal",
+
+  props: {
+    savedDetails: {
+      type: Object,
+      default: () => null,
+    },
+  },
 
   components: {
     ModalCover,
@@ -225,6 +232,17 @@ export default {
       addNewBank: "settings/addNewBank",
       fetchAllBanks: "settings/fetchAllBanks",
     }),
+
+    updateSavedDetails(details) {
+      this.form = {
+        account_last_name: details?.account_name?.split(" ")[0],
+        account_first_name: details?.account_name?.split(" ")[1],
+        account_number: details?.account_no,
+        account_swift_code: details?.swift_code,
+        account_sort_code: details?.sort_code,
+        account_bank_address: details?.bank_address,
+      };
+    },
 
     async addNewDollarAccount() {
       this.handleClick("save", "Adding account...");
