@@ -1,5 +1,9 @@
 <template>
-  <ModalCover @closeModal="$emit('closeTriggered')" :modal_style="{ size: 'modal-sm' }">
+  <ModalCover
+    @closeModal="$emit('closeTriggered')"
+    :modal_style="{ size: 'modal-sm' }"
+    class="add-dollar-account-modal"
+  >
     <!-- MODAL COVER HEADER -->
     <template slot="modal-cover-header">
       <div class="modal-cover-header">
@@ -65,6 +69,21 @@
           />
         </div>
 
+        <div class="form-group">
+          <BasicInput
+            label_title="Iban/Account number"
+            label_id="acct-bank-iban-no"
+            :input_value="form.account_number"
+            is_required
+            placeholder="Enter Iban/Account number"
+            @getInputState="updateFormState($event, 'account_number')"
+            :error_handler="{
+            type: 'required',
+            message: 'Enter Iban/Account number'
+          }"
+          />
+        </div>
+
         <div class="form-group inline-group">
           <BasicInput
             class="w-100"
@@ -115,19 +134,37 @@
     <!-- MODAL COVER FOOTER -->
     <template slot="modal-cover-footer">
       <div class="modal-cover-footer">
-        <button ref="save" class="btn btn-primary btn-md wt-100" :disabled="isDisabled">Add account</button>
+        <button
+          ref="save"
+          class="btn btn-primary btn-md wt-100"
+          :disabled="isDisabled"
+          @click="addNewDollarAccount"
+        >Add account</button>
       </div>
     </template>
   </ModalCover>
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import ModalCover from "@/shared/components/modal-cover";
 import BasicInput from "@/shared/components/form-comps/basic-input";
 import DropSelectInput from "@/shared/components/drop-select-input";
 
 export default {
   name: "AddDollarAccountModal",
+
+  props: {
+    edit: {
+      type: Boolean,
+      default: false,
+    },
+
+    savedDetails: {
+      type: Object,
+      default: () => null,
+    },
+  },
 
   components: {
     ModalCover,
@@ -141,6 +178,21 @@ export default {
         (valid) => valid
       );
       return is_form_invalid || !this.country || !this.bank;
+    },
+
+    getNewDollarAccountDetails() {
+      return {
+        account_id: this.getAccountId,
+        updates: {
+          account_name: `${this.form.account_last_name} ${this.form.account_first_name}`,
+          account_no: this.form.account_number,
+          swift_code: this.form.account_swift_code,
+          sort_code: this.form.account_sort_code,
+          bank_address: this.form.account_bank_address,
+          bank_name: this.bank?.name,
+          currency: "USD",
+        },
+      };
     },
   },
 
@@ -164,6 +216,7 @@ export default {
     form: {
       account_first_name: "",
       account_last_name: "",
+      account_number: "",
       account_swift_code: "",
       account_sort_code: "",
       account_bank_address: "",
@@ -172,13 +225,57 @@ export default {
     validity: {
       account_first_name: true,
       account_last_name: true,
+      account_number: true,
       account_swift_code: true,
       account_sort_code: true,
       account_bank_address: true,
     },
   }),
 
-  methods: {},
+  methods: {
+    ...mapActions({
+      addNewBank: "settings/addNewBank",
+      fetchAllBanks: "settings/fetchAllBanks",
+    }),
+
+    updateSavedDetails(details) {
+      this.form = {
+        account_first_name: details,
+        account_last_name: "",
+        account_number: "",
+        account_swift_code: "",
+        account_sort_code: "",
+        account_bank_address: "",
+      };
+    },
+
+    async addNewDollarAccount() {
+      this.handleClick("save", "Adding account...");
+      try {
+        const response = await this.addNewBank(this.getNewDollarAccountDetails);
+
+        if (response.code === 200) {
+          this.handleClick("save", "Updating bank list...");
+          await this.fetchAllBanks(this.getAccountId);
+          this.handleClick("save", "Add account", false);
+          this.$emit(
+            "saved",
+            "You have successfully added another bank account"
+          );
+        } else {
+          this.handleClick("save", "Add account", false);
+          this.pushToast(
+            response.message || "Failed to add new bank account",
+            "warning"
+          );
+        }
+      } catch (err) {
+        console.log("Error adding dollar account", err);
+        this.pushToast("Failed to add new bank account", "error");
+        this.handleClick("save", "Add account", false);
+      }
+    },
+  },
 };
 </script>
 
@@ -189,6 +286,15 @@ export default {
 
   @include breakpoint-custom-down(776) {
     @include flex-row-start-wrap;
+  }
+}
+</style>
+
+<style lang="scss">
+.add-dollar-account-modal.modal-overlay {
+  .modal-outer-container {
+    top: toRem(10);
+    margin-bottom: toRem(20);
   }
 }
 </style>

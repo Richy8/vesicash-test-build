@@ -14,13 +14,13 @@
       </template>
 
       <template v-else>
-        <div class="add-account-button" @click="toggleNewDollarModal">
+        <div class="add-account-button" @click="toggleNewAccountModal">
           <span class="icon icon-plus h5 green-600"></span>
           <div class="green-600 secondary-2-text">Add new account details</div>
         </div>
 
         <UserAccountCard
-          v-for="(account,index) in getAccounts"
+          v-for="(account,index) in getSelectedAccount"
           :key="index"
           :account="account"
           @click="showAccountDetails"
@@ -36,14 +36,14 @@
     </transition>
 
     <transition name="fade" v-if="show_new_dollar_modal">
-      <AddDollarAccountModal @closeTriggered="toggleNewDollarModal" />
+      <AddDollarAccountModal
+        @closeTriggered="toggleNewDollarModal"
+        @saved="showSuccessModal('show_new_dollar_modal',$event)"
+      />
     </transition>
 
     <transition name="fade" v-if="show_naira_details_modal">
-      <NairaAccountDetailsModal
-        @closeTriggered="toggleNairaDetailsModal"
-        :account="selected_account"
-      />
+      <AccountDetailsModal @closeTriggered="toggleNairaDetailsModal" :account="selected_account" />
     </transition>
 
     <transition name="fade" v-if="show_success_modal">
@@ -58,7 +58,7 @@ import TabSwitcher from "@/shared/components/tab-switcher";
 import AddNairaAccountModal from "@/modules/settings/modals/add-naira-account-modal";
 import AddDollarAccountModal from "@/modules/settings/modals/add-dollar-account-modal";
 import UserAccountCard from "@/shared/components/card-comps/user-account-card";
-import NairaAccountDetailsModal from "@/modules/settings/modals/naira-account-details-modal";
+import AccountDetailsModal from "@/modules/settings/modals/account-details-modal";
 import SuccessModal from "@/shared/modals/success-modal";
 export default {
   name: "AccountSettings",
@@ -68,7 +68,7 @@ export default {
     AddNairaAccountModal,
     AddDollarAccountModal,
     UserAccountCard,
-    NairaAccountDetailsModal,
+    AccountDetailsModal,
     SuccessModal,
   },
 
@@ -82,6 +82,13 @@ export default {
 
   computed: {
     ...mapGetters({ getAccounts: "settings/getAccounts" }),
+
+    getSelectedAccount() {
+      const currency = this.account_type === "naira" ? "NGN" : "USD";
+      return this.getAccounts.filter(
+        (account) => account.currency === currency
+      );
+    },
   },
 
   data() {
@@ -121,6 +128,11 @@ export default {
 
     toggleNewDollarModal() {
       this.show_new_dollar_modal = !this.show_new_dollar_modal;
+    },
+
+    toggleNewAccountModal() {
+      if (this.account_type === "dollar") this.toggleNewDollarModal();
+      else this.toggleNewNairaModal();
     },
 
     toggleNairaDetailsModal() {

@@ -163,11 +163,17 @@ export default {
         updates: this.getNairaBankDetails,
       });
 
-      this.handleClick("save", "Add account", false);
-
       if (response.code === 200) {
+        this.handleClick("save", "Updating bank list...");
         await this.fetchAllBanks(this.getAccountId);
+        this.handleClick("save", "Add account", false);
         this.$emit("saved", "You have successfully added another bank account");
+      } else {
+        this.handleClick("save", "Add account", false);
+        this.pushToast(
+          response.message || "Failed to add new bank account",
+          "warning"
+        );
       }
     },
 
@@ -248,6 +254,7 @@ export default {
 <style lang="scss" scoped>
 .account-confirm-card {
   border: toRem(1) dashed getColor("grey-200");
+  margin-bottom: toRem(20);
   padding: toRem(14) toRem(16);
 }
 

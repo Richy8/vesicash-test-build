@@ -14,10 +14,10 @@
           <span>{{account.bank_name}}</span>
         </div>
 
-        <!-- <div class="account-meta tertiary-3-text">
+        <div class="account-meta tertiary-3-text" v-if="account.sort_code">
           <span class="dot"></span>
-          <span>0126573733</span>
-        </div>-->
+          <span>{{account.sort_code}}</span>
+        </div>
       </div>
     </div>
     <span class="icon icon-caret-right text-white"></span>
