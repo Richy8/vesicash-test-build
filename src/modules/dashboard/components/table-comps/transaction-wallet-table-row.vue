@@ -7,7 +7,7 @@
     </td>
 
     <td class="body-data" :class="`${table_name}-3`">
-      {{ data.user_details.email }}
+      {{ getUserEmail }}
     </td>
 
     <!-- <td class="body-data" :class="`${table_name}-4`">
@@ -77,6 +77,10 @@ export default {
         .getAll();
 
       return `${m4} ${d3}, ${y1} ${h01}:${b2}${a0}`;
+    },
+
+    getUserEmail() {
+      return this.data?.user_details?.email || this.getUser.email;
     },
 
     getSummaryData() {
