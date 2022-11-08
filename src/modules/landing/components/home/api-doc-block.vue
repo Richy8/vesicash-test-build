@@ -9,8 +9,8 @@
           </div>
 
           <div class="description-text h7-text roobert-400 grey-600 mgb-36">
-            Experience our functionality On Platform (UI of Dashboard) Or via
-            API (Code snippet)
+            Experience our functionality On Platform Or via
+            API
           </div>
 
           <!-- DOC LINK -->

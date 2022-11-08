@@ -61,37 +61,37 @@ export default {
       tools: [
         {
           title: "Escrow financing",
-          description: "Secure payment platform between you and third party.",
+          description: "Eliminate working capital bottlenecks with our Escrow financing feature.",
           image: "tool-card-one.png",
         },
         {
           title: "Split disbursements",
           description:
-            "Seamless disbursements process between the buyer and seller",
+            "Disburse transaction funds to multiple parties with a single click.",
           image: "tool-card-two.png",
         },
         {
           title: "Bulk transactions",
           description:
-            "Make multiple payments to recipients in a single transaction.",
+            "Create and manage multiple payments quickly and easily.",
           image: "tool-card-three.png",
         },
         {
           title: "Milestone disbursements",
           description:
-            "Schedule payments for when projects have been successfully delivered.",
+            "Tranched release of escrowed funds as objectives and timelines are met.",
           image: "tool-card-four.png",
         },
         {
           title: "Full team oversight",
           description:
-            "Add as many parties as you need. We pay proper attention to escrow transactions to avoid error.",
+            "Onboard your entire team and give requisite access and oversight at an organizational or transactional level.",
           image: "tool-card-five.png",
         },
         {
           title: "Flexible role assignment & management",
           description:
-            "Easily assign roles to counter parties. All parties invlove have clear goals and objectives",
+            "Assign roles to view or approve transactions on an as-needed basis.",
           image: "tool-card-six.png",
         },
       ],
@@ -105,11 +105,11 @@ export default {
   padding: toRem(110) toRem(20) toRem(60);
 
   @include breakpoint-down(lg) {
-    padding: toRem(100) 0 toRem(60);
+    padding: toRem(100) 0 toRem(40);
   }
 
   @include breakpoint-down(md) {
-    padding: toRem(80) 0 toRem(60);
+    padding: toRem(80) 0 toRem(20);
   }
 
   .top-section {

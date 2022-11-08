@@ -10,7 +10,7 @@
       </div>
 
       <!-- DESCRIPTION TEXT -->
-      <div class="description-text text-center h7-text grey-200 mgb-50">
+      <div class="description-text text-center h7-text roobert-400 grey-200 mgb-50">
         Let’s help you with all the tools you need to take your business to the
         next level
       </div>
@@ -19,10 +19,10 @@
       <div class="button-row">
         <a
           href="https://vesicash.com/contact"
-          class="btn btn-secondary btn-md mgr-16"
+          class="btn btn-secondary btn-md mgr-16 roobert-500"
           >Contact Sales</a
         >
-        <router-link to="/register-lander" class="btn btn-primary btn-md mgl-16"
+        <router-link to="/register-lander" class="btn btn-primary btn-md mgl-16 roobert-500"
           >Create an account</router-link
         >
       </div>

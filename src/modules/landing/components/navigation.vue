@@ -21,10 +21,10 @@
 
         <!-- NAV BUTTONS -->
         <div class="nav-buttons">
-          <router-link to="/login" class="btn btn-tertiary btn-md mgr-16"
+          <router-link to="/login" class="btn btn-tertiary btn-md roobert-500 mgr-16"
             >Sign In</router-link
           >
-          <router-link to="/register-lander" class="btn btn-primary btn-md"
+          <router-link to="/register-lander" class="btn btn-primary btn-md roobert-500"
             >Create an account</router-link
           >
         </div>
@@ -101,6 +101,7 @@ export default {
         color: getColor("grey-600");
         @include transition(0.4s);
         margin-right: toRem(56);
+        font-size: toRem(15);
 
         &:hover {
           color: getColor("green-500");

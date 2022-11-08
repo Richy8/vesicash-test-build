@@ -174,6 +174,7 @@ export default {
       }
 
       &-link {
+        @include generate-font-type("tertiary-1");
         font-family: "Roobert-Regular", sans-serif;
         color: getColor("grey-700");
         margin-bottom: toRem(24);

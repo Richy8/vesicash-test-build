@@ -47,9 +47,8 @@ export default {
     return {
       table_header: [
         "Date",
-        "Transaction reference",
-        "Recipient id",
-        "Wallet used",
+        "Reference id",
+        "Beneficiary name",
         "Amount",
         "Status",
         "Actions",
@@ -145,7 +144,7 @@ export default {
 <style lang="scss">
 .transaction-wallet-tb {
   &-1 {
-    max-width: toRem(210);
+    max-width: toRem(170);
   }
 
   &-2 {

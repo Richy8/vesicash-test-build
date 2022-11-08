@@ -43,9 +43,8 @@ export default {
     return {
       table_header: [
         "Date",
-        "Transaction reference",
-        "Account id",
-        "Wallet used",
+        "Payment Id",
+        "Account Email",
         "Amount paid",
         "Status",
         "Actions",
@@ -141,7 +140,7 @@ export default {
 <style lang="scss">
 .transaction-wallet-tb {
   &-1 {
-    max-width: toRem(210);
+    max-width: toRem(170);
   }
 
   &-2 {
@@ -154,18 +153,12 @@ export default {
   }
 
   &-4 {
-    max-width: toRem(140);
+    max-width: toRem(160);
   }
 
   &-5 {
-    max-width: toRem(140);
+    max-width: toRem(160);
   }
-
-  // &-6 {
-  // }
-
-  // &-7 {
-  // }
 
   .head-data {
     padding: toRem(8) toRem(24) !important;

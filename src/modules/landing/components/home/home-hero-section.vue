@@ -9,7 +9,7 @@
       </div>
 
       <!-- DESCRIPTION TEXT -->
-      <div class="description-text neutral-10 h7-text text-center">
+      <div class="description-text neutral-10 h7-text roobert-400 text-center">
         Enabling businesses effectively manage their local and cross-border B2B
         payments, with an additional security layer.
       </div>

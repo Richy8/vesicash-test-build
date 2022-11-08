@@ -18,22 +18,22 @@
     <!-- MODAL COVER BODY -->
     <template slot="modal-cover-body">
       <div class="modal-cover-body mgb-24">
-        <ModalListItem
-          title="Amount to withdraw"
-          :value="`${getWalletType == 'naira' ? 'N' : '$'}${
-            $money.addComma(getWithdrawalMeta.amount)
+         <ModalListItem
+          title="Total Amount"
+          :value="`${$money.getSign(getWalletType)}${
+            $money.addComma(getWithdrawalMeta.total)
           }`"
         />
         <ModalListItem
           title="Withdrawal fee"
-          :value="`${getWalletType == 'naira' ? 'N' : '$'}${
+          :value="`${$money.getSign(getWalletType)}${
             $money.addComma(getWithdrawalMeta.fee)
           }`"
         />
-        <ModalListItem
-          title="Total"
-          :value="`${getWalletType == 'naira' ? 'N' : '$'}${
-            $money.addComma(getWithdrawalMeta.total)
+         <ModalListItem
+          title="Amount to receive"
+          :value="`${$money.getSign(getWalletType)}${
+            $money.addComma(getWithdrawalMeta.amount - getWithdrawalMeta.fee)
           }`"
         />
 
@@ -115,8 +115,8 @@ export default {
 
     async makeWithdrawal() {
       try {
-        const amount = `${this.getWalletType == "naira" ? "N" : "$"}${
-          this.getWithdrawalMeta.amount
+        const amount = `${this.$money.getSign(this.getWalletType)}${
+          this.$money.addComma(this.getWithdrawalMeta.amount - this.getWithdrawalMeta.fee)
         }`;
 
         this.handleClick("continue");
@@ -127,17 +127,17 @@ export default {
 
         response.code == 200
           ? this.$router.push({
-              name: "SuccessfulWithdrawal",
+            name: "SuccessfulWithdrawal",
               query: { amount },
             })
           : this.pushToast(
-              response.message || "Withdrawal failed. Pleaase try again",
+            response.message || "Withdrawal failed. Please try again",
               "warning"
             );
       } catch (error) {
+        console.log(error);
         this.handleClick("continue", "Continue", false);
-
-        this.pushToast("Withdrawal failed. Pleaase try again", "error");
+        this.pushToast("Withdrawal failed. Please try again", "error");
       }
     },
   },

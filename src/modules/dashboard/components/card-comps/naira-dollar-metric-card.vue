@@ -20,8 +20,7 @@
           <template v-else>
             <!-- AMOUNT VALUE -->
             <div class="amount-value teal-800 h4-text mgb-4">
-              <span v-html="$money.getSign(wallet.sign)"></span>
-              {{ $money.addComma(wallet.value.split(".")[0])
+             {{ $money.getSign(wallet.sign) }}{{ $money.addComma(wallet.value.split(".")[0])
               }}<span class="amount-zero"
                 >.{{ wallet.value.split(".")[1] || "00" }}</span
               >

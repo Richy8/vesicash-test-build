@@ -54,6 +54,7 @@
             <div class="skeleton-data skeleton-loader rounded-2" v-if="loading_banks"></div>
 
             <template v-else>
+              <div class="account-holder-section">
               <AccountDisplayCard
                 v-for="(account, index) in getWithdrawalAccounts"
                 :key="index"
@@ -61,6 +62,7 @@
                 :card_detail="account"
                 @selectAccount="toggleSelection(account.index)"
               />
+              </div>
             </template>
           </div>
 
@@ -184,9 +186,7 @@ export default {
           ? this.getNairaBalance
           : this.getDollarBalance;
 
-      const sign = this.getWalletType === "naira" ? "₦" : "$";
-
-      return `${sign}${this.$money.addComma(balance)}`;
+      return `${this.$money.getSign(this.getWalletType )}${this.$money.addComma(balance)}`;
     },
 
     getWithdrawalAccounts() {
@@ -198,6 +198,7 @@ export default {
     getSelectedAccount() {
       return this.accounts.find((account) => account.selected);
     },
+    
     getNewAccount() {
       if (!this.initiate_new_account) return this.getSelectedAccount;
       return this.getWalletType === "naira"
@@ -215,18 +216,10 @@ export default {
       return this.getNewAccount?.account_name?.trim().split(/\s+/)[0];
     },
 
-    getFee() {
-      const amount = Number(this.form.amount);
-      // 2000 & 1000 & 500
-      if (amount > 1000000) return 50;
-      if (amount > 500000) return 50;
-      return 50;
-    },
-
     nairaWithdrawalDetails() {
       return {
-        amount: Number(Number(this.form.amount) - this.getFee),
-        fee: this.getFee,
+        amount: Number(Number(this.form.amount)),
+        fee: this.charge_fee,
         total: Number(this.form.amount),
         country: "Nigeria",
         phone: this.phone,
@@ -241,8 +234,8 @@ export default {
 
     dollarWithdrawalDetails() {
       return {
-        amount: Number(Number(this.form.amount) - this.getFee),
-        fee: this.getFee,
+        amount: Number(Number(this.form.amount)),
+        fee: this.charge_fee,
         total: Number(this.form.amount),
         country: "United States",
         phone: this.phone,
@@ -294,6 +287,8 @@ export default {
     new_dollar_account: null,
     phone: "",
     amount: "",
+    charge_fee: 50,
+
     form: {
       amount: "",
     },
@@ -392,5 +387,24 @@ export default {
   overflow-y: auto;
   height: toRem(35);
   width: 100%;
+}
+
+.account-holder-section {
+  overflow: auto;
+  height: auto;
+  max-height: 27vh;
+
+   &::-webkit-scrollbar {
+      width: toRem(3.5);
+    }
+
+    &::-webkit-scrollbar-track {
+      border-radius: toRem(5);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: toRem(5);
+      background: getColor("green-100");
+    }
 }
 </style>

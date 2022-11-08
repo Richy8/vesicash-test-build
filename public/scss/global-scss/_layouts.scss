@@ -50,6 +50,11 @@
 
   @include breakpoint-up(xl) {
     max-width: toRem(1160);
-    padding: 0 toRem(48);
+    padding: 0 toRem(20);
+  }
+
+  @include breakpoint-up(xxl) {
+    max-width: toRem(1220);
+    padding: 0 toRem(10);
   }
 }

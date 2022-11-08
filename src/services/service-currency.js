@@ -8,8 +8,8 @@ class serviceCurrency {
   // ===================================
   getSign(currency) {
     let currency_type = "",
-      naira = "&#8358",
-      dollar = "&#36";
+      naira = "₦",
+      dollar = "$";
 
     switch (currency) {
       case "naira":
