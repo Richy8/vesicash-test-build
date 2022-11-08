@@ -1,3 +1,5 @@
+import { CURRENCY_OPTIONS } from "@/modules/transactions/constants";
+
 export default {
   UPDATE_CACHED_TRANSACTION: (state, payload) => {
     state.transaction = { ...payload };
@@ -63,5 +65,24 @@ export default {
     state.transaction.milestone_amounts = amount_list;
     state.transaction.escrow_fee = sum_total * 0.15;
     state.transaction.total_fee = sum_total + state.transaction.escrow_fee;
+  },
+
+  RESET_TRANSACTION: (state) => {
+    state.transaction = {
+      name: "",
+      type: "",
+      parties: "",
+      file: [],
+      dispute_handler: "",
+
+      currency: CURRENCY_OPTIONS[0],
+      milestone_amounts: [],
+      escrow_fee: 0,
+      total_fee: 0,
+
+      beneficiaries: [],
+      milestones: [],
+      milestone_recipients: [],
+    };
   },
 };

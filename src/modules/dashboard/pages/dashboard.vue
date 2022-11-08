@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapMutations } from "vuex";
 
 export default {
   name: "Dashboard",
@@ -116,11 +116,17 @@ export default {
 
   mounted() {
     this.fetchUserWalletBalance();
+
+    // CLEAR OUT TRANSAACTION STORE
+    this.RESET_TRANSACTION();
   },
 
   methods: {
     ...mapActions({
       getWalletBalance: "dashboard/getWalletBalance",
+    }),
+    ...mapMutations({
+      RESET_TRANSACTION: "transactions/RESET_TRANSACTION",
     }),
 
     // =============================================
