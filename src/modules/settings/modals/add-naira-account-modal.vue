@@ -32,7 +32,7 @@
             label_id="acct-details"
             :input_value="form.account_number"
             is_required
-            placeholder="Emter account number"
+            placeholder="Enter account number"
             @getInputState="updateFormState($event, 'account_number')"
             :error_handler="{
             type: 'minimum',
@@ -77,7 +77,7 @@ import BasicInput from "@/shared/components/form-comps/basic-input";
 import DropSelectInput from "@/shared/components/drop-select-input";
 
 export default {
-  name: "VerificationBvnModal",
+  name: "AddNairaAccountModal",
 
   components: {
     ModalCover,

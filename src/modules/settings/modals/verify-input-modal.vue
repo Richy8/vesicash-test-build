@@ -1,17 +1,15 @@
 <template>
   <ModalCover
     @closeModal="$emit('closeTriggered')"
-    :modal_style="{ size: 'modal-sm' }"
+    :modal_style="{ size: 'modal-xs' }"
     class="verify-input-modal"
   >
     <!-- MODAL COVER HEADER -->
     <template slot="modal-cover-header">
       <div class="modal-cover-header">
+        <div class="modal-cover-title">Verify {{ email ? 'email address':'phone number' }}</div>
         <div
-          class="modal-cover-title text-center mgt-5"
-        >Verify {{ email ? 'email address':'phone number' }}</div>
-        <div
-          class="tertiary-2-text text-center grey-600 mgy-7"
+          class="tertiary-2-text w-75 grey-600 mgt-5"
         >An OTP code will be sent to the {{ email ? 'email address':'phone number' }} you have provided</div>
       </div>
     </template>

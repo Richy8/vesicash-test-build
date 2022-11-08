@@ -2,15 +2,15 @@
   <ModalCover
     :show_close_btn="false"
     @closeModal="$emit('closeTriggered')"
-    :modal_style="{ size: 'modal-sm' }"
+    :modal_style="{ size: 'modal-xs' }"
     class="verify-otp-modal"
   >
     <!-- MODAL COVER HEADER -->
     <template slot="modal-cover-header">
       <div class="modal-cover-header">
-        <div class="modal-cover-title text-center mgt-5">Enter OTP code</div>
+        <div class="modal-cover-title text-center">Enter OTP code</div>
         <div
-          class="tertiary-2-text text-center grey-600 mgy-7"
+          class="tertiary-2-text text-center grey-600"
         >Please enter the OTP code that was sent to your phone number for verification</div>
       </div>
     </template>

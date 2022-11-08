@@ -2,7 +2,7 @@
   <ModalCover
     :show_close_btn="false"
     @closeModal="$emit('closeTriggered')"
-    :modal_style="{ size: 'modal-sm' }"
+    :modal_style="{ size: 'modal-xs' }"
   >
     <!-- MODAL COVER BODY -->
     <template slot="modal-cover-body">
@@ -19,7 +19,10 @@
     <!-- MODAL COVER FOOTER -->
     <template slot="modal-cover-footer">
       <div class="modal-cover-footer">
-        <button class="btn btn-primary btn-md wt-100" @click="$emit('continue')">Back to settings</button>
+        <button
+          class="btn btn-primary btn-md wt-100"
+          @click="$emit('closeTriggered')"
+        >Back to settings</button>
       </div>
     </template>
   </ModalCover>

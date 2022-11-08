@@ -51,7 +51,24 @@ export default {
 
   data() {
     return {
-      verification_docs: [{}],
+      verification_docs: [
+        {
+          name: "RC document",
+          id: "rcd",
+        },
+        {
+          name: "BN Document",
+          id: "bnd",
+        },
+        {
+          name: "NEPZA Document",
+          id: "nepzad",
+        },
+        {
+          name: "CAC IT Document",
+          id: "cacitd",
+        },
+      ],
 
       document: null,
     };
