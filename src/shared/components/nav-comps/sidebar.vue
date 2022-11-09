@@ -12,10 +12,10 @@
 
     <!-- LOG OUT ACCOUNT SECTION -->
     <div class="wrapper position-absolute wt-100">
-      <ProfileMenu @exit="handleUserlogOut" id="545678390" />
+      <ProfileMenu @exit="handleUserlogOut" :id="getBusinessId" />
 
       <div
-        v-if="0"
+        v-if="false"
         class="log-out-section smooth-transition rounded-8 pointer w-100"
         @click="handleUserlogOut"
       >

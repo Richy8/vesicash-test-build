@@ -13,9 +13,10 @@
       <span class="icon icon-ellipsis-h" @click="toggleMenu"></span>
 
       <div class="profile-menu-block smooth-animation" v-if="show_menu" v-on-clickaway="toggleMenu">
-        <div class="profile-menu-item border-bottom-grey-100">
+        <div class="profile-menu-item border-bottom-grey-100" @click="copyMerchantID">
           <CopyIcon />
-          <span class="tertiary-2-text grey-900">Copy Merchant ID</span>
+          <span class="tertiary-2-text grey-900" v-if="copied">ID Copied!</span>
+          <span class="tertiary-2-text grey-900" v-else>Copy Merchant ID</span>
         </div>
 
         <div class="profile-menu-item" @click="$emit('exit')">
@@ -43,7 +44,7 @@ export default {
 
   props: {
     id: {
-      type: String,
+      type: [String, Number],
       default: "",
     },
   },
@@ -51,12 +52,22 @@ export default {
   data() {
     return {
       show_menu: false,
+      copied: false,
     };
   },
 
   methods: {
     toggleMenu() {
+      //   this.$bus.$emit("show-sidebar");
       this.show_menu = !this.show_menu;
+    },
+
+    async copyMerchantID() {
+      await navigator.clipboard.writeText(this.id);
+      this.copied = true;
+      setTimeout(() => {
+        this.copied = false;
+      }, 2000);
     },
   },
 };
@@ -71,7 +82,7 @@ export default {
   padding: toRem(8);
   border-radius: toRem(8);
   cursor: pointer;
-  z-index: 306000;
+  z-index: 1000;
 
   .user-icon-wrapper {
     @include draw-shape(40);
@@ -85,7 +96,7 @@ export default {
     position: absolute;
     left: calc(100% - 30px);
     cursor: pointer;
-    z-index: 306000;
+    z-index: 1000;
 
     .icon-ellipsis-h {
       position: absolute;
@@ -97,14 +108,13 @@ export default {
       filter: drop-shadow(1px -1px 4px rgba(168, 177, 175, 0.3))
         drop-shadow(-1px 1px 4px rgba(168, 177, 175, 0.3));
       position: absolute;
-      width: max-content;
       min-width: toRem(200);
       top: toRem(10);
       left: calc(100% + 15px);
       transform: translateY(-100%);
       border-radius: toRem(8);
       background: #ffffff;
-      z-index: 306000;
+      z-index: 1000;
 
       .profile-menu-item {
         @include flex-row-start-nowrap;
@@ -113,7 +123,7 @@ export default {
         cursor: pointer;
         background: #ffffff;
         transition: background ease-in-out 0.3s;
-        z-index: 306000;
+        z-index: 1000;
 
         &:hover {
           background: getColor("green-50");
