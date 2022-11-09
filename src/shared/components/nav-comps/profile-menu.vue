@@ -5,7 +5,7 @@
     </div>
 
     <div>
-      <div class="grey-900 primary-2-text mgb-4">Credtco limited</div>
+      <div class="grey-900 primary-2-text mgb-4">{{getUser.fullname}}</div>
       <div class="tertiary-3-text green-500">ID: {{id}}</div>
     </div>
 
