@@ -9,9 +9,10 @@
     <template slot="modal-cover-header">
       <div class="modal-cover-header">
         <div class="modal-cover-title text-center">Enter OTP code</div>
-        <div
-          class="tertiary-2-text text-center grey-600"
-        >Please enter the OTP code that was sent to your phone number for verification</div>
+        <div class="tertiary-2-text text-center grey-600">
+          Please enter the OTP code that was sent to
+          <b>{{input}}</b> for verification
+        </div>
       </div>
     </template>
 
@@ -108,6 +109,11 @@ export default {
     email: {
       type: Boolean,
       default: false,
+    },
+
+    input: {
+      type: String,
+      default: "",
     },
   },
 
@@ -245,29 +251,15 @@ export default {
     // ===================================
     handleUserOTPVerification() {
       let request_payload = {
-        account_id: this.user_details?.account_id,
+        account_id: this.getAccountId,
         otp_token: this.getOTPToken,
       };
 
       this.verifyUserOTP(request_payload)
         .then((response) => {
           if (response.code === 200) {
-            this.togglePageLoader();
-            setTimeout(() => this.togglePageLoader(), 1500);
-
-            setTimeout(
-              () =>
-                this.pushToast(
-                  "OTP was verified successfully, Login to account now",
-                  "success"
-                ),
-              2000
-            );
-
-            setTimeout(
-              () => this.$router.push({ name: "VesicashLogin" }),
-              4500
-            );
+            this.pushToast("OTP was verified successfully", "success");
+            this.$emit("closeTriggered");
           }
 
           // HANDLE NON 200 RESPONSE

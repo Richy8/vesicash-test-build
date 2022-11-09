@@ -31,16 +31,18 @@
       </button>
     </div>
 
-    <transition name="fade" v-if="show_add_user_modal">
-      <AddUserModal @closeTriggered="toggleAddUserModal" @saved="toggleSuccessModal" />
-    </transition>
+    <portal to="vesicash-modals">
+      <transition name="fade" v-if="show_add_user_modal">
+        <AddUserModal @closeTriggered="toggleAddUserModal" @saved="toggleSuccessModal" />
+      </transition>
 
-    <transition name="fade" v-if="show_success_modal">
-      <SuccessModal
-        @closeTriggered="toggleSuccessModal"
-        message="You have successfully added a user to your account"
-      />
-    </transition>
+      <transition name="fade" v-if="show_success_modal">
+        <SuccessModal
+          @closeTriggered="toggleSuccessModal"
+          message="You have successfully added a user to your account"
+        />
+      </transition>
+    </portal>
   </div>
 </template>
 

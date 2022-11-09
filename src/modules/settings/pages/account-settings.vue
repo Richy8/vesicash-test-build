@@ -28,27 +28,41 @@
       </template>
     </div>
 
-    <transition name="fade" v-if="show_new_naira_modal">
-      <AddNairaAccountModal
-        @closeTriggered="toggleNewNairaModal"
-        @saved="showSuccessModal('show_new_naira_modal',$event)"
-      />
-    </transition>
+    <portal to="vesicash-modals">
+      <transition name="fade" v-if="show_new_naira_modal">
+        <AddNairaAccountModal
+          @closeTriggered="toggleNewNairaModal"
+          @saved="showSuccessModal('show_new_naira_modal',$event)"
+        />
+      </transition>
 
-    <transition name="fade" v-if="show_new_dollar_modal">
-      <AddDollarAccountModal
-        @closeTriggered="toggleNewDollarModal"
-        @saved="showSuccessModal('show_new_dollar_modal',$event)"
-      />
-    </transition>
+      <transition name="fade" v-if="show_new_dollar_modal">
+        <AddDollarAccountModal
+          @closeTriggered="toggleNewDollarModal"
+          @saved="showSuccessModal('show_new_dollar_modal',$event)"
+        />
+      </transition>
 
-    <transition name="fade" v-if="show_naira_details_modal">
-      <AccountDetailsModal @closeTriggered="toggleNairaDetailsModal" :account="selected_account" />
-    </transition>
+      <transition name="fade" v-if="show_update_dollar_modal">
+        <UpdateDollarAccountModal
+          @closeTriggered="toggleUpdateDollarModal"
+          :savedDetails="selected_account"
+          @saved="showSuccessModal('show_update_dollar_modal',$event)"
+        />
+      </transition>
 
-    <transition name="fade" v-if="show_success_modal">
-      <SuccessModal @closeTriggered="toggleSuccessModal" :message="response_message" />
-    </transition>
+      <transition name="fade" v-if="show_naira_details_modal">
+        <AccountDetailsModal
+          @closeTriggered="toggleNairaDetailsModal"
+          :account="selected_account"
+          @edit="editDollarAccount"
+        />
+      </transition>
+
+      <transition name="fade" v-if="show_success_modal">
+        <SuccessModal @closeTriggered="toggleSuccessModal" :message="response_message" />
+      </transition>
+    </portal>
   </div>
 </template>
 
@@ -57,6 +71,7 @@ import { mapActions, mapGetters } from "vuex";
 import TabSwitcher from "@/shared/components/tab-switcher";
 import AddNairaAccountModal from "@/modules/settings/modals/add-naira-account-modal";
 import AddDollarAccountModal from "@/modules/settings/modals/add-dollar-account-modal";
+import UpdateDollarAccountModal from "@/modules/settings/modals/update-dollar-account-modal";
 import UserAccountCard from "@/shared/components/card-comps/user-account-card";
 import AccountDetailsModal from "@/modules/settings/modals/account-details-modal";
 import SuccessModal from "@/shared/modals/success-modal";
@@ -67,6 +82,7 @@ export default {
     TabSwitcher,
     AddNairaAccountModal,
     AddDollarAccountModal,
+    UpdateDollarAccountModal,
     UserAccountCard,
     AccountDetailsModal,
     SuccessModal,
@@ -113,6 +129,7 @@ export default {
       show_new_naira_modal: false,
       show_new_dollar_modal: false,
       show_naira_details_modal: false,
+      show_update_dollar_modal: false,
       loading_accounts: false,
 
       response_message: "",
@@ -130,6 +147,10 @@ export default {
       this.show_new_dollar_modal = !this.show_new_dollar_modal;
     },
 
+    toggleUpdateDollarModal() {
+      this.show_update_dollar_modal = !this.show_update_dollar_modal;
+    },
+
     toggleNewAccountModal() {
       if (this.account_type === "dollar") this.toggleNewDollarModal();
       else this.toggleNewNairaModal();
@@ -137,6 +158,11 @@ export default {
 
     toggleNairaDetailsModal() {
       this.show_naira_details_modal = !this.show_naira_details_modal;
+    },
+
+    editDollarAccount() {
+      this.show_naira_details_modal = false;
+      this.toggleUpdateDollarModal();
     },
 
     toggleSuccessModal() {

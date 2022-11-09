@@ -158,11 +158,15 @@
     <!-- MODALS -->
     <portal to="vesicash-modals">
       <transition name="fade" v-if="show_input_modal">
-        <VerifyInputModal @continue="initiateOTPRequest" @closeTriggered="toggleInputModal" />
+        <VerifyInputModal
+          @continue="initiateOTPRequest"
+          :input="form.phone_number"
+          @closeTriggered="toggleInputModal"
+        />
       </transition>
 
       <transition name="fade" v-if="show_otp_modal">
-        <VerifyOtpModal @closeTriggered="toggleOtpModal" />
+        <VerifyOtpModal @closeTriggered="toggleOtpModal" :input="form.phone_number" />
       </transition>
     </portal>
   </div>
@@ -185,6 +189,10 @@ export default {
     VerifyOtpModal,
   },
 
+  mounted() {
+    this.updateSavedProfile();
+  },
+
   data() {
     return {
       show_input_modal: false,
@@ -199,11 +207,11 @@ export default {
       },
 
       validity: {
-        business_name: "",
-        last_name: "",
-        first_name: "",
-        email: "",
-        phone_number: "",
+        business_name: true,
+        last_name: true,
+        first_name: true,
+        email: true,
+        phone_number: true,
       },
     };
   },
@@ -220,6 +228,30 @@ export default {
     initiateOTPRequest() {
       this.toggleInputModal();
       this.toggleOtpModal();
+    },
+
+    updateSavedProfile() {
+      const user = this.getUser;
+      const last_name = user?.fullname?.split(" ")[0];
+      const first_name = user?.fullname?.split(" ")[1];
+      const email = user.email;
+      const phone_number = user?.phone;
+
+      this.form = {
+        ...this.form,
+        last_name,
+        first_name,
+        email,
+        phone_number,
+      };
+
+      this.validity = {
+        ...this.validity,
+        last_name: !last_name,
+        first_name: !first_name,
+        email: !email,
+        phone_number: !phone_number,
+      };
     },
   },
 };

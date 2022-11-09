@@ -7,8 +7,8 @@
     <!-- MODAL COVER HEADER -->
     <template slot="modal-cover-header">
       <div class="modal-cover-header">
-        <div class="modal-cover-title">Add dollar account</div>
-        <div class="tertiary-2-text grey-600 wt-75">Add a new dollar account</div>
+        <div class="modal-cover-title">Update dollar account</div>
+        <div class="tertiary-2-text grey-600 wt-75">Update your dollar account</div>
       </div>
     </template>
 
@@ -23,6 +23,7 @@
             placeholder="Select country"
             :options="country_options"
             @optionSelected="country = $event"
+            :pre_select="country"
           />
         </div>
 
@@ -66,6 +67,7 @@
             placeholder="Select bank"
             :options="bank_name_options"
             @optionSelected="bank = $event"
+            :pre_select="bank"
           />
         </div>
 
@@ -138,8 +140,8 @@
           ref="save"
           class="btn btn-primary btn-md wt-100"
           :disabled="isDisabled"
-          @click="addNewDollarAccount"
-        >Add account</button>
+          @click="updateNewDollarAccount"
+        >Update account</button>
       </div>
     </template>
   </ModalCover>
@@ -188,6 +190,15 @@ export default {
           currency: "USD",
         },
       };
+    },
+  },
+
+  watch: {
+    savedDetails: {
+      handler(data) {
+        this.updateSavedDetails(data);
+      },
+      immediate: true,
     },
   },
 
@@ -242,33 +253,29 @@ export default {
         account_sort_code: details?.sort_code,
         account_bank_address: details?.bank_address,
       };
+
+      this.validity = {
+        account_last_name: !details?.account_name?.split(" ")[0],
+        account_first_name: !details?.account_name?.split(" ")[1],
+        account_number: !details?.account_no,
+        account_swift_code: !details?.swift_code,
+        account_sort_code: !details?.sort_code,
+        account_bank_address: !details?.bank_address,
+      };
+
+      this.bank = {
+        name: details?.bank_name,
+      };
+
+      this.country = { id: 1, name: "United State of America" };
     },
 
-    async addNewDollarAccount() {
-      this.handleClick("save", "Adding account...");
-      try {
-        const response = await this.addNewBank(this.getNewDollarAccountDetails);
-
-        if (response.code === 200) {
-          this.handleClick("save", "Updating bank list...");
-          await this.fetchAllBanks(this.getAccountId);
-          this.handleClick("save", "Add account", false);
-          this.$emit(
-            "saved",
-            "You have successfully added another bank account"
-          );
-        } else {
-          this.handleClick("save", "Add account", false);
-          this.pushToast(
-            response.message || "Failed to add new bank account",
-            "warning"
-          );
-        }
-      } catch (err) {
-        console.log("Error adding dollar account", err);
-        this.pushToast("Failed to add new bank account", "error");
-        this.handleClick("save", "Add account", false);
-      }
+    async updateNewDollarAccount() {
+      this.handleClick("save", "Updating account...");
+      setTimeout(() => {
+        this.handleClick("save", "Update account", false);
+        this.$emit("saved", "You have successfully updated your bank account");
+      }, 2000);
     },
   },
 };

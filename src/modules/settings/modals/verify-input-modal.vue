@@ -52,7 +52,12 @@
     <!-- MODAL COVER FOOTER -->
     <template slot="modal-cover-footer">
       <div class="modal-cover-footer">
-        <button class="btn btn-primary btn-md wt-100" @click="$emit('continue')">Continue</button>
+        <button
+          ref="continue"
+          class="btn btn-primary btn-md wt-100"
+          @click="requestOTP"
+          :disabled="isDisabled"
+        >Continue</button>
       </div>
     </template>
   </ModalCover>
@@ -61,6 +66,7 @@
 <script>
 import ModalCover from "@/shared/components/modal-cover";
 import BasicInput from "@/shared/components/form-comps/basic-input";
+import { mapActions } from "vuex";
 
 export default {
   name: "VerifyInputModal",
@@ -75,6 +81,34 @@ export default {
       type: Boolean,
       default: false,
     },
+
+    input: {
+      type: String,
+      default: "",
+    },
+  },
+
+  computed: {
+    isDisabled() {
+      return this.email
+        ? this.validity.email_address
+        : this.validity.phone_number;
+    },
+  },
+
+  watch: {
+    input: {
+      handler(data) {
+        if (this.email) {
+          this.form.email_address = data;
+          this.validity.email_address = !data;
+        } else {
+          this.form.phone_number = data;
+          this.validity.phone_number = !data;
+        }
+      },
+      immediate: true,
+    },
   },
 
   data() {
@@ -85,13 +119,37 @@ export default {
       },
 
       validity: {
-        email_address: "",
-        phone_number: "",
+        email_address: true,
+        phone_number: true,
       },
     };
   },
 
-  methods: {},
+  methods: {
+    ...mapActions({ sendUserOTP: "auth/sendUserOTP" }),
+
+    requestOTP() {
+      this.handleClick("continue");
+
+      let request_payload = { account_id: this.getAccountId };
+
+      this.sendUserOTP(request_payload)
+        .then((response) => {
+          this.handleClick("continue", "Continue");
+
+          if (response.code === 200)
+            // this.pushToast(
+            //   `An OTP code has been sent to ${this.input}`,
+            //   "success"
+            // );
+            this.$emit("continue");
+        })
+        .catch(() => {
+          this.handleClick("continue", "Continue");
+          this.pushToast("Unable to generate an OTP code", "error");
+        });
+    },
+  },
 };
 </script>
 

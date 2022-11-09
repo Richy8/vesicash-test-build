@@ -36,7 +36,12 @@
             Delete account
           </button>
 
-          <button ref="save" class="btn btn-primary btn-md wt-100" v-if="account.currency==='USD'">
+          <button
+            ref="save"
+            class="btn btn-primary btn-md wt-100"
+            v-if="account.currency==='USD'"
+            @click="$emit('edit')"
+          >
             <span class="icon icon-trash mgr-11"></span>
             Edit account
           </button>
