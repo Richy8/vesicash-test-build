@@ -119,7 +119,7 @@ export default {
         },
         {
           title: "Account email",
-          value: this.data.user_details.email,
+          value:  this.data?.user_details?.email || this.getUser.email,
         },
         {
           title: "Business id",
