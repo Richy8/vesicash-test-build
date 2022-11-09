@@ -30,9 +30,9 @@ export default {
       import(
         /* webpackChunkName: "shared-module" */ "@/shared/components/icon-comps/transaction-icon"
       ),
-    CardIcon: () =>
+    ExchangeIcon: () =>
       import(
-        /* webpackChunkName: "shared-module" */ "@/shared/components/icon-comps/card-icon"
+        /* webpackChunkName: "shared-module" */ "@/shared/components/icon-comps/exchange-icon"
       ),
     SettingsIcon: () =>
       import(

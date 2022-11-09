@@ -5,6 +5,12 @@ const navRoutes = [{
         slug: "dashboard",
     },
     {
+        title: "Exchange",
+        icon: "ExchangeIcon",
+        link: "",
+        slug: "exchange",
+    },
+    {
         title: "Escrow transactions",
         icon: "TransactionIcon",
         link: "/transactions",
@@ -15,12 +21,6 @@ const navRoutes = [{
         icon: "PaymentIcon",
         link: "/payments",
         slug: "payments",
-    },
-    {
-        title: "Foreign exchange",
-        icon: "CardIcon",
-        link: "",
-        slug: "fx-exchange",
     },
     // {
     //   title: "Settings",
