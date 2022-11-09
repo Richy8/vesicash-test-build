@@ -58,7 +58,6 @@ export default {
 
   methods: {
     toggleMenu() {
-      //   this.$bus.$emit("show-sidebar");
       this.show_menu = !this.show_menu;
     },
 
@@ -109,9 +108,9 @@ export default {
         drop-shadow(-1px 1px 4px rgba(168, 177, 175, 0.3));
       position: absolute;
       min-width: toRem(200);
-      top: toRem(10);
-      left: calc(100% + 15px);
-      transform: translateY(-100%);
+      top: toRem(-35);
+      left: calc(100% + 30px);
+      transform: translate(-100%, -100%);
       border-radius: toRem(8);
       background: #ffffff;
       z-index: 1000;
