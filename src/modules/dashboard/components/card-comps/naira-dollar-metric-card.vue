@@ -6,26 +6,40 @@
       <template v-for="(wallet, index) in wallet_balance">
         <div class="column" :key="index">
           <!-- TITLE TEXT -->
-          <div class="title-text tertiary-3-text teal-100 mgb-10">{{ wallet.title }}</div>
+          <div class="title-text tertiary-3-text teal-100 mgb-10">
+            {{ wallet.title }}
+          </div>
 
           <!-- LOADING AMOUNT VALUE -->
           <template v-if="loading_wallet">
-            <div class="loading-amount-value rounded-3 skeleton-loader mgb-5"></div>
+            <div
+              class="loading-amount-value rounded-3 skeleton-loader mgb-5"
+            ></div>
           </template>
 
           <template v-else>
             <!-- AMOUNT VALUE -->
             <div
               class="amount-value secondary-1-text mgb-4"
-              :class="[wallet.sign==='naira' && 'text-white', wallet.sign==='dollar' && 'green-400' ]"
+              :class="[
+                wallet.sign === 'naira' && 'text-white',
+                wallet.sign === 'dollar' && 'green-400',
+              ]"
             >
-              <span>{{$money.getSign(wallet.sign)}}{{ $money.addComma(wallet.value.split(".")[0])}}</span>
-              <span class="amount-zero">.{{wallet.value.split(".")[1]||"00"}}</span>
+              <span
+                >{{ $money.getSign(wallet.sign)
+                }}{{ $money.addComma(wallet.value.split(".")[0]) }}</span
+              >
+              <span class="amount-zero"
+                >.{{ wallet.value.split(".")[1] || "00" }}</span
+              >
             </div>
           </template>
 
           <!-- TITLE DESCRIPTION -->
-          <div class="title-description secondary-3-text text-white mgt-5">Wallet balance</div>
+          <div class="title-description secondary-3-text text-white mgt-5">
+            Wallet balance
+          </div>
         </div>
       </template>
 
@@ -35,7 +49,9 @@
 
         <!-- LOADING AMOUNT VALUE -->
         <template v-if="loading_wallet">
-          <div class="loading-amount-value rounded-3 skeleton-loader mgb-5"></div>
+          <div
+            class="loading-amount-value rounded-3 skeleton-loader mgb-5"
+          ></div>
         </template>
 
         <template v-else>
@@ -47,20 +63,27 @@
         </template>
 
         <!-- TITLE DESCRIPTION -->
-        <div class="title-description secondary-3-text text-white mgt-5">Wallet balance</div>
+        <div class="title-description secondary-3-text text-white mgt-5">
+          Wallet balance
+        </div>
       </div>
     </div>
 
     <!-- BOTTOM ROW -->
     <div class="bottom-row">
-      <button class="btn btn-tertiary btn-md" @click="toggleFundWalletSelectModal">
-        <div class="icon-plus mgr-6 teal-700 f-size-17"></div>Fund Wallet
+      <button
+        class="btn btn-tertiary btn-md"
+        @click="toggleFundWalletSelectModal"
+      >
+        <div class="icon-plus mgr-6 teal-700 f-size-17"></div>
+        Fund Wallet
       </button>
 
       <button class="btn btn-tertiary btn-md" @click="toggleWalletModal">
         <div class="mgr-8 position-relative" style="top: -1px">
           <MoneyIcon />
-        </div>Withdraw
+        </div>
+        Withdraw
       </button>
       <!-- closeWalletOpenAccount will be replaced with toggleWalletModal when dollar withdrawal is ready -->
     </div>
@@ -231,7 +254,7 @@ export default {
 
 <style lang="scss" scoped>
 .naira-dollar-metric-card {
-  padding: toRem(16) toRem(24);
+  padding: toRem(24) toRem(24) toRem(16);
   width: toRem(595);
 
   @include breakpoint-custom-down(530) {

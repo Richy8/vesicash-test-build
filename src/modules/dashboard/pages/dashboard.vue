@@ -5,14 +5,16 @@
       <div class="welcome-message h5-text grey-900">
         Welcome
         <span class="text-capitalize">
-          {{
-          getUser.fullname.split(" ")[0] || ""
-          }}
+          {{ getUser.fullname.split(" ")[0] || "" }}
         </span>
       </div>
 
       <!-- DISBURSE MONEY BUTTON -->
-      <router-link :to="{ name: 'TransactionSetup' }" class="btn btn-primary btn-md">Create Escrow</router-link>
+      <router-link
+        :to="{ name: 'TransactionSetup' }"
+        class="btn btn-primary btn-md"
+        >Create Escrow</router-link
+      >
     </div>
 
     <!-- METRICS SECTION -->
@@ -24,7 +26,10 @@
       />
 
       <!-- ESCROW SECTION -->
-      <EscrowMetricCard :escrow_balance="escrow_wallet" :loading_wallet="loading_wallet" />
+      <EscrowMetricCard
+        :escrow_balance="escrow_wallet"
+        :loading_wallet="loading_wallet"
+      />
 
       <!-- DISBURSE MONEY BUTTON -->
       <!-- <router-link :to="{ name: 'TransactionSetup' }" class="btn btn-primary btn-md">Create Escrow</router-link> -->
@@ -198,20 +203,13 @@ export default {
         font-size: toRem(18.5);
       }
     }
-  }
-
-  .metrics-section {
-    @include flex-row-start-wrap;
-    align-items: stretch;
-    gap: toRem(32);
 
     .btn {
-      padding: toRem(12) toRem(18);
-      font-size: toRem(14.75);
+      padding: toRem(10) toRem(19.5);
+      font-size: toRem(14.5);
 
       @include breakpoint-custom-down(1220) {
         @include get-btn-size("md");
-        padding: toRem(10) toRem(19.5);
         margin-top: toRem(16);
       }
 
@@ -221,6 +219,12 @@ export default {
         margin-top: toRem(16);
       }
     }
+  }
+
+  .metrics-section {
+    @include flex-row-start-wrap;
+    align-items: stretch;
+    gap: toRem(32);
   }
 
   .section-title {
