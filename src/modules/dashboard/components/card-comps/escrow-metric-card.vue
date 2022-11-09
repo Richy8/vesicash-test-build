@@ -42,7 +42,7 @@
             <!-- <span class="amount-zero">.00</span> -->
           </div>
 
-          <div class="balance-meta title-description grey-700 secondary-3-text">Escrow balance</div>
+          <div class="balance-meta title-description grey-700 secondary-3-text"></div>
         </div>
       </div>
     </div>
@@ -138,6 +138,10 @@ export default {
           border-bottom: toRem(1) solid getColor("grey-100");
           padding-bottom: toRem(16);
         }
+      }
+
+      .balance-meta {
+        min-height: toRem(17);
       }
     }
   }
