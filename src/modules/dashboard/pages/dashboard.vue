@@ -1,11 +1,18 @@
 <template>
   <div class="dashboard-view">
-    <!-- WELCOME MESSAGE -->
-    <div class="welcome-message mgb-20 h5-text grey-900">
-      Welcome
-      <span class="text-capitalize">{{
-        getUser.fullname.split(" ")[0] || ""
-      }}</span>
+    <div class="welcome-row">
+      <!-- WELCOME MESSAGE -->
+      <div class="welcome-message h5-text grey-900">
+        Welcome
+        <span class="text-capitalize">
+          {{
+          getUser.fullname.split(" ")[0] || ""
+          }}
+        </span>
+      </div>
+
+      <!-- DISBURSE MONEY BUTTON -->
+      <router-link :to="{ name: 'TransactionSetup' }" class="btn btn-primary btn-md">Create Escrow</router-link>
     </div>
 
     <!-- METRICS SECTION -->
@@ -17,17 +24,10 @@
       />
 
       <!-- ESCROW SECTION -->
-      <EscrowMetricCard
-        :escrow_balance="escrow_wallet"
-        :loading_wallet="loading_wallet"
-      />
+      <EscrowMetricCard :escrow_balance="escrow_wallet" :loading_wallet="loading_wallet" />
 
       <!-- DISBURSE MONEY BUTTON -->
-      <router-link
-        :to="{ name: 'TransactionSetup' }"
-        class="btn btn-primary btn-lg"
-        >Create Escrow</router-link
-      >
+      <!-- <router-link :to="{ name: 'TransactionSetup' }" class="btn btn-primary btn-md">Create Escrow</router-link> -->
     </div>
 
     <!-- TRANSACTION SECTION -->
@@ -173,22 +173,31 @@ export default {
 
 <style lang="scss" scoped>
 .dashboard-view {
-  .welcome-message {
+  .welcome-row {
+    @include flex-row-between-wrap;
+    gap: toRem(24);
+
+    margin-bottom: toRem(24);
+
     @include breakpoint-down(lg) {
       margin-bottom: toRem(16);
     }
 
-    @include breakpoint-down(sm) {
-      font-size: toRem(18.75);
-    }
+    .welcome-message {
+      @include breakpoint-down(sm) {
+        font-size: toRem(18.75);
+      }
 
-    @include breakpoint-down(xs) {
-      font-size: toRem(18.5);
+      @include breakpoint-down(xs) {
+        font-size: toRem(18.5);
+      }
     }
   }
 
   .metrics-section {
     @include flex-row-start-wrap;
+    align-items: stretch;
+    gap: toRem(32);
 
     .btn {
       padding: toRem(12) toRem(18);

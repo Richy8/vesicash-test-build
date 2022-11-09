@@ -1,25 +1,21 @@
 <template>
   <div class="sidebar teal-50-bg index-99">
     <!-- BRAND LOGO -->
-    <router-link
-      :to="{ name: 'VesicashDashboard' }"
-      class="brand-logo mgb-40 d-block"
-    >
+    <router-link :to="{ name: 'VesicashDashboard' }" class="brand-logo mgb-40 d-block">
       <VesicashBrandLogo />
     </router-link>
 
     <!-- SIDE NAV ITEMS -->
     <div class="sidebar-item-list index-99">
-      <SidebarItem
-        v-for="(nav, index) in sidebar_routes"
-        :key="index"
-        :nav="nav"
-      />
+      <SidebarItem v-for="(nav, index) in sidebar_routes" :key="index" :nav="nav" />
     </div>
 
     <!-- LOG OUT ACCOUNT SECTION -->
     <div class="wrapper position-absolute wt-100">
+      <ProfileMenu @exit="handleUserlogOut" id="545678390" />
+
       <div
+        v-if="0"
         class="log-out-section smooth-transition rounded-8 pointer w-100"
         @click="handleUserlogOut"
       >
@@ -38,6 +34,7 @@ import navRoutes from "@/shared/nav-routes";
 import VesicashBrandLogo from "@/shared/components/icon-comps/vesicash-brand-logo";
 import ExitIcon from "@/shared/components/icon-comps/exit-icon";
 import SidebarItem from "@/shared/components/nav-comps/sidebar-item";
+import ProfileMenu from "@/shared/components/nav-comps/profile-menu";
 
 export default {
   name: "Sidebar",
@@ -46,6 +43,7 @@ export default {
     VesicashBrandLogo,
     SidebarItem,
     ExitIcon,
+    ProfileMenu,
   },
 
   data() {
