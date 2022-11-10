@@ -152,13 +152,18 @@ export default {
     async initiateCardPayment() {
       this.togglePaymentModal();
       this.handleClick("pay", "Initiating card payment...");
+      this.togglePageLoader("Initiating card payment");
 
       try {
         const response = await this.startCardPayment(
           this.getCardPaymentDetails
         );
 
+        this.togglePageLoader("Initiating card payment");
+
         console.log("RESPONSE STARTING CARD PAYMENT", response);
+        if (response?.code === 200) location.href = response?.data?.link;
+        else this.pushToast("Failed to initiate card payment", "error");
 
         this.handleClick("pay", "Make Payment", false);
       } catch (err) {
