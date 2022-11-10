@@ -4,7 +4,6 @@ const navRoutes = [{
         link: "/dashboard",
         slug: "dashboard",
     },
-
     {
         title: "Escrow transactions",
         icon: "TransactionIcon",

@@ -104,6 +104,7 @@ export default {
         amount: this.getWithdrawalMeta.amount,
         currency: this.getWalletType === "naira" ? "NGN" : "USD",
         debit_currency: this.getWalletType === "naira" ? "NGN" : "USD",
+        gateway: 'monnify'
       };
     },
   },
