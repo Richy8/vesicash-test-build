@@ -4,17 +4,18 @@ const navRoutes = [{
         link: "/dashboard",
         slug: "dashboard",
     },
-    {
-        title: "Exchange",
-        icon: "ExchangeIcon",
-        link: "",
-        slug: "exchange",
-    },
+
     {
         title: "Escrow transactions",
         icon: "TransactionIcon",
         link: "/transactions",
         slug: "transactions",
+    },
+    {
+        title: "Foreign exchange",
+        icon: "ExchangeIcon",
+        link: "",
+        slug: "exchange",
     },
     {
         title: "Payments",
