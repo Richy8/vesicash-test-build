@@ -6,7 +6,11 @@
     <!-- EMPTY BUTTON -->
     <!-- emits event, for parent to listen to and take action -->
 
-    <button class="btn btn-primary btn-md mgt-20" @click="$emit('emptyAction')">{{ action_name}}</button>
+    <button
+      class="btn btn-primary btn-md mgt-20"
+      v-if="empty_action_name"
+      @click="$emit('emptyAction')"
+    >{{ empty_action_name}}</button>
   </div>
 </template>
 
@@ -20,9 +24,9 @@ export default {
       default: "",
     },
 
-    action_name: {
+    empty_action_name: {
       type: String,
-      default: "Create Escrow",
+      default: "",
     },
   },
 };
