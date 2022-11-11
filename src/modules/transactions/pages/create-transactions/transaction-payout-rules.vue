@@ -231,6 +231,20 @@ export default {
           break;
         }
 
+        // CHECK MILESTONE LENGTH FOR MILESTONE TRANSACTION
+        else if (
+          this.getTransactionMilestones.length < 2 &&
+          this.getTransactionType === "milestone"
+        ) {
+          this.logErrorMessage(
+            milestone.name,
+            index,
+            "should contain more than one (1) milestone",
+            true
+          );
+          break;
+        }
+
         // MOVE TO CONFIRM PAYOUT PAGE
         else {
           if (index + 1 === this.getTransactionMilestones.length) {

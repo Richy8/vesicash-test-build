@@ -74,7 +74,7 @@ export default {
       return {
         account_name: this.account_details?.account_name,
         account_no: this.account_details?.account_number,
-        bank_id: this.bank.id,
+        bank_id: this.bank.code,
         bank_name: this.bank.name,
         country: "NG",
         currency: "NGN",
@@ -127,7 +127,6 @@ export default {
 
     async fetchNigeriaBanks() {
       const response = await this.getAllBanks("Nigeria");
-      console.log(response.data);
 
       if (response.code === 200) {
         let bank_options = response.data;

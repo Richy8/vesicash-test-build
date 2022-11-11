@@ -14,7 +14,11 @@
       @emptyAction="initiateEscrowTransaction"
     >
       <template v-for="(data, index) in table_data">
-        <TransactionTableRow :key="index" table_name="transaction-tb" :data="data" />
+        <TransactionTableRow
+          :key="index"
+          table_name="transaction-tb"
+          :data="data"
+        />
       </template>
     </TableContainer>
   </div>

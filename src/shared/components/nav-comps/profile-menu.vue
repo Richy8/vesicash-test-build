@@ -5,15 +5,22 @@
     </div>
 
     <div>
-      <div class="grey-900 primary-2-text mgb-4">{{getUser.fullname}}</div>
-      <div class="tertiary-3-text green-500">ID: {{id}}</div>
+      <div class="grey-900 primary-2-text mgb-4">{{ getUser.fullname }}</div>
+      <div class="tertiary-3-text green-500">ID: {{ id }}</div>
     </div>
 
     <div class="menu-icon-wrapper">
       <span class="icon icon-ellipsis-h" @click="toggleMenu"></span>
 
-      <div class="profile-menu-block smooth-animation" v-if="show_menu" v-on-clickaway="toggleMenu">
-        <div class="profile-menu-item border-bottom-grey-100" @click="copyMerchantID">
+      <div
+        class="profile-menu-block smooth-transition"
+        v-if="show_menu"
+        v-on-clickaway="toggleMenu"
+      >
+        <div
+          class="profile-menu-item border-bottom-grey-100"
+          @click="copyMerchantID"
+        >
           <CopyIcon />
           <span class="tertiary-2-text grey-900" v-if="copied">ID Copied!</span>
           <span class="tertiary-2-text grey-900" v-else>Copy Merchant ID</span>
@@ -64,9 +71,7 @@ export default {
     async copyMerchantID() {
       await navigator.clipboard.writeText(this.id);
       this.copied = true;
-      setTimeout(() => {
-        this.copied = false;
-      }, 2000);
+      setTimeout(() => (this.copied = false), 2000);
     },
   },
 };
@@ -77,7 +82,7 @@ export default {
   position: relative;
   @include flex-row-start-nowrap;
   gap: 0 toRem(16);
-  background: #ffffff;
+  background: getColor("neutral-10");
   padding: toRem(8);
   border-radius: toRem(8);
   cursor: pointer;
@@ -104,24 +109,25 @@ export default {
     }
 
     .profile-menu-block {
-      filter: drop-shadow(1px -1px 4px rgba(168, 177, 175, 0.3))
-        drop-shadow(-1px 1px 4px rgba(168, 177, 175, 0.3));
+      filter: drop-shadow(1px -1px 3px rgba(184, 194, 192, 0.2))
+        drop-shadow(-1px 1px 3px rgba(184, 194, 192, 0.2));
       position: absolute;
       min-width: toRem(200);
       top: toRem(-35);
       left: calc(100% + 30px);
       transform: translate(-100%, -100%);
       border-radius: toRem(8);
-      background: #ffffff;
+      background: getColor("neutral-10");
       z-index: 1000;
+      animation: panel-slide-up 0.4s ease-in-out;
 
       .profile-menu-item {
         @include flex-row-start-nowrap;
-        padding: toRem(14) toRem(12);
+        background: getColor("neutral-10");
+        padding: toRem(12) toRem(12);
+        @include transition(0.3s);
         gap: 0 toRem(16);
         cursor: pointer;
-        background: #ffffff;
-        transition: background ease-in-out 0.3s;
         z-index: 1000;
 
         &:hover {

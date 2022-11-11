@@ -21,6 +21,7 @@ export default {
       milestone_amounts: state.transaction.milestone_amounts,
       escrow_fee: state.transaction.escrow_fee,
       total_fee: state.transaction.total_fee,
+      payment_amount: state.transaction.payment_amount,
     };
   },
 };

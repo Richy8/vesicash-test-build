@@ -99,11 +99,12 @@ export default {
       return {
         account_id: this.getAccountId,
         beneficiary_name: this.getWithdrawalMeta.name,
-        bank_account_number: this.getWithdrawalMeta.account_no,
-        bank_code: this.getWithdrawalMeta.bank_code,
+        bank_account_number: this.getWithdrawalMeta.account_no.toString(),
+        bank_code: this.getWithdrawalMeta.bank_code?.toString(),
         amount: this.getWithdrawalMeta.amount,
         currency: this.getWalletType === "naira" ? "NGN" : "USD",
         debit_currency: this.getWalletType === "naira" ? "NGN" : "USD",
+        gateway: 'monnify'
       };
     },
   },
