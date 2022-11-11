@@ -10,6 +10,7 @@ export default () => ({
 
     currency: CURRENCY_OPTIONS[0],
     milestone_amounts: [],
+    payment_amount: 0,
     escrow_fee: 0,
     total_fee: 0,
 

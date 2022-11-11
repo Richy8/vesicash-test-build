@@ -63,8 +63,9 @@ export default {
     let sum_total = amount_list.reduce((prev, next) => (prev += next), 0);
 
     state.transaction.milestone_amounts = amount_list;
-    state.transaction.escrow_fee = sum_total * 0.15;
+    state.transaction.escrow_fee = sum_total * 0.05;
     state.transaction.total_fee = sum_total + state.transaction.escrow_fee;
+    state.transaction.payment_amount = sum_total;
   },
 
   RESET_TRANSACTION: (state) => {
