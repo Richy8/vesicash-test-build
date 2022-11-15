@@ -1,28 +1,19 @@
 <template>
-  <AuthWrapper title_text="">
+  <AuthWrapper title_text>
     <!-- AUTH PAGE -->
     <div class="auth-page auth-page-success">
       <WarningIcon v-if="$route.query.currency === 'NGN'" />
       <SuccessIcon backgroundColor="#043B56" v-else />
 
       <!-- TITLE TEXT -->
-      <div class="title-text primary-1-text grey-900 mgb-8 text-center">
-        {{ getTitle }}
-      </div>
+      <div class="title-text primary-1-text grey-900 mgb-8 text-center">{{ getTitle }}</div>
 
       <!-- DESCRIPTION TEXT -->
-      <div class="description-text tertiary-2-text grey-600 text-center">
-        {{ getDescription }}
-      </div>
+      <div class="description-text tertiary-2-text grey-600 text-center">{{ getDescription }}</div>
 
       <!-- BUTTON AREA -->
       <div class="btn-area mgt-30 mgb-10 wt-100">
-        <button
-          @click="handleGoToDashboard"
-          class="btn btn-primary btn-md wt-100"
-        >
-          Go to Dashboard
-        </button>
+        <button @click="handleGoToDashboard" class="btn btn-primary btn-md wt-100">Go to Dashboard</button>
       </div>
     </div>
   </AuthWrapper>
@@ -72,7 +63,7 @@ export default {
       this.verifyPaymentAccount({
         reference: this.$route.query?.reference_id,
       }).then((response) => {
-        console.log(response);
+        console.log(response, "PAYMENT VERIFICATION RESPONSE");
       });
     },
 

@@ -4,9 +4,7 @@
 
     <div class="instruction-wrapper col-xl-8 mgb-12">
       <!-- INSTRUCTION TEXT -->
-      <div class="instruction-text grey-900 primary-2-text mgr-5">
-        Provide details for the Payout
-      </div>
+      <div class="instruction-text grey-900 primary-2-text mgr-5">Provide details for the Payout</div>
 
       <button class="btn btn-secondary btn-md">
         <div class="icon icon-plus"></div>
@@ -22,9 +20,7 @@
     </div>
 
     <!-- INSTRUCTION TEXT -->
-    <div class="instruction-text grey-900 primary-2-text mgb-12">
-      How May Any Dispute Be Handled?
-    </div>
+    <div class="instruction-text grey-900 primary-2-text mgb-12">How May Any Dispute Be Handled?</div>
 
     <div class="wrapper row mgb-32">
       <div class="col-xl-8">
@@ -59,9 +55,7 @@
 
     <!-- CTA ACTION ROW -->
     <div class="action-row mgt-14">
-      <button class="btn btn-primary btn-md" @click="nextProgressFlow">
-        Continue
-      </button>
+      <button class="btn btn-primary btn-md" @click="nextProgressFlow">Continue</button>
     </div>
   </div>
 </template>

@@ -1,7 +1,8 @@
 <template>
   <div class="confirm-fund-payout">
     <div class="disbursement-title h4-text grey-900 mgb-32">
-      Confirm details for:<br />
+      Confirm details for:
+      <br />
       {{ getTransactionSetup.name }}
     </div>
 
@@ -90,10 +91,7 @@
     <!-- SUMMATION TOTAL -->
     <div class="wrapper mgb-40">
       <div class="col-xl-9">
-        <SummationCard
-          :milestones="getTransactionMilestones"
-          :amount_data="getTransactionAmount"
-        />
+        <SummationCard :milestones="getTransactionMilestones" :amount_data="getTransactionAmount" />
       </div>
     </div>
 
@@ -103,9 +101,7 @@
         class="btn btn-primary btn-md"
         ref="createEscrowBtn"
         @click="createTransaction"
-      >
-        Create escrow
-      </button>
+      >Create escrow</button>
     </div>
   </div>
 </template>
@@ -201,7 +197,7 @@ export default {
         signup_payload.push({
           account_type: "individual",
           email_address: user.email_address,
-          country: user.country,
+          country: user.country.toLowerCase(),
           phone: user.phone_number,
         });
       });
@@ -397,6 +393,9 @@ export default {
                     type: this.$route.query.type,
                     party: this.$route.query.party,
                     transaction_id,
+                    name: this.$route.query.name,
+                    parties: this.$route.query.parties,
+                    fee: this.$route.query.fee,
                   },
                 });
               } else this.$router.push({ name: "VesicashDashboard" });

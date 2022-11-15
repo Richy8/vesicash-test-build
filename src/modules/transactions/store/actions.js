@@ -5,6 +5,7 @@ const routes = {
     create_transaction: "/transactions/create",
     send_transaction: "/transactions/send",
     start_card_payment: "/payment/pay",
+    confirm_payment_status: "/payment/pay/status",
 };
 
 export default {
@@ -38,5 +39,12 @@ export default {
     // ==================================
     async startCardPayment(_, payload) {
         return await $api.push(routes.start_card_payment, { payload });
+    },
+
+    // ==================================
+    // CONFIRM PAYMENT STATUS
+    // ==================================
+    async confirmPaymentStatus(_, payload) {
+        return await $api.push(routes.confirm_payment_status, { payload });
     },
 };

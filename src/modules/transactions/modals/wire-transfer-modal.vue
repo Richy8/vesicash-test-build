@@ -1,8 +1,5 @@
 <template>
-  <ModalCover
-    @closeModal="$emit('closeTriggered')"
-    :modal_style="{ size: 'modal-lg' }"
-  >
+  <ModalCover @closeModal="$emit('closeTriggered')" :modal_style="{ size: 'modal-lg' }">
     <!-- MODAL COVER HEADER -->
     <template slot="modal-cover-header">
       <div class="modal-cover-header">
@@ -20,11 +17,7 @@
       <div class="modal-cover-body">
         <!-- TOTAL DISPLAY CARDS -->
         <div class="mgb-24">
-          <SumTotalDisplayCard
-            total_text="Amount to pay"
-            total_value="$40,000"
-            use_custom_style
-          />
+          <SumTotalDisplayCard total_text="Amount to pay" total_value="$40,000" use_custom_style />
         </div>
 
         <div class="row">
@@ -32,10 +25,7 @@
           <div class="col-12 col-sm-6">
             <div class="form-group">
               <div class="form-label" for="emailAddress">Currency</div>
-              <DropSelectInput
-                placeholder="Select currency"
-                :options="currency_options"
-              />
+              <DropSelectInput placeholder="Select currency" :options="currency_options" />
             </div>
           </div>
 
@@ -45,12 +35,7 @@
               <div class="form-label" for="amount">Amount to pay</div>
 
               <div class="form-prefix form-prefix-right">
-                <input
-                  type="number"
-                  id="amount"
-                  class="form-control"
-                  placeholder="0.00"
-                />
+                <input type="number" id="amount" class="form-control" placeholder="0.00" />
 
                 <!-- PREFIX AREA -->
                 <div class="prefix-select-area value-area">
@@ -79,12 +64,7 @@
           <div class="col-12 col-sm-6">
             <div class="form-group">
               <div class="form-label" for="bankName">Bank name</div>
-              <input
-                type="text"
-                id="bankName"
-                class="form-control"
-                placeholder="Enter bank name"
-              />
+              <input type="text" id="bankName" class="form-control" placeholder="Enter bank name" />
             </div>
           </div>
         </div>
@@ -122,28 +102,21 @@
           <div class="col-12 col-sm-6">
             <div class="form-group">
               <div class="form-label" for="sortCode">Sort code</div>
-              <input
-                type="text"
-                id="sortCode"
-                class="form-control"
-                placeholder="Enter sort code"
-              />
+              <input type="text" id="sortCode" class="form-control" placeholder="Enter sort code" />
             </div>
           </div>
         </div>
 
         <!-- TITLE TEXT -->
-        <div class="title-text grey-900 primary-1-text mgb-16">
-          Additonal details for foreign account (optional)
-        </div>
+        <div
+          class="title-text grey-900 primary-1-text mgb-16"
+        >Additonal details for foreign account (optional)</div>
 
         <div class="row">
           <!-- CORRESPONDING BANK -->
           <div class="col-12 col-sm-6">
             <div class="form-group">
-              <div class="form-label" for="correspondingBank">
-                Corresponding bank
-              </div>
+              <div class="form-label" for="correspondingBank">Corresponding bank</div>
               <input
                 type="text"
                 id="correspondingBank"
@@ -157,12 +130,7 @@
           <div class="col-12 col-sm-6">
             <div class="form-group">
               <div class="form-label" for="swiftCode">Swift code</div>
-              <input
-                type="text"
-                id="swiftCode"
-                class="form-control"
-                placeholder="Enter swift code"
-              />
+              <input type="text" id="swiftCode" class="form-control" placeholder="Enter swift code" />
             </div>
           </div>
         </div>
@@ -198,10 +166,8 @@
         <div class="row">
           <div class="form-group">
             <label for="paymentMade" class="checkbox-wrapper pointer">
-              <input type="checkbox" name="" id="paymentMade" />
-              <div class="text grey-900 tertiary-2-text mgl-10">
-                I have made this payment
-              </div>
+              <input type="checkbox" name id="paymentMade" />
+              <div class="text grey-900 tertiary-2-text mgl-10">I have made this payment</div>
             </label>
           </div>
         </div>
@@ -237,6 +203,11 @@ export default {
     type: {
       type: String,
       default: "single",
+    },
+
+    paymentDetails: {
+      type: Object,
+      default: () => ({}),
     },
   },
 

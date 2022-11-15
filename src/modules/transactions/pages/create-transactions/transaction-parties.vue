@@ -3,9 +3,7 @@
     <div class="disbursement-title h4-text grey-900 mgb-32">Invite Parties</div>
 
     <!-- INSTRUCTION TEXT -->
-    <div class="instruction-text grey-900 primary-2-text mgb-12">
-      {{ showInstructionMessage }}
-    </div>
+    <div class="instruction-text grey-900 primary-2-text mgb-12">{{ showInstructionMessage }}</div>
 
     <!-- FUND USERS TABLE -->
     <div class="wrapper mgb-24">
@@ -24,9 +22,7 @@
 
     <!-- CTA ACTION ROW -->
     <div class="action-row mgt-14">
-      <button class="btn btn-primary btn-md" @click="nextProgressFlow">
-        Continue
-      </button>
+      <button class="btn btn-primary btn-md" @click="nextProgressFlow">Continue</button>
     </div>
   </div>
 </template>
@@ -79,6 +75,13 @@ export default {
     getTransactionParty() {
       return this.$route.query.party ? this.$route.query.party : "single";
     },
+
+    getInvitedParty() {
+      const parties = this.getTransactionBeneficiaries.filter(
+        (party) => party.account_id !== this.getAccountId
+      );
+      return parties.length > 1 ? "all" : parties[0].email_address;
+    },
   },
 
   data() {
@@ -106,6 +109,8 @@ export default {
           query: {
             type: this.$route.query.type,
             party: this.$route.query.party,
+            name: this.$route.query.name,
+            parties: this.getInvitedParty,
             pay:
               this.getTransactionBeneficiaries[0].role?.name === "Buyer"
                 ? true
