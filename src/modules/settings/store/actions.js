@@ -3,6 +3,8 @@ import $api from "@/services/service-api";
 const routes = {
     user_banks: "/admin/user/fetch/bank/",
     update_user_banks: "/admin/user/update/bank",
+
+    update_user_password: "/auth/user/security/update_password",
 };
 
 export default {
@@ -26,5 +28,9 @@ export default {
 
     async addNewBank(_, payload) {
         return await $api.push(routes.update_user_banks, { payload });
+    },
+
+    async updateUserPassword(_, payload) {
+        return await $api.push(routes.update_user_password, { payload });
     },
 };

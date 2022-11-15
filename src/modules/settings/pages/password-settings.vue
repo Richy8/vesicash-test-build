@@ -4,20 +4,19 @@
     <div class="page-title primary-1-text grey-900 mgb-4">Password</div>
 
     <!-- PAGE META -->
-    <div class="page-meta tertiary-2-text grey-600 mgb-24">
-      Change your password here
-    </div>
+    <div class="page-meta tertiary-2-text grey-600 mgb-24">Change your password here</div>
 
     <!-- FORM AREA -->
     <div class="settings-form-area">
       <!-- CURRENT PASSWORD -->
       <div class="page-input-block row">
         <div class="col-12 col-sm-4">
-          <label class="form-label"> Current Password </label>
+          <label class="form-label">Current Password</label>
         </div>
 
         <div class="col-12 col-sm-8">
           <BasicInput
+            label_id="current-password"
             input_type="password"
             is_required
             placeholder="Current password"
@@ -35,11 +34,12 @@
       <!-- NEW PASSWORD -->
       <div class="page-input-block row">
         <div class="col-12 col-sm-4">
-          <label class="form-label"> New Password </label>
+          <label class="form-label">New Password</label>
         </div>
 
         <div class="col-12 col-sm-8">
           <BasicInput
+            label_id="new-password"
             input_type="password"
             is_required
             placeholder="New password"
@@ -57,11 +57,12 @@
       <!-- RETYPE PASSWORD -->
       <div class="page-input-block row">
         <div class="col-12 col-sm-4">
-          <label class="form-label"> Retype Password </label>
+          <label class="form-label">Retype Password</label>
         </div>
 
         <div class="col-12 col-sm-8">
           <BasicInput
+            label_id="confirm-password"
             input_type="password"
             is_required
             placeholder="Retype new password"
@@ -73,6 +74,7 @@
               message: 'Password should contain at least 4 characters',
             }"
           />
+          <div>Password should match</div>
         </div>
       </div>
 
@@ -81,7 +83,7 @@
         <div class="col-12 col-sm-4"></div>
 
         <div class="col-12 col-sm-8">
-          <button class="btn btn-primary btn-md">Update</button>
+          <button class="btn btn-primary btn-md" :disabled="isDisabled">Update</button>
         </div>
       </div>
     </div>
@@ -89,6 +91,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import BasicInput from "@/shared/components/form-comps/basic-input";
 
 export default {
@@ -96,6 +99,28 @@ export default {
 
   components: {
     BasicInput,
+  },
+
+  computed: {
+    isFormInValid() {
+      return Object.values(this.validity).some((validity) => validity);
+    },
+
+    doesPasswordMatch() {
+      return this.form.new_password === this.form.confirm_password;
+    },
+
+    isDisabled() {
+      return this.isFormInValid || !this.doesPasswordMatch;
+    },
+
+    passwordUpdate() {
+      return {
+        account_id: this.getAccountId,
+        new_password: this.form.new_password,
+        current_password: this.form.current_password,
+      };
+    },
   },
 
   data() {
@@ -107,11 +132,20 @@ export default {
       },
 
       validity: {
-        current_password: "",
-        new_password: "",
-        confirm_password: "",
+        current_password: true,
+        new_password: true,
+        confirm_password: true,
       },
     };
+  },
+
+  methods: {
+    ...mapActions({ updateUserPassword: "settings/updateUserPassword" }),
+
+    async updatePassword() {
+      try {
+      } catch (err) {}
+    },
   },
 };
 </script>
