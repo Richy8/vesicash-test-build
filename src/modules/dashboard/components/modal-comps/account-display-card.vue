@@ -13,10 +13,12 @@
       <!-- BOTTOM -->
       <div class="bottom grey-600 tertiary-3-text">
         <div class="item">{{ card_detail.account_no }}</div>
-        <div class="dot"></div>
+
+        <div class="dot" v-if="card_detail.bank_name"></div>
         <div class="item">{{ card_detail.bank_name }}</div>
-        <div class="dot"></div>
-        <div class="item">{{ card_detail.sort_code }}</div>
+
+        <div class="dot" v-if="card_detail.bank_id"></div>
+        <div class="item">{{ card_detail.bank_id }}</div>
       </div>
     </div>
 
@@ -52,6 +54,14 @@ export default {
         sort_code: "2020300440",
         selected: false,
       }),
+    },
+  },
+
+  computed: {
+    getBankId() {
+      return this.card_detail.bank_id.toString().length < 3
+        ? `0${this.card_detail.bank_id}`
+        : this.card_detail.bank_id;
     },
   },
 };

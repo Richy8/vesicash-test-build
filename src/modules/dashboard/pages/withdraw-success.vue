@@ -9,7 +9,7 @@
 
       <!-- DESCRIPTION TEXT -->
       <div class="description-text tertiary-2-text grey-600 text-center">
-        Your withdrawal of {{$route.query? $route.query.amount:'N0.00'}} has been sent to your bank account, Please
+        Your withdrawal of {{$route.query ? $route.query.amount :'N0.00'}} has been sent to your bank account, Please
         check your bank account for details
       </div>
 

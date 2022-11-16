@@ -1,9 +1,16 @@
 <template>
   <div class="table-empty-state">
     <!-- MESSAGE TEXT -->
-    <div class="message-text grey-600 tertiary-2-text text-center">
-      {{ empty_message }}
-    </div>
+    <div class="message-text grey-600 tertiary-2-text text-center">{{ empty_message }}</div>
+
+    <!-- EMPTY BUTTON -->
+    <!-- emits event, for parent to listen to and take action -->
+
+    <button
+      class="btn btn-primary btn-md mgt-20"
+      v-if="empty_action_name"
+      @click="$emit('emptyAction')"
+    >{{ empty_action_name}}</button>
   </div>
 </template>
 
@@ -13,6 +20,11 @@ export default {
 
   props: {
     empty_message: {
+      type: String,
+      default: "",
+    },
+
+    empty_action_name: {
       type: String,
       default: "",
     },

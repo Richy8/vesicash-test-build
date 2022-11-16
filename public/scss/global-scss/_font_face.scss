@@ -1,0 +1,64 @@
+// ===========================
+// FONT FAMILY TYPE
+// ===========================
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+@font-face {
+  font-family: "Inter";
+  src: local(Inter);
+}
+
+@font-face {
+  font-family: 'Roobert-Regular';
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/Roobert-Regular.otf");  
+}
+
+@font-face {
+    font-family: 'Roobert-Medium';
+    font-weight: 500;
+    font-display: swap;
+    src: url("../fonts/Roobert-Medium.otf");  
+}
+
+@font-face {
+    font-family: 'Roobert-SemiBold';
+    font-weight: 600;
+    font-display: swap;
+    src: url("../fonts/Roobert-SemiBold.otf");  
+}
+
+@font-face {
+    font-family: 'Roobert-Bold';
+    font-weight: 700;
+    font-display: swap;
+    src: url("../fonts/Roobert-Bold.otf");  
+}
+
+$body_font: "Inter", sans-serif;
+
+// ===================================
+// SET FONT ON APPLICATION BODY
+// ===================================
+body {
+    font-family: $body_font;
+    font-display: swap;
+}
+
+.roobert-400 {
+    font-family: 'Roobert-Regular', sans-serif;
+}
+
+.roobert-500 {
+    font-family: 'Roobert-Medium', sans-serif;
+}
+
+.roobert-600 {
+    font-family: 'Roobert-SemiBold', sans-serif;
+}
+  
+.roobert-700 {
+    font-family: 'Roobert-Bold', sans-serif;
+}
+  

@@ -40,6 +40,6 @@ export default {
 
   AUTH_LOGOUT: () => {
     localStorage.clear();
-    location.href = "/";
+    location.href = "/login";
   },
 };

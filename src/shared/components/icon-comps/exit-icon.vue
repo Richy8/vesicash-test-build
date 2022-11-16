@@ -1,5 +1,34 @@
 <template>
   <svg
+    v-if="profileMenu"
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+  >
+    <path
+      d="M17 7.5V7C17 5.89543 16.1046 5 15 5H11C9.89543 5 9 5.89543 9 7V17C9 18.1046 9.89543 19 11 19H15C16.1046 19 17 18.1046 17 17V16.5"
+      stroke="#D45D7F"
+      stroke-width="1.5"
+      stroke-linecap="round"
+    />
+    <path
+      d="M16 12H20H21M21 12L19.5 10.5M21 12L19.5 13.5"
+      stroke="#A3284C"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M3 5.63961C3 4.68625 3.67292 3.86542 4.60777 3.67845L10.6078 2.47845C11.8453 2.23093 13 3.17752 13 4.43961V19.5604C13 20.8225 11.8454 21.7691 10.6078 21.5216L4.60777 20.3216C3.67292 20.1346 3 19.3138 3 18.3604V5.63961Z"
+      fill="#A3284C"
+    />
+    <circle cx="9.5" cy="12" r="1.5" fill="white" />
+  </svg>
+
+  <svg
+    v-else
     width="32"
     height="32"
     viewBox="0 0 32 32"
@@ -30,6 +59,13 @@
 <script>
 export default {
   name: "ExitIcon",
+
+  props: {
+    profileMenu: {
+      type: Boolean,
+      default: false,
+    },
+  },
 };
 </script>
 

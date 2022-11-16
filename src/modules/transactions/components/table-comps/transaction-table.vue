@@ -6,13 +6,19 @@
       :table_data="table_data"
       :table_header="table_header"
       :is_loading="table_loading"
-      :empty_message="empty_message"
+      :empty_message="getEmptyMessage"
+      :empty_action_name="getEmptyActionName"
       :show_paging="showPagination"
       :pagination="pagination"
       @goToPage="getUserTransactions($event)"
+      @emptyAction="initiateEscrowTransaction"
     >
       <template v-for="(data, index) in table_data">
-        <TransactionTableRow :key="index" table_name="transaction-tb" :data="data" />
+        <TransactionTableRow
+          :key="index"
+          table_name="transaction-tb"
+          :data="data"
+        />
       </template>
     </TableContainer>
   </div>
@@ -44,6 +50,16 @@ export default {
     showPagination() {
       return this.$route?.name === "AllTransactions" ? true : false;
     },
+
+    getEmptyMessage() {
+      return this.$route?.name === "AllTransactions"
+        ? "You have not created any transactions yet. Click the button below to get started"
+        : "You have not created any transactions yet. Click the 'create escrow' button to get started";
+    },
+
+    getEmptyActionName() {
+      return this.$route?.name === "AllTransactions" ? "Create escrow" : "";
+    },
   },
 
   data() {
@@ -70,7 +86,7 @@ export default {
         total: 50,
       },
       empty_message:
-        "You have not created any Transactions yet. Click the 'Create Transaction' Button to get started",
+        "You have not created any transactions yet. Click the button below to get started",
     };
   },
 
@@ -82,6 +98,10 @@ export default {
     ...mapActions({
       fetchTransactionsByUser: "transactions/fetchTransactionsByUser",
     }),
+
+    initiateEscrowTransaction() {
+      this.$router.push({ name: "TransactionSetup" });
+    },
 
     // ====================================
     // FETCH ALL USER TRANSACTIONS

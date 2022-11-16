@@ -49,26 +49,30 @@
 
         <template v-if="!initiate_new_account">
           <!--ACCOUNT DISPLAY DETAILS -->
-          <div class="form-group mgb-20">
-            <div class="form-label">Select bank details</div>
+          <div class="form-group" :class="accounts.length ? 'mgb-20' : 'mgb-5'">
+            <div class="form-label" v-if="accounts.length">
+              Select bank details
+            </div>
             <div
               class="skeleton-data skeleton-loader rounded-2"
               v-if="loading_banks"
             ></div>
 
             <template v-else>
-              <AccountDisplayCard
-                v-for="(account, index) in getWithdrawalAccounts"
-                :key="index"
-                :index="index"
-                :card_detail="account"
-                @selectAccount="toggleSelection(account.index)"
-              />
+              <div class="account-holder-section">
+                <AccountDisplayCard
+                  v-for="(account, index) in getWithdrawalAccounts"
+                  :key="index"
+                  :index="index"
+                  :card_detail="account"
+                  @selectAccount="toggleSelection(account.index)"
+                />
+              </div>
             </template>
           </div>
 
           <!-- RADIO SELECT -->
-          <div class>
+          <div>
             <RadioSelectCard
               label_id="account1"
               label_text="Add new bank details"
@@ -189,9 +193,9 @@ export default {
           ? this.getNairaBalance
           : this.getDollarBalance;
 
-      const sign = this.getWalletType === "naira" ? "₦" : "$";
-
-      return `${sign}${this.$money.addComma(balance)}`;
+      return `${this.$money.getSign(this.getWalletType)}${this.$money.addComma(
+        balance
+      )}`;
     },
 
     getWithdrawalAccounts() {
@@ -203,6 +207,7 @@ export default {
     getSelectedAccount() {
       return this.accounts.find((account) => account.selected);
     },
+
     getNewAccount() {
       if (!this.initiate_new_account) return this.getSelectedAccount;
       return this.getWalletType === "naira"
@@ -220,18 +225,11 @@ export default {
       return this.getNewAccount?.account_name?.trim().split(/\s+/)[0];
     },
 
-    getFee() {
-      const amount = Number(this.form.amount);
-      if (amount > 1000000) return 2000;
-      if (amount > 500000) return 1000;
-      return 500;
-    },
-
     nairaWithdrawalDetails() {
       return {
-        amount: this.form.amount,
-        fee: this.getFee,
-        total: Number(Number(this.form.amount) + this.getFee),
+        amount: Number(Number(this.form.amount)),
+        fee: this.charge_fee,
+        total: Number(this.form.amount),
         country: "Nigeria",
         phone: this.phone,
         first_name: this.getFirstName,
@@ -245,9 +243,9 @@ export default {
 
     dollarWithdrawalDetails() {
       return {
-        amount: this.form.amount,
-        fee: this.getFee,
-        total: Number(Number(this.form.amount) + this.getFee),
+        amount: Number(Number(this.form.amount)),
+        fee: this.charge_fee,
+        total: Number(this.form.amount),
         country: "United States",
         phone: this.phone,
         first_name: this.getFirstName,
@@ -298,6 +296,8 @@ export default {
     new_dollar_account: null,
     phone: "",
     amount: "",
+    charge_fee: 50,
+
     form: {
       amount: "",
     },
@@ -328,22 +328,23 @@ export default {
 
     async fetchUserBanks() {
       this.loading_banks = true;
+
       try {
         const response = await this.fetchBankDetails(this.getAccountId);
         this.loading_banks = false;
 
-        response.code === 200
-          ? (this.accounts = response.data.map((account, index) => ({
-              ...account,
-              index,
-              selected: false,
-            })))
-          : this.pushToast(
-              response.message
-                ? `${response.message}. Add new bank to continue`
-                : "Failed to load bank details. Add new bank to continue",
-              "warning"
-            );
+        this.accounts =
+          response.code === 200
+            ? response.data.map((account, index) => ({
+                ...account,
+                bank_id:
+                  account.bank_id.toString().length < 3
+                    ? `0${account.bank_id}`
+                    : account.bank_id,
+                index,
+                selected: false,
+              }))
+            : [];
       } catch {
         this.loading_banks = false;
         this.pushToast("Failed to load bank details", "error");
@@ -367,7 +368,6 @@ export default {
 
       if (this.initiate_new_account) {
         this.handleClick("continue", "Adding new account");
-
         const response = await this.addNewBank({
           account_id: this.getAccountId,
           updates:
@@ -375,7 +375,6 @@ export default {
               ? this.new_naira_account
               : this.new_dollar_account,
         });
-
         this.handleClick("continue", "Continue", false);
         if (response.code === 200) {
           this.setWithrawalMeta(withdrawalMeta);
@@ -394,7 +393,26 @@ export default {
 .skeleton-data {
   max-height: 60vh;
   overflow-y: auto;
-  height: toRem(35);
+  height: toRem(20);
   width: 100%;
+}
+
+.account-holder-section {
+  overflow: auto;
+  height: auto;
+  max-height: 27vh;
+
+  &::-webkit-scrollbar {
+    width: toRem(3.5);
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: toRem(5);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: toRem(5);
+    background: getColor("green-100");
+  }
 }
 </style>

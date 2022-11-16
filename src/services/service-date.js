@@ -525,9 +525,9 @@ class serviceDate {
 
   // GET DATE TIME IN MERIDIAN FORMAT
   getMeridian() {
-    let get_hour = this.datetime_zone.getHours();
+    let get_hour = this.datetime_zone.getHours() -1;
 
-    if (get_hour < 12) return "am";
+    if (get_hour< 12) return "am";
     else if (get_hour >= 13) return "pm";
     else return "noon";
   }

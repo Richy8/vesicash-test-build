@@ -8,9 +8,7 @@
       <component :is="nav.icon" />
 
       <!-- NAV TEXT -->
-      <div class="nav-text secondary-2-text grey-600 smooth-transition">
-        {{ nav.title }}
-      </div>
+      <div class="nav-text secondary-2-text grey-600 smooth-transition">{{ nav.title }}</div>
     </div>
   </router-link>
 </template>
@@ -31,6 +29,10 @@ export default {
     TransactionIcon: () =>
       import(
         /* webpackChunkName: "shared-module" */ "@/shared/components/icon-comps/transaction-icon"
+      ),
+    ExchangeIcon: () =>
+      import(
+        /* webpackChunkName: "shared-module" */ "@/shared/components/icon-comps/exchange-icon"
       ),
     SettingsIcon: () =>
       import(

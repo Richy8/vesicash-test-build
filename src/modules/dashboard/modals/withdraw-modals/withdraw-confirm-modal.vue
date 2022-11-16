@@ -18,68 +18,41 @@
     <!-- MODAL COVER BODY -->
     <template slot="modal-cover-body">
       <div class="modal-cover-body mgb-24">
-        <ModalListItem
-          title="Amount to withdraw"
-          :value="`${getWalletType == 'naira' ? 'N' : '$'}${
-            getWithdrawalMeta.amount
+         <ModalListItem
+          title="Total Amount"
+          :value="`${$money.getSign(getWalletType)}${
+            $money.addComma(getWithdrawalMeta.total)
           }`"
         />
         <ModalListItem
           title="Withdrawal fee"
-          :value="`${getWalletType == 'naira' ? 'N' : '$'}${
-            getWithdrawalMeta.fee
+          :value="`${$money.getSign(getWalletType)}${
+            $money.addComma(getWithdrawalMeta.fee)
           }`"
         />
-        <ModalListItem
-          title="Total"
-          :value="`${getWalletType == 'naira' ? 'N' : '$'}${
-            getWithdrawalMeta.total
+         <ModalListItem
+          title="Amount to receive"
+          :value="`${$money.getSign(getWalletType)}${
+            $money.addComma(getWithdrawalMeta.amount - getWithdrawalMeta.fee)
           }`"
         />
 
         <template v-if="getWalletType === 'naira'">
-          <ModalListItem
-            title="Bank name"
-            :value="getWithdrawalMeta.bank_name"
-          />
-          <ModalListItem
-            title="Account number"
-            :value="getWithdrawalMeta.account_no"
-          />
+          <ModalListItem title="Bank name" :value="getWithdrawalMeta.bank_name" />
+          <ModalListItem title="Account number" :value="getWithdrawalMeta.account_no" />
           <ModalListItem title="Account name" :value="getWithdrawalMeta.name" />
         </template>
 
         <template v-if="getWalletType === 'dollar'">
           <ModalListItem title="Country" :value="getWithdrawalMeta.country" />
           <!-- <ModalListItem title="Phone number" :value="getWithdrawalMeta.phone" /> -->
-          <ModalListItem
-            title="First name"
-            :value="getWithdrawalMeta.first_name"
-          />
-          <ModalListItem
-            title="Last name"
-            :value="getWithdrawalMeta.last_name"
-          />
-          <ModalListItem
-            title="Bank name"
-            :value="getWithdrawalMeta.bank_name"
-          />
-          <ModalListItem
-            title="Iban/Account no."
-            :value="getWithdrawalMeta.iban"
-          />
-          <ModalListItem
-            title="Swift code"
-            :value="getWithdrawalMeta.swift_code"
-          />
-          <ModalListItem
-            title="Sort code"
-            :value="getWithdrawalMeta.sort_code"
-          />
-          <ModalListItem
-            title="Bank Address"
-            :value="getWithdrawalMeta.bank_address"
-          />
+          <ModalListItem title="First name" :value="getWithdrawalMeta.first_name" />
+          <ModalListItem title="Last name" :value="getWithdrawalMeta.last_name" />
+          <ModalListItem title="Bank name" :value="getWithdrawalMeta.bank_name" />
+          <ModalListItem title="Iban/Account no." :value="getWithdrawalMeta.iban" />
+          <ModalListItem title="Swift code" :value="getWithdrawalMeta.swift_code" />
+          <ModalListItem title="Sort code" :value="getWithdrawalMeta.sort_code" />
+          <ModalListItem title="Bank Address" :value="getWithdrawalMeta.bank_address" />
         </template>
       </div>
     </template>
@@ -91,9 +64,7 @@
           class="btn btn-primary btn-md wt-100"
           ref="continue"
           @click="makeWithdrawal"
-        >
-          Continue
-        </button>
+        >Continue</button>
       </div>
     </template>
   </ModalCover>
@@ -128,11 +99,12 @@ export default {
       return {
         account_id: this.getAccountId,
         beneficiary_name: this.getWithdrawalMeta.name,
-        bank_account_number: this.getWithdrawalMeta.account_no,
-        bank_code: this.getWithdrawalMeta.bank_code,
-        amount: this.getWithdrawalMeta.total,
+        bank_account_number: this.getWithdrawalMeta.account_no.toString(),
+        bank_code: this.getWithdrawalMeta.bank_code?.toString(),
+        amount: this.getWithdrawalMeta.amount,
         currency: this.getWalletType === "naira" ? "NGN" : "USD",
         debit_currency: this.getWalletType === "naira" ? "NGN" : "USD",
+        gateway: 'monnify'
       };
     },
   },
@@ -144,8 +116,8 @@ export default {
 
     async makeWithdrawal() {
       try {
-        const amount = `${this.getWalletType == "naira" ? "N" : "$"}${
-          this.getWithdrawalMeta.amount
+        const amount = `${this.$money.getSign(this.getWalletType)}${
+          this.$money.addComma(this.getWithdrawalMeta.amount - this.getWithdrawalMeta.fee)
         }`;
 
         this.handleClick("continue");
@@ -156,17 +128,17 @@ export default {
 
         response.code == 200
           ? this.$router.push({
-              name: "SuccessfulWithdrawal",
+            name: "SuccessfulWithdrawal",
               query: { amount },
             })
           : this.pushToast(
-              response.message || "Withdrawal failed. Pleaase try again",
+            response.message || "Withdrawal failed. Please try again",
               "warning"
             );
       } catch (error) {
+        console.log(error);
         this.handleClick("continue", "Continue", false);
-
-        this.pushToast("Withdrawal failed. Pleaase try again", "error");
+        this.pushToast("Withdrawal failed. Please try again", "error");
       }
     },
   },

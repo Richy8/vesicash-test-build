@@ -6,25 +6,27 @@
       {{ data.payment_id }}
     </td>
 
-    <td class="body-data" :class="`${table_name}-3`">{{ data.account_id }}</td>
+    <td class="body-data" :class="`${table_name}-3`">
+      {{ getUserEmail }}
+    </td>
+
+    <!-- <td class="body-data" :class="`${table_name}-4`">
+      {{ data.currency === "USD" ? "Dollar" : "Naira" }}
+    </td> -->
 
     <td class="body-data" :class="`${table_name}-4`">
-      {{ data.currency === "USD" ? "Dollar" : "Naira" }}
+      {{ $money.getSign(data.currency)
+      }}{{ $money.addComma(data.total_amount) }}
     </td>
 
     <td class="body-data" :class="`${table_name}-5`">
-      <span v-html="$money.getSign(data.currency)"></span
-      >{{ $money.addComma(data.total_amount) }}
-    </td>
-
-    <td class="body-data" :class="`${table_name}-6`">
       <TagCard
         :card_text="data.is_paid ? 'Completed' : 'Failed'"
         :card_type="data.is_paid ? 'success' : 'error'"
       />
     </td>
 
-    <td class="body-data" :class="`${table_name}-7`">
+    <td class="body-data" :class="`${table_name}-6`">
       <button class="btn btn-secondary btn-sm">View</button>
     </td>
 
@@ -33,7 +35,7 @@
       <transition name="fade" v-if="show_transaction_summary_modal">
         <TransactionSummaryModal
           type="wallet"
-          :summary_data="data"
+          :summary_data="getSummaryData"
           @closeTriggered="toggleTransactionSummaryModal"
         />
       </transition>
@@ -70,9 +72,64 @@ export default {
 
   computed: {
     getCreatedDate() {
-      let { d3, m4, y1 } = this.$date.formatDate(this.data.created_at).getAll();
+      let { d3, m4, y1, h01, b2, a0 } = this.$date
+        .formatDate(this.data.created_at)
+        .getAll();
 
-      return `${d3} ${m4}, ${y1}`;
+      return `${m4} ${d3}, ${y1} ${h01}:${b2}${a0}`;
+    },
+
+    getUserEmail() {
+      return this.data?.user_details?.email || this.getUser.email;
+    },
+
+    getSummaryData() {
+      return [
+        {
+          title: "Transaction date",
+          value: this.getCreatedDate,
+        },
+        {
+          title: "Payment id",
+          value: this.data.payment_id,
+        },
+        {
+          title: "Currency",
+          value: this.data.currency,
+        },
+        {
+          title: "Total amount",
+          value: `${this.$money.getSign(
+            this.data.currency
+          )}${this.$money.addComma(Number(this.data.total_amount))}`,
+        },
+        {
+          title: "Amount funded",
+          value: `${this.$money.getSign(
+            this.data.currency
+          )}${this.$money.addComma(
+            Number(this.data.total_amount) - Number(this.data.escrow_charge)
+          )}`,
+        },
+        {
+          title: "Funding charge",
+          value: `${this.$money.getSign(
+            this.data.currency
+          )}${this.$money.addComma(this.data.escrow_charge)}`,
+        },
+        {
+          title: "Account email",
+          value:  this.data?.user_details?.email || this.getUser.email,
+        },
+        {
+          title: "Business id",
+          value: this.data.business_id,
+        },
+        {
+          title: "Transaction status",
+          value: this.data.is_paid ? "Completed" : "Failed",
+        },
+      ];
     },
   },
 

@@ -8,8 +8,9 @@ class serviceCurrency {
   // ===================================
   getSign(currency) {
     let currency_type = "",
-      naira = "&#8358",
-      dollar = "&#36";
+      naira = "₦",
+      dollar = "$",
+      pound = "£";
 
     switch (currency) {
       case "naira":
@@ -19,6 +20,10 @@ class serviceCurrency {
       case "dollar":
       case "USD":
         currency_type = dollar;
+        break;
+      case "pound":
+      case "GBP":
+        currency_type = pound;
         break;
       default:
         console.log("Currency sign not available yet!");

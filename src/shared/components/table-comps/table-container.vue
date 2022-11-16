@@ -38,7 +38,12 @@
       </template>
 
       <!-- TABLE EMPTY STATE -->
-      <TableEmptyState :empty_message="empty_message" v-else />
+      <TableEmptyState
+        :empty_message="empty_message"
+        :empty_action_name="empty_action_name"
+        @emptyAction="$emit('emptyAction')"
+        v-else
+      />
     </template>
   </div>
 </template>
@@ -83,6 +88,11 @@ export default {
     },
 
     empty_message: {
+      type: String,
+      default: "",
+    },
+
+    empty_action_name: {
       type: String,
       default: "",
     },

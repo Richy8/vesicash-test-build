@@ -206,45 +206,47 @@ export default {
         });
       });
 
-      this.registerBulkUsers({ bulk: signup_payload })
-        .then((response) => {
-          let user_payload = [];
-          let updated_beneficiaries = [];
-          let updated_recipients = [];
+      if (signup_payload.length) {
+        this.registerBulkUsers({ bulk: signup_payload })
+          .then((response) => {
+            let user_payload = [];
+            let updated_beneficiaries = [];
+            let updated_recipients = [];
 
-          let cloned_beneficiaries = [...this.getTransactionBeneficiaries];
-          let cloned_recipients = [...this.getMilestoneRecipients];
+            let cloned_beneficiaries = [...this.getTransactionBeneficiaries];
+            let cloned_recipients = [...this.getMilestoneRecipients];
 
-          // CREATE NEW USER PAYLOAD
-          response.data?.bulk.map((user) => {
-            user_payload.push({
-              account_id: user.account_id,
-              email_address: user.email_address ?? user.email,
+            // CREATE NEW USER PAYLOAD
+            response.data?.bulk.map((user) => {
+              user_payload.push({
+                account_id: user.account_id,
+                email_address: user.email_address ?? user.email,
+              });
             });
+
+            this.updateUserData(
+              cloned_beneficiaries,
+              updated_beneficiaries,
+              user_payload
+            );
+
+            this.updateUserData(
+              cloned_recipients,
+              updated_recipients,
+              user_payload
+            );
+
+            this.UPDATE_TRANSACTION_BENEFICIARIES(updated_beneficiaries);
+            this.UPDATE_MILESTONE_RECIPIENT(updated_recipients);
+
+            setTimeout(() => this.setupAndCreateTransaction(), 300);
+            return true;
+          })
+          .catch(() => {
+            this.handleEscrowError("An error occured while creating users");
+            return false;
           });
-
-          this.updateUserData(
-            cloned_beneficiaries,
-            updated_beneficiaries,
-            user_payload
-          );
-
-          this.updateUserData(
-            cloned_recipients,
-            updated_recipients,
-            user_payload
-          );
-
-          this.UPDATE_TRANSACTION_BENEFICIARIES(updated_beneficiaries);
-          this.UPDATE_MILESTONE_RECIPIENT(updated_recipients);
-
-          setTimeout(() => this.setupAndCreateTransaction(), 300);
-          return true;
-        })
-        .catch(() => {
-          this.handleEscrowError("An error occured while creating users");
-          return false;
-        });
+      } else setTimeout(() => this.setupAndCreateTransaction(), 300);
     },
 
     // =======================================
@@ -364,11 +366,13 @@ export default {
               "Transaction cannot be created at this time",
               "error"
             );
+            this.togglePageLoader("");
             return false;
           }
         })
         .catch(() => {
           this.handleEscrowError("An error occured while creating escrow");
+          this.togglePageLoader("");
           return false;
         });
     },
@@ -403,6 +407,7 @@ export default {
           this.handleEscrowError(
             "An error occured while inviting users to escrow"
           );
+          this.togglePageLoader("");
           return false;
         });
     },

@@ -2,28 +2,26 @@
   <tr @click="toggleTransactionSummaryModal">
     <td class="body-data" :class="`${table_name}-1`">{{ getCreatedDate }}</td>
 
-    <td class="body-data text-no-wrap" :class="`${table_name}-2`">{{ data.disbursement_id }}</td>
-
-    <td class="body-data" :class="`${table_name}-3`">{{ data.recipient_id }}</td>
-
-    <td
-      class="body-data"
-      :class="`${table_name}-4`"
-    >{{ data.currency === "USD" ? "Dollar" : "Naira" }}</td>
-
-    <td class="body-data" :class="`${table_name}-5`">
-      <span v-html="$money.getSign(data.currency)"></span>
-      {{ $money.addComma(data.amount) }}
+    <td class="body-data text-no-wrap" :class="`${table_name}-2`">
+      {{ data.reference }}
     </td>
 
-    <td class="body-data" :class="`${table_name}-6`">
+    <td class="body-data" :class="`${table_name}-3`">
+      {{ data.beneficiary_name || "-" }}
+    </td>
+
+    <td class="body-data" :class="`${table_name}-4`">
+      {{ $money.getSign(data.currency) }}{{ $money.addComma(data.amount) }}
+    </td>
+
+    <td class="body-data" :class="`${table_name}-5`">
       <TagCard
         :card_text="data.status === 'failed' ? 'Failed' : 'Completed'"
-        :card_type="data.status === 'failed'? 'error' : 'success'"
+        :card_type="data.status === 'failed' ? 'error' : 'success'"
       />
     </td>
 
-    <td class="body-data" :class="`${table_name}-7`">
+    <td class="body-data" :class="`${table_name}-6`">
       <button class="btn btn-secondary btn-sm">View</button>
     </td>
 
@@ -33,7 +31,7 @@
         <TransactionSummaryModal
           withdrawals
           type="wallet"
-          :summary_data="data"
+          :summary_data="getSummaryData"
           @closeTriggered="toggleTransactionSummaryModal"
         />
       </transition>
@@ -70,9 +68,62 @@ export default {
 
   computed: {
     getCreatedDate() {
-      let { d3, m4, y1 } = this.$date.formatDate(this.data.created_at).getAll();
+      let { d3, m4, y1, h01, b2, a0 } = this.$date
+        .formatDate(this.data.created_at)
+        .getAll();
 
-      return `${d3} ${m4}, ${y1}`;
+      return `${d3} ${m4}, ${y1} ${h01}:${b2}${a0}`;
+    },
+
+    getSummaryData() {
+      return [
+        {
+          title: "Transaction date",
+          value: this.getCreatedDate,
+        },
+        {
+          title: "Reference id",
+          value: this.data.reference,
+        },
+        {
+          title: "Currency",
+          value: this.data.currency,
+        },
+        {
+          title: "Total amount",
+          value: `${this.$money.getSign(
+            this.data.currency
+          )}${this.$money.addComma(Number(this.data.amount) + this.data.fee)}`,
+        },
+        {
+          title: "Amount received",
+          value: `${this.$money.getSign(
+            this.data.currency
+          )}${this.$money.addComma(this.data.amount)}`,
+        },
+        {
+          title: "Withdraw charge",
+          value: `${this.$money.getSign(
+            this.data.currency
+          )}${this.$money.addComma(this.data.fee)}`,
+        },
+        {
+          title: "Baneficiary name",
+          value: this.data.beneficiary_name,
+        },
+        {
+          title: "Bank name",
+          value: this.data.bank_name,
+        },
+        {
+          title: "Account number",
+          value: this.data.bank_account_number,
+        },
+        {
+          title: "Transaction status",
+          value: this.data.status === "failed" ? "Failed" : "Completed",
+        },
+      ];
     },
   },
 

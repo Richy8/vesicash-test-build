@@ -100,8 +100,7 @@ export default {
     wallet_type: "naira",
     // tool_tip:
     //   "Wallet Withdrawal Fees <br> ₦500 for ₦0 - ₦500,000 <br> ₦1,000 for #500,001 - ₦1,000,000  <br> ₦2,000 (capped) for ₦1,000,001 and above",
-    tool_tip:
-      "<table class='table f-size-13 grey-700'><thead><tr><td>Withdrawal range</td><td>Charges</td></tr></thead><tbody><tr><td>₦0 - ₦500,000</td><td>₦500</td></tr><tr><td>₦500,001 - ₦1,000,000</td><td>₦1,000</td></tr><tr><td>₦1,000,001 and above</td><td>₦2,000 (capped)</td></tr></tbody></table>",
+    tool_tip: "<b>#50.00</b> will be charged for this withdrawal.",
   }),
 
   methods: {

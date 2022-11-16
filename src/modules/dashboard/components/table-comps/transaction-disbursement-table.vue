@@ -40,7 +40,7 @@ export default {
   props: {
     dataset: {
       type: Array,
-      default: () => [1],
+      default: () => [],
     },
   },
 
@@ -55,26 +55,26 @@ export default {
 
     dummyData() {
       return [
-        {
-          created_at: "2022-10-30 09:15:28",
-          name: "Payment for landing page",
-          email: "abobi@qa.team",
-          role: "Seller",
-          amount: "1065",
-          currency: "USD",
-          status: "completed",
-          shit: "biscuit",
-        },
-        {
-          created_at: "2022-10-27 19:45:28",
-          name: "Payment for Car",
-          email: "emekachukwu@gmail.com",
-          role: "Buyer",
-          amount: "695",
-          currency: "NGN",
-          status: "completed",
-          shit: "yoghurt",
-        },
+        // {
+        //   created_at: "2022-10-30 09:15:28",
+        //   name: "Payment for landing page",
+        //   email: "abobi@qa.team",
+        //   role: "Seller",
+        //   amount: "1065",
+        //   currency: "USD",
+        //   status: "completed",
+        //   shit: "biscuit",
+        // },
+        // {
+        //   created_at: "2022-10-27 19:45:28",
+        //   name: "Payment for Car",
+        //   email: "emekachukwu@gmail.com",
+        //   role: "Buyer",
+        //   amount: "695",
+        //   currency: "NGN",
+        //   status: "completed",
+        //   shit: "yoghurt",
+        // },
       ];
     },
   },

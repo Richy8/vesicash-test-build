@@ -17,7 +17,10 @@
         <div class="modal-cover-meta">
           <template v-if="wallet_type === 'naira'">
             Please send the amount you wish to fund to the Bank account details
-            listed below
+            listed below.
+            <br />
+            <br />Minimum wallet funding amount is
+            <b>₦1,000</b>. Do not send below this amount.
           </template>
 
           <template v-else>Please enter the amount you wish to fund on your dollar wallet</template>

@@ -1,11 +1,20 @@
 <template>
   <div class="dashboard-view">
-    <!-- WELCOME MESSAGE -->
-    <div class="welcome-message mgb-20 h5-text grey-900">
-      Welcome
-      <span class="text-capitalize">{{
-        getUser.fullname.split(" ")[0] || ""
-      }}</span>
+    <div class="welcome-row">
+      <!-- WELCOME MESSAGE -->
+      <div class="welcome-message h5-text grey-900">
+        Welcome
+        <span class="text-capitalize">
+          {{ getUser.fullname.split(" ")[0] || "" }}
+        </span>
+      </div>
+
+      <!-- DISBURSE MONEY BUTTON -->
+      <router-link
+        :to="{ name: 'TransactionSetup' }"
+        class="btn btn-primary btn-md"
+        >Create Escrow</router-link
+      >
     </div>
 
     <!-- METRICS SECTION -->
@@ -23,11 +32,7 @@
       />
 
       <!-- DISBURSE MONEY BUTTON -->
-      <router-link
-        :to="{ name: 'TransactionSetup' }"
-        class="btn btn-primary btn-lg"
-        >Create Escrow</router-link
-      >
+      <!-- <router-link :to="{ name: 'TransactionSetup' }" class="btn btn-primary btn-md">Create Escrow</router-link> -->
     </div>
 
     <!-- TRANSACTION SECTION -->
@@ -53,7 +58,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapMutations } from "vuex";
 
 export default {
   name: "Dashboard",
@@ -116,11 +121,17 @@ export default {
 
   mounted() {
     this.fetchUserWalletBalance();
+
+    // CLEAR OUT TRANSAACTION STORE
+    this.RESET_TRANSACTION();
   },
 
   methods: {
     ...mapActions({
       getWalletBalance: "dashboard/getWalletBalance",
+    }),
+    ...mapMutations({
+      RESET_TRANSACTION: "transactions/RESET_TRANSACTION",
     }),
 
     // =============================================
@@ -173,30 +184,32 @@ export default {
 
 <style lang="scss" scoped>
 .dashboard-view {
-  .welcome-message {
+  .welcome-row {
+    @include flex-row-between-wrap;
+    gap: toRem(24);
+
+    margin-bottom: toRem(24);
+
     @include breakpoint-down(lg) {
       margin-bottom: toRem(16);
     }
 
-    @include breakpoint-down(sm) {
-      font-size: toRem(18.75);
-    }
+    .welcome-message {
+      @include breakpoint-down(sm) {
+        font-size: toRem(18.75);
+      }
 
-    @include breakpoint-down(xs) {
-      font-size: toRem(18.5);
+      @include breakpoint-down(xs) {
+        font-size: toRem(18.5);
+      }
     }
-  }
-
-  .metrics-section {
-    @include flex-row-start-wrap;
 
     .btn {
-      padding: toRem(12) toRem(18);
-      font-size: toRem(14.75);
+      padding: toRem(10) toRem(19.5);
+      font-size: toRem(14.5);
 
       @include breakpoint-custom-down(1220) {
         @include get-btn-size("md");
-        padding: toRem(10) toRem(19.5);
         margin-top: toRem(16);
       }
 
@@ -206,6 +219,12 @@ export default {
         margin-top: toRem(16);
       }
     }
+  }
+
+  .metrics-section {
+    @include flex-row-start-wrap;
+    align-items: stretch;
+    gap: toRem(32);
   }
 
   .section-title {
