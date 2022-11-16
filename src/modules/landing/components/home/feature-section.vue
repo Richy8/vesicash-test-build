@@ -4,7 +4,7 @@
       <div class="col-12 col-md-6 mb-5 mb-md-0">
         <FeatureCard
           :feature="{
-            title: 'Disburse escrow funds',
+            title: 'Instant digital escrow',
             description:
               'Deploy escrow as a transparent fund management solution, or for (international) transactional purposes. Disburse escrowed funds in a single payment or according to milestones. Split your disbursement into commissions as needed.',
             image: 'feature-one.png',
@@ -15,7 +15,7 @@
       <div class="col-12 col-md-6">
         <FeatureCard
           :feature="{
-            title: 'Global payout and settlements',
+            title: 'Global payouts and settlements',
             description:
               'We offer a range of global payout solutions that allow our clients to receive payments around the world — all within one system. You can choose from our universal payment solution, or customise your own with highly competitive rates and service levels. Obtain and exchange currencies, relevant to your business needs.',
             image: 'feature-two.png',

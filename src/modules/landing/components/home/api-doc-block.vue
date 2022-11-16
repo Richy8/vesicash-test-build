@@ -5,12 +5,11 @@
         <!-- COPY SECTION -->
         <div class="copy-section col-12 col-md-6 mb-5 mb-md-0">
           <div class="title-text h2-text roobert-700 grey-900 mgb-16">
-            Your Payments, Your way
+            Your Transactions, Your Way
           </div>
 
           <div class="description-text h7-text roobert-400 grey-600 mgb-36">
-            Experience our functionality On Platform Or via
-            API
+            Experience our functionality On Platform Or via API
           </div>
 
           <!-- DOC LINK -->
@@ -19,7 +18,7 @@
               <div class="icon icon-caret-right neutral-10"></div>
             </div>
 
-            <div class="text secondary-1-text">Visit our documention</div>
+            <div class="text secondary-1-text">Explore our documentation</div>
           </a>
         </div>
 
