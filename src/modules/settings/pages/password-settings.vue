@@ -74,7 +74,10 @@
               message: 'Password should contain at least 4 characters',
             }"
           />
-          <div>Password should match</div>
+          <div
+            class="error-message-text"
+            v-if="!isFormInValid && !doesPasswordMatch"
+          >Passwords don't match</div>
         </div>
       </div>
 
@@ -83,7 +86,12 @@
         <div class="col-12 col-sm-4"></div>
 
         <div class="col-12 col-sm-8">
-          <button class="btn btn-primary btn-md" :disabled="isDisabled">Update</button>
+          <button
+            class="btn btn-primary btn-md"
+            :disabled="isDisabled"
+            ref="save"
+            @click="updatePassword"
+          >Update</button>
         </div>
       </div>
     </div>
@@ -143,8 +151,18 @@ export default {
     ...mapActions({ updateUserPassword: "settings/updateUserPassword" }),
 
     async updatePassword() {
+      this.handleClick("save");
       try {
-      } catch (err) {}
+        const response = await this.updateUserPassword(this.passwordUpdate);
+        console.log("PASS UPDATE RESPONSE", response);
+        const type = response.code === 200 ? "success" : "error";
+        this.pushToast(response.message, type);
+
+        this.handleClick("save", "Update", false);
+      } catch (err) {
+        this.handleClick("save", "Update", false);
+        console.log("ERROR updating password", err);
+      }
     },
   },
 };

@@ -91,7 +91,7 @@ export default {
   async mounted() {
     if (!this.getAccounts?.length) {
       this.loading_accounts = true;
-      await this.fetchAllBanks(this.getAccountId);
+      await this.fetchBanks();
       this.loading_accounts = false;
     }
   },
@@ -138,6 +138,10 @@ export default {
 
   methods: {
     ...mapActions({ fetchAllBanks: "settings/fetchAllBanks" }),
+
+    async fetchBanks() {
+      await this.fetchAllBanks(this.getAccountId);
+    },
 
     toggleNewNairaModal() {
       this.show_new_naira_modal = !this.show_new_naira_modal;

@@ -31,7 +31,7 @@
     <template slot="modal-cover-footer">
       <div class="modal-cover-footer">
         <div class="btn-wrapper mgt-17">
-          <button ref="save" class="btn btn-secondary btn-md wt-100">
+          <button ref="delete" class="btn btn-secondary btn-md wt-100" @click="deleteAccount">
             <span class="icon icon-trash mgr-11"></span>
             Delete account
           </button>
@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import ModalCover from "@/shared/components/modal-cover";
 import ModalListItem from "@/modules/dashboard/components/modal-comps/modal-list-item";
 
@@ -68,6 +69,46 @@ export default {
   components: {
     ModalCover,
     ModalListItem,
+  },
+
+  computed: {
+    deleteUpdate() {
+      return {
+        account_id: this.getAccountId,
+        bank_id: this.account.id,
+      };
+    },
+  },
+
+  methods: {
+    ...mapActions({
+      removeUserBank: "settings/removeUserBank",
+      fetchAllBanks: "settings/fetchAllBanks",
+    }),
+
+    async deleteAccount() {
+      this.handleClick("delete");
+      try {
+        const response = await this.removeUserBank(this.deleteUpdate);
+
+        const type = response.code === 200 ? "success" : "error";
+
+        const message =
+          response.code === 200 ? "Account deleted" : response.message;
+
+        this.pushToast(message, type);
+
+        if (type === "success") {
+          await this.fetchAllBanks(this.getAccountId);
+          this.handleClick("delete", "Delete account", false);
+          this.$emit("closeTriggered");
+        } else this.handleClick("delete", "Delete account", false);
+      } catch (err) {
+        this.handleClick("delete", "Delete account", false);
+        console.log("Failed to delete account", err);
+        this.pushToast("Failed to delete account", "error");
+      }
+    },
   },
 };
 </script>
