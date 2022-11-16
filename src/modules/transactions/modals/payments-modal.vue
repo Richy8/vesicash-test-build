@@ -91,15 +91,15 @@ export default {
           action_type: "modal",
           action: "toggleWireTransferModal",
         },
-        {
-          id: 3,
-          icon: "BusinessIcon",
-          title: "Pay With flutterwave business account",
-          description:
-            "Make a transfer from your flutterwave business account.",
-          action_type: "modal",
-          action: "toggleFWBizModal",
-        },
+        // {
+        //   id: 3,
+        //   icon: "BusinessIcon",
+        //   title: "Pay With flutterwave business account",
+        //   description:
+        //     "Make a transfer from your flutterwave business account.",
+        //   action_type: "modal",
+        //   action: "toggleFWBizModal",
+        // },
       ];
     },
   },

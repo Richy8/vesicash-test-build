@@ -69,6 +69,7 @@ export default {
       try {
         const response = await this.confirmPaymentStatus({
           reference: this.$route.query.reference,
+          fund_wallet: true,
           headless: true,
         });
 
@@ -78,18 +79,21 @@ export default {
         else {
           this.pushToast(response.message || "Payment failed", "error");
 
-          // setTimeout(() => {
-          //   this.$router.push("/dashboard");
-          // }, 1500);
+          setTimeout(() => {
+            this.$router.push("/dashboard");
+          }, 2000);
         }
       } catch (error) {
         this.togglePageLoader("");
         console.log("FAILED TO CONFIRM PAYMENT", error);
 
-        this.pushToast("Payment failed", "error");
+        this.pushToast(
+          "Failed to verify payment. Reload to try again",
+          "error"
+        );
         // setTimeout(() => {
         //   this.$router.push("/dashboard");
-        // }, 1500);
+        // }, 2000);
       }
     },
   },
