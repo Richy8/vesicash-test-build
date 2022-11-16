@@ -126,26 +126,32 @@ export default {
   },
 
   methods: {
-    ...mapActions({ sendUserOTP: "auth/sendUserOTP" }),
+    ...mapActions({ sendUserOTP: "settings/requestOTP" }),
 
     requestOTP() {
       this.handleClick("continue");
 
-      let request_payload = { account_id: this.getAccountId };
+      let request_payload = {
+        account_id: this.getAccountId,
+        phone_number: this.form.phone_number,
+      };
 
       this.sendUserOTP(request_payload)
         .then((response) => {
-          this.handleClick("continue", "Continue");
+          this.handleClick("continue", "Continue", false);
 
-          if (response.code === 200)
-            // this.pushToast(
-            //   `An OTP code has been sent to ${this.input}`,
-            //   "success"
-            // );
+          if (response.code === 200) {
+            this.pushToast(
+              `An OTP code has been sent to ${this.form.phone_number}`,
+              "success"
+            );
             this.$emit("continue");
+          } else {
+            this.pushToast(response.message, "error");
+          }
         })
         .catch(() => {
-          this.handleClick("continue", "Continue");
+          this.handleClick("continue", "Continue", false);
           this.pushToast("Unable to generate an OTP code", "error");
         });
     },

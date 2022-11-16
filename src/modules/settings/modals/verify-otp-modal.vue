@@ -215,8 +215,8 @@ export default {
 
   methods: {
     ...mapActions({
-      sendUserOTP: "auth/sendUserOTP",
-      verifyUserOTP: "auth/verifyUserOTP",
+      sendUserOTP: "settings/requestOTP",
+      verifyUserOTP: "settings/verifyOTP",
     }),
     // ===============================
     // CLEAR OUT ALL OTP INPUTS
@@ -252,7 +252,7 @@ export default {
     handleUserOTPVerification() {
       let request_payload = {
         account_id: this.getAccountId,
-        otp_token: this.getOTPToken,
+        code: this.getOTPToken,
       };
 
       this.verifyUserOTP(request_payload)
@@ -278,13 +278,16 @@ export default {
     // SEND OUT OTP VERIFICATION CODE
     // ===================================
     sendOutOTPVerificationCode() {
-      let request_payload = { account_id: this.user_details?.account_id };
+      let request_payload = {
+        account_id: this.getAccountId,
+        phone_number: this.input,
+      };
 
       this.sendUserOTP(request_payload)
         .then((response) => {
           if (response.code === 200)
             this.pushToast(
-              "An OTP code has been sent to your email",
+              `An OTP code has been sent to ${this.input}`,
               "success"
             );
         })

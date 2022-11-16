@@ -6,6 +6,9 @@ const routes = {
     remove_user_bank: "/admin/user/remove/bank/",
 
     update_user_password: "/auth/user/security/update_password",
+
+    request_otp: "/verification/phone/send-code",
+    verify_otp: "/verification/phone/verify",
 };
 
 export default {
@@ -44,5 +47,19 @@ export default {
     // ==============================
     async updateUserPassword(_, payload) {
         return await $api.push(routes.update_user_password, { payload });
+    },
+
+    // ==============================
+    // REQUEST OTP
+    // ==============================
+    async requestOTP(_, payload) {
+        return await $api.push(routes.request_otp, { payload });
+    },
+
+    // ==============================
+    // VERIFY OTP
+    // ==============================
+    async verifyOTP(_, payload) {
+        return await $api.push(routes.verify_otp, { payload });
     },
 };
