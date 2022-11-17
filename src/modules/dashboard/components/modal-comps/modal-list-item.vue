@@ -6,10 +6,8 @@
     </template>
 
     <template v-else>
-      <div class="item tertiary-2-text grey-600 text-capitalize">
-        {{ title }}
-      </div>
-      <div class="value secondary-2-text grey-900 text-wrap">{{ value }}</div>
+      <div class="item tertiary-2-text grey-600 text-capitalize">{{ title }}</div>
+      <div class="value secondary-2-text grey-900 text-wrap" v-html="value"></div>
     </template>
   </div>
 </template>

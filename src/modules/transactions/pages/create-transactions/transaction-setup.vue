@@ -207,6 +207,7 @@ export default {
         query: {
           type: this.form.transaction_type,
           party: this.form.transaction_party,
+          name: this.form.transaction_name,
         },
       });
     },

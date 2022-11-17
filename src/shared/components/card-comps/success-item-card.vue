@@ -6,14 +6,10 @@
 
     <div>
       <!-- TITLE TEXT -->
-      <div class="title primary-1-text grey-900 mgb-4">
-        {{ info.title }}
-      </div>
+      <div class="title primary-1-text grey-900 mgb-4">{{ info.title }}</div>
 
       <!-- DESCRIPTION TEXT -->
-      <div class="description tertiary-2-text grey-600">
-        {{ info.description }}
-      </div>
+      <div class="description tertiary-2-text grey-600">{{ info.description }}</div>
     </div>
   </div>
 </template>

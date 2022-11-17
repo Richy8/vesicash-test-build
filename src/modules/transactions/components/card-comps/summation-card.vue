@@ -18,11 +18,7 @@
 
     <!-- MILESTONE DISBURSEMENT -->
     <template v-else>
-      <div
-        class="item-row"
-        v-for="(milestone, index) in milestones"
-        :key="index"
-      >
+      <div class="item-row" v-for="(milestone, index) in milestones" :key="index">
         <div class="item grey-600 tertiary-2-text">
           {{ milestone.name ? milestone.name : `Milestone ${index + 1}` }}
           payment
@@ -40,7 +36,7 @@
     </template>
 
     <div class="item-row">
-      <div class="item grey-600 tertiary-2-text">15% Escrow fee</div>
+      <div class="item grey-600 tertiary-2-text">5% Escrow fee</div>
       <div
         class="value grey-900 secondary-2-text"
         v-html="`${getCurrencySign} ${$money.addComma(amount_data.escrow_fee)}`"
