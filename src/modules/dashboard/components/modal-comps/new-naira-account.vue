@@ -86,6 +86,7 @@ export default {
     bank: {
       async handler(state) {
         this.account_details = null;
+
         this.$emit("nairaBankUpdated", null);
         if (state && this.form.account_number.length >= 10)
           await this.verifyAccount(this.form.account_number, state.code);

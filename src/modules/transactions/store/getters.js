@@ -4,7 +4,7 @@ export default {
       name: state.transaction.name,
       type: state.transaction.type,
       parties: state.transaction.parties,
-      file: state.transaction.file,
+      files: state.transaction.files,
       dispute_handler: state.transaction.dispute_handler,
     };
   },
@@ -24,4 +24,6 @@ export default {
       payment_amount: state.transaction.payment_amount,
     };
   },
+
+  getTransactionDetails: (state) => state.transaction_details,
 };

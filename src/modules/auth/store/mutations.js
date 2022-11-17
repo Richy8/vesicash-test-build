@@ -20,6 +20,17 @@ export default {
     userData.country = response_payload.profile.user.country ?? "NG";
     userData.currency = response_payload.profile.user.currency ?? "NGN";
 
+    // BUSINESS ACCOUNT DATA
+    userData.business_name =
+      response_payload.profile?.business?.business_name ?? null;
+    userData.business_charge = response_payload.profile?.business
+      ?.escrow_charge ?? { type: "percentage", value: "0.05" };
+
+    // STRINGIFY BUSINESS CHARGE AND ENCODE IT
+    userData.business_charge = string.encodeString(
+      JSON.stringify(userData.business_charge)
+    );
+
     // ENDCODED LOGIN COUNT ACCOUNT TYPE, ACCOUNT ID AND BUSINESS ID
     userData.total_entry = string.encodeString(response_payload.login_count);
 

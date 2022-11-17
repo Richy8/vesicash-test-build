@@ -125,6 +125,8 @@ export default {
 
       this.loginUser(request_payload)
         .then((response) => {
+          console.log(response);
+
           if (response.code === 200) {
             this.pushToast("User login was successful", "success");
             this.handleClick("loginBtn", "Login to account", false);

@@ -5,7 +5,7 @@ export default () => ({
     name: "",
     type: "",
     parties: "",
-    file: [],
+    files: [],
     dispute_handler: "",
 
     currency: CURRENCY_OPTIONS[0],
@@ -18,6 +18,8 @@ export default () => ({
     milestones: [],
     milestone_recipients: [],
   },
+
+  transaction_details: {},
 });
 
 // SAMPLE BENEFICIARY OBJECT

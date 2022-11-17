@@ -124,11 +124,13 @@ export default {
 
     // CLEAR OUT TRANSAACTION STORE
     this.RESET_TRANSACTION();
+    this.clearAttachedFile();
   },
 
   methods: {
     ...mapActions({
       getWalletBalance: "dashboard/getWalletBalance",
+      clearAttachedFile: "general/clearAttachedFile",
     }),
     ...mapMutations({
       RESET_TRANSACTION: "transactions/RESET_TRANSACTION",

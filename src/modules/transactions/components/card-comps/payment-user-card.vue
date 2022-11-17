@@ -9,7 +9,9 @@
           v-if="detail.has_sign"
           class="value grey-900 text-wrap"
           v-html="
-            `${$money.getSign(currency.slug)} ${$money.addComma(detail.value)}`
+            `${$money.getSign(currency.slug || currency)}${$money.addComma(
+              detail.value
+            )}`
           "
         ></div>
 
@@ -37,10 +39,7 @@ export default {
     },
 
     currency: {
-      type: Object,
-      default: () => ({
-        slug: "naira",
-      }),
+      type: [Object, String],
     },
   },
 

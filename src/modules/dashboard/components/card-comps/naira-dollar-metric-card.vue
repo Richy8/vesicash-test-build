@@ -220,11 +220,11 @@ export default {
       this.toggleFundWalletSelectModal();
     },
 
-    closeFundDetailsAndOpenSuccess(reference_id) {
+    closeFundDetailsAndOpenSuccess() {
       this.show_fund_wallet_info_modal = false;
       this.$router.push({
         name: "SuccessfulWalletFund",
-        query: { currency: "NGN", reference_id },
+        query: { currency: "NGN" },
       });
     },
 

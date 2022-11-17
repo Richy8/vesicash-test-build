@@ -63,28 +63,13 @@ export default {
   },
 
   methods: {
-    ...mapActions({ verifyPaymentAccount: "dashboard/verifyPaymentAccount" }),
-
-    // ===============================
-    // VERIFY USER WALLET PAYMENT
-    // ===============================
-    verifyWalletPayment() {
-      this.verifyPaymentAccount({
-        reference: this.$route.query?.reference_id,
-      }).then((response) => {
-        console.log(response);
-      });
-    },
-
     // ===============================
     // HANDLE DASHBOARD REDIRECT
     // ===============================
     handleGoToDashboard() {
       // CHECK IF ROUTE HAS A CURRENCY TYPE OF NGN AND VERIFY
       if (this.$route?.query?.currency === "NGN") {
-        this.verifyWalletPayment();
-
-        setTimeout(() => this.$router.push("/dashboard"), 1500);
+        this.$router.push("/dashboard");
       }
 
       // MOVE TO DASHBOARD
