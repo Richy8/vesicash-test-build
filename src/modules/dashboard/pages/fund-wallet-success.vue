@@ -1,5 +1,5 @@
 <template>
-  <AuthWrapper title_text="">
+  <AuthWrapper title_text>
     <!-- AUTH PAGE -->
     <div class="auth-page auth-page-success">
       <WarningIcon v-if="$route.query.currency === 'NGN'" />
@@ -29,7 +29,6 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
 import AuthWrapper from "@/modules/auth/components/auth-wrapper";
 import SuccessIcon from "@/shared/components/icon-comps/success-icon";
 import WarningIcon from "@/shared/components/icon-comps/warning-icon";

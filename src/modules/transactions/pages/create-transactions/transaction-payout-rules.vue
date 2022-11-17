@@ -4,9 +4,7 @@
 
     <div class="instruction-wrapper col-xl-8 mgb-12">
       <!-- INSTRUCTION TEXT -->
-      <div class="instruction-text grey-900 primary-2-text mgr-5">
-        Provide details for the Payout
-      </div>
+      <div class="instruction-text grey-900 primary-2-text mgr-5">Provide details for the Payout</div>
 
       <button
         class="btn btn-secondary btn-md"
@@ -20,11 +18,7 @@
 
     <!-- PAYOUT CARDS -->
     <div class="wrapper row">
-      <div
-        class="col-xl-8"
-        v-for="(milestone, index) in getTransactionMilestones"
-        :key="index"
-      >
+      <div class="col-xl-8" v-for="(milestone, index) in getTransactionMilestones" :key="index">
         <PayoutCard
           :milestone="milestone"
           :currency="getTransactionAmount.currency"
@@ -34,9 +28,7 @@
     </div>
 
     <!-- INSTRUCTION TEXT -->
-    <div class="instruction-text grey-900 primary-2-text mgb-12">
-      How May Any Dispute Be Handled?
-    </div>
+    <div class="instruction-text grey-900 primary-2-text mgb-12">How May Any Dispute Be Handled?</div>
 
     <div class="wrapper row mgb-32">
       <div class="col-xl-8">
@@ -76,18 +68,13 @@
     <!-- SUMMATION TOTAL -->
     <div class="wrapper mgb-40">
       <div class="col-xl-8">
-        <SummationCard
-          :milestones="getTransactionMilestones"
-          :amount_data="getTransactionAmount"
-        />
+        <SummationCard :milestones="getTransactionMilestones" :amount_data="getTransactionAmount" />
       </div>
     </div>
 
     <!-- CTA ACTION ROW -->
     <div class="action-row mgt-14">
-      <button class="btn btn-primary btn-md" @click="nextProgressFlow">
-        Continue
-      </button>
+      <button class="btn btn-primary btn-md" @click="nextProgressFlow">Continue</button>
     </div>
   </div>
 </template>
@@ -254,6 +241,9 @@ export default {
                 type: this.$route.query.type,
                 party: this.$route.query.party,
                 pay: this.$route.query.pay,
+                name: this.$route.query.name,
+                parties: this.$route.query.parties,
+                fee: this.getTransactionAmount.total_fee,
               },
             });
           }
