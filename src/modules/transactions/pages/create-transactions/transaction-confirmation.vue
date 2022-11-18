@@ -209,7 +209,7 @@ export default {
           account_type: "individual",
           email_address: user.email_address,
           country: user.country?.toLowerCase(),
-          phone: user.phone_number,
+          phone_number: user.phone_number,
         });
       });
 
