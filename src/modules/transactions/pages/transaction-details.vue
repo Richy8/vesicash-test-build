@@ -49,7 +49,12 @@
               {
                 title: 'Attached Document(s)',
                 value: 'No file attached',
-                file: null,
+                file: getTransactionDetails.files.length
+                  ? {
+                      name: getTransactionDetails.files[0]?.file_name,
+                      url: getTransactionDetails.files[0]?.file_url_new,
+                    }
+                  : null,
               },
             ]"
           />

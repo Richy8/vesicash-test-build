@@ -110,6 +110,7 @@ export default {
     form: {
       email_address: "",
       phone_number: "",
+      country: "",
       user_role: "",
       user_access: "",
     },
@@ -120,11 +121,19 @@ export default {
     validity: {
       email_address: true,
       phone_number: true,
+      country: false,
     },
 
     user_multiple_role_options: MULTIPLE_ROLE_OPTIONS,
     user_access_options: USER_ACCESS_OPTIONS,
   }),
+
+  created() {
+    this.$bus.$on(
+      "update-country-state",
+      (value) => (this.form.country = value)
+    );
+  },
 
   methods: {
     ...mapMutations({
@@ -186,6 +195,7 @@ export default {
       user_data.account_id = "";
       user_data.email_address = this.form.email_address;
       user_data.phone_number = this.form.phone_number;
+      user_data.country = this.form.country;
       user_data.role = this.form.user_role;
       user_data.access = this.form.user_access;
       user_data.recipient = USER_PAYOUT_OPTIONS[1];

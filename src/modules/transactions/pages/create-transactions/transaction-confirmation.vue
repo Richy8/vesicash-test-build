@@ -47,10 +47,12 @@
               {
                 title: 'Attached Document(s)',
                 value: 'No file attached',
-                file: {
-                  name: getTransactionSetup.files[0].name,
-                  url: getTransactionSetup.files[0].url,
-                },
+                file: getTransactionSetup.files.length
+                  ? {
+                      name: getTransactionSetup.files[0]?.name,
+                      url: getTransactionSetup.files[0]?.url,
+                    }
+                  : null,
               },
             ]"
           />
@@ -173,6 +175,10 @@ export default {
     },
   },
 
+  mounted() {
+    // this.togglePageLoader("Creating escrow transaction");
+  },
+
   methods: {
     ...mapActions({
       registerBulkUsers: "auth/registerBulkUsers",
@@ -201,11 +207,13 @@ export default {
         (user) => !user.account_id
       );
 
+      console.log(users);
+
       users.map((user) => {
         signup_payload.push({
           account_type: "individual",
           email_address: user.email_address,
-          country: user.country.toLowerCase(),
+          country: user.country?.toLowerCase(),
           phone: user.phone_number,
         });
       });
@@ -250,7 +258,9 @@ export default {
             this.handleEscrowError("An error occured while creating users");
             return false;
           });
-      } else setTimeout(() => this.setupAndCreateTransaction(), 300);
+      } else {
+        setTimeout(() => this.setupAndCreateTransaction(), 300);
+      }
     },
 
     // =======================================
@@ -280,11 +290,9 @@ export default {
         this.getTransactionAmount.currency?.name.split(" ")[0];
 
       transaction_payload.type = this.getTransactionSetup.type;
-      transaction_payload.amount =
-        this.getTransactionAmount.total_fee -
-        this.getTransactionAmount.escrow_fee;
+      transaction_payload.amount = this.getTransactionAmount.total_fee;
 
-      transaction_payload.files = this.getTransactionSetup.file;
+      transaction_payload.files = this.getTransactionSetup.files;
       transaction_payload.dispute_handler =
         this.getTransactionSetup.dispute_handler;
       transaction_payload.source = "api";

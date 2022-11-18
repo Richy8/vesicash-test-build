@@ -16,7 +16,7 @@
 
       <!-- BUTTON AREA -->
       <div class="btn-area mgt-30 mgb-10 wt-100">
-        <router-link to="/" class="btn btn-primary btn-md wt-100"
+        <router-link to="/login" class="btn btn-primary btn-md wt-100"
           >Go to Login</router-link
         >
       </div>
