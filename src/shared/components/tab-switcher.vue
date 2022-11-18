@@ -1,21 +1,12 @@
 <template>
   <div class="tab-switcher">
     <div
-      class="
-        tab-item
-        secondary-3-text
-        grey-600
-        fw-500
-        smooth-transition
-        pointer
-      "
+      class="tab-item secondary-3-text grey-600 fw-500 smooth-transition pointer"
       v-for="(tab, index) in all_tabs"
       :key="index"
       :class="[tab.active && 'tab-item--active']"
       @click="selectTab(tab, index)"
-    >
-      {{ tab.name }}
-    </div>
+    >{{ tab.name }}</div>
   </div>
 </template>
 
@@ -72,7 +63,7 @@ export default {
 .tab-switcher {
   border-bottom: toRem(0.5) solid getColor("grey-100");
   @include flex-row-start-nowrap;
-  padding: 0 toRem(10);
+  // padding: 0 toRem(10);
   gap: 0 toRem(7);
 
   .tab-item {

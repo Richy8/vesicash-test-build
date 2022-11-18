@@ -1,8 +1,5 @@
 <template>
-  <ModalCover
-    @closeModal="$emit('closeTriggered')"
-    :modal_style="{ size: 'modal-xs' }"
-  >
+  <ModalCover @closeModal="$emit('closeTriggered')" :modal_style="{ size: 'modal-sm' }">
     <!-- MODAL COVER HEADER -->
     <template slot="modal-cover-header">
       <div class="modal-cover-header">
@@ -98,9 +95,7 @@
     <!-- MODAL COVER FOOTER -->
     <template slot="modal-cover-footer">
       <div class="modal-cover-footer">
-        <button class="btn btn-primary btn-md wt-100" @click="saveUserChanges">
-          Save changes
-        </button>
+        <button class="btn btn-primary btn-md wt-100" @click="saveUserChanges">Save changes</button>
       </div>
     </template>
   </ModalCover>

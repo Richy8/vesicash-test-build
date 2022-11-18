@@ -33,12 +33,9 @@
 
     <!-- ACCOUNT CONFIRM CARD -->
     <div class="account-confirm-card grey-10-bg rounded-12 mgt--10">
-      <div
-        class="name tertiary-2-text"
-        :class="invalid_account ? 'red-600' : 'grey-900'"
-      >
+      <div class="name tertiary-2-text" :class="invalid_account ? 'red-600' : 'grey-900'">
         {{
-          account_details ? account_details.account_name : verification_message
+        account_details ? account_details.account_name : verification_message
         }}
       </div>
     </div>

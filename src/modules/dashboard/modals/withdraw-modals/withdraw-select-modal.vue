@@ -2,7 +2,7 @@
   <ModalCover
     class="withdraw-select-modal"
     @closeModal="$emit('closeTriggered')"
-    :modal_style="{ size: 'modal-xs' }"
+    :modal_style="{ size: 'modal-sm' }"
   >
     <!-- MODAL COVER HEADER -->
     <template slot="modal-cover-header">

@@ -15,6 +15,7 @@ const routes = {
   verify_account: "/payment/banks/account_verification",
 };
 
+let formData = new FormData();
 let axiosSource = axios.CancelToken.source();
 
 export default {
@@ -29,7 +30,8 @@ export default {
   // UPLOAD FILE ATTACHMENT
   // ================================
   async uploadFile(_, payload) {
-    return await $api.push(routes.upload_file, { payload, is_attach: true });
+    formData.append("files[0]", payload);
+    return await $api.push(routes.upload_file, { formData, is_attach: true });
   },
 
   // ======================================
@@ -38,7 +40,6 @@ export default {
   async uploadToSpace({ commit }, { file, formatted_size }) {
     const authUserToken = getStorage(VESICASH_AUTH_TOKEN) || null;
 
-    let formData = new FormData();
     formData.append("files[0]", file);
 
     try {
