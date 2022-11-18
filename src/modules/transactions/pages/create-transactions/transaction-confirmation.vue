@@ -49,8 +49,8 @@
                 value: 'No file attached',
                 file: getTransactionSetup.files.length
                   ? {
-                      name: getTransactionSetup.files[0]?.name,
-                      url: getTransactionSetup.files[0]?.url,
+                      name: getTransactionSetup.files[0].name,
+                      url: getTransactionSetup.files[0].url,
                     }
                   : null,
               },
@@ -96,10 +96,7 @@
     <!-- SUMMATION TOTAL -->
     <div class="wrapper mgb-40">
       <div class="col-xl-9">
-        <SummationCard
-          :milestones="getTransactionMilestones"
-          :amount_data="getTransactionAmount"
-        />
+        <SummationCard :milestones="getTransactionMilestones" :amount_data="getTransactionAmount" />
       </div>
     </div>
 
@@ -109,9 +106,7 @@
         class="btn btn-primary btn-md"
         ref="createEscrowBtn"
         @click="createTransaction"
-      >
-        Create escrow
-      </button>
+      >Create escrow</button>
     </div>
   </div>
 </template>
