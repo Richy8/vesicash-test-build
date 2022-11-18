@@ -36,7 +36,7 @@
           :payment_details="[
             {
               title: 'User Details',
-              value: user.email_address,
+              value: user.email_address || user.email,
               has_sign: false,
             },
             { title: 'Amount', value: user.amount, has_sign: true },
@@ -83,8 +83,12 @@ export default {
     },
 
     currency: {
-      type: Object,
-      default: () => ({}),
+      type: [Object, String],
+    },
+
+    has_actions: {
+      type: Boolean,
+      default: false,
     },
   },
 
@@ -111,33 +115,37 @@ export default {
     // GET THE TRANSACTION MILESTONE NAME
     // ===================================================
     getMilestoneName() {
-      return this.milestone.name
-        ? this.milestone.name
+      return this.milestone.name || this.milestone.title
+        ? this.milestone.name || this.milestone.title
         : `Milestone ${this.index + 1}`;
     },
 
     loadCurrentMilestoneRecipients() {
-      return this.getMilestoneRecipients.filter(
-        (recipient) => recipient.milestone_id === this.milestone.id
-      );
+      if (this.getMilestoneRecipients.length)
+        return this.getMilestoneRecipients.filter(
+          (recipient) => recipient.milestone_id === this.milestone.id
+        );
+      else return this.milestone.recipients;
     },
 
     loadPaymentRules() {
-      let { d3, m4, y1 } = this.$date
-        .formatDate(this.milestone?.due_date)
-        .getAll();
+      let milestone_date = `${this.milestone?.due_date.split(" ")[0]} 00:00:00`;
+
+      let { d3, m4, y1 } = this.$date.formatDate(milestone_date).getAll();
 
       if (this.getTransactionParty === "single") {
         return [
           {
             title: "User Details",
-            value: this.loadCurrentMilestoneRecipients[0].email_address,
+            value:
+              this.loadCurrentMilestoneRecipients[0].email_address ??
+              this.loadCurrentMilestoneRecipients[0].email,
           },
           {
             title: "Amount",
             value: `${this.$money.getSign(
-              this.currency.slug
-            )} ${this.$money.addComma(
+              this.currency?.slug ?? this.currency
+            )}${this.$money.addComma(
               this.loadCurrentMilestoneRecipients[0].amount
             )}`,
           },
@@ -147,7 +155,15 @@ export default {
           },
           {
             title: "Inspection Period",
-            value: this.milestone.inspection_period?.name,
+            value:
+              this.milestone.inspection_period?.name ??
+              `${this.milestone.inspection_period} ${
+                this.milestone.inspection_period === 1 ? "day" : "days"
+              }`,
+          },
+          this.$route.name === "TransactionDetails" && {
+            title: "Status",
+            value: "In progress",
           },
         ];
       } else {
@@ -155,7 +171,15 @@ export default {
           { title: "Payment due date", value: `${d3} ${m4}, ${y1}` },
           {
             title: "Inspection Period",
-            value: this.milestone.inspection_period?.name,
+            value:
+              this.milestone.inspection_period?.name ??
+              `${this.milestone.inspection_period} ${
+                this.milestone.inspection_period === 1 ? "day" : "days"
+              }`,
+          },
+          this.$route.name === "TransactionDetails" && {
+            title: "Status",
+            value: "In progress",
           },
         ];
       }
@@ -163,16 +187,7 @@ export default {
   },
 
   data: () => ({
-    payment_rules: [
-      { title: "User Details", value: "Salimadeyemi@gmail.com" },
-      { title: "Amount", value: "$30,000" },
-      { title: "Due date", value: "12th April, 2022" },
-      { title: "Inspection Period", value: "4 days" },
-      { title: "Status", value: "In Progress" },
-    ],
-
     user_details: [],
-    has_actions: false,
   }),
 };
 </script>

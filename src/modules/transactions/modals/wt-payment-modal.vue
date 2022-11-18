@@ -25,7 +25,7 @@
       <div class="modal-cover-body">
         <!-- MODAL ITEMS WRAPPER -->
         <div class="modal-items-wrapper">
-          <ModalListItem title="Amount to pay" value="₦4000" />
+          <ModalListItem title="Amount to pay" :value="getAmount" />
         </div>
 
         <div class="modal-items-wrapper">
@@ -52,7 +52,7 @@
     <!-- MODAL COVER FOOTER -->
     <template slot="modal-cover-footer">
       <div class="modal-cover-footer">
-        <button class="btn btn-primary btn-md wt-100">I have paid already</button>
+        <button class="btn btn-primary btn-md wt-100" @click="$emit('paid')">I have paid already</button>
       </div>
     </template>
   </ModalCover>
@@ -73,6 +73,21 @@ export default {
       import(
         /* webpackChunkName: "dashboard-modal-module" */ "@/modules/dashboard/components/modal-comps/modal-list-item"
       ),
+  },
+
+  props: {
+    paymentDetails: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
+
+  computed: {
+    getAmount() {
+      const currency = this.paymentDetails?.currency?.slug;
+      const sign = this.$money.getSign(currency);
+      return `${sign}${this.paymentDetails.total_fee}`;
+    },
   },
 
   data() {
