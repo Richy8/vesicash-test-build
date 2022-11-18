@@ -1,5 +1,34 @@
 <template>
-  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+  <svg
+    v-if="small"
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+  >
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M4.09864 13.6978C4.52327 14.3651 5.49733 14.3651 5.92196 13.6978L7.73556 10.8478C8.19335 10.1285 7.67659 9.1871 6.8239 9.1871H5.78488L5.78488 5.75426C5.78488 5.30666 5.42203 4.94381 4.97443 4.94381C4.52683 4.94381 4.16398 5.30666 4.16398 5.75426L4.16398 9.1871H3.1967C2.34401 9.1871 1.82725 10.1285 2.28504 10.8478L4.09864 13.6978Z"
+      fill="#011A27"
+    />
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M10.0515 2.36385C10.4812 1.7433 11.3986 1.7433 11.8283 2.36385L13.6941 5.05828C14.1904 5.77495 13.6774 6.75406 12.8057 6.75406H11.7909L11.7909 10.2664C11.7909 10.714 11.4281 11.0769 10.9805 11.0769C10.5329 11.0769 10.17 10.714 10.17 10.2664L10.17 6.75406H9.07412C8.20239 6.75406 7.68945 5.77495 8.18572 5.05828L10.0515 2.36385Z"
+      fill="#011A27"
+    />
+  </svg>
+
+  <svg
+    v-else
+    xmlns="http://www.w3.org/2000/svg"
+    width="32"
+    height="32"
+    viewBox="0 0 32 32"
+    fill="none"
+  >
     <path
       fill-rule="evenodd"
       clip-rule="evenodd"
@@ -20,6 +49,13 @@
 <script>
 export default {
   name: "ExchangeIcon",
+
+  props: {
+    small: {
+      type: Boolean,
+      default: false,
+    },
+  },
 };
 </script>
 
