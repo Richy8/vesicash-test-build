@@ -22,10 +22,7 @@
                 wallet.sign === 'dollar' && 'green-400',
               ]"
             >
-              <span>
-                {{ $money.getSign(wallet.sign)
-                }}{{ $money.addComma(wallet.value.split(".")[0]) }}
-              </span>
+              <span>{{$money.getSign(wallet.sign)}}{{ $money.addComma(wallet.value.split(".")[0])}}</span>
               <span class="amount-zero">.{{ wallet.value.split(".")[1] || "00" }}</span>
             </div>
           </template>

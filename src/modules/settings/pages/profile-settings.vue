@@ -274,7 +274,7 @@ export default {
         this.validity.last_name ||
         this.validity.first_name ||
         this.validity.email ||
-        !this.isPhoneVerified
+        !this.isEmailVerified
       );
     },
 

@@ -275,6 +275,7 @@ export default {
 <style lang="scss" scoped>
 .inline-group {
   @include flex-row-start-nowrap;
+  align-items: flex-start;
   gap: toRem(16);
 
   @include breakpoint-custom-down(776) {
