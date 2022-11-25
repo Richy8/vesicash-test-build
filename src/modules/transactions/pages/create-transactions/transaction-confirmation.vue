@@ -49,8 +49,8 @@
                 value: 'No file attached',
                 file: getTransactionSetup.files.length
                   ? {
-                      name: getTransactionSetup.files[0]?.name,
-                      url: getTransactionSetup.files[0]?.url,
+                      name: getTransactionSetup.files[0].name,
+                      url: getTransactionSetup.files[0].url,
                     }
                   : null,
               },
