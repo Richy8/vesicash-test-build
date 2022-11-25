@@ -31,7 +31,7 @@
           />
         </div>
 
-        <div class="form-group">
+        <div class="form-group" v-if="false">
           <label class="form-label" for="dob">Bio</label>
           <textarea
             placeholder="Write about your company "
@@ -95,13 +95,14 @@
     <!-- MODAL COVER FOOTER -->
     <template slot="modal-cover-footer">
       <div class="modal-cover-footer">
-        <button ref="save" class="btn btn-primary btn-md wt-100 mgt-17" @click="save">Submit</button>
+        <button ref="save" class="btn btn-primary btn-md wt-100 mgt-5" @click="save">Submit</button>
       </div>
     </template>
   </ModalCover>
 </template>
 
 <script>
+import { mapActions, mapMutations } from "vuex";
 import ModalCover from "@/shared/components/modal-cover";
 import BasicInput from "@/shared/components/form-comps/basic-input";
 
@@ -111,6 +112,24 @@ export default {
   components: {
     ModalCover,
     BasicInput,
+  },
+
+  mounted() {
+    this.updateSavedProfile();
+  },
+
+  computed: {
+    getUpdatePayload() {
+      return {
+        business_id: this.getBusinessId,
+        updates: {
+          business_name: this.form.business_name,
+          business_address: this.form.business_address,
+          website: this.form.business_website,
+          business_email: this.form.business_email,
+        },
+      };
+    },
   },
 
   data() {
@@ -123,25 +142,79 @@ export default {
       },
 
       validity: {
-        business_name: "",
-        business_website: "",
-        business_address: "",
-        business_email: "",
+        business_name: true,
+        business_website: true,
+        business_address: true,
+        business_email: true,
       },
     };
   },
 
   methods: {
-    save() {
+    ...mapActions({
+      updateUserBusinessInfo: "settings/updateUserBusinessInfo",
+    }),
+
+    ...mapMutations({ UPDATE_AUTH_USER: "auth/UPDATE_AUTH_USER" }),
+
+    updateSavedProfile() {
+      const user = this.getUser;
+      const {
+        business_name,
+        business_email,
+        business_address,
+        business_website,
+      } = user;
+
+      this.form = {
+        business_name,
+        business_email,
+        business_address,
+        business_website,
+      };
+
+      this.validity = {
+        business_name: !business_name,
+        business_email: !business_email,
+        business_address: !business_address,
+        business_website: !business_website,
+      };
+    },
+
+    updateProfile() {
+      const updatedUser = {
+        ...this.getUser,
+        business_name: this.form.business_name,
+        business_email: this.form.business_email,
+        business_address: this.form.business_address,
+        business_website: this.form.business_website,
+      };
+
+      this.UPDATE_AUTH_USER(updatedUser);
+    },
+
+    async save() {
       this.handleClick("save");
 
-      setTimeout(() => {
-        this.handleClick("save", "Submit", false);
-        this.$emit(
-          "saved",
-          "Your Business information has been updated successfully"
+      try {
+        const response = await this.updateUserBusinessInfo(
+          this.getUpdatePayload
         );
-      }, 1500);
+        this.handleClick("save", "Submit", false);
+
+        if (response.code === 200) {
+          this.$emit(
+            "saved",
+            "Your Business information has been updated successfully"
+          );
+
+          this.updateProfile();
+        } else this.pushToast(response.message, "error");
+      } catch (err) {
+        console.log("ERROR UPDATING BUSINESS INFO", err);
+        this.pushToast("Failed to update business information", "error");
+        this.handleClick("save", "Submit", false);
+      }
     },
   },
 };

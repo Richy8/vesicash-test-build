@@ -125,9 +125,7 @@
           class="btn btn-primary btn-md w-100"
           ref="registerBtn"
           :disabled="isValidState"
-        >
-          Register
-        </button>
+        >Register</button>
       </div>
 
       <!-- HELP BLOCK TEXT -->
@@ -215,7 +213,7 @@ export default {
     // ==========================================
     this.$bus.$on(
       "update-country-state",
-      (country) => (this.form.country = country)
+      (country) => (this.form.country = country.toLowerCase())
     );
   },
 

@@ -28,6 +28,34 @@
   </svg>
 
   <svg
+    v-else-if="big"
+    xmlns="http://www.w3.org/2000/svg"
+    width="124"
+    height="124"
+    viewBox="0 0 124 124"
+    fill="none"
+  >
+    <circle cx="28.4167" cy="77.5" r="7.75" fill="white" />
+    <ellipse cx="62" cy="33.5833" rx="15.5" ry="18.0833" fill="#B3E4FB" />
+    <ellipse cx="62.0001" cy="82.6667" rx="41.3333" ry="20.6667" fill="#043B56" />
+    <circle
+      cx="92.9999"
+      cy="67.1667"
+      r="20.6667"
+      fill="#B3E4FB"
+      stroke="white"
+      stroke-width="7.75"
+    />
+    <path d="M93 60.9688V73.8854" stroke="white" stroke-width="7.75" stroke-linecap="round" />
+    <path
+      d="M99.4583 67.4297L86.5416 67.4297"
+      stroke="white"
+      stroke-width="7.75"
+      stroke-linecap="round"
+    />
+  </svg>
+
+  <svg
     v-else
     width="24"
     height="24"
@@ -55,6 +83,11 @@ export default {
 
   props: {
     profileMenu: {
+      type: Boolean,
+      default: false,
+    },
+
+    big: {
       type: Boolean,
       default: false,
     },

@@ -15,17 +15,17 @@
     <!-- MODAL COVER BODY -->
     <template slot="modal-cover-body">
       <div class="modal-cover-body">
-        <div class="form-group">
+        <!-- <div class="form-group">
           <div class="form-label">Select Country</div>
 
-          <!-- SELECT INPUT FIELD -->
+          SELECT INPUT FIELD
           <DropSelectInput
             placeholder="Select country"
             :options="country_options"
             @optionSelected="country = $event"
             :pre_select="country"
           />
-        </div>
+        </div>-->
 
         <div class="form-group inline-group">
           <BasicInput
@@ -60,14 +60,27 @@
         </div>
 
         <div class="form-group">
-          <div class="form-label">Select bank</div>
+          <!-- <div class="form-label">Select bank</div> -->
 
           <!-- SELECT INPUT FIELD -->
-          <DropSelectInput
+          <!-- <DropSelectInput
             placeholder="Select bank"
             :options="bank_name_options"
             @optionSelected="bank = $event"
             :pre_select="bank"
+          />-->
+
+          <BasicInput
+            label_title="Bank name"
+            label_id="acct-bank-name"
+            :input_value="form.account_bank_name"
+            is_required
+            placeholder="Enter bank name"
+            @getInputState="updateFormState($event, 'account_bank_name')"
+            :error_handler="{
+            type: 'required',
+            message: 'Bank name is required'
+          }"
           />
         </div>
 
@@ -174,11 +187,12 @@ export default {
       const is_form_invalid = Object.values(this.validity).some(
         (valid) => valid
       );
-      return is_form_invalid || !this.country || !this.bank;
+      return is_form_invalid;
     },
 
     getNewDollarAccountDetails() {
       return {
+        bank_details_id: this.savedDetails.id,
         account_id: this.getAccountId,
         updates: {
           account_name: `${this.form.account_last_name} ${this.form.account_first_name}`,
@@ -186,7 +200,7 @@ export default {
           swift_code: this.form.account_swift_code,
           sort_code: this.form.account_sort_code,
           bank_address: this.form.account_bank_address,
-          bank_name: this.bank?.name,
+          bank_name: this.form.account_bank_name,
           currency: "USD",
         },
       };
@@ -226,6 +240,7 @@ export default {
       account_swift_code: "",
       account_sort_code: "",
       account_bank_address: "",
+      account_bank_name: "",
     },
 
     validity: {
@@ -235,6 +250,7 @@ export default {
       account_swift_code: true,
       account_sort_code: true,
       account_bank_address: true,
+      account_bank_name: true,
     },
   }),
 
@@ -252,6 +268,7 @@ export default {
         account_swift_code: details?.swift_code,
         account_sort_code: details?.sort_code,
         account_bank_address: details?.bank_address,
+        account_bank_name: details?.bank_name,
       };
 
       this.validity = {
@@ -261,6 +278,7 @@ export default {
         account_swift_code: !details?.swift_code,
         account_sort_code: !details?.sort_code,
         account_bank_address: !details?.bank_address,
+        account_bank_name: !details?.bank_name,
       };
 
       this.bank = {
@@ -272,10 +290,31 @@ export default {
 
     async updateNewDollarAccount() {
       this.handleClick("save", "Updating account...");
-      setTimeout(() => {
+
+      try {
+        const response = await this.addNewBank(this.getNewDollarAccountDetails);
+
+        if (response.code === 200) {
+          this.handleClick("save", "Updating bank list...");
+          await this.fetchAllBanks(this.getAccountId);
+          this.handleClick("save", "Update account", false);
+          this.$emit(
+            "saved",
+            response.message ||
+              "You have successfully updated your bank account"
+          );
+        } else {
+          this.handleClick("save", "Update account", false);
+          this.pushToast(
+            response.message || "Failed to update bank account",
+            "warning"
+          );
+        }
+      } catch (err) {
+        console.log("Error updating dollar account", err);
+        this.pushToast("Failed to update bank account", "error");
         this.handleClick("save", "Update account", false);
-        this.$emit("saved", "You have successfully updated your bank account");
-      }, 2000);
+      }
     },
   },
 };

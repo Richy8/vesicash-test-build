@@ -7,7 +7,8 @@
     <div class="page-meta tertiary-2-text grey-600">Generate API keys here</div>
 
     <div class="key-wrapper">
-      <div class="keys tertiary-2-text">{{ api_keys}}</div>
+      <div class="key-loader skeleton-loader" v-if="generating_keys"></div>
+      <div class="keys tertiary-2-text" v-else>{{ getAPIKeys }}</div>
 
       <button
         class="btn btn-sm btn-secondary"
@@ -25,11 +26,18 @@
       </button>
     </div>
 
-    <button class="btn btn-md btn-primary generate-key-btn">Generate API key</button>
+    <button
+      class="btn btn-md btn-primary generate-key-btn"
+      ref="generate"
+      @click="generateKeys(true)"
+      :disabled="generating_keys"
+    >Generate API key</button>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+
 import CopyIcon from "@/shared/components/icon-comps/copy-icon";
 export default {
   name: "APISettings",
@@ -38,16 +46,54 @@ export default {
     CopyIcon,
   },
 
+  computed: {
+    ...mapGetters({ getAPIKeys: "settings/getAPIKeys" }),
+  },
+
+  watch: {
+    getAPIKeys: {
+      async handler(keys) {
+        if (!keys) this.generateKeys(false);
+      },
+      immediate: true,
+    },
+  },
+
   data() {
     return {
       api_keys: "26fhf4jf8key783920v56y",
       copied: false,
+      generating_keys: false,
     };
   },
 
   methods: {
+    ...mapActions({ generateAPIkeys: "settings/generateAPIkeys" }),
+
+    async generateKeys(load) {
+      this.generating_keys = true;
+      if (load) this.handleClick("generate");
+      try {
+        const response = await this.generateAPIkeys({
+          account_id: this.getAccountId,
+        });
+
+        this.generating_keys = false;
+
+        if (load) this.handleClick("generate", "Generate API keys", false);
+
+        if (![201, 200].includes(response.code))
+          this.pushToast(response.message, "error");
+      } catch (err) {
+        this.generating_keys = false;
+        if (load) this.handleClick("generate", "Generate API keys", false);
+        this.pushToast("Failed to generate API keys", "error");
+        console.log("FAILED TO GET KEYS", err);
+      }
+    },
+
     async copyAPIkeys() {
-      await navigator.clipboard.writeText(this.api_keys);
+      await navigator.clipboard.writeText(this.getAPIKeys);
       this.copied = true;
       setTimeout(() => {
         this.copied = false;
@@ -75,15 +121,25 @@ export default {
 
   .keys {
     min-width: toRem(368);
+    max-width: toRem(368);
     padding: toRem(12) toRem(16);
     border: toRem(1) dashed getColor("green-500");
     border-radius: toRem(12);
     background: getColor("green-10");
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 
     @include breakpoint-custom-down(787) {
       min-width: auto;
       width: 100%;
     }
+  }
+
+  .key-loader {
+    width: toRem(350);
+    height: toRem(42);
+    border-radius: toRem(8);
   }
 
   .copied-btn {

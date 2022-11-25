@@ -3,54 +3,74 @@
     <!-- TABLE CONTAINER -->
     <TableContainer
       table_name="user-table"
-      :table_data="table_data"
+      :table_data="getPaginatedUser"
       :table_header="table_header"
       :is_loading="table_loading"
       :empty_message="empty_message"
-      @goToPage="getUserWalletTransactions($event)"
-      :pagination="pagination"
+      @goToPage="page=$event"
+      :pagination="getPagination"
+      show_paging
     >
-      <template v-for="(data, index) in table_data">
-        <UserTableRow :key="index" table_name="user-table" :data="data" />
+      <template v-for="(user, index) in getPaginatedUser">
+        <UserTableRow :key="user.account_id+index" table_name="user-table" :data="user" />
       </template>
     </TableContainer>
   </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import TableContainer from "@/shared/components/table-comps/table-container";
 import UserTableRow from "@/modules/settings/components/table-comps/user-table-row";
 
 export default {
-  name: "UserTable",
+  name: "ConnectedUserTable",
 
   components: {
     TableContainer,
     UserTableRow,
   },
 
+  computed: {
+    ...mapGetters({ getConnectedUsers: "settings/getConnectedUsers" }),
+
+    getPaginatedUser() {
+      const { per_page } = this;
+      const index = this.page - 1;
+      const start_range = per_page * index;
+      const end_range = start_range + per_page;
+      const users = [...this.getConnectedUsers];
+      return users.slice(start_range, end_range);
+    },
+
+    getPagination() {
+      const users = [...this.getConnectedUsers];
+      const { per_page } = this;
+      const current_page = this.page;
+
+      const index = this.page - 1;
+      const from = per_page * index;
+      const to = Math.min(from + per_page, users.length);
+
+      return {
+        current_page,
+        per_page,
+        last_page: Math.ceil(users.length / per_page),
+        from: from + 1,
+        to,
+        total: users.length,
+      };
+    },
+  },
+
   data() {
     return {
-      table_header: ["Full name", "Email address", "Password", "Actions"],
+      table_header: ["Full name", "Email address", "Actions"],
 
-      table_data: [
-        {
-          full_name: "Awo bangalee",
-          email: "Awobangalee@gmail.com",
-          password: "Bangalee",
-        },
-        {
-          full_name: "Silas Adedoyin",
-          email: "Silasadedoy@gmail.com",
-          password: "Adedoyin",
-        },
-        {
-          full_name: "Simon Oluwuyi",
-          email: "Silasadedoy@gmail.com",
-          password: "Password",
-        },
-      ],
+      page: 1,
+      per_page: 15,
+
+      table_data: [],
 
       table_loading: false,
       pagination: {
@@ -64,61 +84,49 @@ export default {
       paginatedData: {},
       paginationPages: {},
       empty_message:
-        "You do not currently have any user, click the create users button to add users.",
+        "You do not currently have any user, click the add new user button to add users.",
     };
   },
 
   mounted() {
-    // this.getUserWalletTransactions(1);
+    this.fetchUsers(1);
+  },
+
+  watch: {
+    table_loading: {
+      handler(loading) {
+        this.$emit("updateLoading", loading);
+      },
+    },
   },
 
   methods: {
     ...mapActions({
-      fetchWalletTransactions: "dashboard/fetchWalletTransactions",
+      fetchConnectedUsers: "settings/fetchConnectedUsers",
     }),
 
-    getUserWalletTransactions(page) {
-      // USE PREVIOUSLY SAVED DATA FOR THAT PAGE NUMBER (AVOID UNNECESSARY API CALLS)
-      if (this.paginatedData[page] && this.paginationPages[page]) {
-        this.table_data = this.paginatedData[page];
-        this.pagination = this.paginationPages[page];
+    fetchUsers(page) {
+      this.table_loading = true;
+      this.page = page;
+
+      // USE PREVIOUSLY SAVED DATA (AVOID UNNECESSARY API CALLS)
+      if (this.getConnectedUsers.length) {
         this.table_loading = false;
         return;
       }
 
       const payload = {
         page,
-        account_id: this.getAccountId,
+        business_id: this.getBusinessId,
       };
 
-      this.table_loading = true;
-
-      this.fetchWalletTransactions(payload)
+      this.fetchConnectedUsers(payload)
         .then((response) => {
           if (response.code === 200) {
-            // SHOW ALL DATA ROWS OR THREE ROWS BASED ON ROUTE
-            this.table_data =
-              this.$route?.name === "PaymentsPage"
-                ? response?.data?.data
-                : response?.data?.data?.slice(0, 3);
+            this.table_data = response?.data;
             this.table_loading = false;
 
-            //SET PAGINATION DATA
-            this.pagination = {
-              current_page: response?.data?.current_page,
-              per_page: response?.data?.per_page,
-              last_page: response?.data?.last_page,
-              from: response?.data?.from,
-              to: response?.data?.to,
-              total: response?.data?.total,
-            };
-
-            this.paginationPages[page] = this.pagination;
-
-            this.paginatedData[page] =
-              this.$route?.name === "PaymentsPage"
-                ? response?.data?.data
-                : response?.data?.data?.slice(0, 3);
+            // this.paginationPages[page] = this.pagination;
           }
 
           // HANDLE NON 200 RESPONSE
@@ -141,10 +149,13 @@ export default {
 <style lang="scss">
 .user-table {
   &-1,
-  &-2,
   &-3,
   &-4 {
     max-width: toRem(190);
+  }
+
+  &-2 {
+    max-width: toRem(220);
   }
 
   .head-data {
