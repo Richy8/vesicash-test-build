@@ -300,8 +300,7 @@ export default {
           this.handleClick("save", "Update account", false);
           this.$emit(
             "saved",
-            response.message ||
-              "You have successfully updated your bank account"
+            "You have successfully updated your bank account"
           );
         } else {
           this.handleClick("save", "Update account", false);
