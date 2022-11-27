@@ -9,13 +9,17 @@
       transactions
     </div>
 
-    <div class="cards-container">
+    <div class="cards-container" v-if="loading_verification">
+      <div class="skeleton-loader card-skeleton rounded-12" v-for="i in 5" :key="i"></div>
+    </div>
+
+    <div class="cards-container" v-else>
       <verification-card
         title="Phone number verification"
         subtitle="Verify your phone number."
         cta_title="Verify phone number"
         @action="toggleInputModal"
-        :verified="phone_verified"
+        :verified="phone_verified || isPhoneVerified"
       >
         <TelephoneIcon />
       </verification-card>
@@ -23,9 +27,9 @@
       <verification-card
         title="Business information"
         subtitle="Update informations about your business."
-        cta_title="Verify business information"
+        cta_title="Update business information"
         @action="toggleBusinessInfoModal"
-        :verified="business_info_verified"
+        :verified="false"
       >
         <BusinessIcon />
       </verification-card>
@@ -35,7 +39,7 @@
         subtitle="Choose and upload documents for verification."
         cta_title="Verify document"
         @action="toggleDocUploadModal"
-        :verified="document_verified"
+        :verified="document_verified || isDocVerified"
       >
         <FileIcon active />
       </verification-card>
@@ -45,7 +49,7 @@
         subtitle="Confirm your bvn details."
         cta_title="Verify BVN details"
         @action="toggleBvnModal"
-        :verified="bvn_verified"
+        :verified="bvn_verified || isBvnVerified"
       >
         <BvnIcon />
       </verification-card>
@@ -54,6 +58,7 @@
         title="Settlement account"
         subtitle="Withdrawal accounts for transactions."
         cta_title="Verify settlement account"
+        @action="$router.push({name:'AccountSettings'})"
       >
         <SettlementIcon />
       </verification-card>
@@ -98,6 +103,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 import VerificationCard from "@/modules/settings/components/card-comps/verification-card";
 import VerifyInputModal from "@/modules/settings/modals/verify-input-modal";
 import VerifyOtpModal from "@/modules/settings/modals/verify-otp-modal";
@@ -139,6 +145,46 @@ export default {
       ),
   },
 
+  mounted() {
+    if (!this.getUserVerifications) this.fetchVerifications();
+  },
+
+  computed: {
+    ...mapGetters({ getUserVerifications: "settings/getUserVerifications" }),
+
+    isPhoneVerified() {
+      if (!this.getUserVerifications) return false;
+      const phone_verification = this.getUserVerifications.find(
+        (type) => type.verification_type === "phone"
+      );
+      return phone_verification ? phone_verification?.is_verified : false;
+    },
+
+    isBvnVerified() {
+      if (!this.getUserVerifications) return false;
+      const bvn_verification = this.getUserVerifications.find(
+        (type) => type.verification_type === "bvn"
+      );
+      return bvn_verification ? bvn_verification?.is_verified : false;
+    },
+
+    isBusinessVerified() {
+      if (!this.getUserVerifications) return false;
+      const business_verification = this.getUserVerifications.find(
+        (type) => type.verification_type === "cac"
+      );
+      return business_verification ? business_verification?.is_verified : false;
+    },
+
+    isDocVerified() {
+      if (!this.getUserVerifications) return false;
+      const doc_verification = this.getUserVerifications.find(
+        (type) => type.verification_type === "cac"
+      );
+      return doc_verification ? doc_verification?.is_verified : false;
+    },
+  },
+
   data() {
     return {
       show_input_modal: false,
@@ -152,10 +198,21 @@ export default {
       document_verified: false,
       bvn_verified: false,
       response_message: "",
+      loading_verification: false,
     };
   },
 
   methods: {
+    ...mapActions({
+      fetchUserVerifications: "settings/fetchUserVerifications",
+    }),
+
+    async fetchVerifications() {
+      this.loading_verification = true;
+      await this.fetchUserVerifications({ account_id: this.getAccountId });
+      this.loading_verification = false;
+    },
+
     toggleInputModal() {
       this.show_input_modal = !this.show_input_modal;
     },
@@ -185,7 +242,8 @@ export default {
       this.show_doc_upload_modal = !this.show_doc_upload_modal;
     },
 
-    showSuccessModal(modal, verified, message) {
+    async showSuccessModal(modal, verified, message) {
+      await this.fetchVerifications();
       this[modal] = false;
       this[verified] = true;
       this.response_message = message;
@@ -209,6 +267,11 @@ export default {
 
   @include breakpoint-down(sm) {
     gap: toRem(24) 0;
+  }
+
+  .card-skeleton {
+    width: 100%;
+    height: toRem(65);
   }
 }
 </style>

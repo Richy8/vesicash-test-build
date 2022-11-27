@@ -8,12 +8,7 @@
       :is_loading="false"
     >
       <template v-for="(data, index) in dataset">
-        <UsersTableRow
-          :key="index"
-          :table_name="`users-${type}-tb`"
-          :data="data"
-          :type="type"
-        />
+        <UsersTableRow :key="index" :table_name="`users-${type}-tb`" :data="data" :type="type" />
       </template>
     </TableContainer>
   </div>

@@ -35,7 +35,7 @@
 
         <div class="form-group">
           <label class="form-label" for="dob">Date of birth</label>
-          <input type="date" name="dob" id="dob" class="form-control" />
+          <input type="date" name="dob" id="dob" class="form-control" v-model="dob" />
         </div>
 
         <InfoAlertCard />
@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import ModalCover from "@/shared/components/modal-cover";
 import BasicInput from "@/shared/components/form-comps/basic-input";
 
@@ -67,26 +68,51 @@ export default {
       ),
   },
 
+  computed: {
+    getPayload() {
+      return {
+        bvn: this.form.bvn,
+        dob: this.dob,
+        account_id: this.getAccountId,
+      };
+    },
+  },
+
   data() {
     return {
       form: {
         bvn: "",
       },
 
+      dob: "",
+
       validity: {
-        bvn: "",
+        bvn: true,
       },
     };
   },
 
   methods: {
-    save() {
+    ...mapActions({
+      verfiyUserBVN: "settings/verfiyUserBVN",
+    }),
+
+    async save() {
       this.handleClick("save");
 
-      setTimeout(() => {
+      try {
+        const response = await this.verfiyUserBVN(this.getPayload);
+
         this.handleClick("save", "Submit", false);
-        this.$emit("saved", "Your BVN has been verified successfully");
-      }, 1500);
+
+        if (response.code === 200) {
+          this.$emit("saved", "Your BVN has been verified successfully");
+        } else this.pushToast(response.message, "error");
+      } catch (err) {
+        console.log("ERROR VERIFYING BVN INFO", err);
+        this.handleClick("save", "Submit", false);
+        this.pushToast("Failed to verify BVN", "error");
+      }
     },
   },
 };
