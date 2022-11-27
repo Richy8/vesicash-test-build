@@ -6,47 +6,28 @@
     <div class="escrow-balance-block">
       <div class="balance-block">
         <div class="border-bottom-grey-100">
-          <div
-            class="loading-amount-value rounded-3 skeleton-loader mgb-16"
-            v-if="loading_wallet"
-          ></div>
+          <div class="loading-amount-value rounded-3 skeleton-loader mgb-16" v-if="loading_wallet"></div>
 
           <div class="amount-value mgb-8" v-else>
-            <span
-              >{{ $money.getSign("dollar")
-              }}{{ $money.addComma(getEscrowDollar.split(".")[0]) }}</span
-            >
-            <span class="amount-zero"
-              >.{{ getEscrowDollar.split(".")[1] || "00" }}</span
-            >
+            <span>{{$money.getSign("dollar")}}{{ $money.addComma(getEscrowDollar.split(".")[0])}}</span>
+            <span class="amount-zero">.{{ getEscrowDollar.split(".")[1] || "00" }}</span>
           </div>
         </div>
 
         <div class="third-balance">
-          <div
-            class="loading-amount-value rounded-3 skeleton-loader mgb-16"
-            v-if="loading_wallet"
-          ></div>
+          <div class="loading-amount-value rounded-3 skeleton-loader mgb-16" v-if="loading_wallet"></div>
           <div class="amount-value mgb-8" v-else>
-            <span
-              >{{ $money.getSign("naira")
-              }}{{ getEscrowNaira.split(".")[0] }}</span
-            >
-            <span class="amount-zero">.{{ getEscrowNaira.split(".")[1] }}</span>
+            <span>{{$money.getSign("naira")}}{{ getEscrowNaira.split(".")[0]}}</span>
+            <span class="amount-zero">.{{ getEscrowNaira.split(".")[1]}}</span>
           </div>
 
-          <div class="balance-meta title-description grey-700 secondary-3-text">
-            Escrow balance
-          </div>
+          <div class="balance-meta title-description grey-700 secondary-3-text">Escrow balance</div>
         </div>
       </div>
 
       <div class="balance-block">
         <div class="border-bottom-grey-100">
-          <div
-            class="loading-amount-value rounded-3 skeleton-loader mgb-16"
-            v-if="loading_wallet"
-          ></div>
+          <div class="loading-amount-value rounded-3 skeleton-loader mgb-16" v-if="loading_wallet"></div>
           <div class="amount-value mgb-8" v-else>
             <span>£0</span>
             <span class="amount-zero">.00</span>
@@ -54,19 +35,14 @@
         </div>
 
         <div>
-          <div
-            class="loading-amount-value rounded-3 skeleton-loader mgb-16"
-            v-if="loading_wallet"
-          ></div>
+          <div class="loading-amount-value rounded-3 skeleton-loader mgb-16" v-if="loading_wallet"></div>
 
           <div class="amount-value mgb-8" v-else>
             <span>---------</span>
             <!-- <span class="amount-zero">.00</span> -->
           </div>
 
-          <div
-            class="balance-meta title-description grey-700 secondary-3-text"
-          ></div>
+          <div class="balance-meta title-description grey-700 secondary-3-text"></div>
         </div>
       </div>
     </div>

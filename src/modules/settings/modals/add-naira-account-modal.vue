@@ -186,7 +186,7 @@ export default {
       }
 
       this.loading_banks = true;
-      const response = await this.getAllBanks("Nigeria");
+      const response = await this.getAllBanks("nigeria");
       this.loading_banks = false;
 
       if (response.code === 200) {

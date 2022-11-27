@@ -124,7 +124,7 @@ export default {
     }),
 
     async fetchNigeriaBanks() {
-      const response = await this.getAllBanks("Nigeria");
+      const response = await this.getAllBanks("nigeria");
 
       if (response.code === 200) {
         let bank_options = response.data;

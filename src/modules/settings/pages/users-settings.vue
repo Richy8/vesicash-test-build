@@ -8,14 +8,14 @@
 
     <button
       class="btn btn-md btn-primary add-user-button"
-      v-if="!table_empty"
+      v-if="getConnectedUsers.length"
       @click="toggleAddUserModal"
     >
       <span class="icon icon-plus mgr-8"></span> Add new user
     </button>
 
-    <div class="mgt-32 pdb-40" v-if="!table_empty">
-      <UserTable />
+    <div class="mgt-32 pdb-40" v-if="getConnectedUsers.length || loading_users">
+      <UserTable @updateLoading="loading_users=$event" />
     </div>
 
     <div class="users-empty-state full-width" v-else>
@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 import AddUserModal from "@/modules/settings/modals/add-user-modal";
 import UserTable from "@/modules/settings/components/table-comps/user-table";
 import UserIcon from "@/shared/components/icon-comps/user-icon";
@@ -61,15 +62,22 @@ export default {
     SuccessModal,
   },
 
+  computed: {
+    ...mapGetters({ getConnectedUsers: "settings/getConnectedUsers" }),
+  },
+
   data() {
     return {
       show_add_user_modal: false,
       show_success_modal: false,
       table_empty: false,
+      loading_users: true,
     };
   },
 
   methods: {
+    ...mapActions({}),
+
     toggleAddUserModal() {
       this.show_add_user_modal = !this.show_add_user_modal;
     },

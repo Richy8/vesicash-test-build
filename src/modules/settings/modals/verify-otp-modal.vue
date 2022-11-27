@@ -217,6 +217,10 @@ export default {
     ...mapActions({
       sendUserOTP: "settings/requestOTP",
       verifyUserOTP: "settings/verifyOTP",
+      verifyEmailOTP: "settings/verifyEmailOTP",
+      // sendEmailOTP: "auth/sendUserOTP",
+      sendEmailOTP: "settings/requestEmailOTP",
+      // verifyEmailOTP: "auth/verifyUserOTP",
     }),
     // ===============================
     // CLEAR OUT ALL OTP INPUTS
@@ -255,11 +259,21 @@ export default {
         code: this.getOTPToken,
       };
 
-      this.verifyUserOTP(request_payload)
+      let request_email_payload = {
+        account_id: this.getAccountId,
+        code: this.getOTPToken,
+        // otp_token: this.getOTPToken,
+      };
+
+      const payload = this.email ? request_email_payload : request_payload;
+      const action = this.email ? "verifyEmailOTP" : "verifyUserOTP";
+
+      this[action](payload)
         .then((response) => {
           if (response.code === 200) {
             this.pushToast("OTP was verified successfully", "success");
             this.$emit("closeTriggered");
+            this.$emit("done");
           }
 
           // HANDLE NON 200 RESPONSE
@@ -283,7 +297,16 @@ export default {
         phone_number: this.input,
       };
 
-      this.sendUserOTP(request_payload)
+      let request_email_otp_payload = {
+        account_id: this.getAccountId,
+        email: this.email,
+        email_address: this.email,
+      };
+
+      const payload = this.email ? request_email_otp_payload : request_payload;
+      const action = this.email ? "sendEmailOTP" : "sendUserOTP";
+
+      this[action](payload)
         .then((response) => {
           if (response.code === 200)
             this.pushToast(

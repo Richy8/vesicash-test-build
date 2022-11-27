@@ -38,11 +38,11 @@
 
           <button
             ref="save"
-            class="btn btn-primary btn-md wt-100"
+            class="btn btn-primary btn-md wt-100 text-white"
             v-if="account.currency==='USD'"
             @click="$emit('edit')"
           >
-            <span class="icon icon-trash mgr-11"></span>
+            <span class="icon icon-edit-pen neutral-10 mgr-11"></span>
             Edit account
           </button>
         </div>

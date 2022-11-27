@@ -8,9 +8,10 @@
         </div>
 
         <div class="text-center h4-text grey-900">Delete user</div>
-        <div
-          class="text-center tertiary-1-text mgb-22 mgt-5 grey-900"
-        >Are you sure you want to delete user?</div>
+        <div class="text-center tertiary-1-text mgb-22 mgt-5 grey-900">
+          Are you sure you want to delete
+          <b>{{ name ? name :'user' }}</b>
+        </div>
       </div>
     </template>
 
@@ -19,7 +20,7 @@
       <div class="modal-cover-footer">
         <div class="button-wrapper">
           <button class="btn btn-sm btn-secondary" @click="$emit('closeTriggered')">Cancel</button>
-          <button class="btn btn-sm btn-alert">Delete</button>
+          <button class="btn btn-sm btn-alert" ref="delete" @click="deleteUser">Delete</button>
         </div>
       </div>
     </template>
@@ -27,18 +28,66 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import ModalCover from "@/shared/components/modal-cover";
 import TrashIcon from "@/shared/components/icon-comps/trash-icon";
 
 export default {
   name: "DeletePromptModal",
 
+  props: {
+    id: {
+      type: [Number, String],
+      default: "",
+    },
+
+    name: {
+      type: String,
+      default: "",
+    },
+  },
+
   components: {
     ModalCover,
     TrashIcon,
   },
 
-  methods: {},
+  methods: {
+    ...mapActions({
+      deleteConnectedUser: "settings/deleteConnectedUser",
+      fetchConnectedUsers: "settings/fetchConnectedUsers",
+    }),
+
+    async fetchUsers(message, type) {
+      await this.fetchConnectedUsers({ business_id: this.getBusinessId });
+      this.pushToast(message, type);
+      this.$emit("closeTriggered");
+    },
+
+    async deleteUser() {
+      if (!this.id) return;
+
+      this.handleClick("delete");
+
+      try {
+        const response = await this.deleteConnectedUser({
+          account_id: this.id,
+        });
+
+        const type = response.code === 200 ? "success" : "error";
+
+        if (response.code === 200) this.fetchUsers(response.message, type);
+        else {
+          this.handleClick("delete", "Delete", false);
+          this.pushToast(response.message, type);
+        }
+      } catch (err) {
+        console.log("ERROR DELETING USER", err);
+        this.pushToast("Failed to delete user", "error");
+        this.handleClick("delete", "Delete", false);
+      }
+    },
+  },
 };
 </script>
 

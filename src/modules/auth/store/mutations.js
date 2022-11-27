@@ -19,8 +19,11 @@ export default {
       : null;
     userData.email = response_payload.user.email_address;
     userData.phone = response_payload.user.phone_number;
+    userData.username = response_payload.user.username;
     userData.country = response_payload.profile.user.country ?? "NG";
     userData.currency = response_payload.profile.user.currency ?? "NGN";
+    userData.meta = response_payload.user.meta;
+    userData.bio = response_payload.profile.user.bio;
 
     // BUSINESS ACCOUNT DATA
     userData.business_name =
@@ -48,6 +51,11 @@ export default {
 
     // UPDATE AUTH STATE
     state.authUser = userData;
+    setStorage(VESICASH_AUTH_USER, state.authUser, "object");
+  },
+
+  UPDATE_AUTH_USER: (state, data) => {
+    state.authUser = data;
     setStorage(VESICASH_AUTH_USER, state.authUser, "object");
   },
 

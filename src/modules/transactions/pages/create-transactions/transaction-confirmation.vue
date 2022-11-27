@@ -34,7 +34,7 @@
 
         <!-- DISPUTE HANDLING -->
         <div class="col-12 col-xl-5">
-          <FundInfoCard
+          <!-- <FundInfoCard
             card_title="Dispute handling"
             :card_items="[
               {
@@ -55,7 +55,7 @@
                   : null,
               },
             ]"
-          />
+          />-->
         </div>
       </div>
     </template>

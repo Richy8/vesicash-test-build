@@ -126,7 +126,11 @@ export default {
   },
 
   methods: {
-    ...mapActions({ sendUserOTP: "settings/requestOTP" }),
+    ...mapActions({
+      sendUserOTP: "settings/requestOTP",
+      sendEmailOTP: "settings/requestEmailOTP",
+      // sendEmailOTP: "auth/sendUserOTP",
+    }),
 
     requestOTP() {
       this.handleClick("continue");
@@ -136,7 +140,16 @@ export default {
         phone_number: this.form.phone_number,
       };
 
-      this.sendUserOTP(request_payload)
+      let request_email_otp_payload = {
+        account_id: this.getAccountId,
+        email_address: this.form.email_address,
+        email: this.form.email_address,
+      };
+
+      const payload = this.email ? request_email_otp_payload : request_payload;
+      const action = this.email ? "sendEmailOTP" : "sendUserOTP";
+
+      this[action](payload)
         .then((response) => {
           this.handleClick("continue", "Continue", false);
 
@@ -145,7 +158,10 @@ export default {
               `An OTP code has been sent to ${this.form.phone_number}`,
               "success"
             );
-            this.$emit("continue");
+            this.$emit(
+              "continue",
+              this.email ? this.form.email_address : this.form.phone_number
+            );
           } else {
             this.pushToast(response.message, "error");
           }
