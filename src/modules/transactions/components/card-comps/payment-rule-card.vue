@@ -18,8 +18,12 @@
 
         <div class="value grey-900 text-wrap">
           <template v-if="item.title === 'Status'">
-            <TagCard :card_text="item.value" card_type="progress" />
+            <TagCard
+              :card_text="item.value"
+              :card_type="item.value | getStatusColor(status_colors)"
+            />
           </template>
+
           <template v-else> <div v-html="item.value"></div></template>
         </div>
       </div>
@@ -52,10 +56,48 @@
         class="actions-row"
         :class="$string.isOddNumber(user_details.length) && 'mgt-24'"
       >
-        <button class="btn btn-primary btn-md">Approve</button>
-        <button class="btn btn-secondary btn-md">Reject</button>
+        <!-- APPROVAL ROLE -->
+        <template v-if="userAccess.approve">
+          <!-- APPROVAL OPTIONS -->
+          <template v-if="getMilestoneStatus === 'delivered'">
+            <button class="btn btn-primary btn-md">Approve</button>
+            <button class="btn btn-secondary btn-md">Reject</button>
+          </template>
+
+          <!-- DATE RENEWAL OPTIONS -->
+          <template v-if="getMilestoneStatus === 'delivered - rejected'">
+            <button
+              class="btn btn-primary btn-md"
+              @click="toggleRenewDateModal"
+            >
+              Renew Date
+            </button>
+            <button class="btn btn-secondary btn-md">Reject</button>
+          </template>
+        </template>
+
+        <!-- MARK AS DONE ROLE -->
+        <template v-if="userAccess.mark_as_done">
+          <template
+            v-if="
+              ['in progress', 'delivered - rejected'].includes(
+                getMilestoneStatus
+              )
+            "
+          >
+            <button class="btn btn-primary btn-md">Mark as done</button>
+            <button class="btn btn-secondary btn-md">Reject</button>
+          </template>
+        </template>
       </div>
     </template>
+
+    <!-- MODALS -->
+    <portal to="vesicash-modals">
+      <transition name="fade" v-if="show_renew_modal">
+        <RenewDateModal @closeTriggered="toggleRenewDateModal" />
+      </transition>
+    </portal>
   </div>
 </template>
 
@@ -70,6 +112,11 @@ export default {
   components: {
     TagCard,
     PaymentUserCard,
+
+    RenewDateModal: () =>
+      import(
+        /* webpackChunkName: "transactions-modal-module" */ "@/modules/transactions/modals/renew-date-modal"
+      ),
   },
 
   props: {
@@ -80,6 +127,11 @@ export default {
     milestone: {
       type: Object,
       default: () => ({}),
+    },
+
+    parties: {
+      type: Array,
+      default: () => [],
     },
 
     currency: {
@@ -120,6 +172,9 @@ export default {
         : `Milestone ${this.index + 1}`;
     },
 
+    // ===================================================
+    // GET ALL USERS IN MILESTONE RCEIVING FUNDS
+    // ===================================================
     loadCurrentMilestoneRecipients() {
       if (this.getMilestoneRecipients.length)
         return this.getMilestoneRecipients.filter(
@@ -128,6 +183,16 @@ export default {
       else return this.milestone.recipients;
     },
 
+    // ===================================================
+    // GET CURRENT MILESTONE STATUS
+    // ===================================================
+    getMilestoneStatus() {
+      return (this.milestone?.status ?? this.status.SAC).toLowerCase();
+    },
+
+    // ===================================================
+    // GET PAYMENT RULES FOR CURRENT MILESTONE
+    // ===================================================
     loadPaymentRules() {
       let milestone_date = `${this.milestone?.due_date.split(" ")[0]} 00:00:00`;
 
@@ -163,7 +228,7 @@ export default {
           },
           this.$route.name === "TransactionDetails" && {
             title: "Status",
-            value: "In progress",
+            value: this.getMilestoneStatus,
           },
         ];
       } else {
@@ -179,16 +244,62 @@ export default {
           },
           this.$route.name === "TransactionDetails" && {
             title: "Status",
-            value: "In progress",
+            value: this.getMilestoneStatus,
           },
         ];
       }
+    },
+
+    // ===================================================
+    // GET USER ACCESS LEVELS CAPABILITIES
+    // ===================================================
+    userAccess() {
+      if (this.parties.length) {
+        return this.parties.find(
+          (party) => party.account_id === this.getAccountId
+        )?.access_level;
+      } else return false;
+    },
+  },
+
+  filters: {
+    getStatusColor(status, status_colors) {
+      return status_colors[status?.toLowerCase()] || "error";
     },
   },
 
   data: () => ({
     user_details: [],
+    show_renew_modal: false,
+
+    status: {
+      SAC: "Sent - Awaiting Confirmation",
+    },
+
+    status_colors: {
+      "sent - awaiting confirmation": "progress",
+      "sent - Rejected": "error",
+      "accepted - not funded": "error",
+      "accepted - funded": "okay",
+      draft: "okay",
+      "in progress": "progress",
+      delivered: "okay",
+      "delivered - accepted": "success",
+      "delivered - rejected": "error",
+      "closed - disbursement complete": "success",
+      completed: "success",
+      "closed - refunded": "error",
+      "closed - not funded": "error",
+      closed: "error",
+    },
   }),
+
+  methods: {
+    // TOGGLE RENEWAL DATE MODAL
+    toggleRenewDateModal() {
+      this.show_renew_modal = !this.show_renew_modal;
+    },
+  },
 };
 </script>
 

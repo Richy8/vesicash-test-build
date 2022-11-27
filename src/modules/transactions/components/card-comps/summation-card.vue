@@ -40,7 +40,7 @@
     </template>
 
     <div class="item-row">
-      <div class="item grey-600 tertiary-2-text">5% Escrow fee</div>
+      <div class="item grey-600 tertiary-2-text">Escrow fee (5%)</div>
       <div
         class="value grey-900 secondary-2-text"
         v-html="`${getCurrencySign} ${$money.addComma(amount_data.escrow_fee)}`"

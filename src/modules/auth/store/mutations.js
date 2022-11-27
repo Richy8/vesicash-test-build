@@ -14,7 +14,9 @@ export default {
     let userData = {};
 
     userData.id = response_payload.user.id;
-    userData.fullname = `${response_payload.user.firstname} ${response_payload.user.lastname}`;
+    userData.fullname = response_payload.user.firstname
+      ? `${response_payload.user.firstname} ${response_payload.user.lastname}`
+      : null;
     userData.email = response_payload.user.email_address;
     userData.phone = response_payload.user.phone_number;
     userData.country = response_payload.profile.user.country ?? "NG";

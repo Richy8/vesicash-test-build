@@ -1,6 +1,6 @@
 <template>
   <div class="app-chip" :class="`app-chip-${card_type}`">
-    <div class="chip-text">{{ card_text }}</div>
+    <div class="chip-text text-capitalize">{{ card_text }}</div>
   </div>
 </template>
 
@@ -11,7 +11,7 @@ export default {
   props: {
     card_text: {
       type: String,
-      default: "Completed",
+      default: "Sent - Pending",
     },
 
     card_type: {

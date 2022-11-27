@@ -188,11 +188,11 @@ export default {
   }
 
   &-4 {
-    min-width: toRem(150);
+    min-width: toRem(120);
   }
 
   &-5 {
-    min-width: toRem(150);
+    min-width: toRem(100);
   }
 
   &-6 {

@@ -1,7 +1,10 @@
 <template>
   <div class="modal-overlay" @click.self="selfCloseModal">
     <div class="modal-outer-container">
-      <div :class="getModalWrapperStyle" class="modal-cover box-shadow-effect px-0 mx-auto">
+      <div
+        :class="getModalWrapperStyle"
+        class="modal-cover box-shadow-effect px-0 mx-auto"
+      >
         <div class="modal-cover-body-wrapper px-0">
           <!-- DISMISS DIALOG -->
           <div

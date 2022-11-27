@@ -10,18 +10,29 @@
       <div class="modal-cover-header">
         <div class="modal-cover-title">
           <!-- BACK BUTTON -->
-          <PageBackBtn
-            custom_mode
-            @clicked="$emit('goBackWalletSelection')"
-          />Fund <span class="text-capitalize">{{ wallet_type }}</span> wallet
+          <PageBackBtn custom_mode @clicked="$emit('goBackWalletSelection')" />
+          <template>
+            Fund
+            <template v-if="$route.name !== 'VesicashDashboard'"
+              >escrow
+            </template>
+            <span class="text-capitalize">{{ wallet_type }}</span> wallet
+          </template>
         </div>
 
         <div class="modal-cover-meta">
           <template v-if="wallet_type === 'naira'">
-            Please send the amount you wish to fund to the Bank account details
-            listed below.
-            <br />
-            <br />Minimum wallet funding amount is <b>₦1,000</b>.
+            <template v-if="$route.name === 'VesicashDashboard'">
+              Please send the amount you wish to fund to the Bank account
+              details listed below.
+              <br />
+              <br />Minimum wallet funding amount is <b>₦1,000</b>.
+            </template>
+
+            <template v-else>
+              Please send the total transaction amount to the Bank account
+              details below, inorder to initiate your transaction.
+            </template>
           </template>
 
           <template v-else

@@ -21,23 +21,3 @@ export default () => ({
 
   transaction_details: {},
 });
-
-// SAMPLE BENEFICIARY OBJECT
-// {
-//     id: "";
-//     account_id: "";
-//     email_address: "";
-//     phone_number: "";
-//     role: "";
-//     access: "";
-//     recipient: "";
-//      amount: 0,
-// }
-
-// SAMPLE MILESTONE OBJECT
-// {
-//     id: "";
-//     name: "";
-//     due_date: "";
-//     inspection_period: "";
-// }

@@ -4,8 +4,8 @@
       <!-- WELCOME MESSAGE -->
       <div class="welcome-message h5-text grey-900">
         Welcome
-        <span class="text-capitalize">
-          {{ getUser.fullname.split(" ")[0] || "" }}
+        <span>
+          {{ displayUserFirstname }}
         </span>
       </div>
 
@@ -87,6 +87,12 @@ export default {
       ),
   },
 
+  computed: {
+    displayUserFirstname() {
+      return this.getUser?.fullname?.split(" ")[0] ?? this.getUser.email;
+    },
+  },
+
   data() {
     return {
       naira_dollar_wallet: [
@@ -100,6 +106,11 @@ export default {
           value: "0.00",
           sign: "dollar",
         },
+        {
+          title: "GBP",
+          value: "0.00",
+          sign: "pound",
+        },
       ],
 
       escrow_wallet: [
@@ -112,6 +123,11 @@ export default {
           title: "NAIRA",
           value: "0.00",
           sign: "naira",
+        },
+        {
+          title: "POUND",
+          value: "0.00",
+          sign: "pound",
         },
       ],
 

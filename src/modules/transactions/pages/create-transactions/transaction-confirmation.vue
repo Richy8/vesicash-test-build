@@ -96,7 +96,10 @@
     <!-- SUMMATION TOTAL -->
     <div class="wrapper mgb-40">
       <div class="col-xl-9">
-        <SummationCard :milestones="getTransactionMilestones" :amount_data="getTransactionAmount" />
+        <SummationCard
+          :milestones="getTransactionMilestones"
+          :amount_data="getTransactionAmount"
+        />
       </div>
     </div>
 
@@ -106,7 +109,9 @@
         class="btn btn-primary btn-md"
         ref="createEscrowBtn"
         @click="createTransaction"
-      >Create escrow</button>
+      >
+        Create escrow
+      </button>
     </div>
   </div>
 </template>
@@ -202,7 +207,7 @@ export default {
         (user) => !user.account_id
       );
 
-      console.log(users);
+      // console.log(users);
 
       users.map((user) => {
         signup_payload.push({
@@ -216,6 +221,14 @@ export default {
       if (signup_payload.length) {
         this.registerBulkUsers({ bulk: signup_payload })
           .then((response) => {
+            // console.log("RESPONSE", response);
+
+            // RETRY BULK UPLOAD IF IT RETURNS 500 RESPONSE
+            if (response.code === 500) {
+              this.signupBulkUsers();
+              return false;
+            }
+
             let user_payload = [];
             let updated_beneficiaries = [];
             let updated_recipients = [];
@@ -300,6 +313,7 @@ export default {
 
         party_obj.account_id = user.account_id;
         party_obj.role = user.role?.name.toLowerCase();
+        party_obj.status = user.status;
         party_obj.access_level = {
           can_view: true,
           can_receive: user.recipient.name === "Yes" ? true : false,
@@ -319,6 +333,8 @@ export default {
         milestone_obj.title = milestone.name
           ? milestone.name
           : `Milestone ${index + 1}`;
+
+        milestone_obj.status = milestone.status;
 
         milestone_obj.amount =
           this.getTransactionAmount.milestone_amounts[index];
@@ -373,12 +389,14 @@ export default {
               "Transaction cannot be created at this time",
               "error"
             );
+            this.handleClick("createEscrowBtn", "Create Escrow", false);
             this.togglePageLoader("");
             return false;
           }
         })
         .catch(() => {
           this.handleEscrowError("An error occured while creating escrow");
+          this.handleClick("createEscrowBtn", "Create Escrow", false);
           this.togglePageLoader("");
           return false;
         });

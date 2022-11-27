@@ -22,7 +22,7 @@ const transactionRoutes = [
       // TRANSACTION DETAILS ROUTE
       // =====================================
       {
-        path: "/transactions/payment-details",
+        path: "/transactions/escrow-details/:id",
         name: "TransactionDetails",
         component: () =>
           import(
@@ -32,6 +32,11 @@ const transactionRoutes = [
         meta: {
           requiresAuth: true,
         },
+        // beforeEnter(to, from, next) {
+        //   let back_route = from?.name ?? "VesicashDashboard";
+        //   sessionStorage.setItem("back_link", back_route);
+        //   next();
+        // },
       },
 
       // =====================================

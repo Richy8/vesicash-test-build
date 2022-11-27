@@ -4,9 +4,7 @@
       <!-- INPUT LABEL -->
       <template v-if="label_title">
         <label class="form-label" :for="label_id" :class="getLabelStyle">
-          {{
-          label_title
-          }}
+          {{ label_title }}
         </label>
       </template>
 
@@ -21,6 +19,7 @@
           class="form-control"
           :class="[getInputStyle, error_message && 'form-control-error']"
           :placeholder="placeholder"
+          :min="getInputType === 'date' ? minimum_date : null"
           @input="validateAndEmitUserInput"
           @paste="validateAndEmitUserInput"
           @change="validateAndEmitUserInput"
@@ -64,12 +63,17 @@
     <!-- DROP DOWN SELECT AREA -->
     <template v-if="is_phone_type">
       <template name="drop-select-area" v-if="show_dropdown">
-        <CountryDropSelect :countries="countries_data" @countrySelected="current_country = $event" />
+        <CountryDropSelect
+          :countries="countries_data"
+          @countrySelected="current_country = $event"
+        />
       </template>
     </template>
 
     <!-- MESSAGE TEXT -->
-    <div class="error-message-text" v-if="error_message">{{ error_message }}</div>
+    <div class="error-message-text" v-if="error_message">
+      {{ error_message }}
+    </div>
   </div>
 </template>
 
@@ -130,6 +134,11 @@ export default {
     },
 
     placeholder: {
+      type: String,
+      default: "",
+    },
+
+    minimum_date: {
       type: String,
       default: "",
     },

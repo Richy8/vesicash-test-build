@@ -200,6 +200,7 @@ export default {
       user_data.access = this.form.user_access;
       user_data.recipient = USER_PAYOUT_OPTIONS[1];
       user_data.amount = 0;
+      user_data.status = "Created";
 
       this.UPDATE_TRANSACTION_BENEFICIARIES([
         ...this.getTransactionBeneficiaries,
