@@ -38,48 +38,21 @@
         />
 
         <template v-if="getWalletType === 'naira'">
-          <ModalListItem
-            title="Bank name"
-            :value="getWithdrawalMeta.bank_name"
-          />
-          <ModalListItem
-            title="Account number"
-            :value="getWithdrawalMeta.account_no"
-          />
+          <ModalListItem title="Bank name" :value="getWithdrawalMeta.bank_name" />
+          <ModalListItem title="Account number" :value="getWithdrawalMeta.account_no" />
           <ModalListItem title="Account name" :value="getWithdrawalMeta.name" />
         </template>
 
         <template v-if="getWalletType === 'dollar'">
           <ModalListItem title="Country" :value="getWithdrawalMeta.country" />
           <!-- <ModalListItem title="Phone number" :value="getWithdrawalMeta.phone" /> -->
-          <ModalListItem
-            title="First name"
-            :value="getWithdrawalMeta.first_name"
-          />
-          <ModalListItem
-            title="Last name"
-            :value="getWithdrawalMeta.last_name"
-          />
-          <ModalListItem
-            title="Bank name"
-            :value="getWithdrawalMeta.bank_name"
-          />
-          <ModalListItem
-            title="Iban/Account no."
-            :value="getWithdrawalMeta.iban"
-          />
-          <ModalListItem
-            title="Swift code"
-            :value="getWithdrawalMeta.swift_code"
-          />
-          <ModalListItem
-            title="Sort code"
-            :value="getWithdrawalMeta.sort_code"
-          />
-          <ModalListItem
-            title="Bank Address"
-            :value="getWithdrawalMeta.bank_address"
-          />
+          <ModalListItem title="First name" :value="getWithdrawalMeta.first_name" />
+          <ModalListItem title="Last name" :value="getWithdrawalMeta.last_name" />
+          <ModalListItem title="Bank name" :value="getWithdrawalMeta.bank_name" />
+          <ModalListItem title="Iban/Account no." :value="getWithdrawalMeta.iban" />
+          <ModalListItem title="Swift code" :value="getWithdrawalMeta.swift_code" />
+          <ModalListItem title="Sort code" :value="getWithdrawalMeta.sort_code" />
+          <ModalListItem title="Bank Address" :value="getWithdrawalMeta.bank_address" />
         </template>
       </div>
     </template>
@@ -91,9 +64,7 @@
           class="btn btn-primary btn-md wt-100"
           ref="continue"
           @click="makeWithdrawal"
-        >
-          Continue
-        </button>
+        >Continue</button>
       </div>
     </template>
   </ModalCover>
@@ -106,6 +77,13 @@ import PageBackBtn from "@/shared/components/page-back-btn";
 
 export default {
   name: "WithdrawConfirmModal",
+
+  props: {
+    escrow: {
+      type: Boolean,
+      default: false,
+    },
+  },
 
   components: {
     ModalCover,
@@ -132,6 +110,7 @@ export default {
         currency: this.getWalletType === "naira" ? "NGN" : "USD",
         debit_currency: this.getWalletType === "naira" ? "NGN" : "USD",
         gateway: "monnify",
+        escrow_wallet: this.escrow ? "yes" : "no",
       };
     },
   },
