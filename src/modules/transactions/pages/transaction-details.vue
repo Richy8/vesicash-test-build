@@ -4,9 +4,9 @@
     <PageBackBtn />
 
     <!-- PAGE TITILE -->
-    <div class="page-title grey-900 h4-text mgb-25">
-      {{ getTransactionDetails?.title || "Transaction title.." }}
-    </div>
+    <div
+      class="page-title grey-900 h4-text mgb-25"
+    >{{ getTransactionDetails.title || "Transaction title.." }}</div>
 
     <!-- FUND DETAILS SECTION -->
     <template name="fund-details-section">
@@ -51,8 +51,8 @@
                 value: 'No file attached',
                 file: getTransactionDetails.files.length
                   ? {
-                      name: getTransactionDetails.files[0]?.file_name,
-                      url: getTransactionDetails.files[0]?.file_url_new,
+                      name: getTransactionDetails.files[0].file_name,
+                      url: getTransactionDetails.files[0].file_url_new,
                     }
                   : null,
               },
