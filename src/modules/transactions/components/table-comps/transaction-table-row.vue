@@ -97,7 +97,7 @@ export default {
     },
 
     getCurrentTransactionStatus() {
-      let MS = this.data?.milestones?.slice()?.reverse();
+      let MS = this.data?.milestones;
 
       // CHECK IF MILESTONE HAS LENGTH
       if (!MS.length) return this.status.CLS;
@@ -121,13 +121,16 @@ export default {
 
         // CHECK OTHER STATUS
         else {
+          let status = "";
+
           MS.map((milestone, index) => {
-            if (MS.length === index + 1)
-              return milestone?.status ?? this.status.SAC;
+            if (MS.length === index + 1) status = milestone?.status;
             else if (!milestone?.status.toLowerCase().includes("closed"))
-              return milestone?.status ?? this.status.SAC;
-            else return this.status.SAC;
+              status = milestone?.status;
+            else status = milestone?.status;
           });
+
+          return status;
         }
       }
     },

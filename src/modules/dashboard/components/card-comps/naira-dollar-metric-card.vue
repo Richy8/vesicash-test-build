@@ -45,7 +45,7 @@
     </div>
 
     <!-- BOTTOM ROW -->
-    <div class="bottom-row">
+    <div class="bottom-row" v-if="show_actions">
       <button
         class="btn btn-tertiary btn-md"
         @click="toggleFundWalletSelectModal"
@@ -153,6 +153,11 @@ export default {
     wallet_balance: {
       type: Array,
       default: () => [],
+    },
+
+    show_actions: {
+      type: Boolean,
+      default: true,
     },
 
     loading_wallet: {

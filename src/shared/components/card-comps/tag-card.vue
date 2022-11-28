@@ -11,7 +11,6 @@ export default {
   props: {
     card_text: {
       type: String,
-      default: "Sent - Pending",
     },
 
     card_type: {
