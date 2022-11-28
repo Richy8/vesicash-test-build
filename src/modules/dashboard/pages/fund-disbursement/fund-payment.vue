@@ -16,19 +16,14 @@
 
         <!-- TOTAL DISPLAY CARDS -->
         <div class="mgb-40">
-          <SumTotalDisplayCard
-            total_text="Total amount to pay"
-            total_value="$35,500"
-          />
+          <SumTotalDisplayCard total_text="Total amount to pay" total_value="$35,500" />
         </div>
       </div>
     </div>
 
     <!-- CTA ACTION ROW -->
     <div class="action-row mgt-14">
-      <button class="btn btn-primary btn-md" @click="togglePaymentModal">
-        Make Payment
-      </button>
+      <button class="btn btn-primary btn-md" @click="togglePaymentModal">Make Payment</button>
     </div>
 
     <!-- MODALS -->

@@ -1,7 +1,8 @@
 <template>
   <div class="confirm-fund-payout">
     <div class="disbursement-title h4-text grey-900 mgb-32">
-      Confirm details for:<br />
+      Confirm details for:
+      <br />
       {{ getTransactionSetup.name }}
     </div>
 
@@ -33,7 +34,7 @@
 
         <!-- DISPUTE HANDLING -->
         <div class="col-12 col-xl-5">
-          <FundInfoCard
+          <!-- <FundInfoCard
             card_title="Dispute handling"
             :card_items="[
               {
@@ -46,10 +47,15 @@
               {
                 title: 'Attached Document(s)',
                 value: 'No file attached',
-                file: null,
+                file: getTransactionSetup.files.length
+                  ? {
+                      name: getTransactionSetup.files[0].name,
+                      url: getTransactionSetup.files[0].url,
+                    }
+                  : null,
               },
             ]"
-          />
+          />-->
         </div>
       </div>
     </template>
@@ -90,10 +96,7 @@
     <!-- SUMMATION TOTAL -->
     <div class="wrapper mgb-40">
       <div class="col-xl-9">
-        <SummationCard
-          :milestones="getTransactionMilestones"
-          :amount_data="getTransactionAmount"
-        />
+        <SummationCard :milestones="getTransactionMilestones" :amount_data="getTransactionAmount" />
       </div>
     </div>
 
@@ -103,9 +106,7 @@
         class="btn btn-primary btn-md"
         ref="createEscrowBtn"
         @click="createTransaction"
-      >
-        Create escrow
-      </button>
+      >Create escrow</button>
     </div>
   </div>
 </template>
@@ -169,6 +170,10 @@ export default {
     },
   },
 
+  mounted() {
+    // this.togglePageLoader("Creating escrow transaction");
+  },
+
   methods: {
     ...mapActions({
       registerBulkUsers: "auth/registerBulkUsers",
@@ -197,11 +202,13 @@ export default {
         (user) => !user.account_id
       );
 
+      console.log(users);
+
       users.map((user) => {
         signup_payload.push({
           account_type: "individual",
           email_address: user.email_address,
-          country: user.country,
+          country: user.country?.toLowerCase(),
           phone: user.phone_number,
         });
       });
@@ -246,7 +253,9 @@ export default {
             this.handleEscrowError("An error occured while creating users");
             return false;
           });
-      } else setTimeout(() => this.setupAndCreateTransaction(), 300);
+      } else {
+        setTimeout(() => this.setupAndCreateTransaction(), 300);
+      }
     },
 
     // =======================================
@@ -276,11 +285,9 @@ export default {
         this.getTransactionAmount.currency?.name.split(" ")[0];
 
       transaction_payload.type = this.getTransactionSetup.type;
-      transaction_payload.amount =
-        this.getTransactionAmount.total_fee -
-        this.getTransactionAmount.escrow_fee;
+      transaction_payload.amount = this.getTransactionAmount.total_fee;
 
-      transaction_payload.files = this.getTransactionSetup.file;
+      transaction_payload.files = this.getTransactionSetup.files;
       transaction_payload.dispute_handler =
         this.getTransactionSetup.dispute_handler;
       transaction_payload.source = "api";
@@ -397,6 +404,9 @@ export default {
                     type: this.$route.query.type,
                     party: this.$route.query.party,
                     transaction_id,
+                    name: this.$route.query.name,
+                    parties: this.$route.query.parties,
+                    fee: this.$route.query.fee,
                   },
                 });
               } else this.$router.push({ name: "VesicashDashboard" });

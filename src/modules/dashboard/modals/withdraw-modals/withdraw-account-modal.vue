@@ -226,6 +226,8 @@ export default {
     },
 
     nairaWithdrawalDetails() {
+      console.log("ACCOUNT", this.getNewAccount);
+
       return {
         amount: Number(Number(this.form.amount)),
         fee: this.charge_fee,
@@ -237,7 +239,8 @@ export default {
         name: this.getNewAccount?.account_name || "",
         bank_name: this.getNewAccount?.bank_name || "",
         account_no: this.getNewAccount?.account_no || "",
-        bank_code: this.getNewAccount?.bank_id,
+        bank_code:
+          this.getNewAccount?.bank?.code || this.getNewAccount?.bank_code,
       };
     },
 
@@ -257,7 +260,8 @@ export default {
         swift_code: this.getNewAccount?.swift_code || "",
         sort_code: this.getNewAccount?.sort_code || "",
         bank_address: this.getNewAccount?.bank_address || "",
-        bank_code: this.getNewAccount?.bank_id,
+        bank_code:
+          this.getNewAccount?.bank.code || this.getNewAccount?.bank_code,
       };
     },
 
@@ -337,14 +341,13 @@ export default {
           response.code === 200
             ? response.data.map((account, index) => ({
                 ...account,
-                bank_id:
-                  account.bank_id.toString().length < 3
-                    ? `0${account.bank_id}`
-                    : account.bank_id,
+                bank_id: account.bank.code,
                 index,
                 selected: false,
               }))
             : [];
+
+        console.log("ACCOUNTS", this.accounts);
       } catch {
         this.loading_banks = false;
         this.pushToast("Failed to load bank details", "error");
@@ -368,6 +371,7 @@ export default {
 
       if (this.initiate_new_account) {
         this.handleClick("continue", "Adding new account");
+
         const response = await this.addNewBank({
           account_id: this.getAccountId,
           updates:
@@ -375,7 +379,9 @@ export default {
               ? this.new_naira_account
               : this.new_dollar_account,
         });
+
         this.handleClick("continue", "Continue", false);
+
         if (response.code === 200) {
           this.setWithrawalMeta(withdrawalMeta);
           this.$emit("accountSelected");

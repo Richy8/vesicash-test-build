@@ -1,10 +1,7 @@
 <template>
   <div class="modal-overlay" @click.self="selfCloseModal">
     <div class="modal-outer-container">
-      <div
-        class="modal-cover modal-sm box-shadow-effect px-0 mx-auto rounded-16"
-        :class="getModalWrapperStyle"
-      >
+      <div :class="getModalWrapperStyle" class="modal-cover box-shadow-effect px-0 mx-auto">
         <div class="modal-cover-body-wrapper px-0">
           <!-- DISMISS DIALOG -->
           <div
@@ -62,7 +59,9 @@ export default {
 
   computed: {
     getModalWrapperStyle() {
-      return `${this.modal_style.shape} ${this.modal_style.size}`;
+      return `${this.modal_style.shape || "rounded-16"} ${
+        this.modal_style.size || "modal-sm"
+      } ${this.modal_style.background || "neutral-10-bg"}`;
     },
   },
 

@@ -11,6 +11,10 @@ export default {
     state.transaction.parties = payload.transaction_party;
   },
 
+  UPDATE_TRANSACTION_ATTACHMENT: (state, payload) => {
+    state.transaction.files = payload;
+  },
+
   UPDATE_TRANSACTION_BENEFICIARIES: (state, payload) => {
     state.transaction.beneficiaries = payload;
   },
@@ -85,5 +89,9 @@ export default {
       milestones: [],
       milestone_recipients: [],
     };
+  },
+
+  UPDATE_TRANSACTION_DETAILS: (state, payload) => {
+    state.transaction_details = payload;
   },
 };

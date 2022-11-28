@@ -40,7 +40,7 @@
     </template>
 
     <div class="item-row">
-      <div class="item grey-600 tertiary-2-text">15% Escrow fee</div>
+      <div class="item grey-600 tertiary-2-text">5% Escrow fee</div>
       <div
         class="value grey-900 secondary-2-text"
         v-html="`${getCurrencySign} ${$money.addComma(amount_data.escrow_fee)}`"
@@ -83,6 +83,28 @@ export default {
     // ===================================================
     getTransactionType() {
       return this.$route.query.type ? this.$route.query.type : "oneoff";
+    },
+
+    // PAUSED
+    getEscrowCharge() {
+      let escrow_type = this.getBusinessData.escrow_charge?.type;
+      let escrow_value = this.getBusinessData.escrow_charge?.value;
+
+      // PERCENTAGE TYPE
+      if (escrow_type === "percentage") {
+        return `${Number(this.getBusinessData.escrow_charge?.value) * 100}%`;
+      }
+
+      // FIXED TYPE
+      else if (escrow_type === "fixed") {
+        return escrow_value;
+      }
+
+      // PERCENTAGE AND FIXED TYPE
+      else {
+      }
+
+      return escrow_type;
     },
   },
 };

@@ -33,12 +33,9 @@
 
     <!-- ACCOUNT CONFIRM CARD -->
     <div class="account-confirm-card grey-10-bg rounded-12 mgt--10">
-      <div
-        class="name tertiary-2-text"
-        :class="invalid_account ? 'red-600' : 'grey-900'"
-      >
+      <div class="name tertiary-2-text" :class="invalid_account ? 'red-600' : 'grey-900'">
         {{
-          account_details ? account_details.account_name : verification_message
+        account_details ? account_details.account_name : verification_message
         }}
       </div>
     </div>
@@ -74,7 +71,7 @@ export default {
       return {
         account_name: this.account_details?.account_name,
         account_no: this.account_details?.account_number,
-        bank_id: this.bank.code,
+        bank_code: this.bank.code,
         bank_name: this.bank.name,
         country: "NG",
         currency: "NGN",
@@ -86,6 +83,7 @@ export default {
     bank: {
       async handler(state) {
         this.account_details = null;
+
         this.$emit("nairaBankUpdated", null);
         if (state && this.form.account_number.length >= 10)
           await this.verifyAccount(this.form.account_number, state.code);
@@ -126,7 +124,7 @@ export default {
     }),
 
     async fetchNigeriaBanks() {
-      const response = await this.getAllBanks("Nigeria");
+      const response = await this.getAllBanks("nigeria");
 
       if (response.code === 200) {
         let bank_options = response.data;
@@ -162,6 +160,8 @@ export default {
       if (response.status === "ok") {
         this.verification_message = "Account Name";
         this.account_details = response.data;
+
+        // console.log("DETAILS", this.getNairaBankDetails);
         this.$emit("nairaBankUpdated", this.getNairaBankDetails);
       } else {
         this.verification_message =

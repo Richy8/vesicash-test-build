@@ -3,9 +3,10 @@
     <div class="vesicash-container">
       <!-- HEADER TEXT -->
       <div class="header-text text-center mgb-32 roobert-700 fw-700 green-200">
-        Global Remittance and <br />
-        Digital Escrow
-        <span class="teal-200">for Every Business</span>
+        Digital Escrow and <br />
+        Global Remittances 
+        <span class="teal-200">for African Businesses</span>
+       
       </div>
 
       <!-- DESCRIPTION TEXT -->

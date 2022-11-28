@@ -1,3 +1,8 @@
-import { getStorage } from "@/utilities/auth-utils";
-
-export default () => ({});
+export default () => ({
+  file: {
+    name: "",
+    size: "",
+    progress: 0,
+    uploading: false,
+  },
+});

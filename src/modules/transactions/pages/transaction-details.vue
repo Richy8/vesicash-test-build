@@ -5,7 +5,7 @@
 
     <!-- PAGE TITILE -->
     <div class="page-title grey-900 h4-text mgb-25">
-      Payment for web app landing page
+      {{ getTransactionDetails?.title || "Transaction title.." }}
     </div>
 
     <!-- FUND DETAILS SECTION -->
@@ -18,9 +18,18 @@
             :card_items="[
               {
                 title: 'Disbursement Type',
-                value: 'One-off disbursement type',
+                value:
+                  getTransactionType === 'oneoff'
+                    ? 'One-off disbursement type'
+                    : 'Milestone disbursement type',
               },
-              { title: 'Transacting Parties', value: 'Two parties' },
+              {
+                title: 'Transacting Parties',
+                value:
+                  getTransactionParty === 'single'
+                    ? 'Two parties'
+                    : 'Multiple parties',
+              },
             ]"
           />
         </div>
@@ -30,11 +39,22 @@
           <FundInfoCard
             card_title="Dispute handling"
             :card_items="[
-              { title: 'Dispute Type', value: 'Vesicash handles dispute' },
               {
-                title: 'Dispute Policy Doc',
-                value: 'Two parties',
-                file: { name: 'PolicyFile.doc' },
+                title: 'Dispute Type',
+                value:
+                  getTransactionDetails.dispute_handler === 'vesicash'
+                    ? 'Vesicash handles dispute'
+                    : 'Arbitration',
+              },
+              {
+                title: 'Attached Document(s)',
+                value: 'No file attached',
+                file: getTransactionDetails.files.length
+                  ? {
+                      name: getTransactionDetails.files[0]?.file_name,
+                      url: getTransactionDetails.files[0]?.file_url_new,
+                    }
+                  : null,
               },
             ]"
           />
@@ -48,7 +68,11 @@
         <div class="section-title">Users Involved</div>
 
         <!-- USERS INVOLVED TABLE -->
-        <UsersTable />
+        <UsersTable
+          :type="getTransactionParty"
+          :dataset="getTransactionDetails.parties"
+          :loading="false"
+        />
       </div>
     </template>
 
@@ -59,13 +83,22 @@
 
         <!-- PAYMENT RULES CARD -->
         <template>
-          <PaymentRuleCard />
+          <PaymentRuleCard
+            v-for="(milestone, index) in getTransactionDetails.milestones
+              .slice()
+              .reverse()"
+            :key="index"
+            :index="index"
+            :milestone="milestone"
+            :currency="getTransactionDetails.currency"
+            :has_actions="true"
+          />
         </template>
       </div>
     </template>
 
     <!-- TRANSACTIONS SECTION -->
-    <template name="transactions-section">
+    <template name="transactions-section" v-if="false">
       <div class="section-wrapper">
         <div class="section-title">Transactions</div>
 
@@ -75,7 +108,7 @@
     </template>
 
     <!-- ACTIVITY SECTION -->
-    <template name="activity-section">
+    <template name="activity-section" v-if="false">
       <div class="section-wrapper">
         <div class="section-title">Activity</div>
 
@@ -88,6 +121,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import PageBackBtn from "@/shared/components/page-back-btn";
 
 export default {
@@ -104,22 +138,46 @@ export default {
       import(
         /* webpackChunkName: "transactions-module" */ "@/modules/transactions/components/card-comps/fund-info-card"
       ),
+
     PaymentRuleCard: () =>
       import(
         /* webpackChunkName: "transactions-module" */ "@/modules/transactions/components/card-comps/payment-rule-card"
       ),
+
     ActivityCard: () =>
       import(
         /* webpackChunkName: "transactions-module" */ "@/modules/transactions/components/card-comps/activity-card"
       ),
+
     UsersTable: () =>
       import(
         /* webpackChunkName: "transactions-module" */ "@/modules/transactions/components/table-comps/users-table"
       ),
+
     DashboardTransactions: () =>
       import(
         /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/dashboard-transactions"
       ),
+  },
+
+  computed: {
+    ...mapGetters({
+      getTransactionDetails: "transactions/getTransactionDetails",
+    }),
+
+    // ===================================================
+    // GET THE TRANSACTION DISBURSEMENT TYPE FROM ROUTE
+    // ===================================================
+    getTransactionType() {
+      return this.$route.query.type ? this.$route.query.type : "oneoff";
+    },
+
+    // =============================================
+    // GET THE TRANSACTION PARTY TYPE FROM ROUTE
+    // =============================================
+    getTransactionParty() {
+      return this.$route.query.party ? this.$route.query.party : "single";
+    },
   },
 };
 </script>

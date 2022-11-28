@@ -1,7 +1,7 @@
 <template>
   <ModalCover
     @closeModal="$emit('closeTriggered')"
-    :modal_style="{ size: 'modal-xs' }"
+    :modal_style="{ size: 'modal-sm' }"
     :show_close_btn="false"
     :trigger_self_close="false"
   >
@@ -10,8 +10,10 @@
       <div class="modal-cover-header">
         <div class="modal-cover-title">
           <!-- BACK BUTTON -->
-          <PageBackBtn custom_mode @clicked="$emit('goBackWalletSelection')" />Fund
-          <span class="text-capitalize">{{ wallet_type }}</span> wallet
+          <PageBackBtn
+            custom_mode
+            @clicked="$emit('goBackWalletSelection')"
+          />Fund <span class="text-capitalize">{{ wallet_type }}</span> wallet
         </div>
 
         <div class="modal-cover-meta">
@@ -19,18 +21,23 @@
             Please send the amount you wish to fund to the Bank account details
             listed below.
             <br />
-            <br />Minimum wallet funding amount is
-            <b>₦1,000</b>. Do not send below this amount.
+            <br />Minimum wallet funding amount is <b>₦1,000</b>.
           </template>
 
-          <template v-else>Please enter the amount you wish to fund on your dollar wallet</template>
+          <template v-else
+            >Please enter the amount you wish to fund on your dollar
+            wallet</template
+          >
         </div>
       </div>
     </template>
 
     <!-- MODAL COVER BODY -->
     <template slot="modal-cover-body">
-      <div class="modal-cover-body" :class="wallet_type === 'naira' ? 'mgb--10' : 'mgb--40'">
+      <div
+        class="modal-cover-body"
+        :class="wallet_type === 'naira' ? 'mgb--10' : 'mgb--40'"
+      >
         <!-- MODAL ITEMS WRAPPER -->
         <div
           class="modal-items-wrapper green-10-bg rounded-12 mgb-24"
@@ -38,9 +45,11 @@
         >
           <!-- NAIRA WALLET TYPE -->
           <template v-if="naira_wallet_loading">
-            <ModalListItem :loading="naira_wallet_loading" />
-            <ModalListItem :loading="naira_wallet_loading" />
-            <ModalListItem :loading="naira_wallet_loading" />
+            <ModalListItem
+              :loading="naira_wallet_loading"
+              v-for="(_, index) in 3"
+              :key="index"
+            />
           </template>
 
           <template v-else>
@@ -82,7 +91,12 @@
     <template slot="modal-cover-footer">
       <div class="modal-cover-footer">
         <template v-if="wallet_type === 'naira'">
-          <button class="btn btn-primary btn-md wt-100" @click="handleFundSuccess">I have funded</button>
+          <button
+            class="btn btn-primary btn-md wt-100"
+            @click="handleFundSuccess"
+          >
+            I have funded
+          </button>
         </template>
 
         <template v-else>
@@ -91,7 +105,9 @@
             @click="handleDollarFunding"
             ref="fundBtn"
             :disabled="isValidState"
-          >Make payment</button>
+          >
+            Make payment
+          </button>
         </template>
       </div>
     </template>
@@ -144,9 +160,13 @@ export default {
         dollar_amount: true,
       },
 
-      account_refernce_id: "",
-      naira_wallet_info: [],
+      displayed_bank_details: ["account number", "bank name", "account name"],
+
+      account_reference_id: "",
       naira_wallet_loading: true,
+
+      naira_wallet_info_repo: [],
+      naira_wallet_info: [],
     };
   },
 
@@ -157,6 +177,7 @@ export default {
   methods: {
     ...mapActions({
       initiateDollarFunds: "dashboard/initiateDollarFunds",
+      verifyPaymentAccount: "dashboard/verifyPaymentAccount",
       fetchNairaWalletBankDetails: "dashboard/fetchNairaWalletBankDetails",
     }),
 
@@ -172,7 +193,7 @@ export default {
         .then((response) => {
           if (response.code === 200) {
             let account = response?.data?.payment_account ?? {};
-            this.account_refernce_id = account.payment_account_id;
+            this.account_reference_id = account.payment_account_id;
 
             delete account.id;
             delete account.business_id;
@@ -188,18 +209,35 @@ export default {
               let prop_obj = {};
               prop_obj.title = prop.split("_").join(" ");
               prop_obj.value = account[prop];
-
-              this.naira_wallet_info.push(prop_obj);
+              this.naira_wallet_info_repo.push(prop_obj);
             }
 
+            this.naira_wallet_info_repo.map((detail) => {
+              if (this.displayed_bank_details.includes(detail.title))
+                this.naira_wallet_info.push(detail);
+            });
+
+            let account_name = this.naira_wallet_info.at(-1).value;
+            this.naira_wallet_info.at(-1).value = `Vesicash-${account_name}`;
+
             this.naira_wallet_loading = false;
+          } else if (response.code === 500) {
+            this.naira_wallet_loading = false;
+            this.handleFetchingNairaDetails();
           } else this.naira_wallet_loading = false;
         })
         .catch(() => (this.naira_wallet_loading = false));
     },
 
+    // ===============================
+    // VERIFY USER WALLET PAYMENT
+    // ===============================
     handleFundSuccess() {
-      this.$emit("walletFunded", this.account_refernce_id);
+      this.verifyPaymentAccount({
+        reference: this.account_reference_id,
+      });
+
+      setTimeout(() => this.$emit("walletFunded"), 1500);
     },
 
     // =======================================

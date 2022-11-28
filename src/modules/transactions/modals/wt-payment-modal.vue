@@ -1,7 +1,7 @@
 <template>
   <ModalCover
     @closeModal="$emit('closeTriggered')"
-    :modal_style="{ size: 'modal-xs' }"
+    :modal_style="{ size: 'modal-sm' }"
     :show_close_btn="false"
     :trigger_self_close="false"
   >
@@ -10,9 +10,7 @@
       <div class="modal-cover-header">
         <div class="modal-cover-title">
           <!-- BACK BUTTON -->
-          <PageBackBtn custom_mode @clicked="$emit('goBackPaymentSelection')" />
-
-          Pay by wire transfer
+          <PageBackBtn custom_mode @clicked="$emit('goBackPaymentSelection')" />Pay by wire transfer
         </div>
 
         <div class="modal-cover-meta">
@@ -27,7 +25,7 @@
       <div class="modal-cover-body">
         <!-- MODAL ITEMS WRAPPER -->
         <div class="modal-items-wrapper">
-          <ModalListItem title="Amount to pay" value="₦4000" />
+          <ModalListItem title="Amount to pay" :value="getAmount" />
         </div>
 
         <div class="modal-items-wrapper">
@@ -40,22 +38,10 @@
 
           <template v-else>
             <ModalListItem title="Bank name" value="Providus bank" />
-            <ModalListItem
-              title="Beneficiary name"
-              value="Vesicsh innovative tech lTD"
-            />
-            <ModalListItem
-              title="Beneficiary account number"
-              value="1300390961"
-            />
-            <ModalListItem
-              title="Bank identifier/Swift code"
-              value="UMPLNGLA"
-            />
-            <ModalListItem
-              title="Address"
-              value="Plot 54, Adetokumbo Adedamola street"
-            />
+            <ModalListItem title="Beneficiary name" value="Vesicsh innovative tech lTD" />
+            <ModalListItem title="Beneficiary account number" value="1300390961" />
+            <ModalListItem title="Bank identifier/Swift code" value="UMPLNGLA" />
+            <ModalListItem title="Address" value="Plot 54, Adetokumbo Adedamola street" />
             <ModalListItem title="City" value="Lagos" />
             <ModalListItem title="Country" value="Nigeria" />
           </template>
@@ -66,9 +52,7 @@
     <!-- MODAL COVER FOOTER -->
     <template slot="modal-cover-footer">
       <div class="modal-cover-footer">
-        <button class="btn btn-primary btn-md wt-100">
-          I have paid already
-        </button>
+        <button class="btn btn-primary btn-md wt-100" @click="$emit('paid')">I have paid already</button>
       </div>
     </template>
   </ModalCover>
@@ -89,6 +73,21 @@ export default {
       import(
         /* webpackChunkName: "dashboard-modal-module" */ "@/modules/dashboard/components/modal-comps/modal-list-item"
       ),
+  },
+
+  props: {
+    paymentDetails: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
+
+  computed: {
+    getAmount() {
+      const currency = this.paymentDetails?.currency?.slug;
+      const sign = this.$money.getSign(currency);
+      return `${sign}${this.paymentDetails.total_fee}`;
+    },
   },
 
   data() {

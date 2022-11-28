@@ -26,7 +26,10 @@
           <!-- CARD TITLE VALUE -->
 
           <template v-if="card.file">
-            <div class="d-flex justify-content-start align-items-center">
+            <div
+              class="d-flex justify-content-start align-items-center"
+              @click="openAttachedFile(card.file)"
+            >
               <FileIcon active />
               <div
                 class="
@@ -79,6 +82,25 @@ export default {
           file: {},
         },
       ],
+    },
+  },
+
+  filters: {
+    // shortenFileName(value) {
+    //   console.log(value);
+    //   console.log(value.split(".")[1]);
+    //   let file_name = value.split(".")[0];
+    //   let file_ext = value.split(".")[1];
+    //   return `${file_name.slice(0, 15)}...${file_ext}`;
+    // },
+  },
+
+  methods: {
+    openAttachedFile(file) {
+      let link = document.createElement("a");
+      link.setAttribute("href", file.url);
+      link.setAttribute("download", file.name);
+      link.click();
     },
   },
 };

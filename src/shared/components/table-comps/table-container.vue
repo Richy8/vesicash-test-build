@@ -74,12 +74,12 @@ export default {
 
     table_header: {
       type: Array,
-      default: [],
+      default: () => [],
     },
 
     table_data: {
       type: Array,
-      default: [],
+      default: () => [],
     },
 
     is_loading: {

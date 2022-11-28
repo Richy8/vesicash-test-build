@@ -1,9 +1,7 @@
 <template>
-  <div
-    class="contract-upload-card rounded-12 border-grey-100 smooth-transition"
-  >
+  <div class="contract-upload-card rounded-12 border-grey-100 smooth-transition">
     <!-- CONTENT STATE -->
-    <template name="content-state" v-if="has_content">
+    <template name="content-state" v-if="getFileName">
       <div class="content-state wt-100">
         <!-- LEFT SECTION -->
         <div class="left-section wt-100">
@@ -15,27 +13,26 @@
           <div class="wt-100">
             <!-- FILE TITLE -->
             <div class="file-title primary-1-text grey-900">
-              {{ file.name }} &nbsp;
-              <span class="tertiary-2-text green-500" v-if="is_uploading"
-                >(30%)</span
-              >
+              {{ getFileName }} &nbsp;
+              <span
+                class="tertiary-2-text green-500"
+                v-if="getFileData.uploading"
+              >({{ getFileData.progress }}%)</span>
             </div>
 
             <!-- FILE PROGRESS -->
-            <template v-if="is_uploading">
+            <template v-if="getFileData.uploading">
               <div class="file-progress green-50-bg rounded-8">
                 <div
                   class="progress-stat green-500-bg"
-                  style="width: 50%"
+                  :style="'width:' + getFileData.progress + '%'"
                 ></div>
               </div>
             </template>
 
             <!-- FILE SIZE -->
             <template v-else>
-              <div class="file-size tertiary-2-text grey-600">
-                {{ file.size }}
-              </div>
+              <div class="file-size tertiary-2-text grey-600">{{ getFileData.size }}</div>
             </template>
           </div>
         </div>
@@ -44,6 +41,7 @@
         <div
           class="right-section rounded-circle pointer smooth-transition"
           title="Delete file"
+          @click="removeAttachedFile"
         >
           <div class="icon-trash"></div>
         </div>
@@ -59,14 +57,12 @@
         </div>
 
         <!-- TITLE TEXT -->
-        <div class="title-text grey-900 primary-1-text text-center mgb-4">
-          Click to upload agreement file
-        </div>
+        <div class="title-text grey-900 primary-1-text text-center mgb-4">{{ titleText }}</div>
 
         <!-- DESCRIPTION TEXT -->
-        <div class="description-text tertiary-2-text grey-600 text-center">
-          You can upload a doc or a PDF file
-        </div>
+        <div
+          class="description-text tertiary-2-text grey-600 text-center"
+        >You can upload a doc or a PDF file</div>
       </label>
 
       <!-- FILE INPUT FIELD -->
@@ -83,7 +79,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import FileIcon from "@/shared/components/icon-comps/file-icon";
 
 export default {
@@ -93,41 +89,61 @@ export default {
     FileIcon,
   },
 
-  data: () => ({
-    has_content: false,
-    is_uploading: false,
-
-    file: {
-      name: "",
-      size: "",
+  props: {
+    titleText: {
+      type: String,
+      default: "Click to upload agreement file",
     },
-  }),
+  },
+
+  computed: {
+    ...mapGetters({ getFileData: "general/getFileData" }),
+
+    getFileName() {
+      return this.getFileData?.name ?? null;
+    },
+  },
+
+  data: () => ({}),
 
   methods: {
-    ...mapActions({ uploadFile: "general/uploadFile" }),
+    ...mapActions({
+      uploadFile: "general/uploadFile",
+      uploadToSpace: "general/uploadToSpace",
+      clearAttachedFile: "general/clearAttachedFile",
+    }),
+
+    ...mapMutations({ UPDATE_FILE_PROGRESS: "general/UPDATE_FILE_PROGRESS" }),
 
     handleFileUpload($event) {
-      let uploaded_file = [...$event.target.files].slice().reverse()[0];
+      let uploaded_file = [...$event.target.files][0];
       this.$refs.fileUpload.value = ""; // CLEAR OUT FILE CACHE
 
-      this.file.name = uploaded_file.name;
-      this.file.size = this.processFileSize(uploaded_file.size);
-      this.has_content = true;
+      if (!this.processFileSize(uploaded_file.size)) {
+        this.pushToast("Upload a maximum file size of 1mb", "error");
+        return false;
+      }
 
-      let formData = new FormData();
-      formData.append("files", [uploaded_file]);
-
-      this.uploadFile({ files: [formData] })
+      this.uploadToSpace({
+        file: uploaded_file,
+        formatted_size: this.processFileSize(uploaded_file.size),
+      })
         .then((response) => {
-          console.log(response);
+          if (response.code) this.$emit("uploaded", response.data);
         })
         .catch((err) => console.log(err));
     },
 
     processFileSize(size) {
+      if (size > 1000000) return false;
+
       return size.toString().length >= 6
         ? `${(size / 1000000).toFixed(1)}mb`
         : `${(size / 1000).toFixed(1)}kb`;
+    },
+
+    removeAttachedFile() {
+      this.clearAttachedFile();
     },
   },
 };
