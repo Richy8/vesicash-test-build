@@ -18,11 +18,18 @@
 
     <!-- MODAL COVER FOOTER -->
     <template slot="modal-cover-footer">
-      <div class="modal-cover-footer">
+      <div class="modal-cover-footer footer-wrapper">
         <button
           class="btn btn-primary btn-md wt-100"
           @click="$emit('closeTriggered')"
-        >Back to settings</button>
+        >{{ main_cta_title }}</button>
+
+        <button
+          v-for="(actionOption,index) in actions"
+          :key="index"
+          class="btn btn-secondary btn-md wt-100"
+          @click="actionOption.action"
+        >{{actionOption.title}}</button>
       </div>
     </template>
   </ModalCover>
@@ -35,8 +42,18 @@ export default {
 
   props: {
     message: {
-      type: "",
+      type: String,
       default: "Success",
+    },
+
+    main_cta_title: {
+      type: String,
+      default: "Back to settings",
+    },
+
+    actions: {
+      type: Array,
+      default: () => [],
     },
   },
 
@@ -58,5 +75,11 @@ export default {
   border-radius: 50%;
   background: getColor("teal-800");
   margin: 0 auto toRem(24) auto;
+}
+
+.footer-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: toRem(24) 0;
 }
 </style>

@@ -6,15 +6,11 @@
       <template v-for="(wallet, index) in wallet_balance">
         <div class="column" :key="index">
           <!-- TITLE TEXT -->
-          <div class="title-text tertiary-3-text teal-100 mgb-10">
-            {{ wallet.title }}
-          </div>
+          <div class="title-text tertiary-3-text teal-100 mgb-10">{{ wallet.title }}</div>
 
           <!-- LOADING AMOUNT VALUE -->
           <template v-if="loading_wallet">
-            <div
-              class="loading-amount-value rounded-3 skeleton-loader mgb-5"
-            ></div>
+            <div class="loading-amount-value rounded-3 skeleton-loader mgb-5"></div>
           </template>
 
           <template v-else>
@@ -29,43 +25,34 @@
             >
               <span>
                 {{ $money.getSign(wallet.sign)
-                }}{{ $money.addComma(wallet.value.split(".")[0]) }}</span
-              ><span class="amount-zero"
-                >.{{ wallet.value.split(".")[1] || "00" }}</span
-              >
+                }}{{ $money.addComma(wallet.value.split(".")[0]) }}
+              </span>
+              <span class="amount-zero">.{{ wallet.value.split(".")[1] || "00" }}</span>
             </div>
           </template>
 
           <!-- TITLE DESCRIPTION -->
-          <div class="title-description secondary-3-text text-white mgt-5">
-            Wallet balance
-          </div>
+          <div class="title-description secondary-3-text text-white mgt-5">Wallet balance</div>
         </div>
       </template>
     </div>
 
     <!-- BOTTOM ROW -->
     <div class="bottom-row" v-if="show_actions">
-      <button
-        class="btn btn-tertiary btn-md"
-        @click="toggleFundWalletSelectModal"
-      >
-        <div class="icon-plus mgr-6 teal-700 f-size-17"></div>
-        Fund Wallet
+      <button class="btn btn-tertiary btn-md" @click="toggleFundWalletSelectModal">
+        <div class="icon-plus mgr-6 teal-700 f-size-17"></div>Fund Wallet
       </button>
 
       <button class="btn btn-tertiary btn-md" @click="toggleWalletModal">
         <div class="mgr-8 position-relative" style="top: -1px">
           <MoneyIcon />
-        </div>
-        Withdraw
+        </div>Withdraw
       </button>
 
       <button class="btn btn-tertiary btn-md">
         <div class="mgr-8 position-relative" style="top: -1px">
           <ExchangeIcon small />
-        </div>
-        Exchange money
+        </div>Exchange money
       </button>
       <!-- closeWalletOpenAccount will be replaced with toggleWalletModal when dollar withdrawal is ready -->
     </div>
@@ -176,6 +163,23 @@ export default {
 
     default_wallet: "naira",
   }),
+
+  watch: {
+    $route: {
+      handler(value) {
+        // INITIATE FUNDING OR WITHDRAWAL BASED ON QUERY PARAMS
+
+        if (value?.query?.fund_wallet) {
+          this.show_fund_wallet_select_modal = true;
+          this.$router.replace({ name: this.$route.name });
+        } else if (value?.query?.withdraw_money) {
+          this.show_wallet_modal = true;
+          this.$router.replace({ name: this.$route.name });
+        }
+      },
+      immediate: true,
+    },
+  },
 
   methods: {
     toggleWalletModal() {

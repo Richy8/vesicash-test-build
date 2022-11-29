@@ -4,17 +4,11 @@
       <!-- WELCOME MESSAGE -->
       <div class="welcome-message h5-text grey-900">
         Welcome
-        <span>
-          {{ displayUserFirstname }}
-        </span>
+        <span>{{ displayUserFirstname }}</span>
       </div>
 
       <!-- DISBURSE MONEY BUTTON -->
-      <router-link
-        :to="{ name: 'TransactionSetup' }"
-        class="btn btn-primary btn-md"
-        >Create Escrow</router-link
-      >
+      <router-link :to="{ name: 'TransactionSetup' }" class="btn btn-primary btn-md">Create Escrow</router-link>
     </div>
 
     <!-- METRICS SECTION -->
@@ -26,10 +20,7 @@
       />
 
       <!-- ESCROW SECTION -->
-      <EscrowMetricCard
-        :escrow_balance="escrow_wallet"
-        :loading_wallet="loading_wallet"
-      />
+      <EscrowMetricCard :escrow_balance="escrow_wallet" :loading_wallet="loading_wallet" />
 
       <!-- DISBURSE MONEY BUTTON -->
       <!-- <router-link :to="{ name: 'TransactionSetup' }" class="btn btn-primary btn-md">Create Escrow</router-link> -->
