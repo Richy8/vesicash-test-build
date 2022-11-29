@@ -96,10 +96,7 @@
     <!-- SUMMATION TOTAL -->
     <div class="wrapper mgb-40">
       <div class="col-xl-9">
-        <SummationCard
-          :milestones="getTransactionMilestones"
-          :amount_data="getTransactionAmount"
-        />
+        <SummationCard :milestones="getTransactionMilestones" :amount_data="getTransactionAmount" />
       </div>
     </div>
 
@@ -109,9 +106,7 @@
         class="btn btn-primary btn-md"
         ref="createEscrowBtn"
         @click="createTransaction"
-      >
-        Create escrow
-      </button>
+      >Create escrow</button>
     </div>
   </div>
 </template>
@@ -291,7 +286,7 @@ export default {
     // SETUP UP THE TRANSACTION PAYLOAD AND CREATE IT
     // ================================================
     setupAndCreateTransaction() {
-      let transaction_payload = {};
+      let transaction_payload = { escrow_wallet: "yes" };
 
       transaction_payload.title = this.getTransactionSetup.name;
       transaction_payload.currency =

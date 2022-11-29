@@ -4,9 +4,7 @@
       <!-- WELCOME MESSAGE -->
       <div class="welcome-message h5-text grey-900">
         Welcome
-        <span>
-          {{ displayUserFirstname }}
-        </span>
+        <span>{{ displayUserFirstname }}</span>
       </div>
     </div>
 
@@ -20,16 +18,15 @@
       />
 
       <!-- DISBURSE MONEY BUTTON -->
-      <router-link :to="{ name: '' }" class="btn btn-primary btn-md"
-        >Exchange Money</router-link
-      >
+      <router-link
+        :to="{ name: 'VesicashEchangeSetup' }"
+        class="btn btn-primary btn-md"
+      >Exchange Money</router-link>
     </div>
 
     <!-- TRANSACTION SECTION -->
     <template>
-      <div class="section-title mgb-18 h5-text grey-900">
-        Exchange transactions
-      </div>
+      <div class="section-title mgb-18 h5-text grey-900">Exchange transactions</div>
 
       <!-- EXCHANGE TABLE DATA -->
       <div class="exchange-table-wrapper">
@@ -65,6 +62,20 @@ export default {
   computed: {
     displayUserFirstname() {
       return this.getUser?.fullname?.split(" ")[0] ?? this.getUser.email;
+    },
+
+    successActions() {
+      return [
+        {
+          title: "Transfer money ",
+          action: () => {},
+        },
+
+        {
+          title: "Fund your wallet",
+          action: () => {},
+        },
+      ];
     },
   },
 

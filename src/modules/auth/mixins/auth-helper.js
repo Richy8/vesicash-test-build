@@ -6,6 +6,7 @@ const formHelper = {
         // UPDATE USER INPUT FORM AND VALIDITY STATE
         // ===========================================
         updateFormState(data, type) {
+            console.log("DATA UPDATE", data);
             this.form[type] = data.value;
             this.validity[type] = data.validity;
         },
