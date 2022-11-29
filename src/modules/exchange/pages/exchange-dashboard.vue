@@ -6,9 +6,6 @@
         Welcome
         <span>{{ displayUserFirstname }}</span>
       </div>
-
-      <!-- DISBURSE MONEY BUTTON -->
-      <router-link :to="{ name: 'TransactionSetup' }" class="btn btn-primary btn-md">Create Escrow</router-link>
     </div>
 
     <!-- METRICS SECTION -->
@@ -17,32 +14,23 @@
       <NairaDollarMetricCard
         :wallet_balance="naira_dollar_wallet"
         :loading_wallet="loading_wallet"
+        :show_actions="false"
       />
 
-      <!-- ESCROW SECTION -->
-      <EscrowMetricCard :escrow_balance="escrow_wallet" :loading_wallet="loading_wallet" />
-
       <!-- DISBURSE MONEY BUTTON -->
-      <!-- <router-link :to="{ name: 'TransactionSetup' }" class="btn btn-primary btn-md">Create Escrow</router-link> -->
+      <router-link
+        :to="{ name: 'VesicashEchangeSetup' }"
+        class="btn btn-primary btn-md"
+      >Exchange Money</router-link>
     </div>
 
     <!-- TRANSACTION SECTION -->
     <template>
-      <div class="section-title mgb-18 h5-text grey-900">Transactions</div>
+      <div class="section-title mgb-18 h5-text grey-900">Exchange transactions</div>
 
-      <!-- TRANSACTION TABLE DATA -->
-      <div class="disbursement-table-wrapper">
-        <TransactionTable />
-      </div>
-    </template>
-
-    <!-- TRANSACTION SECTION -->
-    <template>
-      <div class="section-title mgb-8 h5-text grey-900">Payments</div>
-
-      <!-- DASHBOARD TRANSACTIONS -->
-      <div class="wrapper pdb-30">
-        <DashboardTransactions />
+      <!-- EXCHANGE TABLE DATA -->
+      <div class="exchange-table-wrapper">
+        <ExchangeTable />
       </div>
     </template>
   </div>
@@ -52,10 +40,10 @@
 import { mapActions, mapMutations } from "vuex";
 
 export default {
-  name: "Dashboard",
+  name: "ExchangeDashboard",
 
   metaInfo: {
-    title: "Dashboard",
+    title: "Exchange Dashboard",
     titleTemplate: "%s - Vesicash",
   },
 
@@ -64,23 +52,30 @@ export default {
       import(
         /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/card-comps/naira-dollar-metric-card"
       ),
-    EscrowMetricCard: () =>
+
+    ExchangeTable: () =>
       import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/card-comps/escrow-metric-card"
-      ),
-    TransactionTable: () =>
-      import(
-        /* webpackChunkName: "transactions-module" */ "@/modules/transactions/components/table-comps/transaction-table"
-      ),
-    DashboardTransactions: () =>
-      import(
-        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/dashboard-transactions"
+        /* webpackChunkName: "exchange-module" */ "@/modules/exchange/components/table-comps/exchange-table"
       ),
   },
 
   computed: {
     displayUserFirstname() {
       return this.getUser?.fullname?.split(" ")[0] ?? this.getUser.email;
+    },
+
+    successActions() {
+      return [
+        {
+          title: "Transfer money ",
+          action: () => {},
+        },
+
+        {
+          title: "Fund your wallet",
+          action: () => {},
+        },
+      ];
     },
   },
 
@@ -99,24 +94,6 @@ export default {
         },
         {
           title: "GBP",
-          value: "0.00",
-          sign: "pound",
-        },
-      ],
-
-      escrow_wallet: [
-        {
-          title: "DOLLAR",
-          value: "0.00",
-          sign: "dollar",
-        },
-        {
-          title: "NAIRA",
-          value: "0.00",
-          sign: "naira",
-        },
-        {
-          title: "POUND",
           value: "0.00",
           sign: "pound",
         },
@@ -165,20 +142,8 @@ export default {
               (wallet) => wallet.currency == "NGN"
             );
 
-            // ESCROW NAIRA BALANCE
-            let escrow_naira_balance = wallets.find(
-              (wallet) => wallet.currency == "ESCROW_NGN"
-            );
-
-            // ESCROW DOLLAR BALANCE
-            let escrow_dollar_balance = wallets.find(
-              (wallet) => wallet.currency == "ESCROW_USD"
-            );
-
             this.naira_dollar_wallet[0].value = naira_balance.available;
             this.naira_dollar_wallet[1].value = dollar_balance.available;
-            this.escrow_wallet[0].value = escrow_naira_balance.available;
-            this.escrow_wallet[1].value = escrow_dollar_balance.available;
 
             this.loading_wallet = false;
           } else {
@@ -212,6 +177,11 @@ export default {
         font-size: toRem(18.5);
       }
     }
+  }
+
+  .metrics-section {
+    @include flex-row-start-wrap;
+    gap: toRem(32);
 
     .btn {
       padding: toRem(10) toRem(19.5);
@@ -230,12 +200,6 @@ export default {
     }
   }
 
-  .metrics-section {
-    @include flex-row-start-wrap;
-    align-items: stretch;
-    gap: toRem(32);
-  }
-
   .section-title {
     @include breakpoint-down(sm) {
       font-size: toRem(18.75);
@@ -246,7 +210,7 @@ export default {
     }
   }
 
-  .disbursement-table-wrapper {
+  .exchange-table-wrapper {
     margin-bottom: toRem(50);
 
     @include breakpoint-down(lg) {

@@ -38,7 +38,7 @@
                   secondary-2-text
                   link-underline
                   mgl-6
-                  pointer
+                  pointer text-no-wrap
                 "
               >
                 {{ card.file.name }}

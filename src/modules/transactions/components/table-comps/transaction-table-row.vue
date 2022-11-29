@@ -19,13 +19,21 @@
     <td class="body-data" :class="`${table_name}-4`">
       <div class="text mgb-6 text-no-wrap">
         {{ $money.getSign(data.currency)
-        }}{{ $money.addComma(getTotalTransactionAmount) }}
+        }}{{
+          $money.addComma(data.totalAmount ? data.totalAmount : data.amount)
+        }}
       </div>
-      <div class="meta tertiary-3-text grey-600">$0 paid</div>
+      <div class="meta tertiary-3-text grey-600">
+        {{ $money.getSign(data.currency)
+        }}{{ $money.addComma(data.amount_paid) }} paid
+      </div>
     </td>
 
     <td class="body-data" :class="`${table_name}-5`">
-      <TagCard card_text="In Progress" card_type="progress" />
+      <TagCard
+        :card_text="getCurrentTransactionStatus"
+        :card_type="getCurrentTransactionStatus | getStatusColor(status_colors)"
+      />
     </td>
 
     <td class="body-data" :class="`${table_name}-6`">
@@ -59,9 +67,12 @@ export default {
 
   computed: {
     getCreatedDate() {
-      let { d3, m4, y1 } = this.$date
-        .formatDate(this.data.due_date_formatted)
-        .getAll();
+      let first_milestone_date =
+        `${
+          this.data?.milestones[0]?.due_date.split(" ")[0] ?? "2022-01-01"
+        } 00:00:00` ?? this.data?.due_date_formatted;
+
+      let { d3, m4, y1 } = this.$date.formatDate(first_milestone_date).getAll();
 
       return `${d3} ${m4}, ${y1}`;
     },
@@ -84,6 +95,77 @@ export default {
           )
         : this.data.amount;
     },
+
+    getCurrentTransactionStatus() {
+      let MS = this.data?.milestones;
+
+      // CHECK IF MILESTONE HAS LENGTH
+      if (!MS.length) return this.status.CLS;
+
+      // CHECK FOR ONEOFF TYPE
+      if (this.data.type === "oneoff") {
+        return MS[0]?.status ?? this.status.CLS;
+      }
+
+      // CHECK FOR MILESTONE TYPE
+      else {
+        // CHECK IF FIRST MILESTONE IS SENT AWAITING
+        if (MS[0]?.status === this.status.SAC) {
+          return MS[0]?.status ?? this.status.SAC;
+        }
+
+        // CHECK IF LAST MILESTONE CONTAINS A CLOSED STATUS
+        else if (MS.at(-1)?.status?.toLowerCase().includes("closed")) {
+          return MS.at(-1)?.status ?? this.status.SAC;
+        }
+
+        // CHECK OTHER STATUS
+        else {
+          let status = "";
+
+          MS.map((milestone, index) => {
+            if (MS.length === index + 1) status = milestone?.status;
+            else if (!milestone?.status.toLowerCase().includes("closed"))
+              status = milestone?.status;
+            else status = milestone?.status;
+          });
+
+          return status;
+        }
+      }
+    },
+  },
+
+  filters: {
+    getStatusColor(status, status_colors) {
+      return status_colors[status?.toLowerCase()] || "error";
+    },
+  },
+
+  data() {
+    return {
+      status: {
+        SAC: "Sent - Awaiting Confirmation",
+        CLS: "Closed",
+      },
+
+      status_colors: {
+        "sent - awaiting confirmation": "progress",
+        "sent - Rejected": "error",
+        "accepted - not funded": "error",
+        "accepted - funded": "okay",
+        draft: "okay",
+        "in progress": "progress",
+        delivered: "okay",
+        "delivered - accepted": "success",
+        "delivered - rejected": "error",
+        "closed - disbursement complete": "success",
+        completed: "success",
+        "closed - refunded": "error",
+        "closed - not funded": "error",
+        closed: "error",
+      },
+    };
   },
 
   methods: {
@@ -92,10 +174,11 @@ export default {
     }),
 
     viewTransactionDetails() {
-      this.updateTransactionDetails(this.data);
+      // this.updateTransactionDetails(this.data);
 
       this.$router.push({
         name: "TransactionDetails",
+        params: { id: this.data.transaction_id },
         query: {
           type: this.data.type,
           party: this.data.parties.length === 2 ? "single" : "multiple",

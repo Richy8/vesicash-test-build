@@ -10,7 +10,7 @@
           input_type="password"
           is_required
           placeholder="Enter new password"
-          :toggle_password="false"
+          toggle_password
           :input_value="form.password"
           :custom_style="{ input_wrapper_style: 'form-suffix' }"
           @getInputState="updateFormState($event, 'password')"
@@ -22,14 +22,14 @@
       </div>
 
       <!-- CONFIRM PASSWORD INPUT -->
-      <!-- <div class="form-group mgb-13">
+      <div class="form-group mgb-13">
         <BasicInput
           label_title="Confirm password"
           label_id="newPassword"
           input_type="password"
           is_required
           placeholder="Enter new password"
-          :toggle_password="false"
+          toggle_password
           :input_value="form.confirm_password"
           :custom_style="{ input_wrapper_style: 'form-suffix' }"
           @getInputState="updateFormState($event, 'confirm_password')"
@@ -38,7 +38,7 @@
             message: 'Password should contain at least 4 characters',
           }"
         />
-      </div> -->
+      </div>
 
       <!-- PASSWORD RESET TOKEN -->
       <div class="form-group mgb-13">
@@ -101,11 +101,13 @@ export default {
     return {
       form: {
         password: "",
+        confirm_password: "",
         reset_token: "",
       },
 
       validity: {
         password: true,
+        confirm_password: true,
         reset_token: true,
       },
     };
@@ -127,10 +129,10 @@ export default {
       };
 
       // COMPARE PASSWORD
-      // if (this.form.password !== this.form.confirm_password) {
-      //   this.handleResponse("Password provided does not match");
-      //   return;
-      // }
+      if (this.form.password !== this.form.confirm_password) {
+        this.handleResponse("Password provided does not match");
+        return;
+      }
 
       this.resetUserPassword(request_payload)
         .then((response) => {

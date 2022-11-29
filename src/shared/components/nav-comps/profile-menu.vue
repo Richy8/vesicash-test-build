@@ -5,8 +5,10 @@
     </div>
 
     <div>
-      <div class="grey-900 primary-2-text mgb-4">{{ getUser.fullname }}</div>
-      <div class="tertiary-3-text green-500">ID: {{ id }}</div>
+      <div class="grey-900 primary-2-text mgb-4">
+        {{ getUser.fullname || getUser.email }}
+      </div>
+      <div class="tertiary-3-text green-500">ID: {{ getAccountId }}</div>
     </div>
 
     <div class="menu-icon-wrapper">
@@ -47,13 +49,6 @@ export default {
     UserIcon,
     CopyIcon,
     ExitIcon,
-  },
-
-  props: {
-    id: {
-      type: [String, Number],
-      default: "",
-    },
   },
 
   data() {

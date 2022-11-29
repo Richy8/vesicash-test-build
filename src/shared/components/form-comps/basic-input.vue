@@ -3,11 +3,7 @@
     <div :class="getGroupStyle">
       <!-- INPUT LABEL -->
       <template v-if="label_title">
-        <label class="form-label" :for="label_id" :class="getLabelStyle">
-          {{
-          label_title
-          }}
-        </label>
+        <label class="form-label" :for="label_id" :class="getLabelStyle">{{ label_title }}</label>
       </template>
 
       <!-- INPUT WRAPPER AREA -->
@@ -21,6 +17,7 @@
           class="form-control"
           :class="[getInputStyle, error_message && 'form-control-error']"
           :placeholder="placeholder"
+          :min="getInputType === 'date' ? minimum_date : 0"
           @input="validateAndEmitUserInput"
           @paste="validateAndEmitUserInput"
           @change="validateAndEmitUserInput"
@@ -40,13 +37,16 @@
         </template>
 
         <!-- FORM PREFIX AREA -->
-        <template v-if="is_phone_type">
+        <template v-if="is_phone_type || is_currency_type">
           <div
             v-on-clickaway="determineTargetArea"
             class="prefix-select-area"
             @click="toggleDropdown"
           >
-            <img v-lazy="current_country.flag" :alt="current_country.country" />
+            <img
+              v-lazy="is_currency_type ? currency_country.flag : current_country.flag"
+              :alt="is_currency_type ? currency_country.country : current_country.country"
+            />
             <div
               class="icon icon-caret-fill-down smooth-transition"
               :class="show_dropdown && 'rotate-180'"
@@ -65,6 +65,16 @@
     <template v-if="is_phone_type">
       <template name="drop-select-area" v-if="show_dropdown">
         <CountryDropSelect :countries="countries_data" @countrySelected="current_country = $event" />
+      </template>
+    </template>
+
+    <template v-if="is_currency_type">
+      <template name="drop-select-area" v-if="show_dropdown">
+        <CountryDropSelect
+          is_currency_type
+          :countries="currency_options.length ? currency_options : countries_data"
+          @countrySelected="currency_country = $event"
+        />
       </template>
     </template>
 
@@ -124,12 +134,32 @@ export default {
       default: false,
     },
 
+    is_currency_type: {
+      type: Boolean,
+      default: false,
+    },
+
+    currency_type: {
+      type: Object,
+      default: () => {},
+    },
+
+    currency_options: {
+      type: Array,
+      default: () => [],
+    },
+
     currency: {
       type: String,
       default: "",
     },
 
     placeholder: {
+      type: String,
+      default: "",
+    },
+
+    minimum_date: {
       type: String,
       default: "",
     },
@@ -148,6 +178,11 @@ export default {
         input_style: "",
         input_wrapper_style: "",
       }),
+    },
+
+    validity: {
+      type: Boolean,
+      default: false,
     },
 
     error_handler: {
@@ -201,6 +236,29 @@ export default {
       },
       immediate: true,
     },
+
+    currency_country: {
+      handler(value) {
+        this.$emit("currencyUpdated", value);
+      },
+      immediate: true,
+    },
+
+    validity: {
+      handler(value) {
+        if (value) this.error_message = "";
+      },
+      immediate: true,
+    },
+
+    currency_type: {
+      handler(value) {
+        if (this.is_currency_type && value?.country) {
+          this.currency_country = value;
+        }
+      },
+      immediate: true,
+    },
   },
 
   data() {
@@ -208,6 +266,12 @@ export default {
       passwordType: true,
       error_message: "",
       form_value: "",
+      currency_country: {
+        country: "Nigeria",
+        dialing_code: "234",
+        code: "ng",
+        flag: "https://dyclassroom.com/image/flags/ng.png",
+      },
     };
   },
 

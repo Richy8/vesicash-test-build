@@ -20,9 +20,13 @@
               :class="[
                 wallet.sign === 'naira' && 'text-white',
                 wallet.sign === 'dollar' && 'green-400',
+                wallet.sign === 'pound' && 'teal-500',
               ]"
             >
-              <span>{{$money.getSign(wallet.sign)}}{{ $money.addComma(wallet.value.split(".")[0])}}</span>
+              <span>
+                {{ $money.getSign(wallet.sign)
+                }}{{ $money.addComma(wallet.value.split(".")[0]) }}
+              </span>
               <span class="amount-zero">.{{ wallet.value.split(".")[1] || "00" }}</span>
             </div>
           </template>
@@ -31,31 +35,10 @@
           <div class="title-description secondary-3-text text-white mgt-5">Wallet balance</div>
         </div>
       </template>
-
-      <div class="column">
-        <!-- TITLE TEXT -->
-        <div class="title-text tertiary-3-text teal-100 mgb-10">GBP</div>
-
-        <!-- LOADING AMOUNT VALUE -->
-        <template v-if="loading_wallet">
-          <div class="loading-amount-value rounded-3 skeleton-loader mgb-5"></div>
-        </template>
-
-        <template v-else>
-          <!-- AMOUNT VALUE -->
-          <div class="amount-value teal-500 secondary-1-text mgb-4">
-            <span>£0</span>
-            <span class="amount-zero">.00</span>
-          </div>
-        </template>
-
-        <!-- TITLE DESCRIPTION -->
-        <div class="title-description secondary-3-text text-white mgt-5">Wallet balance</div>
-      </div>
     </div>
 
     <!-- BOTTOM ROW -->
-    <div class="bottom-row">
+    <div class="bottom-row" v-if="show_actions">
       <button class="btn btn-tertiary btn-md" @click="toggleFundWalletSelectModal">
         <div class="icon-plus mgr-6 teal-700 f-size-17"></div>Fund Wallet
       </button>
@@ -159,6 +142,11 @@ export default {
       default: () => [],
     },
 
+    show_actions: {
+      type: Boolean,
+      default: true,
+    },
+
     loading_wallet: {
       type: Boolean,
       default: true,
@@ -175,6 +163,23 @@ export default {
 
     default_wallet: "naira",
   }),
+
+  watch: {
+    $route: {
+      handler(value) {
+        // INITIATE FUNDING OR WITHDRAWAL BASED ON QUERY PARAMS
+
+        if (value?.query?.fund_wallet) {
+          this.show_fund_wallet_select_modal = true;
+          this.$router.replace({ name: this.$route.name });
+        } else if (value?.query?.withdraw_money) {
+          this.show_wallet_modal = true;
+          this.$router.replace({ name: this.$route.name });
+        }
+      },
+      immediate: true,
+    },
+  },
 
   methods: {
     toggleWalletModal() {

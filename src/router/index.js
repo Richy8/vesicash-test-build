@@ -10,6 +10,7 @@ Vue.use(VueRouter);
 import landingRoutes from "@/modules/landing";
 import authRoutes from "@/modules/auth";
 import dashboardRoutes from "@/modules/dashboard";
+import exchangeRoutes from "@/modules/exchange";
 import transactionsRoutes from "@/modules/transactions";
 import paymentsRoutes from "@/modules/payments";
 import settingsRoutes from "@/modules/settings";
@@ -23,6 +24,7 @@ const routes = [
   ...authRoutes,
   ...dashboardRoutes,
   ...transactionsRoutes,
+  ...exchangeRoutes,
   ...paymentsRoutes,
   ...settingsRoutes,
   {

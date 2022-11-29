@@ -36,3 +36,9 @@ export const INSPECTION_OPTIONS = [
   { id: 6, name: "6 days" },
   { id: 7, name: "7 days" },
 ];
+
+export const CURRENCY_CODE = {
+  naira: "NGN",
+  dollar: "USD",
+  pound: "GBP",
+};

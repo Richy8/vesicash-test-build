@@ -4,7 +4,9 @@
 
     <div class="instruction-wrapper col-xl-8 mgb-12">
       <!-- INSTRUCTION TEXT -->
-      <div class="instruction-text grey-900 primary-2-text mgr-5">Provide details for the Payout</div>
+      <div class="instruction-text grey-900 primary-2-text mgr-5">
+        Provide details for the Payout
+      </div>
 
       <button
         class="btn btn-secondary btn-md"
@@ -18,7 +20,11 @@
 
     <!-- PAYOUT CARDS -->
     <div class="wrapper row">
-      <div class="col-xl-8" v-for="(milestone, index) in getTransactionMilestones" :key="index">
+      <div
+        class="col-xl-8"
+        v-for="(milestone, index) in getTransactionMilestones"
+        :key="index"
+      >
         <PayoutCard
           :milestone="milestone"
           :currency="getTransactionAmount.currency"
@@ -28,7 +34,9 @@
     </div>
 
     <!-- INSTRUCTION TEXT -->
-    <div class="instruction-text grey-900 primary-2-text mgb-12">How May Any Dispute Be Handled?</div>
+    <div class="instruction-text grey-900 primary-2-text mgb-12">
+      How May Any Dispute Be Handled?
+    </div>
 
     <div class="wrapper row mgb-32">
       <div class="col-xl-8">
@@ -68,13 +76,18 @@
     <!-- SUMMATION TOTAL -->
     <div class="wrapper mgb-40">
       <div class="col-xl-8">
-        <SummationCard :milestones="getTransactionMilestones" :amount_data="getTransactionAmount" />
+        <SummationCard
+          :milestones="getTransactionMilestones"
+          :amount_data="getTransactionAmount"
+        />
       </div>
     </div>
 
     <!-- CTA ACTION ROW -->
     <div class="action-row mgt-14">
-      <button class="btn btn-primary btn-md" @click="nextProgressFlow">Continue</button>
+      <button class="btn btn-primary btn-md" @click="nextProgressFlow">
+        Continue
+      </button>
     </div>
   </div>
 </template>
@@ -289,6 +302,27 @@ export default {
       return milestone_recipients;
     },
 
+    // CHECK CURRENT RECIPIENT STATE
+    // checkCurrentRecipientState() {
+    //   let parties_list = [];
+    //   let recipient_list = [];
+
+    //   // POPULATE PARTIES LIST
+    //   this.getTransactionBeneficiaries.map((user) =>
+    //     parties_list.push(user.id)
+    //   );
+
+    //   // LOOP MILESTONE RECIPIENT LIST
+    //   this.getMilestoneRecipients.map((user) => {
+    //     if (parties_list.includes(user.id)) {
+    //       // POPULATE RECIPIENT LIST
+    //       recipient_list.push(user);
+
+    //       // POP FROM PARTIES LIST
+    //     }
+    //   });
+    // },
+
     // ==============================
     // LOAD MILESTONE DATA
     // ==============================
@@ -299,6 +333,7 @@ export default {
       milestone_data.name = "";
       milestone_data.due_date = "";
       milestone_data.inspection_period = {};
+      milestone_data.status = "Sent - Awaiting Confirmation";
 
       this.UPDATE_TRANSACTION_MILESTONE([milestone_data]);
       this.UPDATE_MILESTONE_RECIPIENT([
