@@ -132,12 +132,15 @@ export default {
         currency: this.getWalletType === "naira" ? "NGN" : "USD",
         debit_currency: this.getWalletType === "naira" ? "NGN" : "USD",
         gateway: "monnify",
+        escrow_wallet: "no",
       };
     },
   },
 
   methods: {
-    ...mapActions({ withdraw: "dashboard/withdraw" }),
+    ...mapActions({
+      withdrawWalletFund: "dashboard/withdrawWalletFund",
+    }),
 
     async makeWithdrawal() {
       try {

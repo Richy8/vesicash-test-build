@@ -34,7 +34,7 @@
 
         <!-- DISPUTE HANDLING -->
         <div class="col-12 col-xl-5">
-          <!-- <FundInfoCard
+          <FundInfoCard
             card_title="Dispute handling"
             :card_items="[
               {
@@ -55,7 +55,7 @@
                   : null,
               },
             ]"
-          />-->
+          />
         </div>
       </div>
     </template>
@@ -304,6 +304,7 @@ export default {
       transaction_payload.dispute_handler =
         this.getTransactionSetup.dispute_handler;
       transaction_payload.source = "api";
+      transaction_payload.escrow_wallet = "yes";
 
       // GENERATE PARTIES PAYLOAD
       let parties_payload = [];

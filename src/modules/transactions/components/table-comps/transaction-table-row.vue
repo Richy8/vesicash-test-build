@@ -96,41 +96,42 @@ export default {
         : this.data.amount;
     },
 
+    getSortedMilestones() {
+      return this.data?.milestones?.sort((a, b) =>
+        Number(a.index) < Number(b.index)
+          ? -1
+          : Number(a.index) > Number(b.index)
+          ? 1
+          : 0
+      );
+    },
+
     getCurrentTransactionStatus() {
-      let MS = this.data?.milestones;
+      let MS = this.getSortedMilestones;
 
       // CHECK IF MILESTONE HAS LENGTH
-      if (!MS.length) return this.status.CLS;
+      if (!MS.length) return this.status.cls;
 
       // CHECK FOR ONEOFF TYPE
       if (this.data.type === "oneoff") {
-        return MS[0]?.status ?? this.status.CLS;
+        return MS[0]?.status ?? this.status.cls;
       }
 
       // CHECK FOR MILESTONE TYPE
       else {
         // CHECK IF FIRST MILESTONE IS SENT AWAITING
-        if (MS[0]?.status === this.status.SAC) {
-          return MS[0]?.status ?? this.status.SAC;
+        if (MS[0]?.status === this.status.sac) {
+          return MS[0]?.status ?? this.status.sac;
         }
 
         // CHECK IF LAST MILESTONE CONTAINS A CLOSED STATUS
         else if (MS.at(-1)?.status?.toLowerCase().includes("closed")) {
-          return MS.at(-1)?.status ?? this.status.SAC;
+          return MS.at(-1)?.status ?? this.status.sac;
         }
 
         // CHECK OTHER STATUS
         else {
-          let status = "";
-
-          MS.map((milestone, index) => {
-            if (MS.length === index + 1) status = milestone?.status;
-            else if (!milestone?.status.toLowerCase().includes("closed"))
-              status = milestone?.status;
-            else status = milestone?.status;
-          });
-
-          return status;
+          return this.getCurrentStatus(MS);
         }
       }
     },
@@ -145,8 +146,8 @@ export default {
   data() {
     return {
       status: {
-        SAC: "Sent - Awaiting Confirmation",
-        CLS: "Closed",
+        sac: "Sent - Awaiting Confirmation",
+        cls: "Closed",
       },
 
       status_colors: {
@@ -172,6 +173,26 @@ export default {
     ...mapMutations({
       UPDATE_TRANSACTION_DETAILS: "transactions/UPDATE_TRANSACTION_DETAILS",
     }),
+
+    // RUN A LOOP ON MULTIPLE MILESTONE DATA
+    getCurrentStatus(MS) {
+      let status = "";
+
+      for (let index = 0; index < MS.length; index++) {
+        if (MS.length === index + 1) {
+          status = MS[index]?.status;
+          break;
+        } else if (!MS[index].status.toLowerCase().includes("closed")) {
+          status = MS[index]?.status;
+          break;
+        } else {
+          status = MS[index]?.status;
+          break;
+        }
+      }
+
+      return status;
+    },
 
     viewTransactionDetails() {
       // this.updateTransactionDetails(this.data);

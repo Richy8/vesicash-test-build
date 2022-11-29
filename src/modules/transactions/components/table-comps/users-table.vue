@@ -5,10 +5,15 @@
       :table_name="`users-${type}-tb`"
       :table_data="dataset"
       :table_header="getTableHeader"
-      :is_loading="false"
+      :is_loading="loading"
     >
       <template v-for="(data, index) in dataset">
-        <UsersTableRow :key="index" :table_name="`users-${type}-tb`" :data="data" :type="type" />
+        <UsersTableRow
+          :key="index"
+          :table_name="`users-${type}-tb`"
+          :data="data"
+          :type="type"
+        />
       </template>
     </TableContainer>
   </div>
@@ -36,7 +41,7 @@ export default {
 
     loading: {
       type: Boolean,
-      default: true,
+      default: false,
     },
 
     type: {

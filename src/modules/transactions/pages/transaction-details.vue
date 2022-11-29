@@ -71,7 +71,7 @@
         <UsersTable
           :type="getTransactionParty"
           :dataset="getTransaction.parties"
-          :loading="false"
+          :loading="getTransactionParty.length ? false : true"
         />
       </div>
     </template>
@@ -84,7 +84,7 @@
         <!-- PAYMENT RULES CARD -->
         <template>
           <PaymentRuleCard
-            v-for="(milestone, index) in getTransaction.milestones"
+            v-for="(milestone, index) in getSortedMilestones"
             :key="index"
             :index="index"
             :milestone="milestone"
@@ -249,6 +249,16 @@ export default {
       else return this.transaction_details;
     },
 
+    getSortedMilestones() {
+      return this.getTransaction?.milestones?.sort((a, b) =>
+        Number(a.index) < Number(b.index)
+          ? -1
+          : Number(a.index) > Number(b.index)
+          ? 1
+          : 0
+      );
+    },
+
     getTransactionModalProps() {
       let transaction_owner = this.getTransaction?.parties[0]?.email ?? "Owner";
       let transaction_title = this.getTransaction.title;
@@ -400,14 +410,19 @@ export default {
 
     // CHECK IF EVERY PARTY MEMBERS HAS ACCEPTED
     checkIfTransactionCanStart() {
-      let { parties, milestones, title, amount_paid, totalAmount, amount } =
+      let { parties, title, amount_paid, totalAmount, amount } =
         this.getTransaction;
 
       let current_user = parties?.find(
         (party) => party.account_id === this.getAccountId
       );
 
-      let first_milestone_status = milestones[0]?.status;
+      let first_milestone_status = this.getSortedMilestones[0]?.status;
+
+      // CHECK IF EVERYBODY HAS ACCEPTED
+      let all_accepted = this.getTransaction?.parties.every(
+        (party) => party.status?.toLowerCase() === "accepted"
+      );
 
       // CHECK IF MILESTONE IS SENT - AWAITING CONFIRMATION
       if (first_milestone_status?.toLowerCase() === this.status.sac) {
@@ -419,11 +434,13 @@ export default {
             // CHECK PAYMENT
             if (Number(amount_paid) < Number(totalAmount ?? amount)) {
               this.togglePaymentModal();
-            } else
-              this.pushToast(
-                "Please wait for other parties to accept transaction",
-                "success"
-              );
+            } else {
+              if (!all_accepted)
+                this.pushToast(
+                  "Please wait for other parties to accept transaction",
+                  "success"
+                );
+            }
           } else this.pushToast(`${title} transacion has closed`, "error");
         }
 
@@ -432,11 +449,7 @@ export default {
           if (current_user.status?.toLowerCase() === "created") {
             this.toggleAcceptModal();
           } else if (current_user.status?.toLowerCase() === "accepted") {
-            // CHECK IF EVERYBODY HAS ACCEPTED
-            let all_accepted = this.getTransaction?.parties.every(
-              (party) => party.status?.toLowerCase() === "accepted"
-            );
-
+            // CHECK IF ALL PARTY MEMBERS HAS ACCEPTED
             if (all_accepted) {
               // CHECK IF FUNDS HAS BEEN PAID
               let payment_complete =
@@ -480,6 +493,9 @@ export default {
             "success"
           );
         }
+
+        // TRY INITIATING ESCROW TRANSACTION
+        this.initiateTransaction();
       }
 
       // ALERT IF MILESTONE HAS CLOSED
@@ -510,8 +526,8 @@ export default {
       if (all_accepted && payment_complete) {
         this.updateMilestoneStatus(
           this.ms_key[type === "oneoff" ? "in-progress" : "accepted-funded"],
-          milestones,
-          has_exception
+          this.getSortedMilestones,
+          true
         );
       }
 
@@ -519,18 +535,24 @@ export default {
       else if (all_accepted && !payment_complete) {
         this.updateMilestoneStatus(
           this.ms_key["accepted-not-funded"],
-          milestones
+          this.getSortedMilestones
         );
       }
 
       // FOR REJECTED CASE AND COMPLETE PAYMENT
       else if (one_rejected && payment_complete) {
-        this.updateMilestoneStatus(this.ms_key["closed-refunded"], milestones);
+        this.updateMilestoneStatus(
+          this.ms_key["closed-refunded"],
+          this.getSortedMilestones
+        );
       }
 
       // FOR REJECTED CASE AND INCOMPLETE PAYMENT
       else if (one_rejected && !payment_complete) {
-        this.updateMilestoneStatus(this.ms_key["closed"], milestones);
+        this.updateMilestoneStatus(
+          this.ms_key["closed"],
+          this.getSortedMilestones
+        );
       }
     },
 

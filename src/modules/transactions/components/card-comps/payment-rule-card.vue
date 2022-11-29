@@ -59,9 +59,22 @@
         <!-- APPROVAL ROLE -->
         <template v-if="userAccess.approve">
           <!-- APPROVAL OPTIONS -->
-          <template v-if="getMilestoneStatus === 'delivered'">
-            <button class="btn btn-primary btn-md">Approve</button>
-            <button class="btn btn-secondary btn-md">Reject</button>
+          <template
+            v-if="['in progress', 'delivered'].includes(getMilestoneStatus)"
+          >
+            <button
+              class="btn btn-primary btn-md"
+              :disabled="getMilestoneStatus === 'delivered' ? false : true"
+            >
+              Approve
+            </button>
+
+            <button
+              class="btn btn-secondary btn-md"
+              :disabled="getMilestoneStatus === 'delivered' ? false : true"
+            >
+              Reject
+            </button>
           </template>
 
           <!-- DATE RENEWAL OPTIONS -->
@@ -72,7 +85,8 @@
             >
               Renew Date
             </button>
-            <button class="btn btn-secondary btn-md">Reject</button>
+
+            <button class="btn btn-secondary btn-md">Close</button>
           </template>
         </template>
 
@@ -294,10 +308,39 @@ export default {
     },
   }),
 
+  mounted() {
+    this.notifyBuyerOfPendingAction();
+  },
+
   methods: {
     // TOGGLE RENEWAL DATE MODAL
     toggleRenewDateModal() {
       this.show_renew_modal = !this.show_renew_modal;
+    },
+
+    // NOTIFY BUYER TO WAIT FOR SELLER TO MARK AS DONE
+    notifyBuyerOfPendingAction() {
+      // CHECK IF USER HAS BUYER ROLE
+      let current_user_role = this.parties?.find(
+        (party) => party.account_id === this.getAccountId
+      ).role;
+
+      // CHECK IF ALL PARTIES HAS ACCEPTED
+      let all_accepted = this.parties?.every(
+        (party) => party.status?.toLowerCase() === "accepted"
+      );
+
+      // CHECK FOR A TRANSACTION WITH IN PROGRESS STATUS
+      if (
+        this.milestone.status.toLowerCase() === "in progress" &&
+        current_user_role.toLowerCase() === "buyer" &&
+        all_accepted
+      ) {
+        this.pushToast(
+          `Please wait for the seller to mark ${this.milestone.title} transaction as done`,
+          "success"
+        );
+      }
     },
   },
 };
