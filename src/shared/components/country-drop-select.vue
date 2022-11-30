@@ -111,4 +111,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.search-bar {
+  .form-control {
+    text-align: left;
+  }
+}
 </style>

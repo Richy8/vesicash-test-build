@@ -94,6 +94,13 @@ export default {
       ),
   },
 
+  props: {
+    escrow: {
+      type: Boolean,
+      default: false,
+    },
+  },
+
   computed: {
     ...mapGetters({
       getWalletType: "dashboard/getWalletType",

@@ -3,7 +3,9 @@
     <div class="disbursement-title h4-text grey-900 mgb-32">Invite Parties</div>
 
     <!-- INSTRUCTION TEXT -->
-    <div class="instruction-text grey-900 primary-2-text mgb-12">{{ showInstructionMessage }}</div>
+    <div class="instruction-text grey-900 primary-2-text mgb-12">
+      {{ showInstructionMessage }}
+    </div>
 
     <!-- FUND USERS TABLE -->
     <div class="wrapper mgb-24">
@@ -22,7 +24,9 @@
 
     <!-- CTA ACTION ROW -->
     <div class="action-row mgt-14">
-      <button class="btn btn-primary btn-md" @click="nextProgressFlow">Continue</button>
+      <button class="btn btn-primary btn-md" @click="nextProgressFlow">
+        Continue
+      </button>
     </div>
   </div>
 </template>
@@ -80,7 +84,7 @@ export default {
       const parties = this.getTransactionBeneficiaries.filter(
         (party) => party.account_id !== this.getAccountId
       );
-      return parties.length > 1 ? "all" : parties[0].email_address;
+      return parties.length > 1 ? "All" : parties[0].email_address;
     },
   },
 
@@ -208,6 +212,7 @@ export default {
       user_data.access = USER_ACCESS_OPTIONS[0];
       user_data.recipient = USER_PAYOUT_OPTIONS[0];
       user_data.amount = 0;
+      user_data.status = "Accepted";
 
       this.UPDATE_TRANSACTION_BENEFICIARIES([user_data]);
       this.loading_users = false;

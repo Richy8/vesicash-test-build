@@ -3,7 +3,9 @@
     <!-- AUTH PAGE -->
     <div class="auth-page auth-payment-success">
       <!-- TITLE TEXT -->
-      <div class="title-text text-center teal-900 h4-text mgb-38 mgt--15">Congratulations</div>
+      <div class="title-text text-center teal-900 h4-text mgb-38 mgt--15">
+        Congratulations
+      </div>
 
       <!-- BODY DATA -->
       <div class="body-data">
@@ -11,8 +13,7 @@
           :info="{
             icon: 'SuccessIcon',
             title: 'Payment made successfully',
-            description:
-              `Your payment of ${$route.query.fee} has been made sucessfully, Please check your escrow account on your dashboard for the payment.`,
+            description: `Your payment of ${$route.query.fee} has been made sucessfully, Please check your escrow account on your dashboard for the payment.`,
           }"
         />
 
@@ -20,8 +21,11 @@
           :info="{
             icon: 'SuccessIcon',
             title: 'Users invited successfully',
-            description:
-              `${$route.query.parties} ${$route.query.parties==='all' ? 'have':'has'} been invited sucessfully into payment for ${$route.query.name}.`,
+            description: `${$route.query.parties} ${
+              $route.query.parties === 'All' ? 'parties have' : 'has'
+            } been invited sucessfully into transaction for ${
+              $route.query.name
+            }.`,
           }"
         />
       </div>
@@ -30,7 +34,9 @@
       <div class="btn-area mgt-30 mgb-10">
         <!-- <div class="btn btn-secondary btn-md mgb-24">Download Receipt</div> -->
 
-        <router-link to="/dashboard" class="btn btn-primary btn-md">Go to Dashboard</router-link>
+        <router-link to="/dashboard" class="btn btn-primary btn-md"
+          >Go to Dashboard</router-link
+        >
       </div>
     </div>
   </AuthWrapper>

@@ -97,6 +97,7 @@
               :input_value="milestone.due_date || form.due_date"
               placeholder="Select date"
               is_required
+              :minimum_date="min_date"
               @getInputState="updateUserInput('due_date', $event.value)"
             />
           </div>
@@ -195,6 +196,7 @@ export default {
   data: () => ({
     currency_options: CURRENCY_OPTIONS,
     inspection_options: INSPECTION_OPTIONS,
+    min_date: "",
 
     form: {
       milestone_name: "",
@@ -203,12 +205,28 @@ export default {
     },
   }),
 
+  mounted() {
+    this.hidePastDate();
+  },
+
   methods: {
     ...mapMutations({
       UPDATE_MILESTONE_DATA: "transactions/UPDATE_MILESTONE_DATA",
       UPDATE_RECIPIENT_AMOUNT: "transactions/UPDATE_RECIPIENT_AMOUNT",
       EVALUATE_TRANSACTION_FEES: "transactions/EVALUATE_TRANSACTION_FEES",
     }),
+
+    hidePastDate() {
+      let open = new Date();
+      let year = open.getFullYear(),
+        month =
+          open.getMonth() + 1 > 9
+            ? open.getMonth() + 1
+            : `0${open.getMonth() + 1}`,
+        day = open.getDate() > 9 ? open.getDate() : `0${open.getDate()}`;
+
+      this.min_date = `${year}-${month}-${day}`;
+    },
 
     updateUserSelection(type, value, options, outer = false) {
       let selected = options.find((option) => option.id === value);

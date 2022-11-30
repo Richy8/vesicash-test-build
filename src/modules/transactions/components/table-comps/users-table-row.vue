@@ -22,7 +22,7 @@
     </template>
 
     <td class="body-data" :class="`${table_name}-6`">
-      <TagCard card_text="Accepted" card_type="success" />
+      <TagCard :card_text="data.status" :card_type="getTagColor" />
     </td>
   </tr>
 </template>
@@ -59,6 +59,14 @@ export default {
       if (this.data.access_level.approve) return "Approve";
       else if (this.data.access_level.mark_as_done) return "Mark as done";
       else return "View";
+    },
+
+    getTagColor() {
+      let { status } = this.data;
+
+      if (status.toLowerCase() === "created") return "okay";
+      else if (status.toLowerCase() === "accepted") return "success";
+      else return "error";
     },
   },
 
