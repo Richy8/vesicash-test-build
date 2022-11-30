@@ -25,6 +25,7 @@
       </verification-card>
 
       <verification-card
+        v-if="isBusiness"
         title="Business information"
         subtitle="Update informations about your business."
         cta_title="Update business information"
@@ -151,6 +152,10 @@ export default {
 
   computed: {
     ...mapGetters({ getUserVerifications: "settings/getUserVerifications" }),
+
+    isBusiness() {
+      return this.getAccountType === "business" ? true : false;
+    },
 
     isPhoneVerified() {
       if (!this.getUserVerifications) return false;
