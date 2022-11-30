@@ -6,7 +6,7 @@
     <div class="row">
       <div class="col-12 col-md-10 col-lg-9">
         <!-- PAGE SWITCHER ROUTE -->
-        <PageSwitcherRoute :page_data="pages" />
+        <PageSwitcherRoute :page_data="getPages" />
 
         <transition name="fade" mode="out-in">
           <router-view />
@@ -26,46 +26,60 @@ export default {
     PageSwitcherRoute,
   },
 
-  data: () => ({
-    pages: [
-      {
-        id: 1,
-        name: "Profile",
-        route: "ProfileSettings",
-        active: true,
-      },
-      {
-        id: 2,
-        name: "Password",
-        route: "PasswordSettings",
-        active: false,
-      },
-      {
-        id: 3,
-        name: "Verification",
-        route: "VerificationSettings",
-        active: false,
-      },
-      {
-        id: 4,
-        name: "Account",
-        route: "AccountSettings",
-        active: false,
-      },
-      {
-        id: 5,
-        name: "Users",
-        route: "UsersSettings",
-        active: false,
-      },
-      {
-        id: 6,
-        name: "API",
-        route: "APISettings",
-        active: false,
-      },
-    ],
-  }),
+  computed: {
+    isBusiness() {
+      return this.getAccountType === "business" ? true : false;
+    },
+
+    getPages() {
+      const pages = [...this.pages];
+      if (!this.isBusiness) pages.splice(4, 1);
+      return pages;
+    },
+  },
+
+  data() {
+    return {
+      pages: [
+        {
+          id: 1,
+          name: "Profile",
+          route: "ProfileSettings",
+          active: true,
+        },
+        {
+          id: 2,
+          name: "Password",
+          route: "PasswordSettings",
+          active: false,
+        },
+        {
+          id: 3,
+          name: "Verification",
+          route: "VerificationSettings",
+          active: false,
+        },
+        {
+          id: 4,
+          name: "Account",
+          route: "AccountSettings",
+          active: false,
+        },
+        {
+          id: 5,
+          name: "Users",
+          route: "UsersSettings",
+          active: false,
+        },
+        {
+          id: 6,
+          name: "API",
+          route: "APISettings",
+          active: false,
+        },
+      ],
+    };
+  },
 };
 </script>
 

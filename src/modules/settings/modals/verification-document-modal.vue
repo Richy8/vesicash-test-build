@@ -1,5 +1,9 @@
 <template>
-  <ModalCover @closeModal="$emit('closeTriggered')" :modal_style="{ size: 'modal-sm' }">
+  <ModalCover
+    @closeModal="$emit('closeTriggered')"
+    class="doc-verification-overlay"
+    :modal_style="{ size: 'modal-sm' }"
+  >
     <!-- MODAL COVER HEADER -->
     <template slot="modal-cover-header">
       <div class="modal-cover-header">
@@ -41,6 +45,22 @@
           @uploaded="uploaded_doc=$event"
           titleText="Click to upload verification document"
         />
+
+        <!-- <div class="form-group mgt-24">
+          <div class="form-label">How many directors do you have?</div>
+
+          SELECT INPUT FIELD
+          <DropSelectInput
+            placeholder="Select number of directors"
+            :options="directorsRange"
+            @optionSelected="director_count = Number($event)"
+          />
+        </div>-->
+
+        <!-- <ContractUploadCard
+          @uploaded="uploaded_doc=$event"
+          titleText="Click to upload verification document"
+        />-->
       </div>
     </template>
 
@@ -83,6 +103,10 @@ export default {
   computed: {
     ...mapGetters({ getFileData: "general/getFileData" }),
 
+    directorsRange() {
+      return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => ({ name: i, id: i }));
+    },
+
     isDisabled() {
       return !this.form.doc_number || !this.document || !this.getFileData?.name;
     },
@@ -99,6 +123,7 @@ export default {
 
   data() {
     return {
+      director_count: 0,
       verification_docs: [
         {
           name: "CAC document",
@@ -172,3 +197,15 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.modal-overlay.doc-verification-overlay {
+  .modal-outer-container {
+    top: 1.5rem;
+  }
+  .modal-cover-body {
+    max-height: 65vh;
+    overflow-y: auto;
+  }
+}
+</style>
