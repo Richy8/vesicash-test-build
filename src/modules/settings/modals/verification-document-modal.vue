@@ -251,6 +251,10 @@ export default {
   .modal-cover-body {
     max-height: 65vh;
     overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      width: 2px;
+    }
   }
 }
 </style>
