@@ -4,9 +4,9 @@
     <PageBackBtn history_mode />
 
     <!-- PAGE TITILE -->
-    <div class="page-title grey-900 h4-text mgb-25">
-      {{ getTransaction.title || "Transaction title.." }}
-    </div>
+    <div
+      class="page-title grey-900 h4-text mgb-25"
+    >{{ getTransaction.title || "Transaction title.." }}</div>
 
     <!-- FUND DETAILS SECTION -->
     <template name="fund-details-section">
@@ -68,11 +68,7 @@
         <div class="section-title">Users Involved</div>
 
         <!-- USERS INVOLVED TABLE -->
-        <UsersTable
-          :type="getTransactionParty"
-          :dataset="getTransaction.parties"
-          :loading="false"
-        />
+        <UsersTable :type="getTransactionParty" :dataset="getTransaction.parties" :loading="false" />
       </div>
     </template>
 

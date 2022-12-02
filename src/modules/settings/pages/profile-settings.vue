@@ -11,7 +11,10 @@
       <!-- BUSINESS LOGO BLOCK -->
       <div class="page-input-block row">
         <div class="col-12 col-sm-4">
-          <label for="logo" class="form-label fw-bold">Business logo</label>
+          <label
+            for="logo"
+            class="form-label fw-bold"
+          >{{ isBusiness ? 'Business logo':'Profile picture' }}</label>
         </div>
 
         <div class="col-12 col-sm-8 logo-block">
@@ -35,7 +38,7 @@
             class="btn btn-secondary btn-sm fw-semibold"
             disabled
             :for="uploading_file ? '': 'fileUpload'"
-          >{{ uploading_file ? 'Uploading...': 'Upload profile pic' }}</label>
+          >{{ uploading_file ? 'Uploading...': isBusiness ? 'Upload business logo':'Upload profile pic' }}</label>
         </div>
       </div>
 
@@ -71,7 +74,7 @@
       </div>
 
       <!-- USERNAME BLOCK -->
-      <div class="page-input-block row">
+      <div class="page-input-block row" v-if="isBusiness">
         <div class="col-12 col-sm-4">
           <label for="logo" class="form-label fw-bold">Username</label>
         </div>
@@ -91,7 +94,7 @@
       </div>
 
       <!-- BIO BLOCK -->
-      <div class="page-input-block row">
+      <div class="page-input-block row" v-if="isBusiness">
         <div class="col-12 col-sm-4">
           <label for="logo" class="form-label fw-bold">Bio</label>
         </div>
@@ -252,6 +255,10 @@ export default {
 
   computed: {
     ...mapGetters({ getUserVerifications: "settings/getUserVerifications" }),
+
+    isBusiness() {
+      return this.getAccountType === "business" ? true : false;
+    },
 
     isPhoneVerified() {
       if (!this.getUserVerifications) return false;
