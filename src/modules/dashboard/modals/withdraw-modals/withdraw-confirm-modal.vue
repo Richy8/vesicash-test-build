@@ -107,6 +107,13 @@ import PageBackBtn from "@/shared/components/page-back-btn";
 export default {
   name: "WithdrawConfirmModal",
 
+  props: {
+    escrow: {
+      type: Boolean,
+      default: false,
+    },
+  },
+
   components: {
     ModalCover,
     PageBackBtn,
