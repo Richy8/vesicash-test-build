@@ -44,8 +44,8 @@
         <DocUploadCard
           @uploaded="uploaded_doc=$event"
           titleText="Select document(s) to upload"
-          :fileCount="4"
           docID="verification_documents"
+          @upload="handleAlert"
         />
 
         <template v-if="isBusiness">
@@ -63,6 +63,7 @@
           <DocUploadCard
             titleText="Select document(s) to upload"
             :fileCount="director_count"
+            controlCount
             docID="director_documents"
             :isDisabled="director_count < 1"
             @upload="handleAlert"
@@ -122,7 +123,9 @@ export default {
     },
 
     getVerificationDoc() {
-      const file_data = this.getAllFilesData("verification_documents");
+      const file_data = this.getAllFilesData.find(
+        (doc) => doc.id === "verification_documents"
+      );
       return file_data === undefined ? null : file_data;
     },
 
@@ -131,7 +134,9 @@ export default {
     },
 
     getDirectorDoc() {
-      const file_data = this.getAllFilesData("director_documents");
+      const file_data = this.getAllFilesData.find(
+        (doc) => doc.id === "director_documents"
+      );
       return file_data === undefined ? null : file_data;
     },
 
@@ -155,7 +160,7 @@ export default {
         account_id: this.getAccountId,
         type: this.document?.id,
         id: this.form.doc_number,
-        meta: this.uploaded_doc?.urls[0],
+        meta: this.getVerificationDoc?.files[0]?.url,
       };
     },
   },

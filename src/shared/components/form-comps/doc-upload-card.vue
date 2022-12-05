@@ -51,7 +51,11 @@
 
     <!-- NO CONTENT STATE -->
     <template name="no-content-state" v-else>
-      <label class="no-content-state pointer" :for="docID" @click="$emit('upload','')">
+      <label
+        class="no-content-state pointer"
+        :for="docID"
+        @click="controlCount ? $emit('upload',''):null"
+      >
         <!-- ICON HOLDER -->
         <div class="icon-holder mgb-8">
           <FileIcon />
@@ -108,6 +112,11 @@ export default {
       default: 1,
     },
 
+    controlCount: {
+      type: Boolean,
+      default: false,
+    },
+
     isDisabled: {
       type: Boolean,
       default: false,
@@ -118,7 +127,9 @@ export default {
     ...mapGetters({ getAllFilesData: "general/getAllFilesData" }),
 
     getFileData() {
-      const file_data = this.getAllFilesData(this.docID);
+      const file_data = this.getAllFilesData.find(
+        (doc) => doc.id == this.docID
+      );
       return file_data === undefined ? null : file_data;
     },
 
@@ -141,11 +152,13 @@ export default {
     ...mapMutations({ REMOVE_UPLOADED_FILE: "general/REMOVE_UPLOADED_FILE" }),
 
     handleFileUpload($event) {
-      const uploaded_files = [...$event.target.files].slice(0, this.fileCount);
+      const uploaded_files = this.controlCount
+        ? [...$event.target.files].slice(0, this.fileCount)
+        : [...$event.target.files];
 
       this.$refs.fileUpload.value = ""; // CLEAR OUT FILE CACHE
 
-      if (uploaded_files.length < this.fileCount) {
+      if (uploaded_files.length < this.fileCount && this.controlCount) {
         this.$emit("upload", `Upload at least ${this.fileCount} files`);
         return;
       }
@@ -179,6 +192,7 @@ export default {
     verifyFilesSize(files) {
       files.forEach((file) => {
         if (!this.processFileSize(file.size)) {
+          console.log("FILE SIZE", file, file.size);
           this.pushToast("Upload a maximum file size of 1mb", "error");
           return false;
         }

@@ -156,19 +156,17 @@ export default {
       // UPDATE FILE STATE
 
       if (response.data.code === 200) {
-      
-        let updated_files_state = files.map((file, index) => {
-          let formatted_file = {
+       
+        const updated_files_state = files.map((file, index) => {
+          const formatted_file = {
             name: file.name,
             size: file.formatted_size,
-            progress: progress_count,
+            progress: 0,
             uploading: false,
             url: response.data.data.urls[index],
-          }
+          };
           return formatted_file;
         });
-
-        console.log('COMMITING NEW FILES',updated_files_state);
 
         commit("UPDATE_ALL_FILES_PROGRESS", { id, files: updated_files_state });
       } else {
