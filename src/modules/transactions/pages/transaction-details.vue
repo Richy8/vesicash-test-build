@@ -70,7 +70,7 @@
         <!-- USERS INVOLVED TABLE -->
         <UsersTable
           :type="getTransactionParty"
-          :dataset="getTransaction.parties"
+          :dataset="getTransaction.members"
           :loading="getTransactionParty.length ? false : true"
         />
       </div>
@@ -89,7 +89,7 @@
             :index="index"
             :milestone="milestone"
             :currency="getTransaction.currency"
-            :parties="getTransaction.parties"
+            :parties="getTransaction.members"
             :has_actions="true"
           />
         </template>
@@ -107,7 +107,7 @@
     </template>
 
     <!-- ACTIVITY SECTION -->
-    <template name="activity-section" v-if="false">
+    <template name="activity-section" v-if="true">
       <div class="section-wrapper">
         <div class="section-title">Activity</div>
 
@@ -260,7 +260,7 @@ export default {
     },
 
     getTransactionModalProps() {
-      let transaction_owner = this.getTransaction?.parties[0]?.email ?? "Owner";
+      let transaction_owner = this.getTransaction?.members[0]?.email ?? "Owner";
       let transaction_title = this.getTransaction.title;
       let transaction_amount =
         this.getTransaction?.totalAmount ?? this.getTransaction?.amount ?? 0;
@@ -351,7 +351,7 @@ export default {
         title: "",
         currency: "",
         files: {},
-        parties: [],
+        members: [],
         milestones: [],
       },
     };
@@ -410,17 +410,17 @@ export default {
 
     // CHECK IF EVERY PARTY MEMBERS HAS ACCEPTED
     checkIfTransactionCanStart() {
-      let { parties, title, amount_paid, totalAmount, amount } =
+      let { members, title, amount_paid, totalAmount, amount } =
         this.getTransaction;
 
-      let current_user = parties?.find(
+      let current_user = members?.find(
         (party) => party.account_id === this.getAccountId
       );
 
       let first_milestone_status = this.getSortedMilestones[0]?.status;
 
       // CHECK IF EVERYBODY HAS ACCEPTED
-      let all_accepted = this.getTransaction?.parties.every(
+      let all_accepted = this.getTransaction?.members.every(
         (party) => party.status?.toLowerCase() === "accepted"
       );
 
@@ -506,16 +506,15 @@ export default {
 
     // INITIATE ESCROW TRANSACTION
     initiateTransaction() {
-      let { parties, milestones, type, amount_paid, totalAmount } =
-        this.getTransaction;
+      let { members, type, amount_paid, totalAmount } = this.getTransaction;
 
       // CHECK IF ALL PARTIES HAS ACCEPTED
-      let all_accepted = parties.every(
+      let all_accepted = members.every(
         (party) => party.status?.toLowerCase() === "accepted"
       );
 
       // CHECK IF ONE PARTY REJECTED
-      let one_rejected = parties.some(
+      let one_rejected = members.some(
         (party) => party.status?.toLowerCase() === "rejected"
       );
 
@@ -572,7 +571,7 @@ export default {
           .then((response) => {
             if (response.code === 200) {
               if (milestones.length === index + 1) {
-                this.pushToast("Transaction has started", "success");
+                // this.pushToast("Transaction has started", "success");
                 setTimeout(() => this.fetchSingleTransaction(), 2000);
               }
             }

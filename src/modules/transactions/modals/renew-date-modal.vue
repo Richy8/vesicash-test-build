@@ -33,14 +33,8 @@
           <div class="form-group">
             <label class="form-label"> Inspection period (Days) </label>
             <DropSelectInput
-              :pre_select="{}"
-              @selectedOption="
-                updateUserSelection(
-                  'inspection_period',
-                  $event,
-                  inspection_options
-                )
-              "
+              :pre_select="getSelectedInspectionPeriod"
+              @selectedOption="updateUserInput('inspection_period', $event)"
               placeholder="Select inspection period"
               :options="inspection_options"
             />
@@ -52,14 +46,20 @@
     <!-- MODAL COVER FOOTER -->
     <template slot="modal-cover-footer">
       <div class="modal-cover-footer">
-        <button class="btn btn-primary btn-md wt-100">Renew date</button>
+        <button
+          class="btn btn-primary btn-md wt-100"
+          ref="renewBtn"
+          @click="renewTransactionDate"
+        >
+          Renew date
+        </button>
       </div>
     </template>
   </ModalCover>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions } from "vuex";
 import { INSPECTION_OPTIONS } from "@/modules/transactions/constants";
 import ModalCover from "@/shared/components/modal-cover";
 import BasicInput from "@/shared/components/form-comps/basic-input";
@@ -74,25 +74,41 @@ export default {
     DropSelectInput,
   },
 
-  props: {},
-
-  computed: {},
-
-  data: () => ({
-    inspection_options: INSPECTION_OPTIONS,
-    min_date: "",
-
-    form: {
-      due_date: "",
-      inspection_period: "",
+  props: {
+    data: {
+      type: Object,
     },
-  }),
+  },
+
+  computed: {
+    getSelectedInspectionPeriod() {
+      return this.inspection_options.find(
+        (data) => data.id === +this.data.inspection_period
+      );
+    },
+  },
+
+  data() {
+    return {
+      inspection_options: INSPECTION_OPTIONS,
+      min_date: "",
+
+      form: {
+        due_date: this.data.due_date.split(" ")[0],
+        inspection_period: this.data.inspection_period,
+      },
+    };
+  },
 
   mounted() {
     this.hidePastDate();
   },
 
   methods: {
+    ...mapActions({
+      renewMilestoneDate: "transactions/renewMilestoneDate",
+    }),
+
     hidePastDate() {
       let open = new Date();
       let year = open.getFullYear(),
@@ -105,18 +121,37 @@ export default {
       this.min_date = `${year}-${month}-${day}`;
     },
 
-    updateUserSelection(type, value, options, outer = false) {
-      let selected = options.find((option) => option.id === value);
-
-      //   let milestone_data = { ...this.milestone };
-      //   milestone_data[type] = selected;
-
-      //   let outer_data = outer ? { type, selected } : {};
+    updateUserInput(type, value) {
+      this.form[type] = value;
     },
 
-    updateUserInput(type, value) {
-      //   let milestone_data = { ...this.milestone };
-      //   milestone_data[type] = value;
+    // RENEW MILESTONE TRANSACTION DATE
+    renewTransactionDate() {
+      this.handleClick("renewBtn");
+
+      let request_payload = {
+        transaction_id: this.$route.params.id,
+        milestone_id: this.data.milestone_id,
+        due_date: this.form.due_date,
+        inspection_period: this.form.inspection_period?.toString(),
+      };
+
+      this.renewMilestoneDate(request_payload)
+        .then((response) => {
+          this.handleClick("renewBtn", "Renew Date", false);
+
+          if (response.code === 200) {
+            this.pushToast(
+              "Transaction milestone date renewed successfully",
+              "success"
+            );
+            setTimeout(() => {
+              this.$bus.$emit("refetchTransactionDetails"), 1000;
+              this.$emit("closeTriggered");
+            });
+          }
+        })
+        .catch((err) => console.log(err));
     },
   },
 };

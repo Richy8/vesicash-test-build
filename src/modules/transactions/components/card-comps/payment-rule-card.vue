@@ -30,7 +30,11 @@
     </div>
 
     <!-- USER PAYMENT DETAILS -->
-    <div class="user-payment-details" v-if="getTransactionParty === 'multiple'">
+    <div
+      class="user-payment-details"
+      v-if="getTransactionParty === 'multiple'"
+      :class="addBottomMargin ? 'mgb-24' : null"
+    >
       <div
         class="wrapper"
         v-for="(user, index) in loadCurrentMilestoneRecipients"
@@ -64,14 +68,18 @@
           >
             <button
               class="btn btn-primary btn-md"
+              ref="approveBtn"
               :disabled="getMilestoneStatus === 'delivered' ? false : true"
+              @click="approveTransaction"
             >
               Approve
             </button>
 
             <button
               class="btn btn-secondary btn-md"
+              ref="rejectBtn"
               :disabled="getMilestoneStatus === 'delivered' ? false : true"
+              @click="rejectTransaction"
             >
               Reject
             </button>
@@ -81,6 +89,7 @@
           <template v-if="getMilestoneStatus === 'delivered - rejected'">
             <button
               class="btn btn-primary btn-md"
+              ref="renewBtn"
               @click="toggleRenewDateModal"
             >
               Renew Date
@@ -99,8 +108,21 @@
               )
             "
           >
-            <button class="btn btn-primary btn-md">Mark as done</button>
-            <button class="btn btn-secondary btn-md">Reject</button>
+            <button
+              class="btn btn-primary btn-md"
+              ref="markAsDoneBtn"
+              @click="markTransaction"
+            >
+              Mark as done
+            </button>
+
+            <button
+              class="btn btn-secondary btn-md"
+              ref="rejectBtn"
+              @click="closeAllMilestoneTransaction"
+            >
+              Reject
+            </button>
           </template>
         </template>
       </div>
@@ -109,14 +131,21 @@
     <!-- MODALS -->
     <portal to="vesicash-modals">
       <transition name="fade" v-if="show_renew_modal">
-        <RenewDateModal @closeTriggered="toggleRenewDateModal" />
+        <RenewDateModal
+          :data="{
+            milestone_id: milestone.milestone_id,
+            due_date: milestone.due_date,
+            inspection_period: milestone.inspection_period,
+          }"
+          @closeTriggered="toggleRenewDateModal"
+        />
       </transition>
     </portal>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import TagCard from "@/shared/components/card-comps/tag-card";
 import PaymentUserCard from "@/modules/transactions/components/card-comps/payment-user-card";
 
@@ -274,6 +303,31 @@ export default {
         )?.access_level;
       } else return false;
     },
+
+    addBottomMargin() {
+      // GET ROLE
+      let user_role = this.parties.find(
+        (party) => party.account_id === this.getAccountId
+      ).role;
+
+      if (user_role.toLowerCase() === "buyer") {
+        if (
+          ["in progress", "delivered", "delivered rejected"].includes(
+            this.milestone.status.toLowerCase()
+          )
+        ) {
+          return true;
+        } else return false;
+      } else if (this.userAccess.mark_as_done) {
+        if (
+          ["in progress", "delivered rejected"].includes(
+            this.milestone.status.toLowerCase()
+          )
+        ) {
+          return true;
+        } else return false;
+      } else return false;
+    },
   },
 
   filters: {
@@ -306,6 +360,20 @@ export default {
       "closed - not funded": "error",
       closed: "error",
     },
+
+    ms_key: {
+      "sent-rejected": "sr",
+      "accepted-funded": "af",
+      "accepted-not-funded": "anf",
+      "in-progress": "ip",
+      delivered: "d",
+      "delivered-accepted": "da",
+      "delivered-rejected": "dr",
+      "closed-disbursement-complete": "cdc",
+      "closed-disputed": "cd",
+      "closed-refunded": "cr",
+      closed: "closed",
+    },
   }),
 
   mounted() {
@@ -313,6 +381,10 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      updateMilestoneTransaction: "transactions/updateMilestoneTransaction",
+    }),
+
     // TOGGLE RENEWAL DATE MODAL
     toggleRenewDateModal() {
       this.show_renew_modal = !this.show_renew_modal;
@@ -321,9 +393,9 @@ export default {
     // NOTIFY BUYER TO WAIT FOR SELLER TO MARK AS DONE
     notifyBuyerOfPendingAction() {
       // CHECK IF USER HAS BUYER ROLE
-      let current_user_role = this.parties?.find(
+      let current_user_access = this.parties?.find(
         (party) => party.account_id === this.getAccountId
-      ).role;
+      ).access_level?.mark_as_done;
 
       // CHECK IF ALL PARTIES HAS ACCEPTED
       let all_accepted = this.parties?.every(
@@ -333,7 +405,7 @@ export default {
       // CHECK FOR A TRANSACTION WITH IN PROGRESS STATUS
       if (
         this.milestone.status.toLowerCase() === "in progress" &&
-        current_user_role.toLowerCase() === "buyer" &&
+        !current_user_access &&
         all_accepted
       ) {
         this.pushToast(
@@ -341,6 +413,59 @@ export default {
           "success"
         );
       }
+    },
+
+    // APPROVE DELIVERED TRANSACTION BY A BUYER
+    approveTransaction() {
+      this.updateStatus(
+        this.ms_key["delivered-accepted"],
+        "approveBtn",
+        "Approve"
+      );
+    },
+
+    // REJECT DELIVERED TRANSACTION BY A BUYER
+    rejectTransaction() {
+      this.updateStatus(
+        this.ms_key["delivered-rejected"],
+        "rejectBtn",
+        "Reject"
+      );
+    },
+
+    // MARK A TRANSACTION AS DONE BY A SELLER
+    markTransaction() {
+      this.updateStatus(
+        this.ms_key["delivered"],
+        "markAsDoneBtn",
+        "Mark as done"
+      );
+    },
+
+    // CLOSE ALL OCCURING TRANSACTIONS
+    closeAllMilestoneTransaction() {},
+
+    // UPDATE TRANSACTION STATUS
+    updateStatus(status, ref, btn_text) {
+      this.handleClick(ref);
+
+      this.updateMilestoneTransaction({
+        transaction_id: this.$route.params.id,
+        milestone_id: this.milestone.milestone_id,
+        status,
+      })
+        .then((response) => {
+          this.handleClick(ref, btn_text, false);
+
+          if (response.code === 200) {
+            this.pushToast("Transaction status has been updated", "success");
+            setTimeout(
+              () => this.$bus.$emit("refetchTransactionDetails"),
+              1000
+            );
+          }
+        })
+        .catch((err) => console.log(err));
     },
   },
 };

@@ -8,9 +8,9 @@
     </td>
 
     <td class="body-data" :class="`${table_name}-2`">
-      <div class="text mgb-6 text-no-wrap">{{ getPartyCount }} party</div>
+      <div class="text mgb-6 text-no-wrap">{{ getPartyType }} party</div>
       <div class="meta tertiary-3-text grey-600">
-        {{ data.parties.length }} people
+        {{ getPartyCount }} people
       </div>
     </td>
 
@@ -25,7 +25,7 @@
       </div>
       <div class="meta tertiary-3-text grey-600">
         {{ $money.getSign(data.currency)
-        }}{{ $money.addComma(data.amount_paid) }} paid
+        }}{{ $money.addComma(data.amount_paid || 0) }} paid
       </div>
     </td>
 
@@ -47,7 +47,7 @@ import { mapMutations } from "vuex";
 import TagCard from "@/shared/components/card-comps/tag-card";
 
 export default {
-  name: "DisbursementTableRow",
+  name: "TransactionTableRow",
 
   components: {
     TagCard,
@@ -83,8 +83,12 @@ export default {
         : "Milestone disbursement";
     },
 
+    getPartyType() {
+      return this.data?.members?.length === 2 ? "1 on 1" : "Multi";
+    },
+
     getPartyCount() {
-      return this.data.parties.length === 2 ? "1 on 1" : "Multi";
+      return this.data?.members?.length ?? 0;
     },
 
     getTotalTransactionAmount() {
@@ -202,7 +206,7 @@ export default {
         params: { id: this.data.transaction_id },
         query: {
           type: this.data.type,
-          party: this.data.parties.length === 2 ? "single" : "multiple",
+          party: this.data?.members.length === 2 ? "single" : "multiple",
         },
       });
     },

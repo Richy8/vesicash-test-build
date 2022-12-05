@@ -9,6 +9,7 @@ const routes = {
   confirm_payment_status: "/payment/pay/status",
   update_party_status: "/transactions/parties/update-status",
   update_milestone_status: "/transactions/updateStatus",
+  renew_milestone_date: "/transactions/approve/due_date_extension",
 };
 
 export default {
@@ -74,5 +75,12 @@ export default {
   // ======================================
   async updateMilestoneTransaction(_, payload) {
     return await $api.push(routes.update_milestone_status, { payload });
+  },
+
+  // ======================================
+  // RENEW MILESTONE TRANSACTION DATE
+  // ======================================
+  async renewMilestoneDate(_, payload) {
+    return await $api.push(routes.renew_milestone_date, { payload });
   },
 };
