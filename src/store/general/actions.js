@@ -106,6 +106,80 @@ export default {
   },
 
   // ======================================
+  // UPLOAD FILE TO DIGITAL CLOUD [MULTIPLE FILES]
+  // ======================================
+  async uploadToCloud({ commit }, { files, id }) {
+    const authUserToken = getStorage(VESICASH_AUTH_TOKEN) || null;
+
+    let form_data = new FormData();
+
+    files.forEach((file, index) => {
+      form_data.append(`files[${index}]`, file);
+    });
+
+    try {
+      const response = await axios.post(
+        `${VESICASH_API_URL}${routes.upload_file}`,
+        form_data,
+        {
+          headers: {
+            Authorization: `Bearer ${authUserToken}`,
+            "Content-Type": "multipart/form-data",
+            "V-PUBLIC-KEY": VESICASH_PUBLIC_KEY_TOKEN,
+            "V-PRIVATE-KEY": VESICASH_PRIVATE_KEY_TOKEN,
+          },
+
+          onUploadProgress: function (progressEvent) {
+            let progress_count = parseInt(
+              Math.round((progressEvent.loaded / progressEvent.total) * 100)
+            );
+
+            const updated_files_state = files.map((file) => {
+              return {
+                name: file.name,
+                size: file.formatted_size,
+                progress: progress_count,
+                uploading: true,
+              };
+            });
+
+            commit("UPDATE_ALL_FILES_PROGRESS", {
+              id,
+              files: updated_files_state,
+            });
+          }.bind(this),
+
+          cancelToken: axiosSource.token,
+        }
+      );
+
+      // UPDATE FILE STATE
+
+      if (response.data.code === 200) {
+       
+        const updated_files_state = files.map((file, index) => {
+          const formatted_file = {
+            name: file.name,
+            size: file.formatted_size,
+            progress: 0,
+            uploading: false,
+            url: response.data.data.urls[index],
+          };
+          return formatted_file;
+        });
+
+        commit("UPDATE_ALL_FILES_PROGRESS", { id, files: updated_files_state });
+      } else {
+        commit("UPDATE_ALL_FILES_PROGRESS", { id, files: [] });
+      }
+
+      return response.data;
+    } catch (error) {
+      return error;
+    }
+  },
+
+  // ======================================
   // CLEAR OUT UPLOAADED  FILE ATTACHMENT
   // =======================================
   clearAttachedFile({ commit }) {
@@ -116,6 +190,20 @@ export default {
       progress: 0,
       uploading: false,
     });
+  },
+
+  // ======================================
+  // CLEAR OUT ALL FILES ATTACHMENT
+  // =======================================
+  clearAllAttachedFiles({ commit }) {
+    commit("UPDATE_ALL_FILES_PROGRESS", [
+      {
+        name: "",
+        size: "",
+        progress: 0,
+        uploading: false,
+      },
+    ]);
   },
 
   // ==============================

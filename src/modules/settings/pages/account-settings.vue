@@ -111,12 +111,12 @@ export default {
     return {
       tab_options: [
         {
-          name: "Dollar type",
+          name: "USD Accounts",
           value: "dollar",
           active: false,
         },
         {
-          name: "Naira type",
+          name: "NGN Accounts",
           value: "naira",
           active: true,
         },
