@@ -4,7 +4,7 @@ export default {
   },
 
   UPDATE_ALL_FILES_PROGRESS: (state, { id, files }) => {
-    //ADD NEW FILES OR REPLACE EXISTING ONES
+    //ADD NEW FILES OR REPLACE EXISTING ONES WITH ITS UPDATED STATE
     const new_files_index = state.all_files.findIndex((file) => file.id === id);
     
     if (new_files_index === -1) {
