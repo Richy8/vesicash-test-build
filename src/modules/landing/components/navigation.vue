@@ -14,19 +14,18 @@
 
         <!-- NAV ITEMS -->
         <div class="nav-items">
-          <router-link to class="nav-item">Home</router-link>
+          <!-- <router-link to class="nav-item">Home</router-link> -->
           <router-link to class="nav-item">Product</router-link>
           <router-link to class="nav-item">About us</router-link>
         </div>
 
         <!-- NAV BUTTONS -->
         <div class="nav-buttons">
-          <router-link to="/login" class="btn btn-tertiary btn-md roobert-500 mgr-16"
-            >Sign In</router-link
-          >
-          <router-link to="/register-lander" class="btn btn-primary btn-md roobert-500"
-            >Create an account</router-link
-          >
+          <router-link to="/login" class="btn btn-tertiary btn-md roobert-500 mgr-16">Sign In</router-link>
+          <router-link
+            to="/register-lander"
+            class="btn btn-primary btn-md roobert-500"
+          >Create an account</router-link>
         </div>
       </div>
     </div>

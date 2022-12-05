@@ -41,26 +41,34 @@
           />
         </div>
 
-        <ContractUploadCard
+        <DocUploadCard
           @uploaded="uploaded_doc=$event"
-          titleText="Click to upload verification document"
+          titleText="Select document(s) to upload"
+          docID="verification_documents"
+          @upload="handleAlert"
         />
 
-        <!-- <div class="form-group mgt-24">
-          <div class="form-label">How many directors do you have?</div>
+        <template v-if="isBusiness">
+          <div class="form-group mgt-24">
+            <div class="form-label">How many directors do you have?</div>
 
-          SELECT INPUT FIELD
-          <DropSelectInput
-            placeholder="Select number of directors"
-            :options="directorsRange"
-            @optionSelected="director_count = Number($event)"
+            <!-- SELECT INPUT FIELD -->
+            <DropSelectInput
+              placeholder="Select number of directors"
+              :options="directorsRange"
+              @optionSelected="director_count = Number($event.id)"
+            />
+          </div>
+
+          <DocUploadCard
+            titleText="Select document(s) to upload"
+            :fileCount="director_count"
+            controlCount
+            docID="director_documents"
+            :isDisabled="director_count < 1"
+            @upload="handleAlert"
           />
-        </div>-->
-
-        <!-- <ContractUploadCard
-          @uploaded="uploaded_doc=$event"
-          titleText="Click to upload verification document"
-        />-->
+        </template>
       </div>
     </template>
 
@@ -82,7 +90,7 @@
 import { mapActions, mapGetters } from "vuex";
 
 import ModalCover from "@/shared/components/modal-cover";
-import ContractUploadCard from "@/modules/transactions/components/card-comps/contract-upload-card";
+import DocUploadCard from "@/shared/components/form-comps/doc-upload-card";
 import DropSelectInput from "@/shared/components/drop-select-input";
 import BasicInput from "@/shared/components/form-comps/basic-input";
 
@@ -93,7 +101,7 @@ export default {
     ModalCover,
     DropSelectInput,
     BasicInput,
-    ContractUploadCard,
+    DocUploadCard,
   },
 
   mounted() {
@@ -101,14 +109,50 @@ export default {
   },
 
   computed: {
-    ...mapGetters({ getFileData: "general/getFileData" }),
+    ...mapGetters({
+      getFileData: "general/getFileData",
+      getAllFilesData: "general/getAllFilesData",
+    }),
 
     directorsRange() {
       return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => ({ name: i, id: i }));
     },
 
+    isBusiness() {
+      return this.getAccountType === "business" ? true : false;
+    },
+
+    getVerificationDoc() {
+      const file_data = this.getAllFilesData.find(
+        (doc) => doc.id === "verification_documents"
+      );
+      return file_data === undefined ? null : file_data;
+    },
+
+    VerificationDocExist() {
+      return this.getVerificationDoc?.files?.length ? true : false;
+    },
+
+    getDirectorDoc() {
+      const file_data = this.getAllFilesData.find(
+        (doc) => doc.id === "director_documents"
+      );
+      return file_data === undefined ? null : file_data;
+    },
+
+    directorDocExist() {
+      return this.getDirectorDoc?.files?.length ? true : false;
+    },
+
     isDisabled() {
-      return !this.form.doc_number || !this.document || !this.getFileData?.name;
+      if (this.isBusiness)
+        !this.form.doc_number ||
+          !this.document ||
+          !this.VerificationDocExist ||
+          !this.directorDocExist;
+      return (
+        !this.form.doc_number || !this.document || !this.VerificationDocExist
+      );
     },
 
     verfiyDocPayload() {
@@ -116,7 +160,7 @@ export default {
         account_id: this.getAccountId,
         type: this.document?.id,
         id: this.form.doc_number,
-        meta: this.uploaded_doc?.urls[0],
+        meta: this.getVerificationDoc?.files[0]?.url,
       };
     },
   },
@@ -174,6 +218,12 @@ export default {
       verfiyUserDocument: "settings/verfiyUserDocument",
     }),
 
+    handleAlert(message) {
+      if (this.director_count < 1)
+        this.pushToast("Select number of directors", "error");
+      if (message) this.pushToast(message, "error");
+    },
+
     async save() {
       this.handleClick("save");
 
@@ -206,6 +256,10 @@ export default {
   .modal-cover-body {
     max-height: 65vh;
     overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      width: 2px;
+    }
   }
 }
 </style>

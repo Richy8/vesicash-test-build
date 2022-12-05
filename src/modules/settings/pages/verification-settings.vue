@@ -27,7 +27,7 @@
       <verification-card
         v-if="isBusiness"
         title="Business information"
-        subtitle="Update informations about your business."
+        subtitle="Provide information about your business."
         cta_title="Update business information"
         @action="toggleBusinessInfoModal"
         :verified="false"
@@ -47,7 +47,7 @@
 
       <verification-card
         title="BVN details"
-        subtitle="Confirm your bvn details."
+        subtitle="Confirm your BVN details."
         cta_title="Verify BVN details"
         @action="toggleBvnModal"
         :verified="bvn_verified || isBvnVerified"
@@ -57,8 +57,8 @@
 
       <verification-card
         title="Settlement account"
-        subtitle="Withdrawal accounts for transactions."
-        cta_title="Verify settlement account"
+        subtitle="Provide your bank account details for withdrawals and settlements"
+        cta_title="Add bank account"
         @action="$router.push({name:'AccountSettings'})"
       >
         <SettlementIcon />
