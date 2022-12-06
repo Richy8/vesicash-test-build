@@ -12,11 +12,11 @@
       :pagination="pagination"
     >
       <template v-for="(data, index) in table_data">
-        <TransactionPaymentTableRow
-          :key="index"
-          table_name="transaction-payment-tb"
-          :data="data"
-        />
+        <TransactionPaymentTableRow :key="index" table_name="transaction-payment-tb" :data="data" />
+      </template>
+
+      <template slot="emptyIconSlot">
+        <EmptyPaymentIcon />
       </template>
     </TableContainer>
   </div>
@@ -25,12 +25,14 @@
 <script>
 import { mapActions } from "vuex";
 import TableContainer from "@/shared/components/table-comps/table-container";
+import EmptyPaymentIcon from "@/shared/components/icon-comps/empty-payment-icon";
 
 export default {
   name: "TransactionPaymentTable",
 
   components: {
     TableContainer,
+    EmptyPaymentIcon,
     TransactionPaymentTableRow: () =>
       import(
         /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/table-comps/transaction-payment-table-row"

@@ -7,6 +7,8 @@
       :table_header="table_header"
       :is_loading="table_loading"
       :empty_message="empty_message"
+      empty_action_name="Withdraw"
+      @emptyAction="initiateWalletWithdrwal"
       :show_paging="showPagination"
       @goToPage="getUserWalletTransactions($event)"
       :pagination="pagination"
@@ -18,6 +20,10 @@
           :data="data"
         />
       </template>
+
+      <template slot="emptyIconSlot">
+        <EmptyWalletIcon />
+      </template>
     </TableContainer>
   </div>
 </template>
@@ -25,12 +31,14 @@
 <script>
 import { mapActions } from "vuex";
 import TableContainer from "@/shared/components/table-comps/table-container";
+import EmptyWalletIcon from "@/shared/components/icon-comps/empty-wallet-icon";
 
 export default {
   name: "TransactionWalletWithdrawalTable",
 
   components: {
     TableContainer,
+    EmptyWalletIcon,
     TransactionWalletWithdrawalTableRow: () =>
       import(
         /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/table-comps/transaction-wallet-withdrawal-table-row"
@@ -67,7 +75,7 @@ export default {
       paginatedData: {},
       paginationPages: {},
       empty_message:
-        "You have not done any wallet withdrawals transaction. Click the 'withdraw' button to get started",
+        "You have not done any wallet withdrawal transaction. Withdraw from your wallet to get started",
     };
   },
 
@@ -136,6 +144,13 @@ export default {
     handleErrorResponse() {
       this.table_loading = false;
       this.table_data = [];
+    },
+
+    initiateWalletWithdrwal() {
+      this.$router.push({
+        name: "VesicashDashboard",
+        query: { withdraw_money: true },
+      });
     },
   },
 };

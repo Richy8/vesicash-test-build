@@ -18,6 +18,10 @@
           :data="data"
         />
       </template>
+
+      <template slot="emptyIconSlot">
+        <EmptyDisbursementIcon />
+      </template>
     </TableContainer>
   </div>
 </template>
@@ -25,12 +29,14 @@
 <script>
 import { mapActions } from "vuex";
 import TableContainer from "@/shared/components/table-comps/table-container";
+import EmptyDisbursementIcon from "@/shared/components/icon-comps/empty-disbursement-icon";
 
 export default {
   name: "TransactionDisbursementTable",
 
   components: {
     TableContainer,
+    EmptyDisbursementIcon,
     TransactionDisbursementTableRow: () =>
       import(
         /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/table-comps/transaction-disbursement-table-row"

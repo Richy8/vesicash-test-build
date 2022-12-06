@@ -61,12 +61,11 @@
         Withdraw
       </button>
 
-      <button class="btn btn-tertiary btn-md">
+       <router-link class="btn btn-tertiary btn-md" to="/exchange/setup">
         <div class="mgr-8 position-relative" style="top: -1px">
           <ExchangeIcon small />
-        </div>
-        Exchange money
-      </button>
+        </div>Exchange money
+      </router-link>
       <!-- closeWalletOpenAccount will be replaced with toggleWalletModal when dollar withdrawal is ready -->
     </div>
 

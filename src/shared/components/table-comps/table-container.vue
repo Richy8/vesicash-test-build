@@ -43,7 +43,9 @@
         :empty_action_name="empty_action_name"
         @emptyAction="$emit('emptyAction')"
         v-else
-      />
+      >
+        <slot name="emptyIconSlot"></slot>
+      </TableEmptyState>
     </template>
   </div>
 </template>

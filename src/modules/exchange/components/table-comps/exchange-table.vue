@@ -13,6 +13,10 @@
       <template v-for="(data, index) in table_data">
         <ExchangeTableRow :key="index" table_name="exchange-tb" :data="data" />
       </template>
+
+      <template slot="emptyIconSlot">
+        <EmptyExchangeIcon />
+      </template>
     </TableContainer>
   </div>
 </template>
@@ -20,12 +24,14 @@
 <script>
 import { mapActions } from "vuex";
 import TableContainer from "@/shared/components/table-comps/table-container";
+import EmptyExchangeIcon from "@/shared/components/icon-comps/empty-exchange-icon";
 
 export default {
   name: "ExchangeTable",
 
   components: {
     TableContainer,
+    EmptyExchangeIcon,
     ExchangeTableRow: () =>
       import(
         /* webpackChunkName: "exchange-module" */ "@/modules/exchange/components/table-comps/exchange-table-row"

@@ -14,21 +14,8 @@
       <span class="icon icon-plus mgr-8"></span> Add new user
     </button>
 
-    <div class="mgt-32 pdb-40" v-if="getConnectedUsers.length || loading_users">
-      <UserTable @updateLoading="loading_users=$event" />
-    </div>
-
-    <div class="users-empty-state full-width" v-else>
-      <UserIcon big />
-
-      <div
-        class="tertiary-2-text grey-600 mgt-15 mgb-30 empty-text text-center"
-      >You do not currently have any user, click the create user button to add users.</div>
-
-      <button class="btn btn-md btn-primary" @click="toggleAddUserModal">
-        <span class="icon icon-plus mgr-7"></span>
-        Create User
-      </button>
+    <div class="mgt-32 pdb-40">
+      <UserTable @emptyAction="toggleAddUserModal" />
     </div>
 
     <portal to="vesicash-modals">
@@ -50,14 +37,12 @@
 import { mapGetters, mapActions } from "vuex";
 import AddUserModal from "@/modules/settings/modals/add-user-modal";
 import UserTable from "@/modules/settings/components/table-comps/user-table";
-import UserIcon from "@/shared/components/icon-comps/user-icon";
 import SuccessModal from "@/shared/modals/success-modal";
 export default {
   name: "UsersSettings",
 
   components: {
     UserTable,
-    UserIcon,
     AddUserModal,
     SuccessModal,
   },
