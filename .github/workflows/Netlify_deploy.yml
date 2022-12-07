@@ -29,7 +29,9 @@ jobs:
           node-version: "16"
 
       - name: Run npm install
-        run: npm install
+        run: |
+          npm install -g npm
+          npm install
 
       - name: Run npm build
         run: npm run build
