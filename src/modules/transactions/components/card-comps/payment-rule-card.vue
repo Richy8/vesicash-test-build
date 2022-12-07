@@ -452,6 +452,7 @@ export default {
       this.updateMilestoneTransaction({
         transaction_id: this.$route.params.id,
         milestone_id: this.milestone.milestone_id,
+        account_id: this.getAccountId,
         status,
       })
         .then((response) => {

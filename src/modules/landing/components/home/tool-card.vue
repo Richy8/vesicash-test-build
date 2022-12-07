@@ -34,7 +34,7 @@ export default {
   margin-bottom: toRem(60);
 
   .title-text {
-    font-size: toRem(28);
+    // font-size: toRem(28);
 
     @include breakpoint-down(lg) {
       font-size: toRem(26);
@@ -46,7 +46,7 @@ export default {
   }
 
   .description-text {
-    font-size: toRem(18);
+    // font-size: toRem(18);
 
     @include breakpoint-down(lg) {
       font-size: toRem(17);

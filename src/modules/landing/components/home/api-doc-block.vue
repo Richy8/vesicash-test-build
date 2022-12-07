@@ -18,7 +18,9 @@
               <div class="icon icon-caret-right neutral-10"></div>
             </div>
 
-            <div class="text secondary-1-text">Explore our documentation</div>
+            <div class="text secondary-1-text roobert-400">
+              Explore our documentation
+            </div>
           </a>
         </div>
 
@@ -59,7 +61,7 @@ export default {
     @include flex-row-between-wrap;
 
     .title-text {
-      font-size: toRem(38);
+      // font-size: toRem(38);
 
       @include breakpoint-down(lg) {
         @include font-height(32, 40);
@@ -71,11 +73,11 @@ export default {
     }
 
     .description-text {
-      font-size: toRem(18);
+      // font-size: toRem(20);
       width: 80%;
 
       @include breakpoint-down(lg) {
-        font-size: toRem(17.5);
+        font-size: toRem(18);
         width: 95%;
       }
 

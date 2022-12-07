@@ -89,61 +89,65 @@ export default {
   }
 
   .vesicash-container {
-    .copy-section {
-      .title-text {
-        font-size: toRem(39);
-        width: 90%;
+    .row {
+      align-items: center;
 
-        @include breakpoint-down(md) {
-          font-size: toRem(36);
-          width: 100%;
-        }
+      .copy-section {
+        .title-text {
+          font-size: toRem(40);
+          width: 90%;
 
-        @include breakpoint-down(sm) {
-          @include font-height(32, 44);
-        }
-
-        @include breakpoint-down(xs) {
-          @include font-height(30, 42);
-        }
-      }
-
-      .description-text {
-        font-size: toRem(17.75);
-        width: 82%;
-
-        @include breakpoint-down(lg) {
-          font-size: toRem(17.5);
-        }
-
-        @include breakpoint-down(md) {
-          font-size: toRem(17);
-          width: 100%;
-        }
-
-        @include breakpoint-down(sm) {
-          font-size: toRem(16);
-          width: 100%;
-        }
-      }
-
-      .business-areas {
-        @include flex-row-start-wrap;
-        align-items: flex-start;
-        width: 95%;
-
-        .business-unit {
-          @include flex-row-start-nowrap;
-          align-items: flex-start;
-          margin-bottom: toRem(24);
-
-          .icon-wrapper {
-            margin-right: toRem(16);
+          @include breakpoint-down(md) {
+            font-size: toRem(36);
+            width: 100%;
           }
 
-          .text {
-            @include breakpoint-down(md) {
-              font-size: toRem(15);
+          @include breakpoint-down(sm) {
+            @include font-height(32, 44);
+          }
+
+          @include breakpoint-down(xs) {
+            @include font-height(30, 42);
+          }
+        }
+
+        .description-text {
+          font-size: toRem(18);
+          width: 82%;
+
+          @include breakpoint-down(lg) {
+            font-size: toRem(17.5);
+          }
+
+          @include breakpoint-down(md) {
+            font-size: toRem(17);
+            width: 100%;
+          }
+
+          @include breakpoint-down(sm) {
+            font-size: toRem(16);
+            width: 100%;
+          }
+        }
+
+        .business-areas {
+          @include flex-row-start-wrap;
+          align-items: flex-start;
+          width: 95%;
+
+          .business-unit {
+            @include flex-row-start-nowrap;
+            align-items: flex-start;
+            margin-bottom: toRem(24);
+
+            .icon-wrapper {
+              margin-right: toRem(16);
+            }
+
+            .text {
+              @include breakpoint-down(md) {
+                font-size: toRem(15);
+              }
             }
           }
         }

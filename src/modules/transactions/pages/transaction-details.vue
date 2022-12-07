@@ -107,12 +107,12 @@
     </template>
 
     <!-- ACTIVITY SECTION -->
-    <template name="activity-section" v-if="true">
+    <template name="activity-section" v-if="getTransactionActivities.length">
       <div class="section-wrapper">
         <div class="section-title">Activity</div>
 
         <div class="activity-wrapper wt-50">
-          <ActivityCard />
+          <ActivityCard :activities="getTransactionActivities" />
         </div>
       </div>
     </template>
@@ -291,6 +291,10 @@ export default {
         show_naira_transfer_modal,
         show_fw_biz_modal,
       };
+    },
+
+    getTransactionActivities() {
+      return this.getTransaction?.activities ?? [];
     },
   },
 
@@ -561,6 +565,7 @@ export default {
         this.updateMilestoneTransaction({
           transaction_id: this.$route.params.id,
           milestone_id: milestone.milestone_id,
+          account_id: this.getAccountId,
           status:
             has_exception &&
             this.getTransactionType === "milestone" &&

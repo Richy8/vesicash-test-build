@@ -4,13 +4,12 @@
       <!-- HEADER TEXT -->
       <div class="header-text text-center mgb-32 roobert-700 fw-700 green-200">
         Digital Escrow and <br />
-        Global Remittances 
+        Global Remittances
         <span class="teal-200">for African Businesses</span>
-       
       </div>
 
       <!-- DESCRIPTION TEXT -->
-      <div class="description-text neutral-10 h7-text roobert-400 text-center">
+      <div class="description-text neutral-10 h6-text roobert-400 text-center">
         Enabling businesses effectively manage their local and cross-border B2B
         payments, with an additional security layer.
       </div>
@@ -38,28 +37,27 @@ export default {
   .vesicash-container {
     @include flex-column-center;
     justify-content: flex-start;
-    // height: 100vh;
 
     .header-text {
-      @include font-height(70, 90);
+      @include font-height(72, 85);
       margin-top: toRem(120);
 
       @include breakpoint-down(xl) {
-        @include font-height(64, 72);
+        @include font-height(64, 70);
       }
 
       @include breakpoint-down(lg) {
         margin-top: toRem(100);
-        @include font-height(50, 68);
+        @include font-height(50, 60);
       }
 
       @include breakpoint-down(md) {
         margin-top: toRem(80);
-        @include font-height(40, 60);
+        @include font-height(40, 55);
       }
 
       @include breakpoint-down(xs) {
-        @include font-height(34, 56);
+        // @include font-height(32, 40);
 
         br {
           display: none;
@@ -69,8 +67,7 @@ export default {
 
     .description-text {
       margin-bottom: toRem(100);
-      font-size: toRem(18.75);
-      width: 60%;
+      width: 76%;
 
       @include breakpoint-down(xl) {
         width: 80%;
@@ -78,18 +75,19 @@ export default {
 
       @include breakpoint-down(lg) {
         margin-bottom: toRem(80);
-        font-size: toRem(18);
+        font-size: toRem(24);
         width: 80%;
       }
 
       @include breakpoint-down(md) {
         margin-bottom: toRem(60);
-        font-size: toRem(17);
+        font-size: toRem(20);
         width: 100%;
       }
 
       @include breakpoint-down(sm) {
         margin-bottom: toRem(50);
+        font-size: toRem(18);
       }
     }
 

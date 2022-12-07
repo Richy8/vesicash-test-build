@@ -61,7 +61,8 @@ export default {
       tools: [
         {
           title: "Escrow financing",
-          description: "Eliminate working capital bottlenecks with our Escrow financing feature.",
+          description:
+            "Eliminate working capital bottlenecks with our Escrow financing feature.",
           image: "tool-card-one.png",
         },
         {
@@ -117,8 +118,6 @@ export default {
     margin-bottom: toRem(80);
 
     .title-text {
-      font-size: toRem(39);
-
       @include breakpoint-down(lg) {
         font-size: toRem(36);
       }
@@ -133,8 +132,7 @@ export default {
     }
 
     .description-text {
-      font-size: toRem(18.25);
-      width: 65%;
+      width: 60%;
 
       @include breakpoint-down(lg) {
         font-size: toRem(18);

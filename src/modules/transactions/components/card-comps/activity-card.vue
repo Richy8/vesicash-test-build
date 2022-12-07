@@ -2,7 +2,7 @@
   <div class="activity-card rounded-16 border-grey-100">
     <!-- USER ACTIVITIES -->
     <div class="activities">
-      <template v-for="(activity, index) in activities">
+      <template v-for="(activity, index) in activities.slice().reverse()">
         <div class="activity" :key="index">
           <!-- DESCRIPTION TEXT -->
           <div class="description-text grey-900 tertiary-2-text mgb-6">
@@ -11,7 +11,7 @@
 
           <!-- TIMESTAMP TEXT -->
           <div class="timestamp-text grey-600 tertiary-3-text">
-            {{ activity.timestamp }}
+            {{ activity.created_at | formatDate($date) }}
           </div>
         </div>
       </template>
@@ -23,19 +23,18 @@
 export default {
   name: "ActivityCard",
 
-  data: () => ({
-    activities: [
-      {
-        description:
-          "Kunleafolayan@gmail.com made a payment of $35,000 into escrow for Payment for landing page",
-        timestamp: " Mon 03:00, 19th Apr 2022",
-      },
-      {
-        description: "Salimadeyemi@gmail.com marks this order as done",
-        timestamp: " Mon 03:00, 19th Apr 2022",
-      },
-    ],
-  }),
+  props: {
+    activities: {
+      type: Array,
+    },
+  },
+
+  filters: {
+    formatDate(value, formatter) {
+      let { w2, h01, b2, d3, m4, y1 } = formatter.formatDate(value).getAll();
+      return `${w2} ${h01}:${b2}, ${d3} ${m4} ${y1}`;
+    },
+  },
 };
 </script>
 
