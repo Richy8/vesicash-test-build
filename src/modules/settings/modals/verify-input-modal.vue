@@ -148,6 +148,9 @@ export default {
 
       const payload = this.email ? request_email_otp_payload : request_payload;
       const action = this.email ? "sendEmailOTP" : "sendUserOTP";
+      const input_type = this.email
+        ? this.form.email_address
+        : this.form.phone_number;
 
       this[action](payload)
         .then((response) => {
@@ -155,7 +158,7 @@ export default {
 
           if (response.code === 200) {
             this.pushToast(
-              `An OTP code has been sent to ${this.form.phone_number}`,
+              `An OTP code has been sent to ${input_type}`,
               "success"
             );
             this.$emit(

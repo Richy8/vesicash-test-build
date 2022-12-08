@@ -101,7 +101,7 @@ const paymentHelper = {
       show_naira_transfer_modal: false,
       show_fw_biz_modal: false,
       show_failed_wallet_transfer: false,
-      message:"",
+      message: "",
     };
   },
 
@@ -222,19 +222,23 @@ const paymentHelper = {
 
         // console.log("TRANSFER RESPONSE", response);
         if (response.code === 200) {
-          this.pushToast(response.message || "Payment was successful","success")
+          this.pushToast(
+            response.message || "Payment was successful",
+            "success"
+          );
 
           setTimeout(() => {
-            this.$router.push({name:"VesicashDashboard"})         
+            this.$router.push({ name: "VesicashDashboard" });
           }, 2000);
-   
         } else {
-          this.message = response.message;
+          this.message = response.message.includes("insufficient")
+            ? "You do not have enough funds in your wallet to pay for this transaction."
+            : response.message;
           this.show_failed_wallet_transfer = true;
         }
       } catch (err) {
         this.show_failed_wallet_transfer = true;
-        this.message ="Failed to transfer money"
+        this.message = "Failed to transfer money";
         console.log("FAILED TO TRANSFER MONEY", err);
         this.togglePageLoader("");
       }

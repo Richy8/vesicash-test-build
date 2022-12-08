@@ -7,7 +7,7 @@
       :table_header="table_header"
       :is_loading="table_loading"
       :empty_message="empty_message"
-      empty_action_name="Create User"
+      empty_action_name="Add new user"
       @emptyAction="$emit('emptyAction')"
       @goToPage="page=$event"
       :pagination="getPagination"
@@ -92,7 +92,7 @@ export default {
       paginatedData: {},
       paginationPages: {},
       empty_message:
-        "You do not currently have any user, click the add new user button to add users.",
+        "You currently don't have any user, click the add new user button to add users.",
     };
   },
 

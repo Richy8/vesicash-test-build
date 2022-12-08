@@ -18,7 +18,7 @@
         <router-link
           :to="{name:'VesicashDashboard',query:{fund_wallet:true}}"
           class="btn btn-secondary btn-md wt-100 mgb-24"
-        >Fund Wallet</router-link>
+        >Fund your wallet</router-link>
 
         <button
           class="btn btn-primary btn-md wt-100"
