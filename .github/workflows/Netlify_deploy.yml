@@ -39,12 +39,19 @@ jobs:
       - name: Run npm build
         run: npm run build
 
-      - name: Deploy production to Netlify
-        uses: South-Paw/action-netlify-deploy@v1.2.0
+      # - name: Deploy production to Netlify
+      #   uses: South-Paw/action-netlify-deploy@v1.2.0
+      #   with:
+      #     github-token: ${{ secrets.MY_GITHUB_TOKEN }}
+      #     netlify-auth-token: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      #     netlify-site-id: ${{ secrets.NETLIFY_SITE_ID }}
+      #     build-dir: './dist'
+      #     comment-on-commit: true
+        
+      - uses: jsmrcaga/action-netlify-deploy@master
         with:
-          github-token: ${{ secrets.MY_GITHUB_TOKEN }}
-          netlify-auth-token: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          netlify-site-id: ${{ secrets.NETLIFY_SITE_ID }}
-          build-dir: './dist'
-          comment-on-commit: true
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_DEPLOY_MESSAGE: "Prod deploy v${{ github.ref }}"
+          NETLIFY_DEPLOY_TO_PROD: true
 
