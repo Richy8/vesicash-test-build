@@ -21,9 +21,30 @@ const landingRoutes = [
           import(
             /* webpackChunkName: "landing-module" */ "@/modules/landing/pages/home"
           ),
-        // meta: {
-        //   guest: true,
-        // },
+      },
+
+      // ===============================
+      // VESICASH SOLUTIONS ROUTE
+      // ===============================
+      {
+        path: "/solutions",
+        name: "VesicashSolutions",
+        component: () =>
+          import(
+            /* webpackChunkName: "landing-module" */ "@/modules/landing/pages/solutions"
+          ),
+      },
+
+      // ===============================
+      // VESICASH ABOUT US ROUTE
+      // ===============================
+      {
+        path: "/about",
+        name: "VesicashAbout",
+        component: () =>
+          import(
+            /* webpackChunkName: "landing-module" */ "@/modules/landing/pages/about"
+          ),
       },
     ],
   },

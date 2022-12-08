@@ -11,7 +11,13 @@
 
           <!-- MENU TOGGLE  -->
           <div
-            class="menu-toggler rounded-circle smooth-transition grey-50-bg pointer"
+            class="
+              menu-toggler
+              rounded-circle
+              smooth-transition
+              grey-50-bg
+              pointer
+            "
             @click="$emit('closeMenu')"
           >
             <div class="icon icon-close grey-700" title="Menu"></div>
@@ -22,12 +28,22 @@
       <!-- MENU ROW -->
       <div class="bottom-row">
         <div class="nav-items">
-          <!-- <router-link to class="nav-item">Home</router-link> -->
-          <router-link to class="nav-item">Product</router-link>
-          <router-link to class="nav-item">About us</router-link>
+          <router-link :to="{ name: 'VesicashHome' }" class="nav-item"
+            >Home</router-link
+          >
+          <router-link :to="{ name: 'VesicashSolutions' }" class="nav-item"
+            >What we do</router-link
+          >
+          <router-link :to="{ name: 'VesicashAbout' }" class="nav-item"
+            >About us</router-link
+          >
 
-          <router-link to="/login" class="btn btn-tertiary btn-md mgb-24">Sign In</router-link>
-          <router-link to="/register-lander" class="btn btn-primary btn-md">Create an account</router-link>
+          <router-link to="/login" class="btn btn-tertiary btn-md mgb-24"
+            >Sign In</router-link
+          >
+          <router-link to="/register-lander" class="btn btn-primary btn-md"
+            >Create an account</router-link
+          >
         </div>
       </div>
     </div>
@@ -112,7 +128,8 @@ export default {
         margin-bottom: toRem(32);
         font-size: toRem(17);
 
-        &:hover {
+        &:hover,
+        &.router-link-exact-active {
           color: getColor("green-500");
         }
       }

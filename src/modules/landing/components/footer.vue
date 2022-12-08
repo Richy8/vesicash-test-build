@@ -2,7 +2,7 @@
   <div class="footer-section">
     <div class="vesicash-container">
       <div class="row mgb-50">
-        <div class="col-12 col-sm-12 col-md-5 col-lg-6 footer-left">
+        <div class="col-12 col-sm-12 col-md-4 footer-left">
           <div class="brand-logo mgb-28">
             <VesicashBrandLogo />
           </div>
@@ -34,39 +34,53 @@
         </div>
 
         <!-- NAVIGATION LINKS CONTAINER -->
-        <div
-          class="col-12 col-sm-12 col-md-7 col-lg-6 footer-right mt-5 mt-md-0"
-        >
+        <div class="col-12 col-sm-12 col-md-8 footer-right mt-5 mt-md-0">
           <div class="row">
-            <div class="col-12 col-sm-4 mb-5 mb-sm-0">
+            <div class="col-12 col-sm-3 mb-5 mb-sm-0">
               <div class="nav-item fw-700 mgb-24">Product</div>
 
-              <a href="" class="nav-item nav-item-link">Our products</a>
               <a href="" class="nav-item nav-item-link">What we do</a>
-              <a href="" class="nav-item nav-item-link">Our clients</a>
+              <a href="" class="nav-item nav-item-link">Instant Excrow</a>
               <a href="" class="nav-item nav-item-link">Privacy Policy</a>
               <a href="" class="nav-item nav-item-link">Terms of Use</a>
+              <a href="" class="nav-item nav-item-link">FAQs</a>
             </div>
 
-            <div class="col-12 col-sm-4 mb-5 mb-sm-0">
+            <div class="col-12 col-sm-3 mb-5 mb-sm-0">
               <div class="nav-item fw-700 mgb-24">Company</div>
 
               <a href="" class="nav-item nav-item-link">About Us</a>
               <a href="" class="nav-item nav-item-link">Blog</a>
-              <a href="" class="nav-item nav-item-link">Supported Countries</a>
-              <a href="" class="nav-item nav-item-link">SMEs</a>
-              <a href="" class="nav-item nav-item-link">FAQs</a>
               <a href="" class="nav-item nav-item-link">Contact</a>
-              <a href="" class="nav-item nav-item-link">Careers </a>
             </div>
 
-            <div class="col-12 col-sm-4">
+            <div class="col-12 col-sm-3 mb-5 mb-sm-0">
               <div class="nav-item fw-700 mgb-24">Developer</div>
 
               <a href="" class="nav-item nav-item-link">Overview</a>
-              <a href="" class="nav-item nav-item-link">Plugins</a>
               <a href="" class="nav-item nav-item-link">Documentation</a>
               <a href="" class="nav-item nav-item-link">Status Page</a>
+            </div>
+
+            <div class="col-12 col-sm-3">
+              <div class="nav-item fw-700 mgb-24">Payments processed by</div>
+
+              <!-- PRODUCT DISPLAY -->
+              <div class="product-display">
+                <!-- TOP IMAGE -->
+                <img
+                  v-lazy="loadImage('flutterwave.png', 'landing')"
+                  alt=""
+                  class="top-img mgb-8"
+                />
+
+                <!-- DESCRIPTION -->
+                <div class="bottom-text tertiary-1-text roobert-400">
+                  <div class="content">A member of the stellar</div>
+                  <img v-lazy="loadImage('stellar.png', 'landing')" alt="" />
+                  <div class="content">network</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -183,6 +197,24 @@ export default {
 
         &:hover {
           color: getColor("green-600");
+        }
+      }
+    }
+
+    .product-display {
+      .top-img {
+        width: toRem(142);
+        height: auto;
+      }
+
+      .bottom-text {
+        @include flex-row-start-wrap;
+        color: getColor("grey-700");
+
+        img {
+          padding: 0 toRem(4);
+          width: toRem(48);
+          height: auto;
         }
       }
     }
