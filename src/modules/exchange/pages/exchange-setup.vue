@@ -17,7 +17,7 @@
             :custom_style="{ input_wrapper_style: 'form-prefix' }"
             :currency_type="initial_currency"
             is_currency_type
-            :currency_options="currency_options"
+            :currency_options="initialCurrencyOptions"
             @currencyUpdated="initial_currency=$event"
             class="form-prefix-right"
             @getInputState="updateFormState($event, 'initial_currency')"
@@ -46,7 +46,7 @@
             :custom_style="{ input_wrapper_style: 'form-prefix' }"
             is_currency_type
             :currency_type="final_currency"
-            :currency_options="currency_options"
+            :currency_options="finalCurrencyOptions"
             @currencyUpdated="final_currency=$event"
             class="form-prefix-right"
             @getInputState="updateFormState($event, 'final_currency')"
@@ -135,6 +135,18 @@ export default {
         code: this.$money.getCode(code),
         amount,
       };
+    },
+
+    initialCurrencyOptions() {
+      return this.currency_options.filter(
+        (option) => option.code !== this.final_currency.code
+      );
+    },
+
+    finalCurrencyOptions() {
+      return this.currency_options.filter(
+        (option) => option.code !== this.initial_currency.code
+      );
     },
 
     finalCurrencyMeta() {

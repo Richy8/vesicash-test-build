@@ -13,14 +13,10 @@
       <!-- CARD INFO -->
       <div class="card-info">
         <!-- CARD TITLE -->
-        <div class="card-title primary-1-text grey-900 mgb-4">
-          {{ payment.title }}
-        </div>
+        <div class="card-title primary-1-text grey-900 mgb-4">{{ payment.title }}</div>
 
         <!-- CARD DESCRIPTION -->
-        <div class="card-description tertiary-2-text grey-600">
-          {{ payment.description }}
-        </div>
+        <div class="card-description tertiary-2-text grey-600">{{ payment.description }}</div>
       </div>
     </div>
 
@@ -35,6 +31,7 @@
 import CreditCardIcon from "@/shared/components/icon-comps/credit-card-icon";
 import ArrowRightIcon from "@/shared/components/icon-comps/arrow-right-icon";
 import BusinessIcon from "@/shared/components/icon-comps/business-icon";
+import EmptyWalletIcon from "@/shared/components/icon-comps/empty-wallet-icon";
 
 export default {
   name: "PayTypeCard",
@@ -43,6 +40,7 @@ export default {
     CreditCardIcon,
     ArrowRightIcon,
     BusinessIcon,
+    WalletIcon: EmptyWalletIcon,
   },
 
   props: {

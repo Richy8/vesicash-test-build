@@ -6,7 +6,7 @@ const routes = {
     create_transaction: "/transactions/create",
     send_transaction: "/transactions/send",
     start_card_payment: "/payment/pay",
-    confirm_payment_status: "/payment/pay/status",
+    confirm_payment_status: "/payment/pay/new-status",
     update_party_status: "/transactions/parties/update-status",
     update_milestone_status: "/transactions/updateStatus",
     renew_milestone_date: "/transactions/approve/due_date_extension",
