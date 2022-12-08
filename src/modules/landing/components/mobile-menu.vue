@@ -28,9 +28,9 @@
       <!-- MENU ROW -->
       <div class="bottom-row">
         <div class="nav-items">
-          <router-link :to="{ name: 'VesicashHome' }" class="nav-item"
+          <!-- <router-link :to="{ name: 'VesicashHome' }" class="nav-item"
             >Home</router-link
-          >
+          > -->
           <router-link :to="{ name: 'VesicashSolutions' }" class="nav-item"
             >What we do</router-link
           >
