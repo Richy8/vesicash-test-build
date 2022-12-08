@@ -1,7 +1,11 @@
 <template>
   <div class="table-empty-state">
+    <slot>
+      <EmptyEscrowIcon />
+    </slot>
+
     <!-- MESSAGE TEXT -->
-    <div class="message-text grey-600 tertiary-2-text text-center">{{ empty_message }}</div>
+    <div class="message-text grey-600 tertiary-2-text text-center mgt-16">{{ empty_message }}</div>
 
     <!-- EMPTY BUTTON -->
     <!-- emits event, for parent to listen to and take action -->
@@ -15,8 +19,14 @@
 </template>
 
 <script>
+import EmptyEscrowIcon from "@/shared/components/icon-comps/empty-escrow-icon";
+
 export default {
   name: "TableEmptyState",
+
+  components: {
+    EmptyEscrowIcon,
+  },
 
   props: {
     empty_message: {

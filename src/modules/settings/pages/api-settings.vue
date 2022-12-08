@@ -83,7 +83,10 @@ export default {
         if (load) this.handleClick("generate", "Generate API keys", false);
 
         if (![201, 200].includes(response.code))
-          this.pushToast(response.message, "error");
+          this.pushToast(
+            response.message || "Failed to generate API keys.",
+            "error"
+          );
       } catch (err) {
         this.generating_keys = false;
         if (load) this.handleClick("generate", "Generate API keys", false);
@@ -122,6 +125,7 @@ export default {
   .keys {
     min-width: toRem(368);
     max-width: toRem(368);
+    min-height: toRem(42);
     padding: toRem(12) toRem(16);
     border: toRem(1) dashed getColor("green-500");
     border-radius: toRem(12);

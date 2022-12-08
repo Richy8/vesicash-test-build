@@ -7,12 +7,18 @@
       :table_header="table_header"
       :is_loading="table_loading"
       :empty_message="empty_message"
+      empty_action_name="Add new user"
+      @emptyAction="$emit('emptyAction')"
       @goToPage="page=$event"
       :pagination="getPagination"
       show_paging
     >
       <template v-for="(user, index) in getPaginatedUser">
         <UserTableRow :key="user.account_id+index" table_name="user-table" :data="user" />
+      </template>
+
+      <template slot="emptyIconSlot">
+        <UserIcon big />
       </template>
     </TableContainer>
   </div>
@@ -22,6 +28,7 @@
 import { mapActions, mapGetters } from "vuex";
 import TableContainer from "@/shared/components/table-comps/table-container";
 import UserTableRow from "@/modules/settings/components/table-comps/user-table-row";
+import UserIcon from "@/shared/components/icon-comps/user-icon";
 
 export default {
   name: "ConnectedUserTable",
@@ -29,6 +36,7 @@ export default {
   components: {
     TableContainer,
     UserTableRow,
+    UserIcon,
   },
 
   computed: {
@@ -84,7 +92,7 @@ export default {
       paginatedData: {},
       paginationPages: {},
       empty_message:
-        "You do not currently have any user, click the add new user button to add users.",
+        "You currently don't have any user, click the add new user button to add users.",
     };
   },
 

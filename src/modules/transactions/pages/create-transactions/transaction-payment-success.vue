@@ -76,6 +76,10 @@ export default {
       confirmPaymentStatus: "transactions/confirmPaymentStatus",
     }),
 
+    retryConfrimation() {
+      this.confirmPayment();
+    },
+
     async confirmPayment() {
       this.togglePageLoader("Confirming payment");
 
@@ -91,13 +95,18 @@ export default {
         if (response.code === 200) this.payment_confirmed = true;
         else {
           // this.pushToast(response.message || "Payment failed", "error");
+          if (!response?.code) {
+            this.retryConfrimation();
+            return;
+          }
 
           this.show_failed_modal = true;
         }
       } catch (error) {
         this.togglePageLoader("");
         console.log("FAILED TO CONFIRM PAYMENT", error);
-        this.show_failed_modal = true;
+        // this.show_failed_modal = true;
+        this.retryConfrimation();
 
         // this.pushToast(
         //   "Failed to verify payment. Reload to try again",

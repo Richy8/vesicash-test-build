@@ -311,7 +311,7 @@ export default {
       uploading_file: false,
       loading_verification: false,
       bio: "",
-      input_type: "phone",
+      input_type: "phone_number",
 
       form: {
         username: "",

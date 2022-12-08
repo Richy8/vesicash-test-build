@@ -32,9 +32,7 @@
         ref="pay"
         class="btn btn-primary btn-md"
         @click="togglePaymentOptionModal"
-      >
-        Make Payment
-      </button>
+      >Make Payment</button>
     </div>
 
     <!-- MODALS -->
@@ -46,6 +44,7 @@
           @initiateWireTransfer="closePaymentOpenWire"
           @initiateFWBizPayment="closePaymentOpenFWBiz"
           @initiateCardPayment="initiateCardPayment"
+          @initiateWalletTransfer="initiateWalletTransfer"
         />
       </transition>
 
@@ -70,6 +69,14 @@
         <FWBizModal
           @closeTriggered="toggleFWBizModal"
           @goBackPaymentSelection="closeFWBizOpenPayment"
+        />
+      </transition>
+
+      <transition name="fade" v-if="show_failed_wallet_transfer">
+        <FailedWalletTransferModal
+          @closeTriggered="toggleWalletTransfer"
+          @goBackPaymentSelection="closeWalletTransferOpenPayment"
+          :message="message"
         />
       </transition>
     </portal>

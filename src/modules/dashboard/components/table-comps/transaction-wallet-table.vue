@@ -7,12 +7,18 @@
       :table_header="table_header"
       :is_loading="table_loading"
       :empty_message="empty_message"
+      empty_action_name="Fund wallet"
+      @emptyAction="initiateWalletFunding"
       :show_paging="showPagination"
       @goToPage="getUserWalletTransactions($event)"
       :pagination="pagination"
     >
       <template v-for="(data, index) in table_data">
         <TransactionWalletTableRow :key="index" table_name="transaction-wallet-tb" :data="data" />
+      </template>
+
+      <template slot="emptyIconSlot">
+        <EmptyWalletIcon />
       </template>
     </TableContainer>
   </div>
@@ -21,12 +27,14 @@
 <script>
 import { mapActions } from "vuex";
 import TableContainer from "@/shared/components/table-comps/table-container";
+import EmptyWalletIcon from "@/shared/components/icon-comps/empty-wallet-icon";
 
 export default {
   name: "TransactionWalletTable",
 
   components: {
     TableContainer,
+    EmptyWalletIcon,
     TransactionWalletTableRow: () =>
       import(
         /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/table-comps/transaction-wallet-table-row"
@@ -63,7 +71,7 @@ export default {
       paginatedData: {},
       paginationPages: {},
       empty_message:
-        "You have not done any wallet transaction. You can fund your wallet to get started",
+        "You have not done any wallet funding transaction. You can fund your wallet to get started",
     };
   },
 
@@ -132,6 +140,13 @@ export default {
     handleErrorResponse() {
       this.table_loading = false;
       this.table_data = [];
+    },
+
+    initiateWalletFunding() {
+      this.$router.push({
+        name: "VesicashDashboard",
+        query: { fund_wallet: true },
+      });
     },
   },
 };
