@@ -96,11 +96,11 @@ export default {
 
   computed: {
     getEscrowNaira() {
-      return this.escrow_balance[1].value;
+      return this.escrow_balance[0].value;
     },
 
     getEscrowDollar() {
-      return this.escrow_balance[0].value;
+      return this.escrow_balance[1].value;
     },
   },
 };

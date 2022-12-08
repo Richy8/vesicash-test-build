@@ -23,6 +23,11 @@ const paymentHelper = {
       import(
         /* webpackChunkName: "transactions-modal-module" */ "@/modules/transactions/modals/fw-business-modal"
       ),
+
+    FailedWalletTransferModal: () =>
+      import(
+        /* webpackChunkName: "transactions-modal-module" */ "@/modules/transactions/modals/failed-wallet-transfer-modal"
+      ),
   },
 
   computed: {
@@ -77,6 +82,16 @@ const paymentHelper = {
         success_page: this.getSuccessPageRoute,
       };
     },
+
+    getWalletTransferDetails() {
+      return {
+        sender_account_id: this.getAccountId,
+        recipient_account_id: this.getAccountId,
+        amount: this.$route?.query?.fee || this.getTransaction.totalAmount,
+        sender_currency: this.getCurrency,
+        recipient_currency: `ESCROW_${this.getCurrency}`,
+      };
+    },
   },
 
   data() {
@@ -85,11 +100,16 @@ const paymentHelper = {
       show_wire_transfer_modal: false,
       show_naira_transfer_modal: false,
       show_fw_biz_modal: false,
+      show_failed_wallet_transfer: false,
+      message:"",
     };
   },
 
   methods: {
-    ...mapActions({ startCardPayment: "transactions/startCardPayment" }),
+    ...mapActions({
+      startCardPayment: "transactions/startCardPayment",
+      walletToWalletTransfer: "transactions/walletToWalletTransfer",
+    }),
 
     togglePaymentOptionModal() {
       this.show_payment_option_modal = !this.show_payment_option_modal;
@@ -105,6 +125,15 @@ const paymentHelper = {
 
     toggleFWBizModal() {
       this.show_fw_biz_modal = !this.show_fw_biz_modal;
+    },
+
+    toggleWalletTransfer() {
+      this.show_failed_wallet_transfer = !this.show_failed_wallet_transfer;
+    },
+
+    closeWalletTransferOpenPayment() {
+      this.toggleWalletTransfer();
+      this.togglePaymentOptionModal();
     },
 
     closePaymentOpenWire(currency) {
@@ -163,7 +192,6 @@ const paymentHelper = {
 
         this.togglePageLoader();
 
-        console.log("RESPONSE STARTING CARD PAYMENT", response);
         if (response?.code === 200) location.href = response?.data?.link;
         else
           this.pushToast(
@@ -178,6 +206,37 @@ const paymentHelper = {
         // this.handleClick("pay", "Make Payment", false);
 
         this.pushToast("Failed to initiate card payment", "error");
+      }
+    },
+
+    async initiateWalletTransfer() {
+      try {
+        this.togglePaymentOptionModal();
+
+        this.togglePageLoader("Processing transfer to escrow wallet");
+
+        const response = await this.walletToWalletTransfer(
+          this.getWalletTransferDetails
+        );
+        this.togglePageLoader("");
+
+        // console.log("TRANSFER RESPONSE", response);
+        if (response.code === 200) {
+          this.pushToast(response.message || "Payment was successful","success")
+
+          setTimeout(() => {
+            this.$router.push({name:"VesicashDashboard"})         
+          }, 2000);
+   
+        } else {
+          this.message = response.message;
+          this.show_failed_wallet_transfer = true;
+        }
+      } catch (err) {
+        this.show_failed_wallet_transfer = true;
+        this.message ="Failed to transfer money"
+        console.log("FAILED TO TRANSFER MONEY", err);
+        this.togglePageLoader("");
       }
     },
   },

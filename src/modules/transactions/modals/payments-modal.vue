@@ -56,22 +56,25 @@ export default {
       const currency = this.paymentDetails?.currency?.slug;
 
       let card_title = "Pay with NGN card";
-      let card_description = "Make a payment using your naira card.";
+      let card_description = "Make payment using your naira card.";
       let transfer_title = "Pay with bank transfer";
-      let transfer_description = "Make a payment via bank transfer option.";
+      let transfer_description = "Make payment via bank transfer option.";
+      let wallet_description = "Make payment from your naira wallet";
 
       if (currency === "dollar") {
         card_title = "Pay with USD card";
-        card_description = "Make a payment using your USD card.";
+        card_description = "Make payment using your USD card.";
         transfer_title = "Pay with wire transfer";
-        transfer_description = "Make a payment via wire transfer option.";
+        transfer_description = "Make payment via wire transfer option.";
+        wallet_description = "Make payment from your dollar wallet";
       }
 
       if (currency === "pound") {
         card_title = "Pay with GBP card";
-        card_description = "Make a payment using your GBP card.";
+        card_description = "Make payment using your GBP card.";
         transfer_title = "Pay with wire transfer";
-        transfer_description = "Make a payment via wire transfer option.";
+        transfer_description = "Make payment via wire transfer option.";
+        wallet_description = "Make payment from your pound wallet";
       }
 
       return [
@@ -100,6 +103,14 @@ export default {
         //   action_type: "modal",
         //   action: "toggleFWBizModal",
         // },
+        {
+          id: 4,
+          icon: "ArrowRightIcon",
+          title: "Pay from your wallet",
+          description: wallet_description,
+          action_type: "modal",
+          action: "toggleWireTransferModal",
+        },
       ];
     },
   },
@@ -137,7 +148,9 @@ export default {
     handleModalClick(index) {
       if (index === 0) this.$emit("initiateCardPayment");
       if (index === 1) this.toggleWireTransferModal();
-      if (index === 2) this.toggleFWBizModal();
+      // if (index === 2) this.toggleFWBizModal();
+      if (index === 2) this.$emit("initiateWalletTransfer");
+      //this will updated later when flutterwave business api is ready
     },
 
     toggleWireTransferModal() {

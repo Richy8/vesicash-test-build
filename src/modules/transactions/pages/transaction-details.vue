@@ -141,6 +141,7 @@
           @initiateWireTransfer="closePaymentOpenWire"
           @initiateFWBizPayment="closePaymentOpenFWBiz"
           @initiateCardPayment="initiateCardPayment"
+          @initiateWalletTransfer="initiateWalletTransfer"
         />
       </transition>
 
@@ -165,6 +166,14 @@
         <FWBizModal
           @closeTriggered="toggleFWBizModal"
           @goBackPaymentSelection="closeFWBizOpenPayment"
+        />
+      </transition>
+
+      <transition name="fade" v-if="show_failed_wallet_transfer">
+        <FailedWalletTransferModal
+          @closeTriggered="toggleWalletTransfer"
+          @goBackPaymentSelection="closeWalletTransferOpenPayment"
+          :message="message"
         />
       </transition>
     </portal>
@@ -221,6 +230,11 @@ export default {
     PaymentActionModal: () =>
       import(
         /* webpackChunkName: "transactions-modal-module" */ "@/modules/transactions/modals/payment-action-modal"
+      ),
+     
+    FailedWalletTransferModal: () =>
+      import(
+        /* webpackChunkName: "transactions-modal-module" */ "@/modules/transactions/modals/failed-wallet-transfer-modal"
       ),
   },
 
