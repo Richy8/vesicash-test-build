@@ -2,9 +2,7 @@
   <div class="solution-developers teal-50-bg">
     <div class="vesicash-container">
       <!-- TITLE TEXT -->
-      <div class="title-text h1-text roobert-700 teal-900 mgb-32">
-        Developers
-      </div>
+      <div class="title-text h1-text roobert-700 teal-900 mgb-32">Developers</div>
 
       <!-- DESCRIPTION TEXT -->
       <div class="description-text grey-700 h6-text roobert-400">
@@ -13,11 +11,7 @@
       </div>
 
       <div class="row">
-        <div
-          class="col-12 col-md-4"
-          v-for="(content, index) in developer_content"
-          :key="index"
-        >
+        <div class="col-12 col-md-4" v-for="(content, index) in developer_content" :key="index">
           <SolutionDeveloperCard :content="content" />
         </div>
       </div>
@@ -42,14 +36,20 @@ export default {
         title: "Playground",
         description:
           "Interract with the Vesicash system and est out various use cases via our playground.",
+        cta: "Launch Playground",
+        link: "https://vesicash-playground.herokuapp.com/transactions/MfByQcKYb6MFGHvheUxa",
       },
       {
         title: "Wordpress Plugin",
         description: "Integrate Vesicash directly into your woocommerce store.",
+        cta: "Get Plugin",
+        link: "https://vesicash.com/wordpress",
       },
       {
         title: "API Documentation",
         description: "Go through our thorough API documentation",
+        cta: "View Docs",
+        link: "https://docs.vesicash.com/",
       },
     ],
   }),
