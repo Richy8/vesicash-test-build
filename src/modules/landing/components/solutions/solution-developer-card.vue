@@ -1,20 +1,15 @@
 <template>
-  <div
-    class="solution-developer-card neutral-10-bg position-relative rounded-16"
-  >
+  <div class="solution-developer-card neutral-10-bg position-relative rounded-16">
     <!-- TITLE TEXT -->
-    <div class="title-text grey-900 h3-text roobert-70 mgb-16">
-      {{ content.title }}
-    </div>
+    <div class="title-text grey-900 h3-text roobert-70 mgb-16">{{ content.title }}</div>
 
     <!-- DESCRIPTION TEXT -->
-    <div class="description-text grey-700 h7-text roobert-400 mgb-40">
-      {{ content.description }}
-    </div>
+    <div class="description-text grey-700 h7-text roobert-400 mgb-40">{{ content.description }}</div>
 
     <!-- CTA BUTTON -->
     <div class="btn-row">
-      <button class="btn btn-primary wt-100">Launch playground</button>
+      <a :href="content.link" class="btn btn-primary wt-100">{{content.cta}}</a>
+      <!-- <button class="btn btn-primary wt-100">{{ content.cta }}</button> -->
     </div>
   </div>
 </template>

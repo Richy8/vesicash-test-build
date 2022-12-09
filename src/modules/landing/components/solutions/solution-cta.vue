@@ -2,31 +2,27 @@
   <div class="solution-cta teal-900-bg">
     <div class="vesicash-container">
       <!-- HEADER TEXT -->
-      <div
-        class="header-text text-center h1-text roobert-700 neutral-10 mgb-32"
-      >
-        Need a custom or <br />
-        white label solution ?
+      <div class="header-text text-center h1-text roobert-700 neutral-10 mgb-32">
+        Need a custom or
+        <br />white label solution ?
       </div>
 
       <!-- DESCRIPTION TEXT -->
-      <div
-        class="description-text text-center h6-text roobert-400 grey-200 mgb-50"
-      >
+      <div class="description-text text-center h6-text roobert-400 grey-200 mgb-50">
         At vesicash we have product and services that can take your business to
         the next level
       </div>
 
       <!-- BUTTON ROW -->
       <div class="button-row">
-        <a href="" class="btn btn-secondary btn-md mgr-16 roobert-500"
-          >View documentation</a
-        >
+        <a
+          href="https://vesicash.com/developers"
+          class="btn btn-secondary btn-md mgr-16 roobert-500"
+        >View documentation</a>
         <a
           href="https://vesicash.com/contact"
           class="btn btn-primary btn-md mgr-16 roobert-500"
-          >Contact Sales</a
-        >
+        >Contact Us</a>
       </div>
     </div>
   </div>

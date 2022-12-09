@@ -2,17 +2,13 @@
   <div class="cta-block teal-900-bg">
     <div class="vesicash-container">
       <!-- HEADER TEXT -->
-      <div
-        class="header-text text-center h1-text roobert-700 neutral-10 mgb-32"
-      >
-        Ready to grow your <br />
-        business to the next level
+      <div class="header-text text-center h1-text roobert-700 neutral-10 mgb-32">
+        Ready to grow your
+        <br />business to the next level
       </div>
 
       <!-- DESCRIPTION TEXT -->
-      <div
-        class="description-text text-center h6-text roobert-400 grey-200 mgb-50"
-      >
+      <div class="description-text text-center h6-text roobert-400 grey-200 mgb-50">
         Let’s help you with all the tools you need to take your business to the
         next level
       </div>
@@ -22,13 +18,11 @@
         <a
           href="https://vesicash.com/contact"
           class="btn btn-secondary btn-md mgr-16 roobert-500"
-          >Contact Sales</a
-        >
+        >Contact Us</a>
         <router-link
           to="/register-lander"
           class="btn btn-primary btn-md mgl-16 roobert-500"
-          >Create an account</router-link
-        >
+        >Create an account</router-link>
       </div>
     </div>
   </div>
