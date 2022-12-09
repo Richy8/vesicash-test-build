@@ -1,5 +1,9 @@
 <template>
   <div class="dashboard-view">
+    <div class="alert-wrapper">
+      <UpgradeAlertCard />
+    </div>
+
     <div class="welcome-row">
       <!-- WELCOME MESSAGE -->
       <div class="welcome-message h5-text grey-900">
@@ -75,6 +79,10 @@ export default {
     DashboardTransactions: () =>
       import(
         /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/dashboard-transactions"
+      ),
+    UpgradeAlertCard: () =>
+      import(
+        /* webpackChunkName: "dashboard-module" */ "@/modules/dashboard/components/card-comps/upgrade-alert-card"
       ),
   },
 
@@ -193,6 +201,12 @@ export default {
 
 <style lang="scss" scoped>
 .dashboard-view {
+  .alert-wrapper {
+    width: 680px;
+    max-width: 99%;
+    margin-bottom: toRem(24);
+  }
+
   .welcome-row {
     @include flex-row-between-wrap;
     gap: toRem(24);

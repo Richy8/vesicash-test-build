@@ -33,7 +33,7 @@
                 <img v-lazy="country.flag" :alt="country.country" />
               </div>
 
-              <div>{{ country.country }} ({{ country.dialing_code }})</div>
+              <div>{{ country.country }} ({{ $money.getCode(country.code) }})</div>
             </div>
           </div>
         </div>

@@ -231,7 +231,7 @@ const paymentHelper = {
             this.$router.push({ name: "VesicashDashboard" });
           }, 2000);
         } else {
-          this.message = response.message.includes("insufficient")
+          this.message = response.message.includes("Insufficient")
             ? "You do not have enough funds in your wallet to pay for this transaction."
             : response.message;
           this.show_failed_wallet_transfer = true;
