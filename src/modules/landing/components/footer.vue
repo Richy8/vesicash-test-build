@@ -7,27 +7,25 @@
             <VesicashBrandLogo />
           </div>
 
-          <a href="mailto:info@vesicash.com" class="info-text mgb-16"
-            >info@vesicash.com</a
-          >
+          <a href="mailto:info@vesicash.com" class="info-text mgb-16">info@vesicash.com</a>
 
           <a href="tel:+2347039914767" class="info-text">+234 703 991 4767</a>
 
           <!-- SOCIAL ICONS -->
           <div class="social-icons mgt-32">
-            <a href="" class="social-link">
+            <a href="https://www.instagram.com/vesicash/" class="social-link">
               <div class="icon icon-instagram"></div>
             </a>
 
-            <a href="" class="social-link">
+            <a href="https://www.facebook.com/vesicash" class="social-link">
               <div class="icon icon-facebook"></div>
             </a>
 
-            <a href="" class="social-link">
+            <a href="https://twitter.com/Vesicash" class="social-link">
               <div class="icon icon-twitter"></div>
             </a>
 
-            <a href="" class="social-link">
+            <a href="https://www.linkedin.com/company/vesicash" class="social-link">
               <div class="icon icon-linkedin"></div>
             </a>
           </div>
@@ -39,27 +37,30 @@
             <div class="col-12 col-sm-3 mb-5 mb-sm-0">
               <div class="nav-item fw-700 mgb-24">Product</div>
 
-              <a href="" class="nav-item nav-item-link">What we do</a>
-              <a href="" class="nav-item nav-item-link">Instant Excrow</a>
-              <a href="" class="nav-item nav-item-link">Privacy Policy</a>
-              <a href="" class="nav-item nav-item-link">Terms of Use</a>
-              <a href="" class="nav-item nav-item-link">FAQs</a>
+              <a href="/solutions" class="nav-item nav-item-link">What we do</a>
+              <!-- <a href="" class="nav-item nav-item-link">Instant Excrow</a> -->
+              <a href="https://vesicash.com/legal" class="nav-item nav-item-link">Privacy Policy</a>
+              <a href="https://vesicash.com/legal" class="nav-item nav-item-link">Terms of Use</a>
+              <a href="https://vesicash.com/faq" class="nav-item nav-item-link">FAQs</a>
             </div>
 
             <div class="col-12 col-sm-3 mb-5 mb-sm-0">
               <div class="nav-item fw-700 mgb-24">Company</div>
 
-              <a href="" class="nav-item nav-item-link">About Us</a>
-              <a href="" class="nav-item nav-item-link">Blog</a>
-              <a href="" class="nav-item nav-item-link">Contact</a>
+              <a href="/about" class="nav-item nav-item-link">About Us</a>
+              <a href="https://blog.vesicash.com/" class="nav-item nav-item-link">Blog</a>
+              <a href="https://vesicash.com/contact" class="nav-item nav-item-link">Contact</a>
             </div>
 
             <div class="col-12 col-sm-3 mb-5 mb-sm-0">
               <div class="nav-item fw-700 mgb-24">Developer</div>
 
-              <a href="" class="nav-item nav-item-link">Overview</a>
-              <a href="" class="nav-item nav-item-link">Documentation</a>
-              <a href="" class="nav-item nav-item-link">Status Page</a>
+              <a href="https://vesicash.com/developers" class="nav-item nav-item-link">Overview</a>
+              <a
+                href="https://docs.vesicash.com/developers"
+                class="nav-item nav-item-link"
+              >Documentation</a>
+              <a href="https://vesicash.com/developers" class="nav-item nav-item-link">Status Page</a>
             </div>
 
             <div class="col-12 col-sm-3">
@@ -68,16 +69,12 @@
               <!-- PRODUCT DISPLAY -->
               <div class="product-display">
                 <!-- TOP IMAGE -->
-                <img
-                  v-lazy="loadImage('flutterwave.png', 'landing')"
-                  alt=""
-                  class="top-img mgb-8"
-                />
+                <img v-lazy="loadImage('flutterwave.png', 'landing')" alt class="top-img mgb-8" />
 
                 <!-- DESCRIPTION -->
                 <div class="bottom-text tertiary-1-text roobert-400">
                   <div class="content">A member of the stellar</div>
-                  <img v-lazy="loadImage('stellar.png', 'landing')" alt="" />
+                  <img v-lazy="loadImage('stellar.png', 'landing')" alt />
                   <div class="content">network</div>
                 </div>
               </div>
@@ -89,17 +86,8 @@
       <!-- COPYRIGHT TEXT -->
       <div class="row copyright-row">
         <div
-          class="
-            copyright-text
-            col-12
-            grey-900
-            text-center
-            tertiary-1-text
-            roobert-400
-          "
-        >
-          Copyright 2022. Vesicash Innovative Technologies.
-        </div>
+          class="copyright-text col-12 grey-900 text-center tertiary-1-text roobert-400"
+        >Copyright 2022. Vesicash Innovative Technologies.</div>
       </div>
     </div>
   </div>

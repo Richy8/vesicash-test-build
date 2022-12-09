@@ -2,11 +2,7 @@
   <div class="solution-section">
     <div class="vesicash-container">
       <div class="row">
-        <div
-          class="col-12 col-md-6 col-lg-4"
-          v-for="(solution, index) in solutions"
-          :key="index"
-        >
+        <div class="col-12 col-md-6 col-lg-4" v-for="(solution, index) in solutions" :key="index">
           <SolutionCard :solution="solution" />
         </div>
       </div>
@@ -31,7 +27,7 @@ export default {
         icon: "wallet-icon.png",
         title: "Multi-Currency Wallet Support / Accounts",
         description:
-          "Make and receive business payments from all over the world. Withdraw money from a linked bank account or send money to over 195 countries with just a few clicks.",
+          "Make and receive business payments from all over the world. Withdraw money from a linked bank account or send money to over 50 countries with just a few clicks.",
       },
       {
         icon: "certified-icon.png",
@@ -43,7 +39,7 @@ export default {
         icon: "exchange-icon.png",
         title: "Foreign Exchange",
         description:
-          "Access foreign exchange for your business, easily, and at unbeatable rates.",
+          "Access foreign exchange for your business, easily, and at unbeatable rates from our partners.",
       },
       {
         icon: "money-icon.png",

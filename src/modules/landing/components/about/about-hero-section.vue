@@ -2,13 +2,14 @@
   <div class="about-hero-section">
     <div class="vesicash-container">
       <!-- HEADER TEXT -->
-      <div class="header-text mgb-32 roobert-700 teal-900">
-        <span class="teal-900">We build bridges between</span> <br />
+      <div class="header-text mgb-32 roobert-700 teal-900 slide-right">
+        <span class="teal-900">We build bridges between</span>
+        <br />
         <span class="green-500">companies and customers.</span>
       </div>
 
       <!-- DESCRIPTION TEXT -->
-      <div class="description-text grey-700 h6-text roobert-400">
+      <div class="description-text grey-700 h6-text roobert-400 slide-left">
         <div class="text-content">
           Vesicash Innovative Technologies was founded in 2018 with a mission to
           catalyze the African digital economy by enabling African businesses to
@@ -31,6 +32,7 @@ export default {
 .about-hero-section {
   .vesicash-container {
     padding-bottom: toRem(60);
+    overflow: hidden;
 
     .header-text {
       @include font-height(72, 82);
@@ -90,6 +92,36 @@ export default {
         margin-bottom: toRem(50);
       }
     }
+  }
+}
+
+.slide-right {
+  animation: 1.2s slide-right ease-in-out;
+}
+
+.slide-left {
+  animation: 1.2s slide-left ease-in-out;
+}
+
+@keyframes slide-left {
+  from {
+    margin-left: 80%;
+    opacity: 0.5;
+  }
+  to {
+    margin-left: 0%;
+    opacity: 1;
+  }
+}
+
+@keyframes slide-right {
+  from {
+    margin-left: -80%;
+    opacity: 0.5;
+  }
+  to {
+    margin-left: 0%;
+    opacity: 1;
   }
 }
 </style>
