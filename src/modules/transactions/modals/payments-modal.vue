@@ -105,7 +105,7 @@ export default {
         // },
         {
           id: 4,
-          icon: "ArrowRightIcon",
+          icon: "WalletIcon",
           title: "Pay from your wallet",
           description: wallet_description,
           action_type: "modal",

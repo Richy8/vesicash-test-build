@@ -71,6 +71,7 @@
     <template v-if="is_currency_type">
       <template name="drop-select-area" v-if="show_dropdown">
         <CountryDropSelect
+          :allow_search="currency_options.length ? currency_options.length > 5 : countries_data.length > 5"
           is_currency_type
           :countries="currency_options.length ? currency_options : countries_data"
           @countrySelected="currency_country = $event"
