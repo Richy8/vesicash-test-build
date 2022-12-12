@@ -1,12 +1,12 @@
 <template>
   <div class="dashboard-disbursement-view">
     <!-- BACK BUTTON -->
-    <PageBackBtn history_mode />
+    <PageBackBtn />
 
     <!-- PAGE TITILE -->
-    <div class="page-title grey-900 h4-text mgb-25">
-      {{ getTransaction.title || "Transaction title.." }}
-    </div>
+    <div
+      class="page-title grey-900 h4-text mgb-25"
+    >{{ getTransaction.title || "Transaction title.." }}</div>
 
     <!-- FUND DETAILS SECTION -->
     <template name="fund-details-section">
@@ -141,7 +141,7 @@
           @initiateWireTransfer="closePaymentOpenWire"
           @initiateFWBizPayment="closePaymentOpenFWBiz"
           @initiateCardPayment="initiateCardPayment"
-          @initiateWalletTransfer="initiateWalletTransfer"
+          @initiateWalletTransfer="toggleWalletTransferModal"
         />
       </transition>
 
@@ -174,6 +174,15 @@
           @closeTriggered="toggleWalletTransfer"
           @goBackPaymentSelection="closeWalletTransferOpenPayment"
           :message="message"
+        />
+      </transition>
+
+      <transition name="fade" v-if="show_wallet_transfer_modal">
+        <WalletTransferModal
+          @closeTriggered="toggleWalletTransferModal"
+          @goBackOptionSelection="toggleWalletTransferModal"
+          @transfer="transferFromWallet"
+          :currency="getCurrency"
         />
       </transition>
     </portal>
@@ -231,7 +240,7 @@ export default {
       import(
         /* webpackChunkName: "transactions-modal-module" */ "@/modules/transactions/modals/payment-action-modal"
       ),
-     
+
     FailedWalletTransferModal: () =>
       import(
         /* webpackChunkName: "transactions-modal-module" */ "@/modules/transactions/modals/failed-wallet-transfer-modal"

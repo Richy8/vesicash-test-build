@@ -1,8 +1,10 @@
 <template>
   <div class="dashboard-view">
-    <div class="alert-wrapper">
-      <UpgradeAlertCard />
-    </div>
+    <transition name="fade" mode="out-in">
+      <div class="alert-wrapper" v-if="getUserVerifications && !isDocVerified">
+        <UpgradeAlertCard />
+      </div>
+    </transition>
 
     <div class="welcome-row">
       <!-- WELCOME MESSAGE -->
@@ -53,7 +55,7 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from "vuex";
+import { mapActions, mapMutations, mapGetters } from "vuex";
 
 export default {
   name: "Dashboard",
@@ -87,8 +89,18 @@ export default {
   },
 
   computed: {
+    ...mapGetters({ getUserVerifications: "settings/getUserVerifications" }),
+
     displayUserFirstname() {
       return this.getUser?.fullname?.split(" ")[0] ?? this.getUser.email;
+    },
+
+    isDocVerified() {
+      if (!this.getUserVerifications) return false;
+      const doc_verification = this.getUserVerifications.find(
+        (type) => type.verification_type === "cac"
+      );
+      return doc_verification ? doc_verification?.is_verified : false;
     },
   },
 
@@ -137,6 +149,8 @@ export default {
   mounted() {
     this.fetchUserWalletBalance();
 
+    if (!this.getUserVerifications) this.fetchVerifications();
+
     // CLEAR OUT TRANSAACTION STORE
     this.RESET_TRANSACTION();
     this.clearAttachedFile();
@@ -146,10 +160,16 @@ export default {
     ...mapActions({
       getWalletBalance: "dashboard/getWalletBalance",
       clearAttachedFile: "general/clearAttachedFile",
+      fetchUserVerifications: "settings/fetchUserVerifications",
     }),
+
     ...mapMutations({
       RESET_TRANSACTION: "transactions/RESET_TRANSACTION",
     }),
+
+    async fetchVerifications() {
+      await this.fetchUserVerifications({ account_id: this.getAccountId });
+    },
 
     // =============================================
     // FETCH ALL WALLET BALANCE OF CURRENT USER

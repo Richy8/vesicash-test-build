@@ -1,16 +1,8 @@
 <template>
-  <div class="page-loader w-100 smooth-transition index-999">
+  <div class="page-loader w-100 smooth-transition">
     <div class="row position-relative h-100">
       <div
-        class="
-          col-12
-          d-flex
-          flex-column
-          justify-content-center
-          align-items-center
-          h-100
-          mx-auto
-        "
+        class="col-12 d-flex flex-column justify-content-center align-items-center h-100 mx-auto"
       >
         <!-- PROCESSING FEATHER LOGO -->
         <div class="pulse-animate">
@@ -19,17 +11,8 @@
 
         <div
           v-if="message.length"
-          class="
-            loader-text
-            text-center
-            neutral-10
-            primary-1-text
-            mgt-15
-            fw-400
-          "
-        >
-          {{ message }}...
-        </div>
+          class="loader-text text-center neutral-10 primary-1-text mgt-15 fw-400"
+        >{{ message }}...</div>
       </div>
     </div>
   </div>
@@ -63,6 +46,8 @@ export default {
     rgba(1, 26, 39, 0.45) 56.25%,
     rgba(1, 26, 39, 0.47) 100%
   );
+
+  z-index: 3500;
 
   .row {
     .col-12 {

@@ -9,6 +9,11 @@ const paymentHelper = {
         /* webpackChunkName: "transactions-modal-module" */ "@/modules/transactions/modals/payments-modal"
       ),
 
+    WalletTransferModal: () =>
+      import(
+        /* webpackChunkName: "transactions-modal-module" */ "@/modules/dashboard/modals/wallet-modals/wallet-transfer-modal"
+      ),
+
     WireTransferModal: () =>
       import(
         /* webpackChunkName: "transactions-modal-module" */ "@/modules/transactions/modals/wt-payment-modal"
@@ -58,18 +63,25 @@ const paymentHelper = {
       // TRANSACTION DETAILS PAGE SUCCESS PAGE SETUP
       if (this.$route.name === "TransactionDetails") {
         let transaction_id = this.$route.params?.id;
-        let { title, parties, totalAmount } = this.getTransaction;
+        let { title, recipients, members, totalAmount } = this.getTransaction;
 
-        let invited_party = parties.length > 2 ? "All" : parties?.at(-1).email;
+        const seller = members.find((item) => item.role === "seller");
 
-        return `${VESICASH_APP_URL}/transaction/payment-successful?type=${type}&party=${party}&transaction_id=${transaction_id}&name=${title}&parties=${invited_party}&fee=${this.getCurrency}${totalAmount}`;
+        let invited_party =
+          JSON.parse(recipients).length > 1 ? "All" : seller?.email;
+
+        return `${VESICASH_APP_URL}/transaction/payment-successful?type=${type}&party=${party}&transaction_id=${transaction_id}&name=${title}&parties=${invited_party}&fee=${
+          this.getCurrency
+        }${this.transfer_amount || totalAmount}&redirect=${location.href}`;
       }
 
       // PAYMENT PAGE SUCCESS PAGE SETUP
       else {
         let { transaction_id, name, parties, fee } = this.$route.query;
 
-        return `${VESICASH_APP_URL}/transaction/payment-successful?type=${type}&party=${party}&transaction_id=${transaction_id}&name=${name}&parties=${parties}&fee=${this.getCurrency}${fee}`;
+        return `${VESICASH_APP_URL}/transaction/payment-successful?type=${type}&party=${party}&transaction_id=${transaction_id}&name=${name}&parties=${parties}&fee=${
+          this.getCurrency
+        }${this.transfer_amount || fee}`;
       }
     },
 
@@ -87,9 +99,18 @@ const paymentHelper = {
       return {
         sender_account_id: this.getAccountId,
         recipient_account_id: this.getAccountId,
-        amount: this.$route?.query?.fee || this.getTransaction.totalAmount,
+        amount:
+          this.transfer_amount ||
+          this.$route?.query?.fee ||
+          this.getTransaction.totalAmount,
+        final_amount:
+          this.transfer_amount ||
+          this.$route?.query?.fee ||
+          this.getTransaction.totalAmount,
         sender_currency: this.getCurrency,
         recipient_currency: `ESCROW_${this.getCurrency}`,
+        transaction_id:
+          this.$route?.query?.transaction_id ?? this.$route?.params?.id,
       };
     },
   },
@@ -101,6 +122,9 @@ const paymentHelper = {
       show_naira_transfer_modal: false,
       show_fw_biz_modal: false,
       show_failed_wallet_transfer: false,
+      show_wallet_transfer_modal: false,
+
+      transfer_amount: "",
       message: "",
     };
   },
@@ -113,6 +137,12 @@ const paymentHelper = {
 
     togglePaymentOptionModal() {
       this.show_payment_option_modal = !this.show_payment_option_modal;
+    },
+
+    toggleWalletTransferModal() {
+      this.transfer_amount = "";
+      this.togglePaymentOptionModal();
+      this.show_wallet_transfer_modal = !this.show_wallet_transfer_modal;
     },
 
     toggleWireTransferModal() {
@@ -132,8 +162,9 @@ const paymentHelper = {
     },
 
     closeWalletTransferOpenPayment() {
-      this.toggleWalletTransfer();
-      this.togglePaymentOptionModal();
+      this.show_failed_wallet_transfer = false;
+      this.show_payment_option_modal = true;
+      // this.togglePaymentOptionModal();
     },
 
     closePaymentOpenWire(currency) {
@@ -183,14 +214,16 @@ const paymentHelper = {
     async initiateCardPayment() {
       this.togglePaymentOptionModal();
       // this.handleClick("pay", "Initiating card payment...");
-      this.togglePageLoader("Initiating card payment");
+      if (this.$route.name === "TransactionDetails")
+        this.show_payment_modal = false;
+      this.showPageLoader("Initiating card payment");
 
       try {
         const response = await this.startCardPayment(
           this.getCardPaymentDetails
         );
 
-        this.togglePageLoader();
+        this.hidePageLoader();
 
         if (response?.code === 200) location.href = response?.data?.link;
         else
@@ -199,8 +232,10 @@ const paymentHelper = {
             "error"
           );
 
-        this.handleClick("pay", "Make Payment", false);
+        // this.handleClick("pay", "Make Payment", false);
       } catch (err) {
+        this.hidePageLoader();
+
         console.log("ERROR STARTING CARD PAYMENT", err);
 
         // this.handleClick("pay", "Make Payment", false);
@@ -211,37 +246,41 @@ const paymentHelper = {
 
     async initiateWalletTransfer() {
       try {
-        this.togglePaymentOptionModal();
+        this.show_payment_option_modal = false;
 
-        this.togglePageLoader("Processing transfer to escrow wallet");
+        this.showPageLoader("Processing transfer to escrow wallet");
 
         const response = await this.walletToWalletTransfer(
           this.getWalletTransferDetails
         );
-        this.togglePageLoader("");
 
-        // console.log("TRANSFER RESPONSE", response);
+        this.hidePageLoader();
+
         if (response.code === 200) {
-          this.pushToast(
-            response.message || "Payment was successful",
-            "success"
-          );
-
-          setTimeout(() => {
-            this.$router.push({ name: "VesicashDashboard" });
-          }, 2000);
+          location.href = this.getSuccessPageRoute;
         } else {
-          this.message = response.message.includes("Insufficient")
+          this.transfer_amount = "";
+          this.message = response?.message?.includes("Insufficient")
             ? "You do not have enough funds in your wallet to pay for this transaction."
             : response.message;
           this.show_failed_wallet_transfer = true;
         }
       } catch (err) {
+        this.transfer_amount = "";
         this.show_failed_wallet_transfer = true;
         this.message = "Failed to transfer money";
         console.log("FAILED TO TRANSFER MONEY", err);
-        this.togglePageLoader("");
+        this.hidePageLoader();
       }
+    },
+
+    transferFromWallet(amount) {
+      this.show_payment_option_modal = false;
+      this.show_wallet_transfer_modal = false;
+      this.transfer_amount = amount;
+      if (this.$route.name === "TransactionDetails")
+        this.show_payment_modal = false;
+      this.initiateWalletTransfer();
     },
   },
 };

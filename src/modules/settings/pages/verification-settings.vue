@@ -150,6 +150,18 @@ export default {
     if (!this.getUserVerifications) this.fetchVerifications();
   },
 
+  watch: {
+    $route: {
+      handler(value) {
+        if (value?.query?.verify_doc) {
+          this.show_doc_upload_modal = true;
+          this.$router.replace({ name: this.$route.name });
+        }
+      },
+      immediate: true,
+    },
+  },
+
   computed: {
     ...mapGetters({ getUserVerifications: "settings/getUserVerifications" }),
 
