@@ -395,7 +395,7 @@ export default {
       // CHECK IF USER HAS BUYER ROLE
       let current_user_access = this.parties?.find(
         (party) => party.account_id === this.getAccountId
-      ).access_level?.mark_as_done;
+      )?.access_level?.mark_as_done;
 
       // CHECK IF ALL PARTIES HAS ACCEPTED
       let all_accepted = this.parties?.every(

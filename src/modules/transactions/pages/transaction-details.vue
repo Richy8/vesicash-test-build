@@ -231,7 +231,7 @@ export default {
       import(
         /* webpackChunkName: "transactions-modal-module" */ "@/modules/transactions/modals/payment-action-modal"
       ),
-     
+
     FailedWalletTransferModal: () =>
       import(
         /* webpackChunkName: "transactions-modal-module" */ "@/modules/transactions/modals/failed-wallet-transfer-modal"
@@ -314,8 +314,8 @@ export default {
 
   watch: {
     getTransaction: {
-      handler() {
-        this.checkIfTransactionCanStart();
+      handler(value) {
+        value?.milestones.length && this.checkIfTransactionCanStart();
       },
       immediate: true,
     },
@@ -418,10 +418,15 @@ export default {
 
     // FETCH SINGLE TRANSACTION
     fetchSingleTransaction() {
+      this.togglePageLoader();
+
       this.fetchTransactionById({ transaction_id: this.$route.params.id })
         .then((response) => {
-          if (response.code === 200)
+          if (response.code === 200) {
             this.transaction_details = response?.data?.transaction;
+
+            this.togglePageLoader();
+          }
         })
         .catch((err) => console.log(err));
     },
@@ -443,7 +448,7 @@ export default {
       );
 
       // CHECK IF MILESTONE IS SENT - AWAITING CONFIRMATION
-      if (first_milestone_status?.toLowerCase() === this.status.sac) {
+      if (first_milestone_status?.toLowerCase() === this.status?.sac) {
         // CHECK CURRENT USER IS A BUYER
         if (current_user.role?.toLowerCase() === "buyer") {
           if (current_user.status?.toLowerCase() === "created") {
@@ -524,7 +529,11 @@ export default {
 
     // INITIATE ESCROW TRANSACTION
     initiateTransaction() {
-      let { members, type, amount_paid, totalAmount } = this.getTransaction;
+      let { members, type, milestones, amount_paid, totalAmount } =
+        this.getTransaction;
+
+      // GET FIRST MILESTONE STATUS
+      let milestone_status = milestones[0]?.status.toLowerCase();
 
       // CHECK IF ALL PARTIES HAS ACCEPTED
       let all_accepted = members.every(
@@ -540,7 +549,11 @@ export default {
       let payment_complete = Number(amount_paid) >= totalAmount ? true : false;
 
       // FOR ALL ACCEPTED AND COMPLETE PAYMENT
-      if (all_accepted && payment_complete) {
+      if (
+        all_accepted &&
+        payment_complete &&
+        milestone_status !== "in progress"
+      ) {
         this.updateMilestoneStatus(
           this.ms_key[type === "oneoff" ? "in-progress" : "accepted-funded"],
           this.getSortedMilestones,
@@ -549,7 +562,11 @@ export default {
       }
 
       // FOR ALL ACCEPTED AND INCOMPLETE PAYMENT
-      else if (all_accepted && !payment_complete) {
+      else if (
+        all_accepted &&
+        !payment_complete &&
+        milestone_status !== "accepted - not funded"
+      ) {
         this.updateMilestoneStatus(
           this.ms_key["accepted-not-funded"],
           this.getSortedMilestones
@@ -557,7 +574,11 @@ export default {
       }
 
       // FOR REJECTED CASE AND COMPLETE PAYMENT
-      else if (one_rejected && payment_complete) {
+      else if (
+        one_rejected &&
+        payment_complete &&
+        milestone_status !== "closed - refunded"
+      ) {
         this.updateMilestoneStatus(
           this.ms_key["closed-refunded"],
           this.getSortedMilestones
@@ -565,7 +586,11 @@ export default {
       }
 
       // FOR REJECTED CASE AND INCOMPLETE PAYMENT
-      else if (one_rejected && !payment_complete) {
+      else if (
+        one_rejected &&
+        !payment_complete &&
+        milestone_status !== "closed"
+      ) {
         this.updateMilestoneStatus(
           this.ms_key["closed"],
           this.getSortedMilestones
