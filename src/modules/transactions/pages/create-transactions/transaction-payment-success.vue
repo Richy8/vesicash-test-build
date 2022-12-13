@@ -33,7 +33,13 @@
         <div class="btn-area mgt-30 mgb-10">
           <!-- <div class="btn btn-secondary btn-md mgb-24">Download Receipt</div> -->
 
-          <router-link to="/dashboard" class="btn btn-primary btn-md">Go to Dashboard</router-link>
+          <a
+            class="btn btn-primary btn-md"
+            :href="$route.query.redirect"
+            v-if="$route.query.redirect"
+          >Continue transaction</a>
+
+          <router-link v-else to="/dashboard" class="btn btn-primary btn-md">Go to Dashboard</router-link>
         </div>
       </div>
     </AuthWrapper>
@@ -61,7 +67,8 @@ export default {
   },
 
   mounted() {
-    this.confirmPayment();
+    if (this.$route.query.reference) this.confirmPayment();
+    else this.payment_confirmed = true;
   },
 
   data() {
@@ -81,7 +88,7 @@ export default {
     },
 
     async confirmPayment() {
-      this.togglePageLoader("Confirming payment");
+      this.showPageLoader("Confirming payment");
 
       try {
         const response = await this.confirmPaymentStatus({
@@ -90,23 +97,18 @@ export default {
           headless: true,
         });
 
-        this.togglePageLoader("");
+        this.hidePageLoader();
 
         if (response.code === 200) this.payment_confirmed = true;
         else {
           // this.pushToast(response.message || "Payment failed", "error");
-          if (!response?.code) {
-            this.retryConfrimation();
-            return;
-          }
 
           this.show_failed_modal = true;
         }
       } catch (error) {
-        this.togglePageLoader("");
+        this.hidePageLoader();
         console.log("FAILED TO CONFIRM PAYMENT", error);
         // this.show_failed_modal = true;
-        this.retryConfrimation();
 
         // this.pushToast(
         //   "Failed to verify payment. Reload to try again",
