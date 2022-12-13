@@ -428,8 +428,7 @@ export default {
           this.toggleSuccessModal();
         } else {
           if (response?.message?.includes("Insufficient")) {
-            this.message =
-              "You do not have enough funds in your wallet for this swap";
+            this.message = `You do not have enough funds in your ${this.initialCurrencyMeta.code} wallet for this swap`;
             this.toggleFailedModal();
           } else {
             this.pushToast("Transaction failed..Please try again", "error");
