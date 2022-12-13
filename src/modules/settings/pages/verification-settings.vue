@@ -97,7 +97,11 @@
       </transition>
 
       <transition name="fade" v-if="show_success_modal">
-        <SuccessModal @closeTriggered="toggleSuccessModal" :message="response_message" />
+        <SuccessModal
+          @closeTriggered="toggleSuccessModal"
+          @done="toggleSuccessModal"
+          :message="response_message"
+        />
       </transition>
     </portal>
   </div>

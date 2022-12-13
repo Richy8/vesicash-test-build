@@ -26,6 +26,7 @@
       <transition name="fade" v-if="show_success_modal">
         <SuccessModal
           @closeTriggered="toggleSuccessModal"
+          @done="toggleSuccessModal"
           message="You have successfully added a user to your account"
         />
       </transition>
