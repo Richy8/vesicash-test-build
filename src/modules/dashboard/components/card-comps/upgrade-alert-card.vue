@@ -9,7 +9,7 @@
 
       <router-link
         class="btn btn-sm btn-secondary d-inline-block"
-        to="/settings/profile"
+        to="/settings/verification?verify_doc=true"
       >Upgrade Account</router-link>
     </div>
   </div>

@@ -44,7 +44,7 @@
           @initiateWireTransfer="closePaymentOpenWire"
           @initiateFWBizPayment="closePaymentOpenFWBiz"
           @initiateCardPayment="initiateCardPayment"
-          @initiateWalletTransfer="initiateWalletTransfer"
+          @initiateWalletTransfer="toggleWalletTransferModal"
         />
       </transition>
 
@@ -77,6 +77,15 @@
           @closeTriggered="toggleWalletTransfer"
           @goBackPaymentSelection="closeWalletTransferOpenPayment"
           :message="message"
+        />
+      </transition>
+
+      <transition name="fade" v-if="show_wallet_transfer_modal">
+        <WalletTransferModal
+          @closeTriggered="toggleWalletTransferModal"
+          @goBackOptionSelection="toggleWalletTransferModal"
+          @transfer="transferFromWallet"
+          :currency="getCurrency"
         />
       </transition>
     </portal>

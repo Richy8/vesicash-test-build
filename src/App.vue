@@ -5,11 +5,7 @@
     </transition>
 
     <!-- ALERT BANNER -->
-    <AlertBanner
-      v-if="show_alert"
-      :message="alert.message"
-      :status="alert.status"
-    />
+    <AlertBanner v-if="show_alert" :message="alert.message" :status="alert.status" />
 
     <!-- FEATHER PAGE LOADER -->
     <transition name="fade" v-if="show_feather_loader">
@@ -70,6 +66,16 @@ export default {
     this.$bus.$on("toggle-page-loader", (message) => {
       this.show_feather_loader = !this.show_feather_loader;
       this.feather_loader_msg = message;
+    });
+
+    this.$bus.$on("show-page-loader", (message) => {
+      this.show_feather_loader = true;
+      this.feather_loader_msg = message;
+    });
+
+    this.$bus.$on("hide-page-loader", () => {
+      this.show_feather_loader = false;
+      this.feather_loader_msg = "";
     });
 
     // EVENT BUS TO TOGGLE ALERT BANNER

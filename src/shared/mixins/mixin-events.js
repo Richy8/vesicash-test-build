@@ -34,6 +34,14 @@ const MixinEvents = {
       this.$bus.$emit("toggle-page-loader", message);
     },
 
+    showPageLoader(message = "") {
+      this.$bus.$emit("show-page-loader", message);
+    },
+
+    hidePageLoader() {
+      this.$bus.$emit("hide-page-loader");
+    },
+
     // ===========================================
     // UPDATE USER INPUT FORM AND VALIDITY STATE
     // ===========================================
