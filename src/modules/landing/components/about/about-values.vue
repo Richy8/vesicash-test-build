@@ -34,19 +34,19 @@ export default {
         counter: "01",
         title: "Trust",
         description:
-          "You can trust our product and services to take your business to the next level and also make your business more successful",
+          "As a company, we are committed to introducing trust to payments. We help businesses manage their cash flow through our payment security solutions.",
       },
       {
         counter: "02",
         title: "Accountabilty",
         description:
-          "At Vesicash our system of operation is transparent, allowing you to observe and evaluate our performance.",
+          "Payments are essential to the functioning of any business. We ensure that all payments are completed on time and in accordance with pre-agreed terms.",
       },
       {
         counter: "03",
         title: "Transparency",
         description:
-          "You can trust our product and services to take your business to the next level and also make your business more successful",
+          "Information is power. We provide transparency by giving each party involved in a transaction access to information on how the funds or assets are being handled.",
       },
     ],
   }),

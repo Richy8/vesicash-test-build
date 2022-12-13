@@ -46,6 +46,30 @@ const landingRoutes = [
             /* webpackChunkName: "landing-module" */ "@/modules/landing/pages/about"
           ),
       },
+
+      // =======================================
+      // VESICASH TERMS AND CONDITION ROUTE
+      // =======================================
+      {
+        path: "/terms",
+        name: "VesicashTerms",
+        component: () =>
+          import(
+            /* webpackChunkName: "landing-module" */ "@/modules/landing/pages/terms"
+          ),
+      },
+
+      // =======================================
+      // VESICASH PRIVACY POLICY ROUTE
+      // =======================================
+      {
+        path: "/privacy-policy",
+        name: "VesicashPrivacy",
+        component: () =>
+          import(
+            /* webpackChunkName: "landing-module" */ "@/modules/landing/pages/privacy"
+          ),
+      },
     ],
   },
 ];

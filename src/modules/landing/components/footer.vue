@@ -7,7 +7,9 @@
             <VesicashBrandLogo />
           </div>
 
-          <a href="mailto:info@vesicash.com" class="info-text mgb-16">info@vesicash.com</a>
+          <a href="mailto:info@vesicash.com" class="info-text mgb-16"
+            >info@vesicash.com</a
+          >
 
           <a href="tel:+2347039914767" class="info-text">+234 703 991 4767</a>
 
@@ -25,7 +27,10 @@
               <div class="icon icon-twitter"></div>
             </a>
 
-            <a href="https://www.linkedin.com/company/vesicash" class="social-link">
+            <a
+              href="https://www.linkedin.com/company/vesicash"
+              class="social-link"
+            >
               <div class="icon icon-linkedin"></div>
             </a>
           </div>
@@ -37,30 +42,57 @@
             <div class="col-12 col-sm-3 mb-5 mb-sm-0">
               <div class="nav-item fw-700 mgb-24">Product</div>
 
-              <a href="/solutions" class="nav-item nav-item-link">What we do</a>
+              <router-link to="/solutions" class="nav-item nav-item-link"
+                >What we do</router-link
+              >
               <!-- <a href="" class="nav-item nav-item-link">Instant Excrow</a> -->
-              <a href="https://vesicash.com/legal" class="nav-item nav-item-link">Privacy Policy</a>
-              <a href="https://vesicash.com/legal" class="nav-item nav-item-link">Terms of Use</a>
-              <a href="https://vesicash.com/faq" class="nav-item nav-item-link">FAQs</a>
+              <router-link to="/privacy-policy" class="nav-item nav-item-link"
+                >Privacy Policy</router-link
+              >
+              <router-link to="/terms" class="nav-item nav-item-link"
+                >Terms of Use</router-link
+              >
+              <a href="https://vesicash.com/faq" class="nav-item nav-item-link"
+                >FAQs</a
+              >
             </div>
 
             <div class="col-12 col-sm-3 mb-5 mb-sm-0">
               <div class="nav-item fw-700 mgb-24">Company</div>
 
-              <a href="/about" class="nav-item nav-item-link">About Us</a>
-              <a href="https://blog.vesicash.com/" class="nav-item nav-item-link">Blog</a>
-              <a href="https://vesicash.com/contact" class="nav-item nav-item-link">Contact</a>
+              <router-link to="/about" class="nav-item nav-item-link"
+                >About Us</router-link
+              >
+              <a
+                href="https://blog.vesicash.com/"
+                class="nav-item nav-item-link"
+                >Blog</a
+              >
+              <a
+                href="https://vesicash.com/contact"
+                class="nav-item nav-item-link"
+                >Contact</a
+              >
             </div>
 
             <div class="col-12 col-sm-3 mb-5 mb-sm-0">
               <div class="nav-item fw-700 mgb-24">Developer</div>
 
-              <a href="https://vesicash.com/developers" class="nav-item nav-item-link">Overview</a>
+              <a
+                href="https://vesicash.com/developers"
+                class="nav-item nav-item-link"
+                >Overview</a
+              >
               <a
                 href="https://docs.vesicash.com/developers"
                 class="nav-item nav-item-link"
-              >Documentation</a>
-              <a href="https://vesicash.com/developers" class="nav-item nav-item-link">Status Page</a>
+                >Documentation</a
+              >
+              <a
+                href="https://vesicash.com/developers"
+                class="nav-item nav-item-link"
+                >Status Page</a
+              >
             </div>
 
             <div class="col-12 col-sm-3">
@@ -69,7 +101,11 @@
               <!-- PRODUCT DISPLAY -->
               <div class="product-display">
                 <!-- TOP IMAGE -->
-                <img v-lazy="loadImage('flutterwave.png', 'landing')" alt class="top-img mgb-8" />
+                <img
+                  v-lazy="loadImage('flutterwave.png', 'landing')"
+                  alt
+                  class="top-img mgb-8"
+                />
 
                 <!-- DESCRIPTION -->
                 <div class="bottom-text tertiary-1-text roobert-400">
@@ -86,8 +122,17 @@
       <!-- COPYRIGHT TEXT -->
       <div class="row copyright-row">
         <div
-          class="copyright-text col-12 grey-900 text-center tertiary-1-text roobert-400"
-        >Copyright 2022. Vesicash Innovative Technologies.</div>
+          class="
+            copyright-text
+            col-12
+            grey-900
+            text-center
+            tertiary-1-text
+            roobert-400
+          "
+        >
+          Copyright 2022. Vesicash Innovative Technologies.
+        </div>
       </div>
     </div>
   </div>

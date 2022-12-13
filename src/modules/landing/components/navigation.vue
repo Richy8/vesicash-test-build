@@ -1,50 +1,55 @@
 <template>
-  <div class="vesicash-container">
-    <div class="navigation-section">
-      <router-link :to="{ name: 'VesicashHome' }" class="brand-logo">
-        <VesicashBrandLogo />
-      </router-link>
+  <div
+    class="fixed-top w-100 index-999 smooth-transition neutral-10-bg"
+    ref="navbar"
+  >
+    <div class="vesicash-container">
+      <div class="navigation-section smooth-transition">
+        <router-link :to="{ name: 'VesicashHome' }" class="brand-logo">
+          <VesicashBrandLogo />
+        </router-link>
 
-      <!-- NAVIGATIONS -->
-      <div class="navigations">
-        <div
-          class="menu-icon icon-hamburger grey-500 f-size-32 pointer"
-          @click="toggleMobileDropdown"
-        ></div>
+        <!-- NAVIGATIONS -->
+        <div class="navigations">
+          <div
+            class="menu-icon icon-hamburger grey-500 f-size-32 pointer"
+            @click="toggleMobileDropdown"
+          ></div>
 
-        <!-- NAV ITEMS -->
-        <div class="nav-items">
-          <!-- <router-link :to="{ name: 'VesicashHome' }" class="nav-item"
+          <!-- NAV ITEMS -->
+          <div class="nav-items">
+            <!-- <router-link :to="{ name: 'VesicashHome' }" class="nav-item"
             >Home</router-link
           > -->
-          <router-link :to="{ name: 'VesicashSolutions' }" class="nav-item"
-            >What we do</router-link
-          >
-          <router-link :to="{ name: 'VesicashAbout' }" class="nav-item"
-            >About us</router-link
-          >
-        </div>
+            <router-link :to="{ name: 'VesicashSolutions' }" class="nav-item"
+              >What we do</router-link
+            >
+            <router-link :to="{ name: 'VesicashAbout' }" class="nav-item"
+              >About us</router-link
+            >
+          </div>
 
-        <!-- NAV BUTTONS -->
-        <div class="nav-buttons">
-          <router-link
-            to="/login"
-            class="btn btn-tertiary btn-md roobert-500 mgr-16"
-            >Sign In</router-link
-          >
-          <router-link
-            to="/register-lander"
-            class="btn btn-primary btn-md roobert-500"
-            >Create an account</router-link
-          >
+          <!-- NAV BUTTONS -->
+          <div class="nav-buttons">
+            <router-link
+              to="/login"
+              class="btn btn-tertiary btn-md roobert-500 mgr-16"
+              >Sign In</router-link
+            >
+            <router-link
+              to="/register-lander"
+              class="btn btn-primary btn-md roobert-500"
+              >Create an account</router-link
+            >
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- MOBILE MENU -->
-    <template v-if="show_mobile_dropdown">
-      <MobileMenu @closeMenu="toggleMobileDropdown" />
-    </template>
+      <!-- MOBILE MENU -->
+      <template v-if="show_mobile_dropdown">
+        <MobileMenu @closeMenu="toggleMobileDropdown" />
+      </template>
+    </div>
   </div>
 </template>
 
@@ -66,6 +71,12 @@ export default {
     show_mobile_dropdown: false,
   }),
 
+  mounted() {
+    window.onscroll = () => {
+      this.$refs.navbar.classList.toggle("scrolling-up", window.scrollY > 20);
+    };
+  },
+
   methods: {
     toggleMobileDropdown() {
       this.show_mobile_dropdown = !this.show_mobile_dropdown;
@@ -77,7 +88,7 @@ export default {
 <style lang="scss" scoped>
 .navigation-section {
   @include flex-row-between-nowrap;
-  padding: toRem(14) 0;
+  padding: toRem(12) 0;
 
   .brand-logo {
     svg {
@@ -152,5 +163,18 @@ export default {
       }
     }
   }
+}
+
+.scrolling-up {
+  background: getColor("neutral-10");
+  @include transition(0.3s);
+
+  .navigation-section {
+    padding: toRem(8) 0;
+  }
+}
+
+.scrolling-down {
+  display: none;
 }
 </style>

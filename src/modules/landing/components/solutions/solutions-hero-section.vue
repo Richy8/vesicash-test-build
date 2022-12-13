@@ -2,9 +2,7 @@
   <div class="solution-hero-section">
     <div class="vesicash-container">
       <!-- HEADER TEXT -->
-      <div class="header-text mgb-32 roobert-700 fw-700 teal-900">
-        What we do
-      </div>
+      <div class="header-text mgb-32 roobert-700 teal-900">What we do</div>
 
       <!-- DESCRIPTION TEXT -->
       <div class="description-text grey-700 h6-text roobert-400">
@@ -26,18 +24,18 @@ export default {
   .vesicash-container {
     .header-text {
       @include font-height(72, 82);
-      margin-top: toRem(120);
+      margin-top: toRem(200);
 
       @include breakpoint-down(xl) {
         @include font-height(64, 72);
       }
 
       @include breakpoint-down(lg) {
-        margin-top: toRem(100);
+        margin-top: toRem(180);
       }
 
       @include breakpoint-down(md) {
-        margin-top: toRem(80);
+        margin-top: toRem(140);
         margin-bottom: toRem(24) !important;
         @include font-height(40, 48);
       }

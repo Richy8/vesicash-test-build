@@ -40,19 +40,19 @@ export default {
 
     .header-text {
       @include font-height(72, 85);
-      margin-top: toRem(120);
+      margin-top: toRem(200);
 
       @include breakpoint-down(xl) {
         @include font-height(64, 70);
       }
 
       @include breakpoint-down(lg) {
-        margin-top: toRem(100);
+        margin-top: toRem(180);
         @include font-height(50, 60);
       }
 
       @include breakpoint-down(md) {
-        margin-top: toRem(80);
+        margin-top: toRem(160);
         @include font-height(40, 55);
       }
 

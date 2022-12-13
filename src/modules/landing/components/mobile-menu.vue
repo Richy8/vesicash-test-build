@@ -59,6 +59,14 @@ export default {
   components: {
     VesicashBrandLogo,
   },
+
+  watch: {
+    $route: {
+      handler() {
+        this.$emit("closeMenu");
+      },
+    },
+  },
 };
 </script>
 
