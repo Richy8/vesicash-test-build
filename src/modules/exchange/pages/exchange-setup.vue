@@ -60,7 +60,10 @@
       </div>
     </div>
 
+    <div class="skeleton-loader fx-rate-skeleton" v-if="loading_rates_skeleton"></div>
+
     <SumTotalDisplayCard
+      v-else
       class="exchange-rate-block"
       :total_text="`Exchange rate (${initialCurrencyMeta.code}/${finalCurrencyMeta.code})`"
       :total_value="exchangeRate"
@@ -68,7 +71,8 @@
 
     <button
       class="btn btn-primary btn-md wt-100"
-      :disabled="isDisabled"
+      :disabled="isDisabled || loading_rates_skeleton"
+      ref="swap"
       @click="toggleSummaryModal"
     >Continue</button>
 
@@ -77,6 +81,7 @@
       <transition name="fade" v-if="show_success_modal">
         <SuccessModal
           @closeTriggered="toggleSuccessModal"
+          @done="$router.push({name:'VesicashDashboard'})"
           :message="successMessage"
           main_cta_title="Back to dashboard"
           :actions="successActions"
@@ -84,11 +89,20 @@
         />
       </transition>
 
+      <transition name="fade" v-if="show_failed_modal">
+        <FailedWalletTransferModal
+          @close="toggleFailedModal"
+          @goBackPaymentSelection="toggleFailedModal"
+          :message="message"
+          swap
+        />
+      </transition>
+
       <transition name="fade" v-if="show_summary_modal">
         <ExchangeTransactionSummary
           :summary="transactionSummary"
           @closeTriggered="toggleSummaryModal"
-          @swapped="toggleSuccessModal"
+          @swap="initiateWalletTransfer"
         />
       </transition>
     </portal>
@@ -96,6 +110,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 import BasicInput from "@/shared/components/form-comps/basic-input";
 import PageBackBtn from "@/shared/components/page-back-btn";
 import SwapIcon from "@/shared/components/icon-comps/swap-icon";
@@ -115,21 +130,54 @@ export default {
         /* webpackChunkName: "exchange-module" */ "@/modules/exchange/modals/exchange-transaction-summary"
       ),
 
+    FailedWalletTransferModal: () =>
+      import(
+        /* webpackChunkName: "exchange-module" */ "@/modules/transactions/modals/failed-wallet-transfer-modal"
+      ),
+
     SuccessModal: () =>
       import(
         /* webpackChunkName: "exchange-module" */ "@/shared/modals/success-modal"
       ),
   },
 
+  mounted() {
+    if (!this.getFxRates.length) this.fetchFxRates();
+  },
+
   computed: {
+    ...mapGetters({ getFxRates: "fx/getFxRates" }),
+
     isDisabled() {
       return Object.values(this.validity).some((valid) => valid);
+    },
+
+    selectedRate() {
+      const from_currency = this.$money.getCode(this.initial_currency.code);
+      const to_currency = this.$money.getCode(this.final_currency.code);
+
+      return this.getFxRates.find((rate) => {
+        return (
+          rate.from_currency === from_currency &&
+          rate.to_currency === to_currency
+        );
+      });
+    },
+
+    rateID() {
+      return this.selectedRate?.id || 1;
+    },
+
+    swapRate() {
+      const amount = this.selectedRate?.amount;
+
+      return isNaN(Number(amount)) ? 1 : Number(amount);
     },
 
     initialCurrencyMeta() {
       const code = this.initial_currency.code;
       let amount = Number(this.form.initial_currency);
-      amount = amount - Math.floor(amount) !== 0 ? amount.toFixed(2) : amount;
+      amount = amount - Math.floor(amount) !== 0 ? amount.toFixed(3) : amount;
       return {
         currency: this.$money.getSign(code),
         code: this.$money.getCode(code),
@@ -138,21 +186,25 @@ export default {
     },
 
     initialCurrencyOptions() {
-      return this.currency_options.filter(
-        (option) => option.code !== this.final_currency.code
-      );
+      // return this.currency_options.filter(
+      //   (option) => option.code !== this.final_currency.code
+      // );
+
+      return this.currency_options;
     },
 
     finalCurrencyOptions() {
-      return this.currency_options.filter(
-        (option) => option.code !== this.initial_currency.code
-      );
+      // return this.currency_options.filter(
+      //   (option) => option.code !== this.initial_currency.code
+      // );
+
+      return this.currency_options;
     },
 
     finalCurrencyMeta() {
       const code = this.final_currency.code;
       let amount = Number(this.form.final_currency);
-      amount = amount - Math.floor(amount) !== 0 ? amount.toFixed(2) : amount;
+      amount = amount - Math.floor(amount) !== 0 ? amount.toFixed(3) : amount;
 
       return {
         currency: this.$money.getSign(code) || code.toUpperCase(),
@@ -172,7 +224,7 @@ export default {
     },
 
     exchangeRate() {
-      return `${this.finalCurrencyMeta.currency}1/${this.initialCurrencyMeta.currency}${this.exchange_rate}`;
+      return `${this.initialCurrencyMeta.currency}1/${this.finalCurrencyMeta.currency}${this.swapRate}`;
     },
 
     successMessage() {
@@ -199,6 +251,18 @@ export default {
         rate: this.exchangeRate,
         initial_amount: this.initialCurrencyMeta.amount,
         final_amount: this.finalCurrencyMeta.amount,
+      };
+    },
+
+    getSwapPayload() {
+      return {
+        sender_account_id: this.getAccountId,
+        recipient_account_id: this.getAccountId,
+        initial_amount: Number(this.initialCurrencyMeta.amount),
+        final_amount: Number(this.finalCurrencyMeta.amount),
+        rate_id: this.rateID,
+        sender_currency: this.initialCurrencyMeta.code,
+        recipient_currency: this.finalCurrencyMeta.code,
       };
     },
 
@@ -234,17 +298,33 @@ export default {
   watch: {
     "form.initial_currency": {
       handler(value) {
-        this.form.final_currency = value ? value / this.exchange_rate + "" : "";
+        this.form.final_currency = value ? value * this.swapRate + "" : "";
         this.validity.final_currency = !value;
       },
     },
 
     "form.final_currency": {
       handler(value) {
-        this.form.initial_currency = value
-          ? value * this.exchange_rate + ""
-          : "";
+        this.form.initial_currency = value ? value / this.swapRate + "" : "";
 
+        this.validity.initial_currency = !value;
+      },
+    },
+
+    initial_currency: {
+      handler() {
+        const value = Number(this.form.initial_currency);
+        if (isNaN(value)) return;
+        this.form.final_currency = value ? value * this.swapRate + "" : "";
+        this.validity.final_currency = !value;
+      },
+    },
+
+    final_currency: {
+      handler() {
+        const value = Number(this.form.final_currency);
+        if (isNaN(value)) return;
+        this.form.initial_currency = value ? value / this.swapRate + "" : "";
         this.validity.initial_currency = !value;
       },
     },
@@ -254,7 +334,11 @@ export default {
     return {
       show_summary_modal: false,
       show_success_modal: false,
-      exchange_rate: 560,
+      loading_rates_skeleton: false,
+      show_failed_modal: false,
+      exchange_rate: 0.00125,
+
+      message: "Transaction failed..Please try again",
 
       currency_options: [
         {
@@ -289,14 +373,14 @@ export default {
         final_currency: true,
       },
 
-      initial_currency: {
+      final_currency: {
         country: "Nigeria",
         dialing_code: "234",
         code: "ng",
         flag: "https://dyclassroom.com/image/flags/ng.png",
       },
 
-      final_currency: {
+      initial_currency: {
         country: "United States",
         dialing_code: "1",
         code: "us",
@@ -306,7 +390,64 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      fetchAllFxRates: "fx/fetchAllFxRates",
+      walletToWalletTransfer: "transactions/walletToWalletTransfer",
+    }),
+
+    toggleFailedModal() {
+      this.show_failed_modal = !this.show_failed_modal;
+    },
+
+    async fetchFxRates() {
+      try {
+        this.loading_rates_skeleton = true;
+        const response = await this.fetchAllFxRates();
+        this.loading_rates_skeleton = false;
+
+        if (response.code !== 200)
+          this.pushToast("Failed to load FX rates", "error");
+      } catch (err) {
+        console.log("FAILED TO FETCH FX RATES", err);
+        this.loading_rates_skeleton = false;
+        this.pushToast("Failed to load FX rates", "error");
+      }
+    },
+
+    async initiateWalletTransfer() {
+      this.toggleSummaryModal();
+
+      try {
+        this.handleClick("swap");
+
+        const response = await this.walletToWalletTransfer(this.getSwapPayload);
+
+        this.handleClick("swap", "Continue", false);
+
+        if (response.code === 200) {
+          this.toggleSuccessModal();
+        } else {
+          if (response?.message?.includes("Insufficient")) {
+            this.message =
+              "You do not have enough funds in your wallet for this swap";
+            this.toggleFailedModal();
+          } else {
+            this.pushToast("Transaction failed..Please try again", "error");
+          }
+        }
+      } catch (err) {
+        this.handleClick("swap", "Continue", false);
+        this.pushToast("Transaction failed..Please try again", "error");
+        this.message = "Failed to transfer money";
+        console.log("FAILED TO TRANSFER MONEY", err);
+      }
+    },
+
     toggleSummaryModal() {
+      if (this.initialCurrencyMeta.code === this.finalCurrencyMeta.code) {
+        this.pushToast("You can't swap between same currency", "error");
+        return;
+      }
       this.show_summary_modal = !this.show_summary_modal;
     },
 
@@ -344,6 +485,13 @@ export default {
   background: getColor("teal-50");
   border-radius: 50%;
   border: toRem(4) solid #fff;
+}
+
+.fx-rate-skeleton {
+  height: toRem(45);
+  border-radius: toRem(8);
+  width: 100%;
+  margin-top: toRem(25);
 }
 </style>
 

@@ -19,10 +19,7 @@
     <!-- MODAL COVER FOOTER -->
     <template slot="modal-cover-footer">
       <div class="modal-cover-footer footer-wrapper">
-        <button
-          class="btn btn-primary btn-md wt-100"
-          @click="$emit('closeTriggered')"
-        >{{ main_cta_title }}</button>
+        <button class="btn btn-primary btn-md wt-100" @click="$emit('done')">{{ main_cta_title }}</button>
 
         <button
           v-for="(actionOption,index) in actions"
