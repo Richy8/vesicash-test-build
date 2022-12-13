@@ -24,7 +24,11 @@
     <!-- MODAL COVER FOOTER -->
     <template slot="modal-cover-footer">
       <div class="modal-cover-footer mgt-17">
-        <button class="btn btn-primary btn-md wt-100" ref="swap" @click="swapCurrency">Swap currency</button>
+        <button
+          class="btn btn-primary btn-md wt-100"
+          ref="swap"
+          @click="$emit('swap')"
+        >Swap currency</button>
       </div>
     </template>
   </ModalCover>

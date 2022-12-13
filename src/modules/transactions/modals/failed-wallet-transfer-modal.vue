@@ -1,5 +1,9 @@
 <template>
-  <ModalCover :modal_style="{ size: 'modal-xs' }" :show_close_btn="false">
+  <ModalCover
+    :modal_style="{ size: 'modal-xs' }"
+    @closeModal="$emit('close')"
+    :show_close_btn="false"
+  >
     <!-- MODAL COVER BODY -->
     <template slot="modal-cover-body">
       <div class="modal-cover-body">
@@ -21,6 +25,7 @@
         >Fund your wallet</router-link>
 
         <button
+          v-if="!swap"
           class="btn btn-primary btn-md wt-100"
           @click="$emit('goBackPaymentSelection')"
         >Use other payment options</button>
@@ -45,6 +50,11 @@ export default {
     message: {
       type: String,
       default: "Failed to transfer money",
+    },
+
+    swap: {
+      type: Boolean,
+      default: false,
     },
   },
 
