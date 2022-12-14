@@ -21,7 +21,8 @@
       <div class="modal-cover-footer">
         <router-link
           :to="{name:'VesicashDashboard',query:{fund_wallet:true}}"
-          class="btn btn-secondary btn-md wt-100 mgb-24"
+          class="btn btn-md wt-100 mgb-24"
+          :class="swap?'btn-primary':'btn-secondary'"
         >Fund your wallet</router-link>
 
         <button

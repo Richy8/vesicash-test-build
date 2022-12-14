@@ -1,22 +1,14 @@
 <template>
   <tr @click="toggleTransactionSummaryModal">
-    <td class="body-data" :class="`${table_name}-1`">{{ getCreatedDate }}</td>
+    <td class="body-data" :class="`${table_name}-1`">{{ getFormattedData.date }}</td>
 
-    <td class="body-data text-no-wrap" :class="`${table_name}-2`">
-      {{ data.name }}
-    </td>
+    <td class="body-data text-no-wrap" :class="`${table_name}-2`">{{ getFormattedData.name }}</td>
 
-    <td class="body-data" :class="`${table_name}-3`">
-      {{ data.initial_currency }}
-    </td>
+    <td class="body-data" :class="`${table_name}-3`">{{ getFormattedData.initial_currency }}</td>
 
-    <td class="body-data" :class="`${table_name}-4`">
-      {{ data.final_currency }}
-    </td>
+    <td class="body-data" :class="`${table_name}-4`">{{ getFormattedData.final_currency }}</td>
 
-    <td class="body-data" :class="`${table_name}-5`">
-      {{ data.rate }}
-    </td>
+    <td class="body-data" :class="`${table_name}-5`">{{ getFormattedData.rate }}</td>
 
     <td class="body-data" :class="`${table_name}-6`">
       <TagCard
@@ -32,11 +24,10 @@
     <!-- MODALS -->
     <portal to="vesicash-modals">
       <transition name="fade" v-if="show_transaction_summary_modal">
-        <TransactionSummaryModal
-          :prepared_summary="preparedSummary"
-          type="wallet"
-          :summary_data="data"
+        <ExchangeTransactionSummary
+          :summary="getFormattedData"
           @closeTriggered="toggleTransactionSummaryModal"
+          @close="toggleTransactionSummaryModal"
         />
       </transition>
     </portal>
@@ -52,9 +43,9 @@ export default {
   components: {
     TagCard,
 
-    TransactionSummaryModal: () =>
+    ExchangeTransactionSummary: () =>
       import(
-        /* webpackChunkName: "dashboard-table-module" */ "@/modules/dashboard/modals/transaction-summary-modal"
+        /* webpackChunkName: "dashboard-table-module" */ "@/modules/exchange/modals/exchange-transaction-summary"
       ),
   },
 
@@ -71,10 +62,19 @@ export default {
   },
 
   computed: {
-    getCreatedDate() {
-      let { d3, m4, y1 } = this.$date.formatDate(this.data.created_at).getAll();
-
-      return `${d3} ${m4}, ${y1}`;
+    getFormattedData() {
+      return {
+        date: this.data.date,
+        name: `${this.data.rate.initial_currency}${this.data.transaction_name}${this.data.rate.final_currency}`,
+        initial_currency: this.data.rate.initial_currency,
+        final_currency: this.data.rate.final_currency,
+        rate: `${this.$money.getSign(
+          this.data.rate.initial_currency
+        )}1/${this.$money.getSign(this.data.rate.final_currency)}${
+          this.data.rate.amount
+        }`,
+        status: this.data.status,
+      };
     },
 
     preparedSummary() {
