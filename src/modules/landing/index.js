@@ -47,6 +47,18 @@ const landingRoutes = [
           ),
       },
 
+      // ===============================
+      // VESICASH FAQ ROUTE
+      // ===============================
+      {
+        path: "/faqs",
+        name: "VesicashFAQ",
+        component: () =>
+          import(
+            /* webpackChunkName: "landing-module" */ "@/modules/landing/pages/faq"
+          ),
+      },
+
       // =======================================
       // VESICASH TERMS AND CONDITION ROUTE
       // =======================================

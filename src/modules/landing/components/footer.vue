@@ -52,8 +52,8 @@
               <router-link to="/terms" class="nav-item nav-item-link"
                 >Terms of Use</router-link
               >
-              <a href="https://vesicash.com/faq" class="nav-item nav-item-link"
-                >FAQs</a
+              <router-link to="/faqs" class="nav-item nav-item-link"
+                >FAQs</router-link
               >
             </div>
 
