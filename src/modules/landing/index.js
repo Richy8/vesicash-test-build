@@ -48,6 +48,30 @@ const landingRoutes = [
       },
 
       // ===============================
+      // VESICASH BLOG ROUTE
+      // ===============================
+      {
+        path: "/blog",
+        name: "VesicashBlog",
+        component: () =>
+          import(
+            /* webpackChunkName: "landing-module" */ "@/modules/landing/pages/blogs"
+          ),
+      },
+
+      // ===============================
+      // VESICASH DEVELOPERS ROUTE
+      // ===============================
+      {
+        path: "/developers",
+        name: "VesicashDeveloper",
+        component: () =>
+          import(
+            /* webpackChunkName: "landing-module" */ "@/modules/landing/pages/developers"
+          ),
+      },
+
+      // ===============================
       // VESICASH FAQ ROUTE
       // ===============================
       {

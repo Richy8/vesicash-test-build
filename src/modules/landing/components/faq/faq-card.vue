@@ -1,6 +1,6 @@
 <template>
   <div
-    class="faq-card rounded-12 pointer smooth-transition close"
+    class="faq-card rounded-12 pointer smooth-transition"
     :class="is_close ? 'close' : 'open'"
     @click="toggleOpen"
   >

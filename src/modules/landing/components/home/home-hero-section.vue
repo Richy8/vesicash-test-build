@@ -57,8 +57,6 @@ export default {
       }
 
       @include breakpoint-down(xs) {
-        // @include font-height(32, 40);
-
         br {
           display: none;
         }

@@ -63,10 +63,8 @@
               <router-link to="/about" class="nav-item nav-item-link"
                 >About Us</router-link
               >
-              <a
-                href="https://blog.vesicash.com/"
-                class="nav-item nav-item-link"
-                >Blog</a
+              <router-link to="/blog" class="nav-item nav-item-link"
+                >Blog</router-link
               >
               <a
                 href="https://vesicash.com/contact"
@@ -78,10 +76,8 @@
             <div class="col-12 col-sm-3 mb-5 mb-sm-0">
               <div class="nav-item fw-700 mgb-24">Developer</div>
 
-              <a
-                href="https://vesicash.com/developers"
-                class="nav-item nav-item-link"
-                >Overview</a
+              <router-link to="/developers" class="nav-item nav-item-link"
+                >Overview</router-link
               >
               <a
                 href="https://docs.vesicash.com/developers"

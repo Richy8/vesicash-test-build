@@ -107,10 +107,12 @@ button {
   background-color: getColor("neutral-10") !important;
   border: toRem(1) solid getColor("grey-200") !important;
   color: getColor("grey-900") !important;
+
   &:hover {
     background-color: getColor("grey-10") !important;
     color: getColor("grey-900") !important;
   }
+
   &:focus {
     background-color: getColor("grey-50") !important;
     color: getColor("grey-900") !important;
@@ -121,10 +123,12 @@ button {
   background-color: getColor("neutral-10") !important;
   border: toRem(1) solid getColor("green-600") !important;
   color: getColor("green-600") !important;
+
   &:hover {
     background-color: getColor("green-50") !important;
     color: getColor("green-700") !important;
   }
+
   &:focus {
     background-color: getColor("green-50") !important;
     color: getColor("green-800") !important;
@@ -135,9 +139,11 @@ button {
   background-color: getColor("red-500") !important;
   border: none !important;
   color: getColor("neutral-10") !important;
+
   &:hover {
     background-color: getColor("red-700") !important;
   }
+
   &:focus {
     background-color: getColor("red-700") !important;
   }
