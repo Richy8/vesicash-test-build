@@ -30,7 +30,7 @@
         </div>
       </div>
 
-      <div class="swap-wrapper mgt--12 index-9 position-relative">
+      <div class="swap-wrapper mgt--12 index-9 position-relative pointer" @click="swapCurrency">
         <SwapIcon />
       </div>
 
@@ -394,6 +394,24 @@ export default {
       fetchAllFxRates: "fx/fetchAllFxRates",
       walletToWalletTransfer: "transactions/walletToWalletTransfer",
     }),
+
+    swapCurrency() {
+      this.form = {
+        initial_currency: this.form.final_currency,
+        final_currency: this.form.initial_currency,
+      };
+
+      this.validity = {
+        initial_currency: this.validity.final_currency,
+        final_currency: this.validity.initial_currency,
+      };
+
+      let initial_currency = this.initial_currency;
+      let final_currency = this.final_currency;
+
+      this.initial_currency = final_currency;
+      this.final_currency = initial_currency;
+    },
 
     toggleFailedModal() {
       this.show_failed_modal = !this.show_failed_modal;

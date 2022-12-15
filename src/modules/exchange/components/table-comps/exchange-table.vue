@@ -3,14 +3,14 @@
     <!-- TABLE CONTAINER -->
     <TableContainer
       table_name="exchange-tb"
-      :table_data="table_data"
+      :table_data="getPaginatedTable"
       :table_header="table_header"
       :is_loading="table_loading"
       :empty_message="empty_message"
       :show_paging="showPagination"
-      :pagination="pagination"
+      :pagination="getPagination"
     >
-      <template v-for="(data, index) in table_data">
+      <template v-for="(data, index) in getPaginatedTable">
         <ExchangeTableRow :key="index" table_name="exchange-tb" :data="data" />
       </template>
 
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import TableContainer from "@/shared/components/table-comps/table-container";
 import EmptyExchangeIcon from "@/shared/components/icon-comps/empty-exchange-icon";
 
@@ -46,8 +46,40 @@ export default {
   },
 
   computed: {
+    ...mapGetters({
+      getFxTable: "fx/getFxTable",
+    }),
+
     showPagination() {
-      return false;
+      return true;
+    },
+
+    getPaginatedTable() {
+      const { per_page } = this;
+      const index = this.page - 1;
+      const start_range = per_page * index;
+      const end_range = start_range + per_page;
+      const tables = [...this.getFxTable];
+      return tables.slice(start_range, end_range);
+    },
+
+    getPagination() {
+      const tables = [...this.getFxTable];
+      const { per_page } = this;
+      const current_page = this.page;
+
+      const index = this.page - 1;
+      const from = per_page * index;
+      const to = Math.min(from + per_page, tables.length);
+
+      return {
+        current_page,
+        per_page,
+        last_page: Math.ceil(tables.length / per_page),
+        from: from + 1,
+        to,
+        total: tables.length,
+      };
     },
 
     dummyData() {
@@ -84,8 +116,11 @@ export default {
         "Actions",
       ],
 
+      page: 1,
+      per_page: 15,
+
       table_data: [],
-      table_loading: true,
+      table_loading: false,
       pagination: {
         current_page: 1,
         per_page: 10,
@@ -102,53 +137,26 @@ export default {
   },
 
   mounted() {
-    this.getUserPaymentTransactions(1);
+    if (!this.getFxTable.length) this.getFxTransactions();
   },
 
   methods: {
     ...mapActions({
-      fetchWalletTransactions: "dashboard/fetchWalletWithdrawals",
+      fetchAllFxTransactions: "fx/fetchAllFxTransactions",
     }),
 
-    getUserPaymentTransactions(page) {
-      // USE PREVIOUSLY SAVED DATA FOR THAT PAGE NUMBER (AVOID UNNECESSARY API CALLS)
-      if (this.paginatedData[page] && this.paginationPages[page]) {
-        this.table_data = this.paginatedData[page];
-        this.pagination = this.paginationPages[page];
-        this.table_loading = false;
-        return;
-      }
-
+    getFxTransactions() {
       const payload = {
-        page,
         account_id: this.getAccountId,
       };
 
       this.table_loading = true;
 
-      this.fetchWalletTransactions(payload)
+      this.fetchAllFxTransactions(payload)
         .then((response) => {
           if (response.code === 200) {
-            // SHOW ALL DATA ROWS OR THREE ROWS BASED ON ROUTE
-            this.table_data = this.dummyData;
+            this.table_data = response.data;
             this.table_loading = false;
-
-            //SET PAGINATION DATA
-            // this.pagination = {
-            //   current_page: 1 || response?.data?.current_page,
-            //   per_page: 30 || response?.data?.per_page,
-            //   last_page: 1 || response?.data?.last_page,
-            //   from: 1 || response?.data?.from,
-            //   to: 20 || response?.data?.to,
-            //   total: 5 || response?.data?.total,
-            // };
-
-            // this.paginationPages[page] = this.pagination;
-
-            // this.paginatedData[page] =
-            //   this.$route?.name === "PaymentsPage"
-            //     ? response?.data?.data
-            //     : response?.data?.data?.slice(0, 3);
           }
 
           // HANDLE NON 200 RESPONSE
