@@ -18,6 +18,7 @@
         <ModalListItem title="Initial currency" :value="summary.initial_currency" />
         <ModalListItem title="Final currency" :value="summary.final_currency" />
         <ModalListItem title="Exchange rate" :value="summary.rate" />
+        <ModalListItem v-if="summary.date" title="Exchange rate" :value="summary.date" />
       </div>
     </template>
 
@@ -25,6 +26,14 @@
     <template slot="modal-cover-footer">
       <div class="modal-cover-footer mgt-17">
         <button
+          v-if="summary.date"
+          class="btn btn-primary btn-md wt-100"
+          ref="swap"
+          @click="$emit('close')"
+        >Back to exchange</button>
+
+        <button
+          v-else
           class="btn btn-primary btn-md wt-100"
           ref="swap"
           @click="$emit('swap')"
