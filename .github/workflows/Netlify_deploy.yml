@@ -1,5 +1,4 @@
 # This is a basic workflow to help you get started with Actions
-
 name: Netlify Deploy
 
 # Controls when the action will run.
@@ -37,7 +36,7 @@ jobs:
         run: npm install
 
       - name: Run npm build
-        run: npm run build
+        run: npm run build:dev
 
       # - name: Deploy production to Netlify
       #   uses: South-Paw/action-netlify-deploy@v1.2.0

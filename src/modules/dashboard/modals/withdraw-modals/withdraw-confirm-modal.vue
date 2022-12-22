@@ -166,7 +166,9 @@ export default {
 
         this.handleClick("continue");
 
-        const response = await this.withdraw(this.getWithdrawalPayload);
+        const response = await this.withdrawWalletFund(
+          this.getWithdrawalPayload
+        );
 
         this.handleClick("continue", "Continue", false);
 

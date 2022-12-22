@@ -1,0 +1,29 @@
+image: node:14
+
+pipelines:
+  branches:
+    master:
+      - step:
+          name: Build
+          script:
+            - npm install
+            - if [ "process.env.VUE_APP_ENVIRONMENT" = 'production' ]; then \
+              npm run build:prod; else \
+              npm run build:dev; \
+              fi
+          artifacts:
+            - dist/**
+      - step:
+          name: Deploy
+          deployment: production
+          script:
+            - pipe: atlassian/aws-s3-deploy:0.2.4
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+                AWS_DEFAULT_REGION: process.env.VUE_APP_PIPELINE_REGION
+                S3_BUCKET: process.env.VUE_APP_PIPELINE_BUCKET_NAME
+                ACL: "public-read"
+                LOCAL_PATH: "dist"
+
+  

@@ -5,12 +5,17 @@
   "scripts": {
     "serve": "vue-cli-service serve --port 8060",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "serve:dev": "env-cmd -f .env.dev npm run serve",
+    "serve:prod": "env-cmd -f .env npm run serve",
+    "build:dev": "env-cmd -f .env.dev npm run build",
+    "build:prod": "env-cmd -f .env npm run build"
   },
   "dependencies": {
     "axios": "^0.27.2",
     "bootstrap": "^5.2.1",
     "core-js": "^3.6.5",
+    "env-cmd": "^10.0.1",
     "node-sass": "^4.14.1",
     "portal-vue": "^2.1.7",
     "register-service-worker": "^1.7.1",
